@@ -1,5 +1,7 @@
 MetadataCensus::Application.routes.draw do
 
+  get "metrics/overview"
+
   root :to => 'static_pages#home'
 
   get "static_pages/home"
