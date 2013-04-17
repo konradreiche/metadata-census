@@ -1,14 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Metadata Census | <%= yield(:title) %></title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title>Metadata Census | <%= yield(:title) %></title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header class="navbar navbar-fixed-top navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <!-- <%= link_to "Metadata Census", '#', id: "logo" %> -->
+          <a class="brand" href="#">Metadata Census</a>
+          <nav>
+            <ul class="nav pull-right">
+              <li><%= link_to "Home",         '#' %></li>
+              <li><%= link_to "Repositories", '#' %></li>
+              <li><%= link_to "Metrics",      '#' %></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
 </html>
