@@ -171,6 +171,7 @@ DEPENDENCIES
   capybara (= 1.1.2)
   coffee-rails (~> 3.2.1)
   jquery-rails
+  json
   pry-debugger
   pry-rails
   rails (= 3.2.13)
