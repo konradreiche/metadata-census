@@ -12,7 +12,7 @@
       <tr>
         <td><%= repository.name %></td>
         <td><%= repository.type %></td>
-        <td><%= repository.url %></td>
+        <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
       </tr>
     <% end %>
   </tbody>
