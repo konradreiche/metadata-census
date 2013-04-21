@@ -1,2 +1,19 @@
-<h1>Repositories#overview</h1>
-<p>Find me in app/views/repositories/overview.html.erb</p>
+<h1>Repositories</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @repositories.each do |repository| %>
+      <tr>
+        <td><%= repository.name %></td>
+        <td><%= repository.type %></td>
+        <td><%= repository.url %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

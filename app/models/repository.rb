@@ -3,8 +3,9 @@ class Repository
   include Tire::Model::Search
   include Tire::Model::Callbacks
 
-  validates_presence_of :url, :type
+  validates_presence_of :name, :type, :url
 
-  property :url
+  property :name
   property :type
+  property :url
 end
