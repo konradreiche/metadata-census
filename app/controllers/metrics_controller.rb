@@ -37,4 +37,19 @@ class MetricsController < ApplicationController
 
     redirect_to :action => 'overview', :score => scores.inject(:+) / scores.length
   end
+
+  def richness_of_information
+    documents = Tire.search 'ckan' do
+      query { all }
+    end.results.map { |doc| JSON.parse doc.to_json }
+
+    scores = []
+    metric = Metrics::RichnessOfInformation.new documents
+    for document in documents
+      metric.compute document
+      scores << metric. score
+    end
+
+    redirect_to :action => 'overview', :score => scores.inject(:+) / scores.length
+  end
 end
