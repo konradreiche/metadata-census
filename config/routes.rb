@@ -5,6 +5,8 @@ MetadataCensus::Application.routes.draw do
   root :to => 'static_pages#home'
 
   match '/metrics', to: 'metrics#overview'
+  match '/metrics/completeness', to: 'metrics#completeness'
+
   match '/repositories', to: 'repositories#overview'
 
   # The priority is based upon order of creation:
