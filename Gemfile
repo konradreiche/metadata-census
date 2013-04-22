@@ -33,8 +33,9 @@ gem 'jquery-rails'
 # ElasticSearch
 gem 'tire'
 
-# JSON
+# Metrics
 gem 'json'
+gem 'yaml'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

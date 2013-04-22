@@ -1,0 +1,24 @@
+name: 0
+title: 4
+author: 3
+author_email: 1
+maintainer: 1
+maintainer_email: 1
+notes: 4 # je mehr desto besser
+groups: 2
+tags: 2 # je mehr desto besser
+url: 2
+type: 2
+
+resources:
+    - 4
+    - url: 3
+      format: 2
+      description: 3
+      language: 2
+      hash: 0
+
+license_id: 4
+
+extras:
+    - 1
