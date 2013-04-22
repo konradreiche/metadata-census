@@ -28,4 +28,7 @@ MetadataCensus::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # disable logging of asset pipeline
+  config.assets.logger = false
 end
