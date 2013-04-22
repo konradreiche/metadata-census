@@ -1,6 +1,20 @@
 <h1>Metrics</h1>
-<ul>
-  <li><a href="metrics/completeness">Completeness</a></li>
-  <li><a href="metrics/weighted-completeness">Weighted Completeness</a></li>
-  <li><a href="metrics/richness-of-information">Richness of Information</a></li>
-</ul>
+<form action="metrics/compute" method="post">
+  <fieldset>
+    <label for="repository">Repository</label>
+    <select name="repository">
+      <% for repository in @repositories %>
+        <option><%= repository.name %></option>
+      <% end %>
+    </select>
+    <label for="metric">Metric</label>
+    <select name="metric">
+      <option>Completeness</option>
+      <option>Weighted Completeness</option>
+      <option>Richness of Information</option>
+    </select>
+    <div class="form-actions">
+      <button type="submit" class="btn">Compute</button>
+    </div>
+  </fieldset>
+</form>

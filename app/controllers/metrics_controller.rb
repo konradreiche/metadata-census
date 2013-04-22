@@ -1,5 +1,6 @@
 class MetricsController < ApplicationController
   def overview
+    @repositories = Repository.all
   end
 
   def completeness
