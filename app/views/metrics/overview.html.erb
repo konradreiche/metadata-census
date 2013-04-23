@@ -1,12 +1,31 @@
 <h1>Metrics</h1>
-<form class="form-inline" action="metrics/select" method="post">
-  <fieldset>
-    <label for="repository">Repository</label>
-    <select name="repository">
-      <% for repository in @repositories %>
-        <option><%= repository.name %></option>
-      <% end %>
-    </select>
-    <button type="submit" class="btn">Select</button>
-  </fieldset>
-</form>
+<div class="row">
+  <div class="span6">
+    <form class="form-inline" action="metrics/select" method="post">
+      <fieldset>
+        <label for="repository">Repository</label>
+        <select name="repository">
+          <% for repository in @repositories %>
+            <option><%= repository.name %></option>
+          <% end %>
+        </select>
+        <button type="submit" class="btn">Select</button>
+      </fieldset>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="span12 dashboard">
+    <div class="row">
+      <div class="span4 center">
+        <strong>Completeness</strong>
+      </div>
+      <div class="span4 center">
+        <strong>Weighted Completeness</strong>
+      </div>
+      <div class="span4 center">
+        <strong>Richness of Information</strong>
+      </div>
+    </div>
+  </div>
+</div>
