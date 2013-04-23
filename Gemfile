@@ -10,6 +10,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'pry-debugger'
+  gem 'quiet_assets'
 end
 
 group :test do

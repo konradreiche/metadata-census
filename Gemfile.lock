@@ -87,6 +87,8 @@ GEM
       pry (~> 0.9.10)
     pry-rails (0.2.2)
       pry (>= 0.9.10)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -174,6 +176,7 @@ DEPENDENCIES
   json
   pry-debugger
   pry-rails
+  quiet_assets
   rails (= 3.2.13)
   rspec-rails
   sass-rails (~> 3.2.3)
