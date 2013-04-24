@@ -5,9 +5,7 @@ MetadataCensus::Application.routes.draw do
   root :to => 'static_pages#home'
 
   match '/metrics', to: 'metrics#overview'
-  match '/metrics/completeness', to: 'metrics#completeness'
-  match '/metrics/weighted-completeness', to: 'metrics#weighted_completeness'
-  match '/metrics/richness-of-information', to: 'metrics#richness_of_information'
+  match '/metrics/compute', to: 'metrics#compute'
 
   match '/repositories', to: 'repositories#overview'
 

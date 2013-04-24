@@ -5,7 +5,7 @@ $ ->
     
     TWO_PI: 2 * Math.PI
     
-    constructor: () ->
+    constructor: (metric) ->
 
       @arc = d3.svg.arc()
         .startAngle(0)
@@ -14,8 +14,9 @@ $ ->
 
       width = 240
       height = 125
-      
-      svg = d3.selectAll(".metric").insert("svg")
+
+      selector = "##{metric}-meter"
+      svg = d3.select(selector).insert("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -23,22 +24,39 @@ $ ->
 
       meter = svg.append("g")
         .attr("class", "progress-meter")
-        
 
       meter.append("path")
         .attr("class", "background")
         .attr("d", @arc.endAngle @TWO_PI)
 
-      foreground = meter.append("path")
+      @foreground = meter.append("path")
         .attr("class", "foreground")
 
-    updateScore: (id, score) ->
-      foreground = d3.select($("#" + id).find(".foreground")[0])
+      @text = meter.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", ".35em")
+        .text("?")
+
+      $(selector).bind "click", (event) =>
+        repository = $("select[name=repository]").val()
+        $.post("metrics/compute", {
+          "repository": repository,
+          "metric": metric
+        }, (data, status) =>
+          @updateScore(data)
+        )
+
+    updateScore: (score) ->
       i = d3.interpolate(0.0, score)
-      foreground.transition().tween("progress", () =>
+      @foreground.transition().tween("progress", () =>
         return (t) =>
           progress = i(t)
-          foreground.attr("d", @arc.endAngle(@TWO_PI * progress))).duration(1000)
+          formatPercent = d3.format(".0%")
+          @text.text(formatPercent score)
+          @foreground.attr("d", @arc.endAngle(@TWO_PI * progress))
 
-  metricMeter = new MetricMeter
-  metricMeter.updateScore("completeness-meter", 0.5)
+      ).duration(1000)
+
+  metricMeter = new MetricMeter "completeness"
+  metricMeter = new MetricMeter "weighted-completeness"
+  metricMeter = new MetricMeter "richness-of-information"

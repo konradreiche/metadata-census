@@ -4,7 +4,7 @@ class MetricsController < ApplicationController
   end
 
   def completeness
-    documents = Tire.search 'ckan' do
+    documents = Tire.search 'metadata' do
       query { all }
     end.results
 
@@ -17,12 +17,11 @@ class MetricsController < ApplicationController
       metric.compute document, schema
       scores << metric.score
     end
-
-    redirect_to :action => 'overview', :score => scores.inject(:+) / scores.length
+    scores.inject(:+) / scores.length
   end
 
   def weighted_completeness
-    documents = Tire.search 'ckan' do
+    documents = Tire.search 'metadata' do
       query { all }
     end.results
 
@@ -35,12 +34,11 @@ class MetricsController < ApplicationController
       metric.compute document, schema
       scores << metric.score
     end
-
-    redirect_to :action => 'overview', :score => scores.inject(:+) / scores.length
+    scores.inject(:+) / scores.length
   end
 
   def richness_of_information
-    documents = Tire.search 'ckan' do
+    documents = Tire.search 'metadata' do
       query { all }
     end.results.map { |doc| JSON.parse doc.to_json }
 
@@ -50,7 +48,23 @@ class MetricsController < ApplicationController
       metric.compute document
       scores << metric. score
     end
-
-    redirect_to :action => 'overview', :score => scores.inject(:+) / scores.length
+    scores.inject(:+) / scores.length
   end
+
+  def compute
+    repository = params[:repository]
+    metric = params[:metric]
+
+    case metric
+    when 'completeness'
+      result = completeness()
+    when 'weighted-completeness'
+      result = weighted_completeness()
+    when 'richness-of-information'
+      result = richness_of_information()
+    end
+
+    render :text => result
+  end
+
 end
