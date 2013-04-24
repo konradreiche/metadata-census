@@ -25,8 +25,8 @@ $ ->
   foreground = meter.append("path")
     .attr("class", "foreground")
 
-  progress = 0.5
-
-  d3.transition().tween("progress", () ->
-    (t) ->
-      foreground.transition().duration(5000).attr("d", arc.endAngle(twoPi * progress)))
+  i = d3.interpolate(0.0, 0.5)
+  foreground.transition().tween("progress", () ->
+    return (t) ->
+      progress = i(t)
+      foreground.attr("d", arc.endAngle(twoPi * progress))).duration(1000)
