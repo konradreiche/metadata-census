@@ -51,11 +51,11 @@ $ ->
       @foreground.transition().tween("progress", () =>
         return (t) =>
           progress = i(t)
-          formatPercent = d3.format(".0%")
-          @text.text(formatPercent score)
           @foreground.attr("d", @arc.endAngle(@TWO_PI * progress))
-
-      ).duration(1000)
+      ).duration(1000).each("end", () =>
+        formatPercent = d3.format(".0%")
+        @text.text(formatPercent score).transition().delay(1000)
+      )
 
   metricMeter = new MetricMeter "completeness"
   metricMeter = new MetricMeter "weighted-completeness"

@@ -8,6 +8,7 @@ MetadataCensus::Application.routes.draw do
   match '/metrics/compute', to: 'metrics#compute'
 
   match '/repositories', to: 'repositories#overview'
+  match '/repositories/map', to: 'repositories#map'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
