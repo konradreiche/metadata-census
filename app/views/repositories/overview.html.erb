@@ -1,19 +1,21 @@
-<h1>Repositories</h1>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>URL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @repositories.each do |repository| %>
+<%= content_for :content do %>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= repository.name %></td>
-        <td><%= repository.type %></td>
-        <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
+        <th>Name</th>
+        <th>Type</th>
+        <th>URL</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @repositories.each do |repository| %>
+        <tr>
+          <td><%= repository.name %></td>
+          <td><%= repository.type %></td>
+          <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<%= render 'layouts/repositories' %>

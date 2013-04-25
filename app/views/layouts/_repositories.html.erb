@@ -1,0 +1,12 @@
+<h1>Repositories</h1>
+<div class="dashboard">
+  <ul class="nav nav-pills">
+    <li class="active">
+      <%= link_to "List", repositories_path %>
+    </li>
+    <li>
+      <%= link_to "Map", repositories_map_path %>
+    </li>
+  </ul>
+  <%= yield :content %>
+</div>
