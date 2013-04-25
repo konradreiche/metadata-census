@@ -71,6 +71,7 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.7)
+    leaflet-rails (0.5.0)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -177,6 +178,7 @@ DEPENDENCIES
   d3_rails
   jquery-rails
   json
+  leaflet-rails
   pry-debugger
   pry-rails
   quiet_assets

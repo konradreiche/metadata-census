@@ -1,3 +1,7 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+#= require leaflet
+$ ->
+  map = L.map('map').setView [51.505, -0.09], 2
+  L.tileLayer('http://{s}.tile.cloudmade.com/aff7873cf13349fe803e6a003f5c62bc/997/256/{z}/{x}/{y}.png', {
+    attribution: "Metadata Census",
+    maxZoom: 18
+  }).addTo(map)
