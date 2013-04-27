@@ -1,12 +1,13 @@
 <h1>Metrics</h1>
 <div class="row">
   <div class="span6">
-    <form class="form-inline" action="metrics/select" method="post">
+    <form class="form-inline" action="" method="post">
       <fieldset>
         <label for="repository">Repository</label>
         <select name="repository">
           <% for repository in @repositories %>
-            <option><%= repository.name %></option>
+            <option <%= selected?(repository.name, params[:repository])
+            %>><%= repository.name %></option>
           <% end %>
         </select>
         <button type="submit" class="btn">Select</button>

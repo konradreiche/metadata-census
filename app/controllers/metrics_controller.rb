@@ -1,6 +1,8 @@
 class MetricsController < ApplicationController
+
   def overview
     @repositories = Repository.all
+    @selected = @repositories.first if @selected.nil?
   end
 
   def completeness

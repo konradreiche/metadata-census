@@ -9,8 +9,4 @@ class RepositoriesController < ApplicationController
     gon.repositories = @repositories.map { |r| r.attributes }
   end
 
-  def is_active?(page_name)
-    "active" if params[:action] == page_name
-  end
-
 end
