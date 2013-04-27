@@ -5,9 +5,9 @@ class MetricsController < ApplicationController
     @selected = @repositories.first if @selected.nil?
   end
 
-  def completeness
+  def completeness(repository)
     documents = Tire.search 'metadata' do
-      query { all }
+        query { string 'repository:' + repository }
     end.results
 
     schema = JSON.parse File.read 'public/ckan-schema.json'
@@ -22,9 +22,9 @@ class MetricsController < ApplicationController
     scores.inject(:+) / scores.length
   end
 
-  def weighted_completeness
+  def weighted_completeness(repository)
     documents = Tire.search 'metadata' do
-      query { all }
+      query { string 'repository:' + repository }
     end.results
 
     schema = JSON.parse File.read 'public/ckan-schema.json'
@@ -39,9 +39,9 @@ class MetricsController < ApplicationController
     scores.inject(:+) / scores.length
   end
 
-  def richness_of_information
+  def richness_of_information(repository)
     documents = Tire.search 'metadata' do
-      query { all }
+      query { string 'repository:' + repository }
     end.results.map { |doc| JSON.parse doc.to_json }
 
     scores = []
@@ -59,11 +59,11 @@ class MetricsController < ApplicationController
 
     case metric
     when 'completeness'
-      result = completeness()
+      result = completeness(repository)
     when 'weighted-completeness'
-      result = weighted_completeness()
+      result = weighted_completeness(repository)
     when 'richness-of-information'
-      result = richness_of_information()
+      result = richness_of_information(repository)
     end
 
     render :text => result
