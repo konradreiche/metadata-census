@@ -8,10 +8,8 @@ $ ->
     type: 'osm',
   }).addTo map
 
-  for item in gon.repositories
-    repository = item['repository']
+  for repository in gon.repositories
     latitude = repository['latitude']
     longitude  = repository['longitude']
     marker = L.marker([latitude, longitude]).addTo map
     marker.bindPopup repository['name']
-

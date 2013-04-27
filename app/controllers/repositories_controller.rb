@@ -6,7 +6,7 @@ class RepositoriesController < ApplicationController
 
   def map
     @repositories = Repository.all
-    gon.repositories = @repositories
+    gon.repositories = @repositories.map { |r| r.attributes }
   end
 
   def is_active?(page_name)
