@@ -2,12 +2,11 @@ class RepositoriesController < ApplicationController
 
   def overview
     @repositories = Repository.all
-    @active = "overview"
   end
 
   def map
     @repositories = Repository.all
-    @active = "map"
+    gon.repositories = @repositories
   end
 
   def is_active?(page_name)

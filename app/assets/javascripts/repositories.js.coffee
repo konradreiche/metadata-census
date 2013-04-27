@@ -6,4 +6,12 @@ $ ->
     attribution: null,
     subdomains: '1234',
     type: 'osm',
-  }).addTo(map)
+  }).addTo map
+
+  for item in gon.repositories
+    repository = item['repository']
+    latitude = repository['latitude']
+    longitude  = repository['longitude']
+    marker = L.marker([latitude, longitude]).addTo map
+    marker.bindPopup repository['name']
+
