@@ -1,5 +1,2 @@
-class Score
-
-  attr_accessor :minimum, :average, :median, :maximum
-
+Score = Struct.new(:minimum, :maximum, :average, :median) do
 end

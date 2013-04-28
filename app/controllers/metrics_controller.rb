@@ -6,12 +6,14 @@ class MetricsController < ApplicationController
   end
 
   def completeness(repository)
-    documents = Tire.search 'metadata' do
-        query { string 'repository:' + repository }
-    end.results
 
     schema = JSON.parse File.read 'public/ckan-schema.json'
     scores = []
+
+    documents = Tire.search 'metadata' do
+      query { string 'repository:' + repository.name }
+    end.results
+
 
     for entry in documents
       metric = Metrics::Completeness.new
@@ -19,7 +21,17 @@ class MetricsController < ApplicationController
       metric.compute document, schema
       scores << metric.score
     end
-    scores.inject(:+) / scores.length
+
+    scores.sort!
+    minimum = scores.first
+    maximum = scores.last
+    average = scores.inject(:+) / scores.length
+    median = scores[scores.length / 2]
+    
+    repository.completeness = Score.new(minimum, maximum, average, median)
+    repository.update_index
+        
+    median
   end
 
   def weighted_completeness(repository)
@@ -56,6 +68,8 @@ class MetricsController < ApplicationController
   def compute
     repository = params[:repository]
     metric = params[:metric]
+
+    repository = Repository.find repository
 
     case metric
     when 'completeness'
