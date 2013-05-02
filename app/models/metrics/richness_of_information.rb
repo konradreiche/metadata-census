@@ -7,6 +7,7 @@ module Metrics
     def initialize(datasets)
       @document_frequency = Hash.new []
       @document_numbers = 0.0
+      require 'pry'; binding.pry
       for entry in datasets
         for resource in entry['resources']
           if resource.has_key?('description') and not resource['description'].nil?

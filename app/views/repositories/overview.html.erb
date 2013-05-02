@@ -4,6 +4,7 @@
       <tr>
         <th>Name</th>
         <th>Type</th>
+        <th>Datasets</th>
         <th>URL</th>
       </tr>
     </thead>
@@ -12,6 +13,7 @@
         <tr>
           <td><%= repository.name %></td>
           <td><%= repository.type %></td>
+          <td><%= repository.count %></td>
           <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
         </tr>
       <% end %>

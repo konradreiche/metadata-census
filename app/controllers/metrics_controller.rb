@@ -10,11 +10,12 @@ class MetricsController < ApplicationController
 
     documents = Tire.search 'metadata' do
       query { string 'repository:' + repository.name }
+      size 10000
     end.results
 
     for entry in documents
       document = JSON.parse entry.to_json
-      metric.compute document, *args
+      metric.compute(document, *args)
       scores << metric.score
     end
     

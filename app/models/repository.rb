@@ -11,6 +11,7 @@ class Repository
   property :url
   property :latitude
   property :longitude
+  property :count
 
   property :completeness
   property :weighted_completeness
