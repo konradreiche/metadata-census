@@ -6,15 +6,9 @@ class MetricsController < ApplicationController
   end
 
   def apply_metric(repository, metric, name, *args)
+
     scores = []
-
-    documents = Tire.search 'metadata' do
-      query { string 'repository:' + repository.name }
-      size 10000
-    end.results
-
-    for entry in documents
-      document = JSON.parse entry.to_json
+    for document in all_metadata(repository)
       metric.compute(document, *args)
       scores << metric.score
     end
@@ -45,10 +39,7 @@ class MetricsController < ApplicationController
   end
 
   def richness_of_information(repository)
-    documents = Tire.search 'metadata' do
-      query { string 'repository:' + repository.name }
-    end.results
-
+    documents = all_metadata(repository)
     metric = Metrics::RichnessOfInformation.new documents
     apply_metric(repository, metric, 'richness_of_information')
   end
@@ -69,6 +60,13 @@ class MetricsController < ApplicationController
     end
 
     render :text => result
+  end
+
+  def all_metadata(repository)
+    Tire.search 'metadata' do
+      query { string 'repository:' + repository.name }
+      size 10000
+    end.results.to_a.map { |document| document.to_hash }
   end
 
 end
