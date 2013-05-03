@@ -13,7 +13,7 @@
         <tr>
           <td><%= repository.name %></td>
           <td><%= repository.type %></td>
-          <td><%= repository.count %></td>
+          <td><%= number_with_delimiter(repository.datasets) %></td>
           <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
         </tr>
       <% end %>
