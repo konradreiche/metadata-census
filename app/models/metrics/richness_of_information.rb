@@ -8,14 +8,19 @@ module Metrics
       @document_frequency = Hash.new []
       @document_numbers = 0.0
       for entry in datasets
+        index_field(entry, :notes, entry[:id])
         for resource in entry[:resources]
-          if resource.has_key?(:description) and not resource[:description].nil?
-            @document_numbers += 1
-            resource[:description].downcase.split(/\W+/).each do |word|
-              unless @document_frequency[word].include?(entry[:id])
-                @document_frequency[word] = @document_frequency[word] << entry[:id]
-              end
-            end
+          index_field(resource, :description, entry[:id])
+        end
+      end
+    end
+
+    def index_field(entity, field, id)
+      if entity.has_key?(field) and not entity[field].nil?
+        @document_numbers += 1
+        entity[field].downcase.split(/\W+/).each do |word|
+          unless @document_frequency[word].include?(id)
+            @document_frequency[word] = @document_frequency[word] << id
           end
         end
       end
