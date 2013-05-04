@@ -26,14 +26,21 @@ class MetricsController < ApplicationController
     median
   end
 
+  def recursive_symbolize_keys! hash
+    hash.symbolize_keys!
+    hash.values.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}
+  end
+
   def completeness(repository)
     schema = JSON.parse File.read 'public/ckan-schema.json'
+    recursive_symbolize_keys!(schema)
     metric = Metrics::Completeness.new
     apply_metric(repository, metric, 'completeness', schema)
   end
 
   def weighted_completeness(repository)
     schema = JSON.parse File.read 'public/ckan-schema.json'
+    recursive_symbolize_keys!(schema)
     metric = Metrics::WeightedCompleteness.new 'public/ckan-weight.yml'
     apply_metric(repository, metric, 'weighted_completeness', schema)
   end

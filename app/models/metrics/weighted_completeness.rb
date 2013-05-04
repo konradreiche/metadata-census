@@ -4,7 +4,7 @@ module Metrics
 
     def initialize(weight_file)
       super()
-      @weights = YAML.load_file(weight_file)
+      @weights = YAML.load_file(weight_file).with_indifferent_access
     end
 
     def weight(keys)
@@ -19,14 +19,14 @@ module Metrics
 
     def check_properties(data, schema, fragments)
       if data.is_a?(Hash)
-        schema['properties'].each do |property_name,property_schema|
+        schema[:properties].each do |property_name,property_schema|
 
-          weight = weight fragments + [property_name]
+          weight = weight(fragments + [property_name])
           @fields += weight
 
           # set default values in order to accredit the field as completed
-          if property_schema['default'] and not data.has_key?(property) and not property_schema['readonly']
-            default = property_schema['default']
+          if property_schema[:default] and not data.has_key?(property) and not property_schema[:readonly]
+            default = property_schema[:default]
             data[property] = (default.is_a?(Hash) ? default.clone : default)
           end
 

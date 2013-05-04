@@ -4,8 +4,8 @@ module Metrics
     attr_reader :fields, :fields_completed
 
     @@processing = {
-      'properties' => :check_properties,
-      'items'      => :check_items
+      :properties => :check_properties,
+      :items      => :check_items
     }
 
     def initialize
@@ -19,12 +19,12 @@ module Metrics
 
     def check_properties(data, schema, fragments=[])
       if data.is_a?(Hash)
-        schema['properties'].each do |property_name,property_schema|
+        schema[:properties].each do |property_name,property_schema|
 
           @fields += 1
           # set default values in order to accredit the field as completed
-          if property_schema['default'] and not data.has_key?(property) and not property_schema['readonly']
-            default = property_schema['default']
+          if property_schema[:default] and not data.has_key?(property) and not property_schema[:readonly]
+            default = property_schema[:default]
             data[property] = (default.is_a?(Hash) ? default.clone : default)
           end
 
@@ -41,10 +41,10 @@ module Metrics
         @fields_completed -= 1 if data.empty?
         if schema.is_a?(Hash)
           data.each do |item|
-            compute(item, schema['items'], fragments)
+            compute(item, schema[:items], fragments)
           end
         elsif schema.is_a?(Array)  # tuple validation
-          schema['items'].each_with_index do |item_schema,i|
+          schema[:items].each_with_index do |item_schema,i|
             compute(data[i], item_schema, fragments)
           end
         end
