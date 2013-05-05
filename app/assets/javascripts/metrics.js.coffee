@@ -60,3 +60,4 @@ $ ->
   metricMeter = new MetricMeter "completeness"
   metricMeter = new MetricMeter "weighted-completeness"
   metricMeter = new MetricMeter "richness-of-information"
+  metricMeter = new MetricMeter "accuracy"

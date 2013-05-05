@@ -11,6 +11,7 @@ class MetricsController < ApplicationController
     for document in all_metadata(repository)
       metric.compute(document, *args)
       scores << metric.score
+      break
     end
     
     scores.sort!
@@ -46,9 +47,13 @@ class MetricsController < ApplicationController
   end
 
   def richness_of_information(repository)
-    documents = all_metadata(repository)
     metric = Metrics::RichnessOfInformation.new documents
     apply_metric(repository, metric, 'richness_of_information')
+  end
+
+  def accuracy(repository)
+    metric = Metrics::Accuracy.new
+    apply_metric(repository, metric, 'accuracy')
   end
 
   def compute
@@ -64,16 +69,20 @@ class MetricsController < ApplicationController
       result = weighted_completeness(repository)
     when 'richness-of-information'
       result = richness_of_information(repository)
+    when 'accuracy'
+      result = accuracy(repository)
     end
 
     render :text => result
   end
 
   def all_metadata(repository)
+    p "sp"
     Tire.search 'metadata' do
       query { string 'repository:' + repository.name }
       size 10000
     end.results.to_a.map { |document| document.to_hash }
+    p "done"
   end
 
 end
