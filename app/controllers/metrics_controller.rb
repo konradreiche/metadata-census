@@ -8,10 +8,9 @@ class MetricsController < ApplicationController
   def apply_metric(repository, metric, name, *args)
 
     scores = []
-    for document in all_metadata(repository)
+    all_metadata(repository).each_with_index do |document, i|
       metric.compute(document, *args)
       scores << metric.score
-      break
     end
     
     scores.sort!
@@ -77,12 +76,10 @@ class MetricsController < ApplicationController
   end
 
   def all_metadata(repository)
-    p "sp"
     Tire.search 'metadata' do
       query { string 'repository:' + repository.name }
       size 10000
     end.results.to_a.map { |document| document.to_hash }
-    p "done"
   end
 
 end

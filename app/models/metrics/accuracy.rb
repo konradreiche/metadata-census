@@ -1,3 +1,5 @@
+require 'typhoeus'
+
 module Metrics
 
   class Accuracy
@@ -10,7 +12,8 @@ module Metrics
       'xml'  => ['application/xml'],
       'html' => ['text/html'],
       'rss'  => ['application/rss+xml'],
-      'kml'  => ['application/vnd.google-earth.kml+xml']
+      'kml'  => ['application/vnd.google-earth.kml+xml'],
+      'txt'  => ['text/plain']
     }
 
     def initialize
@@ -28,9 +31,21 @@ module Metrics
 
     def compute(dataset)
       for resource in dataset[:resources]
+
         @resources += 1
-        AccuracyWorker.new.perform(resource[:url])
-        break
+        unless resource[:mimetype].nil?
+          format = resource[:mimetype]
+        else
+          format = resource[:format].downcase
+        end
+
+        if @@mime_dictionary.has_key?(format)
+          format = @@mime_dictionary[format]
+        else
+          format = [format]
+        end
+        content_type = Typhoeus.head(resource[:url]).headers['Content-Type']
+        @validated_formats += 1 if format.include?(content_type)
       end
     end
     

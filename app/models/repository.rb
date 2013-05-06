@@ -16,4 +16,5 @@ class Repository
   property :completeness
   property :weighted_completeness
   property :richness_of_information
+  property :accuracy
 end

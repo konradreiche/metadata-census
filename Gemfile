@@ -39,6 +39,7 @@ gem 'tire'
 
 # Metrics
 gem 'json'
+gem 'typhoeus'
 
 # Sidekiq
 gem 'sidekiq'
