@@ -66,15 +66,15 @@ class MetricsController < ApplicationController
   end
 
   def accuracy_stats
-    #gon.blah
     preprocess
     stats = Hash.new 0
 
-    repository = @selected
+    repository = params[:repository]
     if repository.nil?
-      repository = params[:repository]
-      repository = Repository.find repository
+      repository = @selected
     end
+    repository = Repository.find repository
+    size = 0.0
     metadata = all_metadata(repository)
     metadata.each do |document|
       document[:resources].each do |resource|
@@ -82,10 +82,11 @@ class MetricsController < ApplicationController
         format = resource[:mimetype] unless resource[:mimetype].nil?
         next if format.nil?
         stats[format.downcase] += 1
+        size += 1
       end
     end
-    p stats
-    
+    gon.data = stats.inject([]) { |result, item| result << { "format" => item[0],
+                                                             "frequency" => item[1] / size } }
   end
 
   def compute
