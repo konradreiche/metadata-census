@@ -72,8 +72,10 @@ class MetricsController < ApplicationController
     repository = params[:repository]
     if repository.nil?
       repository = @selected
+    else
+      repository = Repository.find repository
     end
-    repository = Repository.find repository
+
     size = 0.0
     metadata = all_metadata(repository)
     metadata.each do |document|
