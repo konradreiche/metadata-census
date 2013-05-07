@@ -19,6 +19,7 @@ module Metrics
     def initialize
       @resources = 0.0
       @validated_formats = 0.0
+      @hydra = Typhoeus::Hydra.hydra
     end
 
     def score
@@ -30,8 +31,8 @@ module Metrics
     end
 
     def compute(dataset)
-      for resource in dataset[:resources]
 
+      for resource in dataset[:resources]
         @resources += 1
         unless resource[:mimetype].nil?
           format = resource[:mimetype]
@@ -44,10 +45,17 @@ module Metrics
         else
           format = [format]
         end
-        content_type = Typhoeus.head(resource[:url]).headers['Content-Type']
-        @validated_formats += 1 if format.include?(content_type)
+
+        request = Typhoeus::Request.new(resource[:url],{:method => :head})
+        request.on_complete do |response|
+          content_type = response.headers['Content-Type']
+          @validated_formats += 1 if format.include?(content_type)
+        end
+        @hydra.queue(request)
+        @hydra.run
       end
+
     end
-    
+
   end
 end

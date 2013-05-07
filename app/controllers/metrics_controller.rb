@@ -12,7 +12,10 @@ class MetricsController < ApplicationController
       metric.compute(document, *args)
       scores << metric.score
     end
-    
+    process_scores(scores, repository, name)
+  end
+
+  def process_scores(scores, repository, metric)
     scores.sort!
     minimum = scores.first
     maximum = scores.last
@@ -20,7 +23,7 @@ class MetricsController < ApplicationController
     median = scores[scores.length / 2]
     
     result = Score.new(minimum, maximum, average, median)
-    repository.send "#{name}=", result
+    repository.send "#{metric}=", result
     repository.update_index
         
     median
