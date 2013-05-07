@@ -46,7 +46,10 @@ module Metrics
           format = [format]
         end
 
-        request = Typhoeus::Request.new(resource[:url],{:method => :head})
+        request = Typhoeus::Request.new(resource[:url], {:method => :head,
+                                                         :timeout => 20,
+                                                         :connecttimeout => 10})
+
         request.on_complete do |response|
           content_type = response.headers['Content-Type']
           @validated_formats += 1 if format.include?(content_type)
