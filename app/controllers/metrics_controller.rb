@@ -1,8 +1,7 @@
 class MetricsController < ApplicationController
 
   def overview
-    @repositories = Repository.all
-    @selected = @repositories.first if @selected.nil?
+    preprocess
   end
 
   def apply_metric(repository, metric, name, *args)
@@ -52,13 +51,41 @@ class MetricsController < ApplicationController
   end
 
   def richness_of_information(repository)
-    metric = Metrics::RichnessOfInformation.new documents
+    metric = Metrics::RichnessOfInformation.new all_metadata(repository)
     apply_metric(repository, metric, 'richness_of_information')
   end
 
   def accuracy(repository)
     metric = Metrics::Accuracy.new
     apply_metric(repository, metric, 'accuracy')
+  end
+
+  def preprocess
+    @repositories = Repository.all
+    @selected = @repositories.first if @selected.nil?
+  end
+
+  def accuracy_stats
+    #gon.blah
+    preprocess
+    stats = Hash.new 0
+
+    repository = @selected
+    if repository.nil?
+      repository = params[:repository]
+      repository = Repository.find repository
+    end
+    metadata = all_metadata(repository)
+    metadata.each do |document|
+      document[:resources].each do |resource|
+        format = resource[:format]
+        format = resource[:mimetype] unless resource[:mimetype].nil?
+        next if format.nil?
+        stats[format.downcase] += 1
+      end
+    end
+    p stats
+    
   end
 
   def compute
