@@ -83,12 +83,13 @@ class MetricsController < ApplicationController
         format = resource[:format]
         format = resource[:mimetype] unless resource[:mimetype].nil?
         next if format.nil?
-        stats[format.downcase] += 1
         size += 1
+        stats[format.downcase] += 1
       end
     end
-    gon.data = stats.inject([]) { |result, item| result << { "format" => item[0],
-                                                             "frequency" => item[1] / size } }
+    stats = stats.inject([]) { |result, item| result << { "format" => item[0],
+                                                          "frequency" => item[1] / size } }
+    gon.data = stats
   end
 
   def compute

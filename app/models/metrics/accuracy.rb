@@ -19,7 +19,7 @@ module Metrics
     def initialize
       @resources = 0.0
       @validated_formats = 0.0
-      @hydra = Typhoeus::Hydra.hydra
+      @dispatcher = Typhoeus::Hydra.hydra
     end
 
     def score
@@ -37,6 +37,9 @@ module Metrics
         unless resource[:mimetype].nil?
           format = resource[:mimetype]
         else
+          if resource[:format].nil?
+            return
+          end
           format = resource[:format].downcase
         end
 
@@ -54,8 +57,8 @@ module Metrics
           content_type = response.headers['Content-Type']
           @validated_formats += 1 if format.include?(content_type)
         end
-        @hydra.queue(request)
-        @hydra.run
+        @dispatcher.queue(request)
+        @dispatcher.run
       end
 
     end
