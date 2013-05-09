@@ -7,6 +7,7 @@ MetadataCensus::Application.routes.draw do
   match '/metrics', to: 'metrics#overview'
   match '/metrics/compute', to: 'metrics#compute'
   match '/metrics/accuracy', to: 'metrics#accuracy_stats'
+  match '/metrics/completeness', to: 'metrics/completeness#details'
 
   match '/repositories', to: 'repositories#overview'
   match '/repositories/map', to: 'repositories#map'
