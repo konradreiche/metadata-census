@@ -1,4 +1,5 @@
-class CkanMetadatum < Metadatum
+class CkanMetadatum
+
   include Tire::Model::Persistence
   include Tire::Model::Search
   include Tire::Model::Callbacks
@@ -17,4 +18,18 @@ class CkanMetadatum < Metadatum
   property :resources
   property :license_id
   property :extras
+
+  property :completeness
+  property :weighted_completeness
+  property :richness_of_information
+  property :accuracy
+
+  def _type
+    'ckan'
+  end
+
+  def _index
+    'metadata'
+  end
+
 end

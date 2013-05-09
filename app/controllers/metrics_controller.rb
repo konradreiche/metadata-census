@@ -10,8 +10,11 @@ class MetricsController < ApplicationController
     Rails.logger.info "Apply metric %s" % name
     metadata = all_metadata(repository)
     metadata.each_with_index do |document, i|
-      metric.compute(document, *args)
+      metric.compute(document.to_hash, *args)
       scores << metric.score
+      require 'pry'; binding.pry
+      document.send "#{name}=", metric.score
+      document.update_index
       Rails.logger.info "#{i + 1} / #{metadata.size}"
     end
     process_scores(scores, repository, name)
@@ -114,10 +117,7 @@ class MetricsController < ApplicationController
 
   def all_metadata(repository)
     Rails.logger.info "Load all metadata"
-    Tire.search 'metadata' do
-      query { string 'repository:' + repository.name }
-      size 100
-    end.results.to_a.map { |document| document.to_hash }
+    CkanMetadatum.all.select { |i| i.repository == repository.name }
   end
 
 end
