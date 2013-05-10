@@ -10,9 +10,12 @@ class MetricsController < ApplicationController
     Rails.logger.info "Apply metric %s" % name
     metadata = all_metadata(repository)
     metadata.each_with_index do |document, i|
-      metric.compute(document.to_hash, *args)
+
+      input = document.to_hash
+      input = symbolize_keys(input)
+      metric.compute(input, *args)
+
       scores << metric.score
-      require 'pry'; binding.pry
       document.send "#{name}=", metric.score
       document.update_index
       Rails.logger.info "#{i + 1} / #{metadata.size}"
@@ -34,27 +37,38 @@ class MetricsController < ApplicationController
     median
   end
 
-  def recursive_symbolize_keys! hash
-    hash.symbolize_keys!
-    hash.values.select{|v| v.is_a? Hash}.each{|h| recursive_symbolize_keys!(h)}
+  def symbolize_keys arg
+    case arg
+    when Array
+      arg.map { |elem| symbolize_keys elem }
+    when Hash
+      Hash[arg.map do |key, value|
+        k = key.is_a?(String) ? key.to_sym : key
+        v = symbolize_keys value
+        [k,v]
+      end]
+    else
+      arg
+    end
   end
 
   def completeness(repository)
     schema = JSON.parse File.read 'public/ckan-schema.json'
-    recursive_symbolize_keys!(schema)
+    schema = symbolize_keys(schema)
     metric = Metrics::Completeness.new
     apply_metric(repository, metric, 'completeness', schema)
   end
 
   def weighted_completeness(repository)
     schema = JSON.parse File.read 'public/ckan-schema.json'
-    recursive_symbolize_keys!(schema)
+    schema = symbolize_keys(schema)
     metric = Metrics::WeightedCompleteness.new 'public/ckan-weight.yml'
     apply_metric(repository, metric, 'weighted_completeness', schema)
   end
 
   def richness_of_information(repository)
-    metric = Metrics::RichnessOfInformation.new all_metadata(repository)
+    metadata = all_metadata(repository).map { |i| symbolize_keys(i.to_hash) }
+    metric = Metrics::RichnessOfInformation.new metadata
     apply_metric(repository, metric, 'richness_of_information')
   end
 

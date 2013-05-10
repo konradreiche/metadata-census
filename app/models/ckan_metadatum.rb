@@ -1,4 +1,4 @@
-class CkanMetadatum
+class CkanMetadatum < Metadatum
 
   include Tire::Model::Persistence
   include Tire::Model::Search
@@ -24,12 +24,25 @@ class CkanMetadatum
   property :richness_of_information
   property :accuracy
 
-  def _type
-    'ckan'
-  end
+  property :version
+  property :state
+  property :revision_id
+  property :license
+  property :isopen
+  property :ratings_average
+  property :ratings_count
+  property :ckan_url
+  
+  property :relationships
+  property :metadata_modified
+  property :metadata_created
+  property :notes_rendered
+  property :tracking_summary
+  property :repository
 
-  def _index
-    'metadata'
+
+  def self.document_type
+    'ckan'
   end
 
 end
