@@ -16,8 +16,13 @@ class MetricsController < ApplicationController
       metric.compute(input, *args)
 
       scores << metric.score
-      document.send "#{name}=", metric.score
-      document.update_index
+      input[name.to_sym] = metric.score
+      Tire.index 'metadata' do
+        update('ckan', document.id,
+          :doc => input)
+        refresh
+      end
+
       Rails.logger.info "#{i + 1} / #{metadata.size}"
     end
     process_scores(scores, repository, name)
