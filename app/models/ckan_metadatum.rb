@@ -4,6 +4,8 @@ class CkanMetadatum < Metadatum
   include Tire::Model::Search
   include Tire::Model::Callbacks
 
+  document_type 'ckan'
+
   property :name
   property :title
   property :author
@@ -39,10 +41,10 @@ class CkanMetadatum < Metadatum
   property :notes_rendered
   property :tracking_summary
   property :repository
-
-
-  def self.document_type
-    'ckan'
-  end
+  property :license_title
+  property :relationships_as_object
+  property :revision_timestamp
+  property :relationships_as_subject
+  property :license_url
 
 end

@@ -131,7 +131,16 @@ class MetricsController < ApplicationController
 
   def all_metadata(repository)
     Rails.logger.info "Load all metadata"
-    CkanMetadatum.all.select { |i| i.repository == repository.name }
+
+    total = Tire.search 'metadata', :search_type => 'count' do
+      query { all }
+    end.results.total
+
+    metadata = Tire.search do
+      query { string 'repository:' + repository.name }
+      size total
+    end
+    metadata.results
   end
 
 end
