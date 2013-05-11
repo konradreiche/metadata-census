@@ -141,7 +141,7 @@ class MetricsController < ApplicationController
       query { all }
     end.results.total
 
-    metadata = Tire.search do
+    metadata = Tire.search 'metadata' do
       query { string 'repository:' + repository.name }
       size total
     end
