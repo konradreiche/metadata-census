@@ -1,18 +1,18 @@
 name: 0
-title: 4
+title: 5
 author: 3
-author_email: 1
+author_email: 3
 maintainer: 1
 maintainer_email: 1
-notes: 4 # je mehr desto besser
+notes: 5 # the more the better
 groups: 2
-tags: 2 # je mehr desto besser
-url: 2
+tags: 3 # the more the better
+url: 5
 type: 2
 
 resources:
-    - 4
-    - url: 3
+    - 5
+    - url: 5
       format: 2
       description: 3
       language: 2
@@ -21,4 +21,4 @@ resources:
 license_id: 4
 
 extras:
-    - 1
+    - 2
