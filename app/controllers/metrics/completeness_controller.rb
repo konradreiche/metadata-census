@@ -5,6 +5,22 @@ class Metrics::CompletenessController < ApplicationController
     @repository = params[:repository] || @repositories.first.name
     @worst = worst_record.completeness
     @best = best_record
+    
+    @properties = schema_keys(JSON.parse File.read 'public/ckan-schema.json')
+  end
+
+  def schema_keys schema
+
+    schema["properties"].map do |k, v|
+      case v["type"]
+      when "array"
+        v["items"]["type"] == "object" ? { k => schema_keys(v["items"]) } : k
+      when "object"
+        v["properties"].nil? ? k : schema_keys(v)
+      else
+        k
+      end
+    end.compact
   end
 
   def worst_record

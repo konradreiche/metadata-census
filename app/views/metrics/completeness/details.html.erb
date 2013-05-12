@@ -8,10 +8,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
+      <% @properties.each do |key| %>
+        <tr>
+          <td><%= key %></td>
+          <td></td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 <% end %>
