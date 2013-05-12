@@ -4,15 +4,29 @@
     <thead>
       <tr>
         <th>Field</th>
-        <th>Value</th>
+        <th>Subfield</th>
+        <th>Best Record</th>
+        <th>Worst Record</th>
       </tr>
     </thead>
     <tbody>
       <% @properties.each do |key| %>
-        <tr>
-          <td><%= key %></td>
-          <td></td>
-        </tr>
+        <% if key.is_a? Hash %>
+          <tr>
+            <td rowspan="<%= key.values.first.length %>"><%= key.keys.first %></td>
+            <td><%= key.values.first.first %></td>
+          </tr>
+          <% key.values.first[0..-1].each do |subfield| %>
+            <tr>
+              <td><%= subfield %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td><%= key %></td>
+            <td></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
