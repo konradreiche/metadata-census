@@ -1,13 +1,13 @@
-<% provide(:metric, 'Completeness') %>
+<% provide(:metric, @metric == :completeness ? "Completeness" : "Weighted Completeness") %>
 <% content_for :content do %>
   <% if @best != nil and @worst != nil %>
-    <table class="table">
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>Field</th>
           <th></th>
-          <th>Best Record (<%= "%.3f" % (@best[:completeness]) %>)</th>
-          <th>Worst Record (<%= "%.3f" % (@worst[:completeness]) %>)</th>
+          <th>Best Record (<%= "%.3f" % (@best[@metric]) %>)</th>
+          <th>Worst Record (<%= "%.3f" % (@worst[@metric]) %>)</th>
         </tr>
       </thead>
       <tbody>
@@ -19,13 +19,13 @@
                 <tr>
                   <td rowspan="<%= key.values.first.length %>"><%= key.keys.first %></td>
                   <td><%= item.first %></td>
-                  <td><%= @best[key.first.first][i][item.first] %>
+                  <td><%= @best[key.first.first][i][item.first] if @best.has_key?(key.first.first) and @best[key.first.first][i] != nil %>
                   <td><%= @worst[key.first.first][i][item.first] if @worst.has_key?(key.first.first) and @worst[key.first.first][i] != nil %>
                 </tr>
                 <% item[1..-1].each do |value| %>
                   <tr>
                     <td><%= value %></td>
-                  <td><%= @best[key.first.first][i][value] %>
+                  <td><%= @best[key.first.first][i][value] if @best.has_key?(key.first.first) and @best[key.first.first][i] != nil %>
                   <td><%= @worst[key.first.first][i][value] if @worst.has_key?(key.first.first) and @worst[key.first.first][i] != nil %>
                   </tr>
                 <% end %>

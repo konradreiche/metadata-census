@@ -1,6 +1,8 @@
 class Metrics::CompletenessController < ApplicationController
 
   def details
+    @metric = request.path.split("/").last.gsub("-","_").to_sym
+
     @repositories = Repository.all
     @repository = params[:repository] || @repositories.first.name
 
@@ -26,7 +28,7 @@ class Metrics::CompletenessController < ApplicationController
   end
 
   def worst_record
-    sort_completeness('asce').first
+    sort_completeness('asc').first
   end
 
   def best_record
@@ -35,9 +37,10 @@ class Metrics::CompletenessController < ApplicationController
 
   def sort_completeness how
     repository = @repository
+    metric = @metric
     search = Tire.search 'metadata' do
       query { string "repository:#{repository}" }
-      sort { by :completeness, how }
+      sort { by metric.to_s, how }
     end.results
   end
 
