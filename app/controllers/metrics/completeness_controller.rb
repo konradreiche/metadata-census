@@ -5,8 +5,10 @@ class Metrics::CompletenessController < ApplicationController
     @repository = params[:repository] || @repositories.first.name
 
     @properties = schema_keys(JSON.parse File.read 'public/ckan-schema.json')
-    @best = HashWithIndifferentAccess.new best_record.to_hash
-    @worst = HashWithIndifferentAccess.new worst_record.to_hash
+    @best = best_record
+    @worst = worst_record
+    @best = HashWithIndifferentAccess.new @best.to_hash unless @best.nil?
+    @worst = HashWithIndifferentAccess.new @worst.to_hash unless @worst.nil?
   end
 
   def schema_keys schema
