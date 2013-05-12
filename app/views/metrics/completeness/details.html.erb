@@ -4,27 +4,38 @@
     <thead>
       <tr>
         <th>Field</th>
-        <th>Subfield</th>
-        <th>Best Record</th>
-        <th>Worst Record</th>
+        <th></th>
+        <th>Best Record (<%= "%.3f" % (@best[:completeness]) %>)</th>
+        <th>Worst Record (<%= "%.3f" % (@worst[:completeness]) %>)</th>
       </tr>
     </thead>
     <tbody>
       <% @properties.each do |key| %>
         <% if key.is_a? Hash %>
-          <tr>
-            <td rowspan="<%= key.values.first.length %>"><%= key.keys.first %></td>
-            <td><%= key.values.first.first %></td>
-          </tr>
-          <% key.values.first[0..-1].each do |subfield| %>
-            <tr>
-              <td><%= subfield %></td>
-            </tr>
+          <% key.values.each do |item| %>
+            <% count = [@best[key.first.first].length, @worst[key.first.first].length].max  %>
+            <% count.times do |i| %>
+              <tr>
+                <td rowspan="<%= key.values.first.length %>"><%= key.keys.first %></td>
+                <td><%= item.first %></td>
+                <td><%= @best[key.first.first][i][item.first] %>
+                <td><%= @worst[key.first.first][i][item.first] if @worst.has_key?(key.first.first) and @worst[key.first.first][i] != nil %>
+              </tr>
+              <% item[1..-1].each do |value| %>
+                <tr>
+                  <td><%= value %></td>
+                <td><%= @best[key.first.first][i][value] %>
+                <td><%= @worst[key.first.first][i][value] if @worst.has_key?(key.first.first) and @worst[key.first.first][i] != nil %>
+                </tr>
+              <% end %>
+            <% end %>
           <% end %>
         <% else %>
           <tr>
             <td><%= key %></td>
             <td></td>
+            <td><%= @best[key]  %></td>
+            <td><%= @worst[key]  %></td>
           </tr>
         <% end %>
       <% end %>
