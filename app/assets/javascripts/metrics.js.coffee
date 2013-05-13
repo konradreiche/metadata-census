@@ -57,7 +57,6 @@ $ ->
         @text.text(formatPercent score).transition().delay(1000)
       )
 
-  metricMeter = new MetricMeter "completeness"
-  metricMeter = new MetricMeter "weighted-completeness"
-  metricMeter = new MetricMeter "richness-of-information"
-  metricMeter = new MetricMeter "accuracy"
+  $(".metric").each () ->
+    metric = @id.split("-meter")[0]
+    new MetricMeter metric
