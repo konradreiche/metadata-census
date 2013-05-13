@@ -40,6 +40,8 @@ gem 'tire'
 # Metrics
 gem 'json'
 gem 'typhoeus'
+gem 'text-hyphen'
+gem 'tactful_tokenizer'
 
 # Sidekiq
 gem 'sidekiq'
