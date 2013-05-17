@@ -57,5 +57,13 @@ describe Metrics::Accessibility do
     sentences = Metrics::Accessibility.split_into_sentences(text)
     sentences.should match_array [sentence1, sentence2, sentence3,
                                   sentence4, sentence5]
+
+    sentences = Metrics::Accessibility.split_into_sentences("")
+    sentences.should match_array []
+
+    sentences = Metrics::Accessibility.split_into_sentences("The")
+    sentences.should match_array []
+
   end
+
 end
