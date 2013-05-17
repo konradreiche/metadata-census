@@ -9,7 +9,7 @@ module Metrics
     end
 
     def self.split_to_words(text)
-      []
+      text.split /\W+/
     end
 
   end
