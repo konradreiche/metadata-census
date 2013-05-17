@@ -12,5 +12,9 @@ module Metrics
       text.split /\W+/
     end
 
+    def self.split_into_sentences(text)
+      []
+    end
+
   end
 end
