@@ -14,7 +14,7 @@ module Metrics
     end
 
     def split_into_sentences(text)
-      []
+      @sentence_tokenizer.tokenize_text(text)
     end
 
   end
