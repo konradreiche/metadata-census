@@ -21,6 +21,8 @@ describe Metrics::Accessibility do
 
   it "should split a given text into its sentences" do
 
+    accessibility = Metrics::Accessibility.new 'en_us'
+
     text = "The Historic Landfill dataset was created to help fulfil our "
            "statutory responsibility to Local Planning Authorities by "
            "supplying information on the risks posed by landfill sites "
@@ -54,14 +56,14 @@ describe Metrics::Accessibility do
     sentence5 = "ceased to exist or surrendered and a certificate of "
                 "completion has been issued."
 
-    sentences = Metrics::Accessibility.split_into_sentences(text)
+    sentences = accessibility.split_into_sentences(text)
     sentences.should match_array [sentence1, sentence2, sentence3,
                                   sentence4, sentence5]
 
-    sentences = Metrics::Accessibility.split_into_sentences("")
+    sentences = accessibility.split_into_sentences("")
     sentences.should match_array []
 
-    sentences = Metrics::Accessibility.split_into_sentences("The")
+    sentences = accessibility.split_into_sentences("The")
     sentences.should match_array []
 
   end
