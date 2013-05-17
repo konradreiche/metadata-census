@@ -8,5 +8,9 @@ module Metrics
     def initialize(language)
     end
 
+    def self.split_to_words(text)
+      []
+    end
+
   end
 end
