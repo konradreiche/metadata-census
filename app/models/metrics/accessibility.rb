@@ -28,7 +28,7 @@ module Metrics
     end
 
     def hyphenate(word)
-      @word_hyphenizer.hyphenate(word)
+      word.length == 1 ? [] : @word_hyphenizer.hyphenate(word)
     end
 
     def syllables(word)
