@@ -40,5 +40,8 @@ module Metrics
       (hyphens.nil?) ? 0 : hyphens.length + 1
     end
 
+    def flesch_reading_ease(text)
+    end
+
   end
 end

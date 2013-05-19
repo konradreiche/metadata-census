@@ -116,13 +116,25 @@ describe Metrics::Accessibility do
            "sites where there is no PPC permit or waste management "\
            "licence currently in force."
 
-    words = Metrics::Accessibility.words(text)
-    expect(words).to be(73)
+    words = Metrics::Accessibility.words(text).to_f
+    expect(words).to be(73.0)
 
-    sentences = accessibility.sentences(text)
-    expect(sentences).to be(2)
+    sentences = accessibility.sentences(text).to_f
+    expect(sentences).to be(2.0)
 
-    average_sentence_length = words.to_f / sentences.to_f
+    syllables = Metrics::Accessibility.split_to_words(text).map do |word|
+      accessibility.syllables(word)
+    end.sum.to_f
+    expect(syllables).to be(135.0)
+
+    average_sentence_length = words / sentences
+    average_syllables_per_word = syllables / words
+
+    expect(average_sentence_length).to be(36.5)
+    expect(average_syllables_per_word).to be(1.8493150684931507)
+
+    score = accessibility.flesch_reading_ease(text)
+    expect(score).to be(13.335445205479488)
 
   end
 
