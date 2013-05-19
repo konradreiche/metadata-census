@@ -91,10 +91,38 @@ describe Metrics::Accessibility do
     count = accessibility.syllables("The")
     expect(count).to be(0)
 
+    syllables = accessibility.hyphenate("i")
+    syllables.should match_array []
+    count = accessibility.syllables("i")
+    expect(count).to be(0)
+
     syllables = accessibility.hyphenate("")
     syllables.should match_array []
     count = accessibility.syllables("")
     expect(count).to be(0)
+  end
+
+  it "should compute the Flesch Reading Ease" do
+
+    accessibility = Metrics::Accessibility.new 'en_us'
+
+    text = "The Historic Landfill dataset was created to help fulfil our "\
+           "statutory responsibility to Local Planning Authorities by "\
+           "supplying information on the risks posed by landfill sites "\
+           "for development within 250m. The data is the most "\
+           "comprehensive and consistent national historic landfill "\
+           "dataset and defines the location of, and provides specific "\
+           "attributes for, known historic (closed) landfill sites, i.e. "\
+           "sites where there is no PPC permit or waste management "\
+           "licence currently in force."
+
+    words = Metrics::Accessibility.words(text)
+    expect(words).to be(73)
+
+    sentences = accessibility.sentences(text)
+    expect(sentences).to be(2)
+
+    average_sentence_length = words.to_f / sentences.to_f
 
   end
 
