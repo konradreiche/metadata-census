@@ -81,15 +81,15 @@ describe Metrics::Accessibility do
 
     accessibility = Metrics::Accessibility.new 'en_us'
 
-    syllables = accessibility.hyphenate("Historic")
-    syllables.should match_array ["His", "tor", "ic"]
-    count = accessibility.syllables("Historic")
-    expect(count).to be(3)
+    syllables = accessibility.hyphenate("representation")
+    syllables.should match_array [3, 5, 8, 10]
+    count = accessibility.syllables("representation")
+    expect(count).to be(4)
 
     syllables = accessibility.hyphenate("The")
-    syllables.should match_array ["The"]
+    syllables.should match_array []
     count = accessibility.syllables("The")
-    expect(count).to be(1)
+    expect(count).to be(0)
 
     syllables = accessibility.hyphenate("")
     syllables.should match_array []
