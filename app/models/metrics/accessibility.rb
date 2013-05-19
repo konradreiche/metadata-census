@@ -41,6 +41,21 @@ module Metrics
     end
 
     def flesch_reading_ease(text)
+      words = Accessibility.words(text).to_f
+      sentences = sentences(text).to_f
+      syllables = Accessibility.split_to_words(text).map do |word|
+        syllables(word)
+      end.sum.to_f
+
+      # average sentence length
+      asl = words / sentences
+      # average number of syllables per word
+      asw = syllables / words
+      206.835 - (1.015 * asl) - (84.6 * asw)
+    end
+
+    def compute(data)
+      flesch_reading_ease(data)
     end
 
   end
