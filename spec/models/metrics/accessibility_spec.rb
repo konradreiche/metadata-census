@@ -77,7 +77,25 @@ describe Metrics::Accessibility do
     expect(count).to be(1)
   end
 
-  it "should hyphenate a word" do   
+  it "should hyphenate a word into its syllables" do
+
+    accessibility = Metrics::Accessibility.new 'en_us'
+
+    syllables = accessibility.hyphenate("Historic")
+    syllables.should match_array ["His", "tor", "ic"]
+    count = accessibility.syllables("Historic")
+    expect(count).to be(3)
+
+    syllables = accessibility.hyphenate("The")
+    syllables.should match_array ["The"]
+    count = accessibility.syllables("The")
+    expect(count).to be(1)
+
+    syllables = accessibility.hyphenate("")
+    syllables.should match_array []
+    count = accessibility.syllables("")
+    expect(count).to be(0)
+
   end
 
 end

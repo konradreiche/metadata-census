@@ -25,6 +25,9 @@ module Metrics
       split_into_sentences(text).length
     end
 
+    def hyphenate(word)
+    end
+
     def syllables(word)
     end
 
