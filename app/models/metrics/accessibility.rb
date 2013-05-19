@@ -8,7 +8,7 @@ module Metrics
     def initialize(language)
       @sentence_tokenizer = TactfulTokenizer::Model.new
       @word_hyphenizer = Text::Hyphen.new(:language => language, :left => 0,
-                                          :left => 0)
+                                          :right => 0)
     end
 
     def self.split_to_words(text)
@@ -28,11 +28,16 @@ module Metrics
     end
 
     def hyphenate(word)
-      word.length == 1 ? [] : @word_hyphenizer.hyphenate(word)
+      if word.empty?
+        nil
+      else
+        word.length == 1 ? [] : @word_hyphenizer.hyphenate(word)
+      end
     end
 
     def syllables(word)
-      hyphenate(word).length
+      hyphens = hyphenate(word)
+      (hyphens.nil?) ? 0 : hyphens.length + 1
     end
 
   end

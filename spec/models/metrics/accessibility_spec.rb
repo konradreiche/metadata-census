@@ -84,20 +84,20 @@ describe Metrics::Accessibility do
     syllables = accessibility.hyphenate("representation")
     syllables.should match_array [3, 5, 8, 10]
     count = accessibility.syllables("representation")
-    expect(count).to be(4)
+    expect(count).to be(5)
 
     syllables = accessibility.hyphenate("The")
     syllables.should match_array []
     count = accessibility.syllables("The")
-    expect(count).to be(0)
+    expect(count).to be(1)
 
     syllables = accessibility.hyphenate("i")
     syllables.should match_array []
     count = accessibility.syllables("i")
-    expect(count).to be(0)
+    expect(count).to be(1)
 
     syllables = accessibility.hyphenate("")
-    syllables.should match_array []
+    syllables.should be_nil
     count = accessibility.syllables("")
     expect(count).to be(0)
   end
