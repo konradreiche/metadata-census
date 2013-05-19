@@ -136,7 +136,7 @@ describe Metrics::Accessibility do
     score = accessibility.flesch_reading_ease(text)
     expect(score).to be(13.335445205479488)
 
-    score = accessibility.compute(text)
+    score = accessibility.compute({ :notes => text })
     expect(score).to be(13.335445205479488)
 
   end

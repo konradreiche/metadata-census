@@ -41,8 +41,8 @@ module Metrics
     end
 
     def flesch_reading_ease(text)
-      words = Accessibility.words(text).to_f
       sentences = sentences(text).to_f
+      words = Accessibility.words(text).to_f
       syllables = Accessibility.split_to_words(text).map do |word|
         syllables(word)
       end.sum.to_f
@@ -55,7 +55,23 @@ module Metrics
     end
 
     def compute(data)
-      flesch_reading_ease(data)
+
+      scores = []
+
+      unless data[:notes].nil?
+        scores << flesch_reading_ease(data[:notes])
+      end
+
+      unless data[:resources].nil?
+        data[:resources].each do |resource|
+          unless resource[:description].nil?
+            score << flesch_reading_ease(resource[:description])
+          end
+        end
+      end
+
+      scores.reduce(:+) / scores.size
+      
     end
 
   end
