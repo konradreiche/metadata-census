@@ -2,27 +2,34 @@ require 'spec_helper'
 
 describe Metrics::Accessibility do
 
+
   it "should split a given text into its words" do
     
     text = "Estimates of average farm rent prices by farm type."
     expectations = ['Estimates', 'of', 'average', 'farm', 'rent', 'prices',
                     'by', 'farm', 'type']
-
+    
     words = Metrics::Accessibility.split_to_words(text)
     words.should match_array expectations
+    count = Metrics::Accessibility.words(text)
+    expect(count).to be(9)
 
     words = Metrics::Accessibility.split_to_words("")
     words.should match_array []
+    count = Metrics::Accessibility.words("")
+    expect(count).to be(0)   
 
     words = Metrics::Accessibility.split_to_words("Estimates")
     words.should match_array ['Estimates']
+    count = Metrics::Accessibility.words("Estimates")
+    expect(count).to be(1)   
 
   end
 
   it "should split a given text into its sentences" do
 
     accessibility = Metrics::Accessibility.new 'en_us'
-
+    
     text = "The Historic Landfill dataset was created to help fulfil our "\
            "statutory responsibility to Local Planning Authorities by "\
            "supplying information on the risks posed by landfill sites "\
@@ -56,13 +63,21 @@ describe Metrics::Accessibility do
 
     sentences = accessibility.split_into_sentences(text)
     sentences.should match_array [sentence1, sentence2, sentence3]
+    count = accessibility.sentences(text)
+    expect(count).to be(3)
 
     sentences = accessibility.split_into_sentences("")
     sentences.should match_array []
+    count = accessibility.sentences("")
+    expect(count).to be(0)
 
     sentences = accessibility.split_into_sentences("The Historic Landfill")
     sentences.should match_array ["The Historic Landfill"]
+    count = accessibility.sentences("The Historic Landfill")
+    expect(count).to be(1)
+  end
 
+  it "should hyphenate a word" do   
   end
 
 end

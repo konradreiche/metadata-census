@@ -13,8 +13,19 @@ module Metrics
       text.split /\W+/
     end
 
+    def self.words(text)
+      split_to_words(text).length
+    end
+
     def split_into_sentences(text)
       @sentence_tokenizer.tokenize_text(text)
+    end
+
+    def sentences(text)
+      split_into_sentences(text).length
+    end
+
+    def syllables(word)
     end
 
   end
