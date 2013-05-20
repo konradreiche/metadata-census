@@ -137,7 +137,7 @@ describe Metrics::Accessibility do
     expect(score).to be(13.335445205479488)
 
     score = accessibility.compute({ :notes => text })
-    expect(score).to be(13.335445205479488)
+    expect(accessibility.score).to be(13.335445205479488)
 
   end
 

@@ -15,7 +15,7 @@ class MetricsController < ApplicationController
       input = symbolize_keys(input)
       metric.compute(input, *args)
 
-      scores << metric.score
+      scores << metric.score if metric.score.finite?
       input[name.to_sym] = metric.score
       Tire.index 'metadata' do
         update('ckan', document.id,
@@ -81,6 +81,11 @@ class MetricsController < ApplicationController
     metric = Metrics::Accuracy.new
     apply_metric(repository, metric, 'accuracy')
   end
+  
+  def accessibility(repository)
+    metric = Metrics::Accessibility.new 'en_us'
+    apply_metric(repository, metric, __method__)
+  end
 
   def preprocess
     @repositories = Repository.all
@@ -129,6 +134,8 @@ class MetricsController < ApplicationController
       result = richness_of_information(repository)
     when 'accuracy'
       result = accuracy(repository)
+    when 'accessibility'
+      result = accessibility(repository)
     end
 
     render :text => result

@@ -15,7 +15,7 @@ $ ->
       width = 240
       height = 125
 
-      selector = "##{metric}-meter"
+      selector = "##{metric}"
       svg = d3.select(selector).insert("svg")
         .attr("width", width)
         .attr("height", height)
@@ -57,6 +57,16 @@ $ ->
         @text.text(formatPercent score).transition().delay(1000)
       )
 
-  $(".metric").each () ->
-    metric = @id.split("-meter")[0]
+  $(".metric-meter").each () ->
+    metric = @id
     new MetricMeter metric
+
+  $(".score").bind "click", (event) =>
+    metric = $(event.target).parent()[0].id
+    repository = $("select[name=repository]").val()
+    $.post("metrics/compute", {
+      "repository": repository,
+      "metric": metric
+    }, (data, status) =>
+      $("#" + metric + " " + ".score").text(parseFloat(data).toFixed(2))
+    )

@@ -5,6 +5,8 @@ module Metrics
 
   class Accessibility
 
+    attr_reader :score
+
     def initialize(language)
       @sentence_tokenizer = TactfulTokenizer::Model.new
       @word_hyphenizer = Text::Hyphen.new(:language => language, :left => 0,
@@ -65,12 +67,12 @@ module Metrics
       unless data[:resources].nil?
         data[:resources].each do |resource|
           unless resource[:description].nil?
-            score << flesch_reading_ease(resource[:description])
+            scores << flesch_reading_ease(resource[:description])
           end
         end
       end
 
-      scores.reduce(:+) / scores.size
+      @score = scores.reduce(:+) / scores.size unless scores.empty?
       
     end
 
