@@ -114,8 +114,10 @@ class MetricsController < ApplicationController
         stats[format.downcase] += 1
       end
     end
-    stats = stats.inject([]) { |result, item| result << { "format" => item[0],
-                                                          "frequency" => item[1] / size } }
+    stats = stats.inject([]) do |result, item|
+      result << { "format" => item[0],
+                  "frequency" => item[1] / size }
+    end
     gon.data = stats
   end
 
