@@ -59,6 +59,8 @@ $ ->
 
   $(".metric-meter").each () ->
     metric = @id
+    # TODO: assign global variables dynamically
+    # metric => variable name
     new MetricMeter metric
 
   $(".score").bind "click", (event) =>
@@ -70,3 +72,10 @@ $ ->
     }, (data, status) =>
       $("#" + metric + " " + ".score").text(parseFloat(data).toFixed(2))
     )
+
+  load_scores = (repository) ->
+    # TODO: access metric meter objcets dynamically
+    # to update score
+    console.log repository.accessibility
+
+  load_scores(gon.repository)

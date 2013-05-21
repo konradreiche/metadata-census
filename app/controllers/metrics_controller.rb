@@ -89,7 +89,12 @@ class MetricsController < ApplicationController
 
   def preprocess
     @repositories = Repository.all
-    @selected = @repositories.first if @selected.nil?
+    if params[:repository].nil?
+      @selected = @repositories.first if @selected.nil?
+    else
+      @selected = Repository.find params[:repository]
+    end
+    gon.repository = @selected.to_hash
   end
 
   def accuracy_stats
