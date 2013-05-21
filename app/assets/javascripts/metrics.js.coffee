@@ -1,6 +1,8 @@
 #=require d3
 $ ->
 
+  metricMeter = {}
+
   class MetricMeter
     
     TWO_PI: 2 * Math.PI
@@ -59,9 +61,7 @@ $ ->
 
   $(".metric-meter").each () ->
     metric = @id
-    # TODO: assign global variables dynamically
-    # metric => variable name
-    new MetricMeter metric
+    metricMeter[metric] = new MetricMeter metric
 
   $(".score").bind "click", (event) =>
     metric = $(event.target).parent()[0].id
@@ -73,9 +73,17 @@ $ ->
       $("#" + metric + " " + ".score").text(parseFloat(data).toFixed(2))
     )
 
-  load_scores = (repository) ->
-    # TODO: access metric meter objcets dynamically
-    # to update score
-    console.log repository.accessibility
+  load_scores = (repository, metricMeter) ->
 
-  load_scores(gon.repository)
+    if gon.repository['accessibility']?
+      score = gon.repository.accessibility.average
+      $("#accessibility .score").text(parseFloat(score).toFixed(2))
+
+    for metric in ['completeness', 'weighted-completeness',
+      'richness-of-information', 'accuracy']
+
+      if gon.repository[metric]?
+        score = gon.repository[metric].average
+        metricMeter[metric].updateScore(score)
+      
+  load_scores(gon.repository, metricMeter)
