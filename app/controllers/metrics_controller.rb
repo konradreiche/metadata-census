@@ -127,14 +127,14 @@ class MetricsController < ApplicationController
   end
 
   def compute
-    repository = params[:repository]
+    repository_name = params[:repository]
     metric = params[:metric]
 
-    repository = Repository.find repository
+    repository = Repository.find repository_name
 
     case metric
     when 'completeness'
-      result = completeness(repository)
+      CompletenessMetricWorker.perform_async(repository_name)
     when 'weighted-completeness'
       result = weighted_completeness(repository)
     when 'richness-of-information'
