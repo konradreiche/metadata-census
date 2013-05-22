@@ -8,7 +8,7 @@ class MetricsController < ApplicationController
 
     scores = []
     Rails.logger.info "Apply metric %s" % name
-    metadata = all_metadata(repository)
+    metadata = repository.metadata
     metadata.each_with_index do |document, i|
 
       input = document.to_hash
@@ -146,20 +146,6 @@ class MetricsController < ApplicationController
     end
 
     render :text => result
-  end
-
-  def all_metadata(repository)
-    Rails.logger.info "Load all metadata"
-
-    total = Tire.search 'metadata', :search_type => 'count' do
-      query { all }
-    end.results.total
-
-    metadata = Tire.search 'metadata' do
-      query { string 'repository:' + repository.name }
-      size total
-    end
-    metadata.results
   end
 
 end

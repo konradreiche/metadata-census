@@ -18,4 +18,18 @@ class Repository
   property :richness_of_information
   property :accuracy
   property :accessibility
+
+
+  def metadata
+    total = Tire.search('metadata', :search_type => 'count') do
+      query { all }
+    end.results.total
+
+    name = @name
+    Tire.search 'metadata' do
+      query { string 'repository:' + name }
+      size total
+    end.results
+  end
+
 end
