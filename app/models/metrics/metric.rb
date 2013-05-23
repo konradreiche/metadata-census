@@ -2,7 +2,7 @@ module Metrics
   class Metric
 
     def name
-      self.name.undersore.gsub('_', '-')
+      self.class.name.underscore.split('/').last
     end
 
   end

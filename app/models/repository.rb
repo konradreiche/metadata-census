@@ -33,7 +33,7 @@ class Repository
   end
 
   def update_score(metric, score)
-    self.send("{metric.name}=", score)
+    self.send("#{metric.name}=", score)
   end
 
 end
