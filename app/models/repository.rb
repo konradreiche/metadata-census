@@ -32,4 +32,8 @@ class Repository
     end.results
   end
 
+  def update_score(metric, score)
+    self.send("{metric.name}=", score)
+  end
+
 end
