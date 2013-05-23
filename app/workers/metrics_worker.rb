@@ -6,7 +6,6 @@ class MetricsWorker
     scores = []
     metadata = repository.metadata
 
-    require 'pry'; binding.pry
     metadata.each_with_index do |record, i|
         document = self.class.symbolize_keys(record.to_hash)
       metric.compute(document, *args)
@@ -14,14 +13,14 @@ class MetricsWorker
       update_document(document, metric)
     end
 
-    update_repository(repository, scores)
+    update_repository(repository, metric, scores)
     refresh
   end
 
   def update_document(document, metric)
     document[metric.name] = metric.score
     Tire.index 'metadata' do
-      update('ckan', document.id, :doc => input)
+      update('ckan', document[:id], :doc => document)
     end
   end
 
@@ -32,7 +31,7 @@ class MetricsWorker
     average = scores.inject(:+) / scores.length
     median = scores[scores.length / 2]
 
-    score = Scores.new(minimum, maximum, average, median)
+    score = Score.new(minimum, maximum, average, median)
     repository.update_score(metric, score)
     repository.update_index
   end
