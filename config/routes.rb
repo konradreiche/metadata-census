@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 MetadataCensus::Application.routes.draw do
 
   get "repositories/overview"
@@ -12,6 +14,8 @@ MetadataCensus::Application.routes.draw do
 
   match '/repositories', to: 'repositories#overview'
   match '/repositories/map', to: 'repositories#map'
+
+  mount Sidekiq::Web, at: '/sidekiq'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

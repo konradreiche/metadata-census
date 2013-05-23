@@ -1,6 +1,5 @@
 class MetricsWorker
   include Sidekiq::Worker
-  sidekiq_options queue: "high"
 
   def compute(repository, metric, *args)
     scores = []
