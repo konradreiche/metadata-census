@@ -1,63 +1,7 @@
-require 'sidekiq/testing/inline'
-
 class MetricsController < ApplicationController
 
   def overview
     preprocess
-  end
-
-  def apply_metric(repository, metric, name, *args)
-
-    scores = []
-    Rails.logger.info "Apply metric %s" % name
-    metadata = repository.metadata
-    metadata.each_with_index do |document, i|
-
-      input = document.to_hash
-      input = symbolize_keys(input)
-      metric.compute(input, *args)
-
-      scores << metric.score if metric.score.finite?
-      input[name.to_sym] = metric.score
-      Tire.index 'metadata' do
-        update('ckan', document.id,
-          :doc => input)
-        refresh
-      end
-
-      Rails.logger.info "#{i + 1} / #{metadata.size}"
-    end
-    process_scores(scores, repository, name)
-  end
-
-  def process_scores(scores, repository, metric)
-    scores.sort!
-    minimum = scores.first
-    maximum = scores.last
-    average = scores.inject(:+) / scores.length
-    median = scores[scores.length / 2]
-    
-    result = Score.new(minimum, maximum, average, median)
-    repository.send "#{metric}=", result
-    repository.update_index
-        
-    median
-  end
-
-  def richness_of_information(repository)
-    metadata = all_metadata(repository).map { |i| symbolize_keys(i.to_hash) }
-    metric = Metrics::RichnessOfInformation.new metadata
-    apply_metric(repository, metric, 'richness_of_information')
-  end
-
-  def accuracy(repository)
-    metric = Metrics::Accuracy.new
-    apply_metric(repository, metric, 'accuracy')
-  end
-  
-  def accessibility(repository)
-    metric = Metrics::Accessibility.new 'en_us'
-    apply_metric(repository, metric, __method__)
   end
 
   def preprocess
@@ -111,14 +55,14 @@ class MetricsController < ApplicationController
     when 'weighted-completeness'
       WeightedCompletenessMetricWorker.perform_async(repository_name)
     when 'richness-of-information'
-      result = richness_of_information(repository)
+      RichnessOfInformationMetricWorker.perform_async(repository_name)
     when 'accuracy'
-      result = accuracy(repository)
+      AccuracyMetricWorker.perform_async(repository_name)
     when 'accessibility'
-      result = accessibility(repository)
+      AccessibilityMetricWorker.perform_async(repository_name)
     end
 
-    render :text => result
+    render :text => '☠'
   end
 
 end
