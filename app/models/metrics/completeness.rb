@@ -1,7 +1,7 @@
 module Metrics
 
-  class Completeness
-    attr_reader :fields, :fields_completed
+  class Completeness < Metric
+    attr_reader :name, :fields, :fields_completed
 
     @@processing = {
       :properties => :check_properties,

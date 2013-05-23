@@ -2,7 +2,7 @@ require 'typhoeus'
 
 module Metrics
 
-  class Accuracy
+  class Accuracy < Metric
     
     @@mime_dictionary = { 
       'csv'  => ['text/csv', 'text/x-comma-separated-values', 'text/comma-separated-values'],

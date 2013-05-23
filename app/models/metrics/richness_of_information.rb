@@ -1,6 +1,6 @@
 module Metrics
 
-  class RichnessOfInformation
+  class RichnessOfInformation < Metric
 
     attr_reader :score
 

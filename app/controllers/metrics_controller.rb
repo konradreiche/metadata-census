@@ -1,3 +1,5 @@
+require 'sidekiq/testing/inline'
+
 class MetricsController < ApplicationController
 
   def overview
@@ -40,20 +42,6 @@ class MetricsController < ApplicationController
     repository.update_index
         
     median
-  end
-
-  def completeness(repository)
-    schema = JSON.parse File.read 'public/ckan-schema.json'
-    schema = symbolize_keys(schema)
-    metric = Metrics::Completeness.new
-    apply_metric(repository, metric, 'completeness', schema)
-  end
-
-  def weighted_completeness(repository)
-    schema = JSON.parse File.read 'public/ckan-schema.json'
-    schema = symbolize_keys(schema)
-    metric = Metrics::WeightedCompleteness.new 'public/ckan-weight.yml'
-    apply_metric(repository, metric, 'weighted_completeness', schema)
   end
 
   def richness_of_information(repository)
@@ -121,7 +109,7 @@ class MetricsController < ApplicationController
     when 'completeness'
       CompletenessMetricWorker.perform_async(repository_name)
     when 'weighted-completeness'
-      result = weighted_completeness(repository)
+      WeightedCompletenessMetricWorker.perform_async(repository_name)
     when 'richness-of-information'
       result = richness_of_information(repository)
     when 'accuracy'

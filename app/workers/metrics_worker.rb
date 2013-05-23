@@ -1,14 +1,17 @@
 class MetricsWorker
+  include Sidekiq::Worker
+  sidekiq_options queue: "high"
 
   def compute(repository, metric, *args)
     scores = []
     metadata = repository.metadata
 
+    require 'pry'; binding.pry
     metadata.each_with_index do |record, i|
-      document = symbolize_keys(document.to_hash)
+        document = self.class.symbolize_keys(record.to_hash)
       metric.compute(document, *args)
       scores << metric.score
-      update_documet(document, metric)
+      update_document(document, metric)
     end
 
     update_repository(repository, scores)

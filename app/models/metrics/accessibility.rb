@@ -3,7 +3,7 @@ require 'tactful_tokenizer'
 
 module Metrics
 
-  class Accessibility
+  class Accessibility < Metric
 
     attr_reader :score
 
