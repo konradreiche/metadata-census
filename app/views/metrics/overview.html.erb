@@ -1,7 +1,7 @@
 <h1>Metrics</h1>
 <div class="row">
   <div class="span6">
-    <form class="form-inline" action="" method="post">
+    <form class="form-inline" action="" method="get">
       <fieldset>
         <label for="repository">Repository</label>
         <select name="repository">
@@ -10,7 +10,7 @@
             %>><%= repository.name %></option>
           <% end %>
         </select>
-        <!-- <button type="submit" class="btn">Select</button> --!>
+        <input type="submit" class="btn" value="Select">
       </fieldset>
     </form>
   </div>
@@ -18,22 +18,22 @@
 <div class="row center">
   <div class="span12 dashboard">
     <div class="row">
-      <div id="completeness" class="span4 metric-meter">
+      <div id="completeness" class="span4 metric metric-meter">
         <strong><a href="/metrics/completeness">Completeness</a></strong>
       </div>
-      <div id="weighted-completeness" class="span4 metric-meter">
+      <div id="weighted-completeness" class="span4 metric metric-meter">
         <strong><a href="/metrics/weighted-completeness">Weighted Completeness</a></strong>
       </div>
-      <div id="richness-of-information" class="span4 metric-meter">
+      <div id="richness-of-information" class="span4 metric metric-meter">
         <strong>Richness of Information</strong>
       </div>
     </div>
 
     <div class="row">
-      <div id="accuracy" class="span4 metric-meter">
+      <div id="accuracy" class="span4 metric metric-meter">
         <strong><a href="/metrics/accuracy">Accuracy</a></strong>
       </div>
-      <div id="accessibility" class="span4">
+      <div id="accessibility" class="span4 metric">
         <strong><a href="/metrics/accessiblity">Accessiblity</a></strong>
         <div class="score">?</div>
       </div>
