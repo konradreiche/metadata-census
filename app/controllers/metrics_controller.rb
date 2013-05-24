@@ -1,7 +1,17 @@
 class MetricsController < ApplicationController
 
+  @@jobs = Hash.new
+
   def overview
     preprocess
+  end
+
+  def status
+    status = {}
+    @@jobs.each do |metric, id|
+      status[metric] = Sidekiq::Status::get_all id
+    end
+    render :json => status
   end
 
   def preprocess
@@ -51,16 +61,17 @@ class MetricsController < ApplicationController
 
     case metric
     when 'completeness'
-      CompletenessMetricWorker.perform_async(repository_name)
+      id = CompletenessMetricWorker.perform_async(repository_name)
     when 'weighted-completeness'
-      WeightedCompletenessMetricWorker.perform_async(repository_name)
+      id = WeightedCompletenessMetricWorker.perform_async(repository_name)
     when 'richness-of-information'
-      RichnessOfInformationMetricWorker.perform_async(repository_name)
+      id = RichnessOfInformationMetricWorker.perform_async(repository_name)
     when 'accuracy'
-      AccuracyMetricWorker.perform_async(repository_name)
+      id = AccuracyMetricWorker.perform_async(repository_name)
     when 'accessibility'
-      AccessibilityMetricWorker.perform_async(repository_name)
+      id = AccessibilityMetricWorker.perform_async(repository_name)
     end
+    @@jobs[metric] = id
 
     render :text => '☠'
   end

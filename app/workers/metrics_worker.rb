@@ -6,11 +6,13 @@ class MetricsWorker
     scores = []
     metadata = repository.metadata
 
+    total = metadata.length
     metadata.each_with_index do |record, i|
         document = self.class.symbolize_keys(record.to_hash)
       metric.compute(document, *args)
       scores << metric.score
       update_document(document, metric)
+      at i + 1, total
     end
 
     update_repository(repository, metric, scores)
