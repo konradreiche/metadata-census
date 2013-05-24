@@ -9,7 +9,8 @@ class MetricsController < ApplicationController
   def status
     status = {}
     @@jobs.each do |metric, id|
-      status[metric] = Sidekiq::Status::get_all id
+      status[metric] = Sidekiq::Status::get_all(id)
+      status[metric]['percent'] = Sidekiq::Status::pct_complete(id)
     end
     render :json => status
   end
@@ -73,7 +74,7 @@ class MetricsController < ApplicationController
     end
     @@jobs[metric] = id
 
-    render :text => '☠'
+    render :text => '0.0'
   end
 
 end
