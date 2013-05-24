@@ -45,6 +45,7 @@ gem 'tactful_tokenizer'
 
 # Sidekiq
 gem 'sidekiq'
+gem 'sidekiq-status'
 gem 'sinatra', require: false
 gem 'slim'
 

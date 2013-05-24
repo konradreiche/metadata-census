@@ -1,5 +1,6 @@
 class MetricsWorker
   include Sidekiq::Worker
+  include Sidekiq::Status::Worker
 
   def compute(repository, metric, *args)
     scores = []
