@@ -1,6 +1,18 @@
 #=require d3
 $ ->
 
+  check_result = (result) ->
+      repeat = false
+      for metric, status of result
+        if not repeat
+          repeat = repeat or status.percent != 100
+        $("##{metric} .bar").css('width', status.percent + '%')
+      if repeat
+        setTimeout(check_progress, 500)
+
+  check_progress = () ->
+    $.getJSON('/metrics/status', check_result)
+
   metricMeter = {}
 
   class MetricMeter
@@ -41,12 +53,12 @@ $ ->
 
       $(selector).bind "click", (event) =>
         repository = $("select[name=repository]").val()
-        check_progress()
         $.post("metrics/compute", {
           "repository": repository,
           "metric": metric
         }, (data, status) =>
           @updateScore(data)
+          check_progress()
         )
 
     updateScore: (score) ->
@@ -67,12 +79,12 @@ $ ->
   $(".score").bind "click", (event) =>
     metric = $(event.target).parent()[0].id
     repository = $("select[name=repository]").val()
-    check_progress()
     $.post("metrics/compute", {
       "repository": repository,
       "metric": metric
     }, (data, status) =>
       $("#" + metric + " " + ".score").text(parseFloat(data).toFixed(2))
+      check_progress()
     )
 
   load_scores = (repository, metricMeter) ->
@@ -90,18 +102,3 @@ $ ->
         metricMeter[metric].updateScore(score)
       
   load_scores(gon.repository, metricMeter)
-
-  check_progress = () ->
-
-    $.getJSON('/metrics/status', (result) ->
-
-      repeat = false
-      for metric, status of result
-        repeat = repeat or status.percent isnt 100
-        $("##{metric} .bar").css('width', status.percent + '%')
-        if repeat
-          setTimeout(check_progress, 500)
-    )
-
-   check_progress()
-
