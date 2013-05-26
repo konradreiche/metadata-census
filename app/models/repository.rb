@@ -36,4 +36,20 @@ class Repository
     self.send("#{metric.name}=", score)
   end
 
+  def best_record(metric)
+    sort_metric_scores(metric, 'desc').first
+  end
+
+  def worst_record(metric)
+    sort_metric_scores(metric, 'asc').first
+  end
+
+  def sort_metric_scores(metric, sorting_order)
+    name = @name
+    search = Tire.search 'metadata' do
+      query { string "repository:#{name}" }
+      sort { by metric, sorting_order }
+    end.results
+  end
+
 end
