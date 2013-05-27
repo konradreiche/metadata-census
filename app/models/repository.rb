@@ -29,7 +29,7 @@ class Repository
     Tire.search 'metadata' do
       query { string 'repository:' + name }
       size total
-    end.results
+    end.results.map { |entry| entry.to_hash }
   end
 
   def update_score(metric, score)
