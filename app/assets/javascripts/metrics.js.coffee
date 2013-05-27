@@ -102,3 +102,4 @@ $ ->
         metricMeter[metric].updateScore(score)
       
   load_scores(gon.repository, metricMeter)
+  check_progress()

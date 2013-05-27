@@ -1,4 +1,20 @@
 <% provide(:metric, "Richness of Information") %>
 <% content_for :content do %>
+  <table class="table">
+    <thead>
+      <th>Field</th>
+        <th>Best Record (<%= "%.3f" % (@best_record[:richness_of_information]) %>)</th>
+        <th>Worst Record (<%= "%.3f" % (@worst_record[:richness_of_information]) %>)</th>
+    </thead>
+    <tbody>
+      <% @max_resources.times do |i| %>
+        <tr>
+          <td>Description</td>
+          <td><%= resource_description(@best_record, i)  %></td>
+          <td><%= resource_description(@worst_record, i)  %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
 <%= render 'layouts/metric_details' %>

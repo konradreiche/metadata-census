@@ -74,7 +74,6 @@ class MetricsController < ApplicationController
       id = AccessibilityMetricWorker.perform_async(repository_name)
     end
     @@jobs[metric] = id
-
     render :text => '0.0'
   end
 
