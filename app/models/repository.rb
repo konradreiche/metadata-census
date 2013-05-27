@@ -37,13 +37,14 @@ class Repository
   end
 
   def best_record(metric)
-    sort_metric_scores(metric, 'desc').first
+    sort_metric_scores(metric, 'desc').first.to_hash
   end
 
   def worst_record(metric)
-    sort_metric_scores(metric, 'asc').first
+    sort_metric_scores(metric, 'asc').first.to_hash
   end
 
+  private
   def sort_metric_scores(metric, sorting_order)
     name = @name
     search = Tire.search 'metadata' do
