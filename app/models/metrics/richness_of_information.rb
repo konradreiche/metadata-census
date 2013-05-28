@@ -45,7 +45,7 @@ module Metrics
     end
 
     def compute(data)
-      term_frequency, doc_length = self.class.term_frequency(data)
+      term_frequency = self.class.term_frequency(data)
       tf_idfs = []
       term_frequency.each do |word, tf| 
         idf = Math.log(@document_numbers / @document_frequency[word].length)
