@@ -40,21 +40,22 @@ module Metrics
 
     def self.count_words(entity, field, term_frequency, doc_length)
       unless entity[field].nil?
-        entity[field].downcase.split(/\W+/).each do |word|
+        words = entity[field].downcase.split(/\W+/)
+        words.each do |word|
           term_frequency[word] += 1
         end
-        doc_length += 1
       end
-      [term_frequency, doc_length]
+      [term_frequency, doc_length + words.length]
     end
 
     def compute(data)
-      term_frequency, doc_length = self.class.term_frequency(data[:resources])
-      factors = []
-      term_frequency.each do |word, count| 
-        factors << count / doc_length.to_f * Math.log(@document_numbers / @document_frequency[word].length)
+      term_frequency, doc_length = self.class.term_frequency(data)
+      tf_idfs = []
+      term_frequency.each do |word, tf| 
+        idf = Math.log(@document_numbers / @document_frequency[word].length)
+        tf_idfs << tf * idf
       end
-      @score = factors.inject(:+) / term_frequency.length.to_f unless term_frequency.length == 0
+      @score = tf_idfs.inject(:+) / term_frequency.length
     end
   end
 
