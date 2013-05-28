@@ -22,7 +22,6 @@ describe Metrics::RichnessOfInformation do
 
     result = Metrics::RichnessOfInformation.term_frequency(data)
     term_frequency, doc_length = result
-    expect(doc_length).to be(35.0)
     expect(term_frequency).to eq(expectation)
   end
 

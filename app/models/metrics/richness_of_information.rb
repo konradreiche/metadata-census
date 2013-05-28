@@ -27,25 +27,21 @@ module Metrics
     end
 
     def self.term_frequency(data)
-      term_frequency = Hash.new(0)
-      doc_length = 0.0
-
-      term_frequency, doc_length = count_words(data, :notes, term_frequency, doc_length)
+      term_frequency = count_words(data, :notes, Hash.new(0))
       for resource in data[:resources]
-        result = count_words(resource, :description, term_frequency, doc_length)
-        term_frequency, doc_length = result
+        term_frequency = count_words(resource, :description, term_frequency)
       end
-      [term_frequency, doc_length]
+      term_frequency
     end
 
-    def self.count_words(entity, field, term_frequency, doc_length)
+    def self.count_words(entity, field, term_frequency)
       unless entity[field].nil?
         words = entity[field].downcase.split(/\W+/)
         words.each do |word|
           term_frequency[word] += 1
         end
       end
-      [term_frequency, doc_length + words.length]
+      term_frequency
     end
 
     def compute(data)
