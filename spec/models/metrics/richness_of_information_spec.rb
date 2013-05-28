@@ -27,6 +27,28 @@ describe Metrics::RichnessOfInformation do
   end
 
   it "computes the frequency of a word in all given texts" do
+
+    record1 = {:id => '1',
+               :notes => 'Annual regional household income news.',
+               :resources => [{:description => 'PDF'},
+                              {:description => 'XLS'},
+                              {:description => 'DOC'}]}
+    record2 = {:id => '2',
+               :notes => 'Number of people registered to vote in elections.',
+               :resources => [{:description => 'PDF'}]}
+
+    expectation = {'annual' => ['1'], 'regional' => ['1'],
+                   'household' => ['1'], 'income' => ['1'], 'news' => ['1'],
+                   'pdf' => ['1', '2'], 'xls' => ['1'], 'doc' => ['1'],
+                   'number' => ['2'], 'of' => ['2'], 'people' => ['2'],
+                   'registered' => ['2'], 'to' => ['2'], 'vote' => ['2'],
+                   'in' => ['2'], 'elections' => ['2']}
+
+    metadata = [record1, record2]
+    metric = Metrics::RichnessOfInformation.new(metadata)
+    expect(metric.document_numbers).to be(6.0)
+    expect(metric.document_frequency).to eq(expectation)
+
   end
 
   it "computes the Term Frequency-Inverse Document Frequency" do

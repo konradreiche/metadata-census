@@ -4,23 +4,23 @@ module Metrics
 
     attr_reader :score, :document_numbers, :document_frequency
 
-    def initialize(datasets)
-      @document_frequency = Hash.new(0)
+    def initialize(metadata)
+      @document_frequency = Hash.new { |h,k| h[k] = [] }
       @document_numbers = 0.0
-      for entry in datasets
-        index_field(entry, :notes, entry[:id])
-        for resource in entry[:resources]
-          index_field(resource, :description, entry[:id])
+      for record in metadata
+        index_field(record, :notes, record[:id])
+        for resource in record[:resources]
+          index_field(resource, :description, record[:id])
         end
       end
     end
 
-    def index_field(entity, field, id)
-      if entity.has_key?(field) and not entity[field].nil?
+    def index_field(record, field, id)
+      unless record[field].nil?
         @document_numbers += 1
-        entity[field].downcase.split(/\W+/).each do |word|
+        record[field].downcase.split(/\W+/).each do |word|
           unless @document_frequency[word].include?(id)
-            @document_frequency[word] = @document_frequency[word] << id
+            @document_frequency[word] << id
           end
         end
       end
@@ -28,14 +28,14 @@ module Metrics
 
     def self.term_frequency(data)
       term_frequency = Hash.new(0)
-      doc_length = 0
+      doc_length = 0.0
 
       term_frequency, doc_length = count_words(data, :notes, term_frequency, doc_length)
       for resource in data[:resources]
         result = count_words(resource, :description, term_frequency, doc_length)
         term_frequency, doc_length = result
       end
-      [term_frequency, doc_length.to_f]
+      [term_frequency, doc_length]
     end
 
     def self.count_words(entity, field, term_frequency, doc_length)
