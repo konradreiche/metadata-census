@@ -96,7 +96,7 @@ $ ->
     for metric in ['completeness', 'weighted-completeness',
       'richness-of-information', 'accuracy']
 
-      attribute = metric.replace('-', '_')
+      attribute = metric.replace(/-/g, '_')
       if gon.repository[attribute]?
         score = gon.repository[attribute].average
         metricMeter[metric].updateScore(score)
