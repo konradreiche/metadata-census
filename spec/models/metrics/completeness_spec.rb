@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Metrics::Completeness do
+
+  describe "#completed?" do
+
+    subject { Metrics::Completeness.new }
+
+    it { expect(subject.completed?(nil)).to be_false }
+    it { expect(subject.completed?([])).to be_false }
+    it { expect(subject.completed?({})).to be_false }
+    it { expect(subject.completed?('')).to be_false }
+
+    it { expect(subject.completed?(3)).to be_true }
+    it { expect(subject.completed?('x')).to be_true }
+    it { expect(subject.completed?([3])).to be_true }
+    it { expect(subject.completed?({:x => 3})).to be_true }
+  end
+
   it "counts the number of total fields and fields with a non-null value" do
 
     data = { :author => 'Donald E. Knuth',

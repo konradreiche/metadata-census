@@ -19,7 +19,7 @@ module Metrics
 
     def check_properties(data, schema, fragments=[])
       if data.is_a?(Hash)
-        schema[:properties].each do |property_name,property_schema|
+        schema[:properties].each do |property_name, property_schema|
 
           @fields += 1
           # set default values in order to accredit the field as completed
@@ -29,10 +29,22 @@ module Metrics
           end
 
           if data.has_key?(property_name)
-            @fields_completed += 1 
+            @fields_completed += 1 if completed? data[property_name]
             compute(data[property_name], property_schema, fragments)
           end
         end
+      end
+    end
+
+    def completed?(value)
+      if value.nil?
+        false
+      elsif value.is_a? Numeric
+        true
+      elsif value.respond_to?(:empty?)
+        not value.empty?
+      else
+        raise TypeError, "Unrecognized type"
       end
     end
 
@@ -44,7 +56,7 @@ module Metrics
             compute(item, schema[:items], fragments)
           end
         elsif schema.is_a?(Array)  # tuple validation
-          schema[:items].each_with_index do |item_schema,i|
+          schema[:items].each_with_index do |item_schema, i|
             compute(data[i], item_schema, fragments)
           end
         end
