@@ -56,6 +56,7 @@ module Metrics
         applicable = @@processing.has_key?(attribute_name)
         send(@@processing[attribute_name], data, schema, fragments) if applicable
       end
+      score
     end
   end
 
