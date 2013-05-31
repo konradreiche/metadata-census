@@ -50,7 +50,6 @@ module Metrics
 
     def check_items(data, schema, fragments=[])
       if data.is_a?(Array)
-        @fields_completed -= 1 if data.empty?
         if schema.is_a?(Hash)
           data.each do |item|
             compute(item, schema[:items], fragments)
