@@ -39,6 +39,16 @@ describe Metrics::Completeness do
     expect(metric.score).to be(4.0 / 6.0)
   end
 
+  resources_schema = {:type => 'object',
+                      :properties => {:description => {:type => 'string'},
+                                      :format      => {:type => 'string'},
+                                      :hash        => {:type => 'string'}}}
+  schema = { :type       => 'object',
+             :properties => {:title      => {:type => 'string' },
+                             :author     => {:type => 'string' },
+                             :resources  => {:type => 'array',
+                                             :items => resources_schema}}}
+    
   it "averages the score of records with multiple subfields" do
 
     record1 = { :title     => 'Farm Rents',
@@ -59,18 +69,39 @@ describe Metrics::Completeness do
                                 :format      => 'PDF',
                                 :hash        => ''}]}
 
-    resources_schema = {:type => 'object',
-                        :properties => {:description => {:type => 'string'},
-                                        :format      => {:type => 'string'},
-                                        :hash        => {:type => 'string'}}}
-    schema = { :type       => 'object',
-               :properties => {:title      => {:type => 'string' },
-                               :author     => {:type => 'string' },
-                               :resources  => {:type => 'array',
-                                               :items => resources_schema}}}
+    metric = Metrics::Completeness.new
+    score1 = metric.compute(record1, schema)
 
     metric = Metrics::Completeness.new
-    score = metric.compute(record1, schema)
-    expect(score).to be < 1.0
+    score2 = metric.compute(record2, schema)
+
+    expect(score1).to be < 1.0
+    expect(score2).to be < 1.0
+    expect(score2).to eq score1
+
+  end
+
+  it "takes the number of subfields into account" do
+
+    record1 = { :title     => 'Farm Rents',
+                :author    => 'Department for Environment and Food',
+                :resources => [{:description => '2007',
+                                :format      => '',
+                                :hash        => ''}]}
+
+    record2 = { :title     => 'Farm Rents',
+                :author    => 'Department for Environment and Food',
+                :resources => []}
+
+
+
+    metric = Metrics::Completeness.new
+    score1 = metric.compute(record1, schema)
+
+    metric = Metrics::Completeness.new
+    score2 = metric.compute(record2, schema)
+
+    expect(score1).to be > score1
+
   end
 end
