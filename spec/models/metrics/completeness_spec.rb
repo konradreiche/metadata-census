@@ -4,7 +4,7 @@ describe Metrics::Completeness do
 
   describe "#completed?" do
 
-    subject { Metrics::Completeness.new }
+    subject { Metrics::Completeness.new(Hash.new) }
 
     it { expect(subject.completed?(nil)).to be_false }
     it { expect(subject.completed?([])).to be_false }
@@ -32,7 +32,7 @@ describe Metrics::Completeness do
                                 :language  => { :type => 'string'  },
                                 :pages     => { :type => 'integer' }}}
 
-    metric = Metrics::Completeness.new
+    metric = Metrics::Completeness.new schema
     metric.compute data, schema
     expect(metric.fields).to be(6)
     expect(metric.fields_completed).to be(4)
@@ -69,10 +69,10 @@ describe Metrics::Completeness do
                                 :format      => 'PDF',
                                 :hash        => ''}]}
 
-    metric = Metrics::Completeness.new
+    metric = Metrics::Completeness.new schema
     score1 = metric.compute(record1, schema)
 
-    metric = Metrics::Completeness.new
+    metric = Metrics::Completeness.new schema
     score2 = metric.compute(record2, schema)
 
     expect(score1).to be < 1.0
@@ -93,6 +93,11 @@ describe Metrics::Completeness do
                 :author    => 'Department for Environment and Food',
                 :resources => []}
 
+    record3 = { :title     => 'Farm Rents',
+                :author    => 'Department for Environment and Food',
+                :resources => [{:description => '',
+                                :format      => '',
+                                :hash        => ''}]}
 
 
     metric = Metrics::Completeness.new
@@ -101,7 +106,11 @@ describe Metrics::Completeness do
     metric = Metrics::Completeness.new
     score2 = metric.compute(record2, schema)
 
+    metric = Metrics::Completeness.new
+    score3 = metric.compute(record3, schema)
+
     expect(score1).to be > score1
+    expect(score2).to be   score3
 
   end
 end

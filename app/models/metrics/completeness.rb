@@ -8,9 +8,14 @@ module Metrics
       :items      => :check_items
     }
 
-    def initialize
-      @fields = 0
-      @fields_completed = 0
+    @@counting = {
+      :properties => :counting_in_properties,
+    }
+
+    def initialize(schema)
+      @fields = 0.0
+      @fields_completed = 0.0
+      count_max_fields(schema)
     end
 
     def score
@@ -63,12 +68,38 @@ module Metrics
     end
 
     def compute(data, schema, fragments=[])
-      schema.each do |attribute_name,attribute|
+      schema.each do |attribute_name, attribute|
         applicable = @@processing.has_key?(attribute_name)
         send(@@processing[attribute_name], data, schema, fragments) if applicable
       end
       score
     end
+
+    private
+    def count_max_fields(schema)
+      schema.each do |attribute_name, attribute|
+        applicable = @@processing.has_key?(attribute_name)
+        send(@@counting[attribute_name], attribute_name, schema) if applicable
+      end
+    end
+
+    def counting_in_properties(name, schema)
+      if schema[:type] == 'object'
+        schema[:properties].each do |property_name, property_schema|
+
+          case property_schema[:type]
+          when 'object'
+            counting_in_properties(property_name, property_schema)
+          when 'array'
+            counting_in_properties(property_name, property_schema[:items])
+          else
+            @fields += 1
+          end
+
+        end
+      end
+    end
+
   end
 
 end
