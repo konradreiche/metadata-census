@@ -82,7 +82,7 @@ describe Metrics::Completeness do
 
   end
 
-  it "takes the number of subfields into account" do
+  it "counts only subfields if a field has a complex schema" do
 
     record1 = { :title     => 'Farm Rents',
                 :author    => 'Department for Environment and Food',
@@ -110,7 +110,7 @@ describe Metrics::Completeness do
     metric = Metrics::Completeness.new(schema)
     score3 = metric.compute(record3)
 
-    expect(score1).to be > score1
+    expect(score1).to be > score3
     expect(score2).to be   score3
 
   end

@@ -39,8 +39,11 @@ module Metrics
             data[property] = (default.is_a?(Hash) ? default.clone : default)
           end
           if data.has_key?(property_name)
-            completed += 1 if completed? data[property_name]
-            count_completed_fields(data[property_name], property_schema, fragments)
+            if ['object', 'array'].include? property_schema[:type].downcase
+              completed += count_completed_fields(data[property_name], property_schema, fragments)
+            else
+              completed += 1 if completed? data[property_name]
+            end
           end
         end
       end
