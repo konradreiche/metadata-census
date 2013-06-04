@@ -32,8 +32,9 @@ describe Metrics::Completeness do
                                 :language  => { :type => 'string'  },
                                 :pages     => { :type => 'integer' }}}
 
-    metric = Metrics::Completeness.new schema
-    metric.compute data, schema
+    metric = Metrics::Completeness.new(schema)
+    score = metric.compute(data)
+    
     expect(metric.fields).to be(6)
     expect(metric.fields_completed).to be(4)
     expect(metric.score).to be(4.0 / 6.0)
@@ -69,11 +70,11 @@ describe Metrics::Completeness do
                                 :format      => 'PDF',
                                 :hash        => ''}]}
 
-    metric = Metrics::Completeness.new schema
-    score1 = metric.compute(record1, schema)
+    metric = Metrics::Completeness.new(schema)
+    score1 = metric.compute(record1)
 
-    metric = Metrics::Completeness.new schema
-    score2 = metric.compute(record2, schema)
+    metric = Metrics::Completeness.new(schema)
+    score2 = metric.compute(record2)
 
     expect(score1).to be < 1.0
     expect(score2).to be < 1.0
@@ -100,14 +101,14 @@ describe Metrics::Completeness do
                                 :hash        => ''}]}
 
 
-    metric = Metrics::Completeness.new
-    score1 = metric.compute(record1, schema)
+    metric = Metrics::Completeness.new(schema)
+    score1 = metric.compute(record1)
 
-    metric = Metrics::Completeness.new
-    score2 = metric.compute(record2, schema)
+    metric = Metrics::Completeness.new(schema)
+    score2 = metric.compute(record2)
 
-    metric = Metrics::Completeness.new
-    score3 = metric.compute(record3, schema)
+    metric = Metrics::Completeness.new(schema)
+    score3 = metric.compute(record3)
 
     expect(score1).to be > score1
     expect(score2).to be   score3
