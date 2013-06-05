@@ -2,8 +2,8 @@ module Metrics
 
   class WeightedCompleteness < Completeness
 
-    def initialize(weight_file)
-      super()
+    def initialize(schema, weight_file)
+      super(schema)
       @weights = YAML.load_file(weight_file).with_indifferent_access
     end
 
@@ -17,28 +17,47 @@ module Metrics
       end
     end
 
-    def check_properties(data, schema, fragments)
+    def count_in_properties(data, schema, stack)
+      completed = 0
       if data.is_a?(Hash)
-        schema[:properties].each do |property_name,property_schema|
-
-          weight = weight(fragments + [property_name])
-          @fields += weight
+        schema[:properties].each do |property_name, property_schema|
 
           # set default values in order to accredit the field as completed
           if property_schema[:default] and not data.has_key?(property) and not property_schema[:readonly]
             default = property_schema[:default]
             data[property] = (default.is_a?(Hash) ? default.clone : default)
           end
-
           if data.has_key?(property_name)
-            @fields_completed += weight
-            fragments << property_name
-            compute(data[property_name], property_schema, fragments)
-            fragments.pop
+            stack << property_name
+            if ['object', 'array'].include? property_schema[:type].downcase
+              completed += count_completed_fields(data[property_name], property_schema, fragments)
+            else
+              completed += weight(stack) if completed? data[property_name]
+            end
+            stack.pop()
           end
         end
       end
+      completed
     end
+
+    private
+    def count_fields(schema, stack=[])
+      schema[:properties].each do |property_name, property_schema|
+        stack << property_name
+        case property_schema[:type]
+        when 'object'
+          fields += count_fields(property_name, stack)
+        when 'array'
+          fields += count_fields(property_schema[:items], stack)
+        else
+          fields += weight(stack)
+        end
+        stack.pop()
+      end if schema.has_key?(:properties)
+      fields
+    end
+
   end
 
 end

@@ -81,7 +81,7 @@ module Metrics
     end
 
     private
-    def count_fields(schema, fields=0)
+    def count_fields(schema)
       schema[:properties].each do |property_name, property_schema|
         case property_schema[:type]
         when 'object'
