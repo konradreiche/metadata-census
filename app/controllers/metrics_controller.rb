@@ -3,7 +3,11 @@ class MetricsController < ApplicationController
   @@jobs = Hash.new
 
   def overview
-    preprocess
+    begin
+      preprocess
+    rescue Tire::Search::SearchRequestFailed
+      @repositories = []
+    end
   end
 
   def status
