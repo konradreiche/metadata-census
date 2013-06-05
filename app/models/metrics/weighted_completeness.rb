@@ -3,8 +3,8 @@ module Metrics
   class WeightedCompleteness < Completeness
 
     def initialize(schema, weight_file)
-      super(schema)
       @weights = YAML.load_file(weight_file).with_indifferent_access
+      super(schema)
     end
 
     def weight(keys)
@@ -30,7 +30,7 @@ module Metrics
           if data.has_key?(property_name)
             stack << property_name
             if ['object', 'array'].include? property_schema[:type].downcase
-              completed += count_completed_fields(data[property_name], property_schema, fragments)
+              completed += count_completed_fields(data[property_name], property_schema, stack)
             else
               completed += weight(stack) if completed? data[property_name]
             end
@@ -43,11 +43,12 @@ module Metrics
 
     private
     def count_fields(schema, stack=[])
+      fields = 0
       schema[:properties].each do |property_name, property_schema|
         stack << property_name
         case property_schema[:type]
         when 'object'
-          fields += count_fields(property_name, stack)
+          fields += count_fields(property_schema, stack)
         when 'array'
           fields += count_fields(property_schema[:items], stack)
         else
