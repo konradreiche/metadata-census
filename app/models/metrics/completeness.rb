@@ -86,7 +86,7 @@ module Metrics
       schema[:properties].each do |property_name, property_schema|
         case property_schema[:type]
         when 'object'
-          fields += count_fields(property_name)
+          fields += count_fields(property_schema)
         when 'array'
           fields += count_fields(property_schema[:items])
         else
