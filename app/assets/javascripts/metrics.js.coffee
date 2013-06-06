@@ -101,5 +101,6 @@ $ ->
         score = gon.repository[attribute].average
         metricMeter[metric].updateScore(score)
       
-  load_scores(gon.repository, metricMeter)
-  check_progress()
+  if gon? and gon.repository?
+    load_scores(gon.repository, metricMeter)
+    check_progress()
