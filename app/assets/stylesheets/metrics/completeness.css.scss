@@ -1,3 +1,15 @@
 // Place all the styles related to the metrics/completeness controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.completeness-table thead tr th:first-child,
+.completeness-table tbody tr td:first-child,
+.completeness-table thead tr th:first-child + th,
+.completeness-table thead tr td:first-child + td {
+  width: 15%;
+}
+
+.completeness-table tbody tr td {
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
