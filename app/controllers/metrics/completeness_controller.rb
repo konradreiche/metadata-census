@@ -1,6 +1,6 @@
-class Metrics::CompletenessController < ApplicationController
+require 'andand'
 
-  helper_method :value
+class Metrics::CompletenessController < ApplicationController
 
   def details
     @metric = request.path.split("/").last.gsub("-","_").to_sym
@@ -30,14 +30,6 @@ class Metrics::CompletenessController < ApplicationController
         k
       end
     end.compact
-  end
-
-  def value(record, field, i, subfield)
-    begin
-      record[field][i][subfield]
-    rescue NoMethodError
-      nil
-    end
   end
 
 end

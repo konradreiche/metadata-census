@@ -23,8 +23,8 @@
                     <td rowspan="<%= subfields.length %>"><%= field.humanize() %></td>
                   <% end %>
                   <td><%= subfield %></td>
-                  <td><%= value(@best, field, i, subfield) %></td>
-                  <td><%= value(@worst, field, i, subfield) %></td>
+                  <td><%= @best[field].andand[i].andand[subfield] %></td>
+                  <td><%= @worst[field].andand[i].andand[subfield] %></td>
                 </tr>
               <% end %>
             <% end %>

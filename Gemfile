@@ -34,8 +34,8 @@ end
 
 gem 'jquery-rails'
 
-# ElasticSearch
 gem 'tire'
+gem 'andand'
 
 # Metrics
 gem 'json'
