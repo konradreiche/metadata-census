@@ -1,7 +1,7 @@
 <% provide(:metric, @metric == :completeness ? "Completeness" : "Weighted Completeness") %>
 <% content_for :content do %>
   <% if @best != nil and @worst != nil %>
-    <table class="table table-striped table-bordered completeness-table">
+    <table class="table table-bordered completeness-table">
       <thead>
         <tr>
           <th>Field</th>
@@ -18,13 +18,15 @@
             <% maximum = [@best[field].length, @worst[field].length].max %>
             <% maximum.times do |i| %>
               <% subfields.each_with_index do |subfield, j| %>
+                <% value_best = @best[field].andand[i].andand[subfield] %>
+                <% value_worst = @worst[field].andand[i].andand[subfield] %>
                 <tr>
                   <% if j == 0 %>
                     <td rowspan="<%= subfields.length %>"><%= field.humanize() %></td>
                   <% end %>
-                  <td><%= subfield %></td>
-                  <td><%= @best[field].andand[i].andand[subfield] %></td>
-                  <td><%= @worst[field].andand[i].andand[subfield] %></td>
+                  <td><%= subfield.humanize() %></td>
+                  <td class='<%= set_class(value_best) %>'><%= value_best %></td>
+                  <td class='<%= set_class(value_worst) %>'><%= value_worst %></td>
                 </tr>
               <% end %>
             <% end %>
@@ -32,8 +34,8 @@
             <tr>
               <td><%= field.humanize() %></td>
               <td></td>
-              <td><%= @best[field]  %></td>
-              <td><%= @worst[field]  %></td>
+              <td class='<%= set_class(@best[field]) %>'><%= @best[field]  %></td>
+              <td class='<%= set_class(@worst[field]) %>'><%= @worst[field]  %></td>
             </tr>
           <% end %>
         <% end %>

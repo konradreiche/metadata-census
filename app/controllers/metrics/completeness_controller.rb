@@ -2,6 +2,8 @@ require 'andand'
 
 class Metrics::CompletenessController < ApplicationController
 
+  helper_method :set_class
+
   def details
     @metric = request.path.split("/").last.gsub("-","_").to_sym
 
@@ -30,6 +32,14 @@ class Metrics::CompletenessController < ApplicationController
         k
       end
     end.compact
+  end
+
+  def set_class(value)
+    if value.nil? or value.empty?
+      'not-completed'
+    else
+      'completed'
+    end
   end
 
 end
