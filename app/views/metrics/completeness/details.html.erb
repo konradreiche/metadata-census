@@ -11,32 +11,29 @@
         </tr>
       </thead>
       <tbody>
-        <% @properties.each do |key| %>
-          <% if key.is_a? Hash %>
-            <% key.values.each do |item| %>
-              <% count = [@best[key.first.first].length, @worst[key.first.first].length].max  %>
-              <% count.times do |i| %>
+        <% @properties.each do |field| %>
+          <% if field.is_a? Array %>
+            <% subfields = field[1..-1] %>
+            <% field = field.first %>
+            <% maximum = [@best[field].length, @worst[field].length].max %>
+            <% maximum.times do |i| %>
+              <% subfields.each_with_index do |subfield, j| %>
                 <tr>
-                  <td rowspan="<%= key.values.first.length %>"><%= key.keys.first.humanize() %></td>
-                  <td><%= item.first %></td>
-                  <td><%= @best[key.first.first][i][item.first] if @best.has_key?(key.first.first) and @best[key.first.first][i] != nil %>
-                  <td><%= @worst[key.first.first][i][item.first] if @worst.has_key?(key.first.first) and @worst[key.first.first][i] != nil %>
+                  <% if j == 0 %>
+                    <td rowspan="<%= subfields.length %>"><%= field.humanize() %></td>
+                  <% end %>
+                  <td><%= subfield %></td>
+                  <td><%= value(@best, field, i, subfield) %></td>
+                  <td><%= value(@worst, field, i, subfield) %></td>
                 </tr>
-                <% item[1..-1].each do |value| %>
-                  <tr>
-                    <td><%= value %></td>
-                  <td><%= @best[key.first.first][i][value] if @best.has_key?(key.first.first) and @best[key.first.first][i] != nil %>
-                  <td><%= @worst[key.first.first][i][value] if @worst.has_key?(key.first.first) and @worst[key.first.first][i] != nil %>
-                  </tr>
-                <% end %>
               <% end %>
             <% end %>
           <% else %>
             <tr>
-              <td><%= key.humanize() %></td>
+              <td><%= field.humanize() %></td>
               <td></td>
-              <td><%= @best[key]  %></td>
-              <td><%= @worst[key]  %></td>
+              <td><%= @best[field]  %></td>
+              <td><%= @worst[field]  %></td>
             </tr>
           <% end %>
         <% end %>

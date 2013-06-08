@@ -1,5 +1,7 @@
 class Metrics::CompletenessController < ApplicationController
 
+  helper_method :value
+
   def details
     @metric = request.path.split("/").last.gsub("-","_").to_sym
 
@@ -15,18 +17,27 @@ class Metrics::CompletenessController < ApplicationController
     @worst = HashWithIndifferentAccess.new @worst.to_hash unless @worst.nil?
   end
 
+  # Creates a list of metadata field names. If a field maps to another complex
+  # field the key is another array where the first element is the first key.
   def schema_keys schema
-
     schema["properties"].map do |k, v|
       case v["type"]
       when "array"
-        v["items"]["type"] == "object" ? { k => schema_keys(v["items"]) } : k
+        v["items"]["type"] == "object" ? [k] + schema_keys(v["items"]) : k
       when "object"
         v["properties"].nil? ? k : schema_keys(v)
       else
         k
       end
     end.compact
+  end
+
+  def value(record, field, i, subfield)
+    begin
+      record[field][i][subfield]
+    rescue NoMethodError
+      nil
+    end
   end
 
 end
