@@ -19,7 +19,6 @@ class Repository
   property :accuracy
   property :accessibility
 
-
   def metadata
     total = Tire.search('metadata', :search_type => 'count') do
       query { all }

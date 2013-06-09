@@ -89,12 +89,14 @@ $ ->
 
   load_scores = (repository, metricMeter) ->
 
-    if gon.repository['accessibility']?
-      score = gon.repository.accessibility.average
-      $("#accessibility .score").text(parseFloat(score).toFixed(2))
+    for metric in ['accessibility', 'richness-of-information']
+      attribute = metric.replace(/-/g, '_')
+      if gon.repository[attribute]?
+        score = gon.repository[attribute].average
+        $("##{metric} .score").text(parseFloat(score).toFixed(2))
 
     for metric in ['completeness', 'weighted-completeness',
-      'richness-of-information', 'accuracy']
+      'accuracy']
 
       attribute = metric.replace(/-/g, '_')
       if gon.repository[attribute]?
