@@ -20,14 +20,32 @@ class Repository
   property :accessibility
 
   def metadata
-    total = Tire.search('metadata', :search_type => 'count') do
-      query { all }
-    end.results.total
-
     name = @name
+    max = total
     Tire.search 'metadata' do
       query { string 'repository:' + name }
-      size total
+      size max
+    end.results.map { |entry| entry.to_hash }
+  end
+
+  def total
+    name = @name
+    total = Tire.search('metadata', :search_type => 'count') do
+      query { string 'repository:' + name }
+    end.results.total
+  end
+
+  def metadata_with_field(field, value="*")
+    name = @name
+    max = total
+    Tire.search 'metadata' do
+      query do
+        boolean do
+          must { string 'repository:' + name }
+          must { string field + ":" + value }
+        end
+      end
+      size max
     end.results.map { |entry| entry.to_hash }
   end
 
