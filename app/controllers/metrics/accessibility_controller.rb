@@ -9,7 +9,7 @@ class Metrics::AccessibilityController < ApplicationController
     end
 
     if @repository.id == 'GovData.de'
-      gon.portals = group_by_portal
+      gon.accessibility_by_portals = group_by_portal
     end
   end
 
