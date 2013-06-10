@@ -14,6 +14,7 @@ MetadataCensus::Application.routes.draw do
   match '/metrics/weighted-completeness', to: 'metrics/completeness#details'
   match '/metrics/accuracy', to: 'metrics#accuracy_stats'
   match '/metrics/richness-of-information', to: 'metrics/richness_of_information#details'
+  match '/metrics/accessibility', to: 'metrics/accessibility#details'
 
   match '/repositories', to: 'repositories#overview'
   match '/repositories/map', to: 'repositories#map'
