@@ -29,6 +29,10 @@ $ ->
     x.domain([0, d3.max(data, (d) -> d.value)])
     y.domain(data.map((d) -> d.name))
 
+    color = d3.scale.linear()
+      .domain([0, 50, 100])
+      .range(["red", "yellow", "green"])
+
     bar = svg.selectAll("g.bar")
       .data(data)
       .enter().append("g")
@@ -38,6 +42,7 @@ $ ->
     bar.append("rect")
       .attr("width", (d) -> x(d.value))
       .attr("height", y.rangeBand())
+      .attr("fill", (d) -> color(d.value))
 
     bar.append("text")
       .attr("class", "value")

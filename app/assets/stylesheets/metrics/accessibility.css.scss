@@ -1,9 +1,8 @@
 .bar rect {
-  fill: steelblue;
 }
 
 .bar text.value {
-  fill: white;
+  fill: black;
 }
 
 .axis {
@@ -16,7 +15,7 @@
 
 .x.axis line {
   stroke: #fff;
-  stroke-opacity: .8;
+  stroke-opacity: .5;
 }
 
 .y.axis path {
