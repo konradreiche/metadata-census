@@ -80,34 +80,30 @@ describe Metrics::RichnessOfInformation do
     expect(value).to be(5)
   end
 
-  it "computes the Term Frequency-Inverse Document Frequency" do
-    subject.compute(record1)
-    expect(subject.score.round(5)).to be(1.70512)
-  end
-
   it "averages the scores if multiple documents are involved" do
 
-   big_record = {:notes => 'These files provide detailed road safety data '\
-                            'about the circumstances of personal injury road '\
-                            'accidents in GB from 2005',
+   many = {:notes => 'These files provide detailed road safety data '\
+                     'about the circumstances of personal injury road '\
+                     'accidents in GB from 2005',
 
-                 :resources => [{:description => 'Road Safety - Accidents 2005'},
-                                {:description => 'Road Safety - Accidents 2006'},
-                                {:description => 'Road Safety - Accidents 2007'},
-                                {:description => 'Road Safety - Accidents 2008'}]}
+           :resources => [{:description => 'Road Safety - Accidents 2005'},
+                          {:description => 'Road Safety - Accidents 2006'},
+                          {:description => 'Road Safety - Accidents 2007'},
+                          {:description => 'Road Safety - Accidents 2008'}]}
 
-    small_record = {:notes => 'These files provide detailed road safety data '\
-                              'about the circumstances of personal injury road '\
-                              'accidents in GB from 2005',
+    few = {:notes => 'These files provide detailed road safety data '\
+                     'about the circumstances of personal injury road '\
+                     'accidents in GB from 2005',
 
-                    :resources => [{:description => 'Road Safety - Accidents 2008'}]}
+           :resources => [{:description => 'Road Safety - Accidents 2008'}]}
 
-    metric = Metrics::RichnessOfInformation.new([small_record, big_record])
-    small_record_score = metric.compute(small_record)
-    big_record_score = metric.compute(big_record)
+    metadata = [many, few]
+    metric = Metrics::RichnessOfInformation.new(metadata)
 
-    # Multiple record entries should not sum up but averaged
-    expect(big_record_score).not_to be > small_record_score
+    many_score = metric.compute(few_score)
+    few_score = metric.compute(many_score)
+
+    # multiple field entries should not sum up but averaged
+    expect(many_score).not_to be > few_score
   end
-
 end
