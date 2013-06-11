@@ -4,9 +4,8 @@ module Metrics
 
     attr_reader :score, :document_numbers, :document_frequency
 
-    @text_fields = ["notes", "resources.description"]
-
     def initialize(metadata)
+      @text_fields = ["notes", "resources.description"]
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @document_numbers = 0.0
       for record in metadata
@@ -18,34 +17,16 @@ module Metrics
     end
 
     def compute(data)
-
       scores = []
-      @fields.each do |field, type|
-
-        value = value(data, field, @fields)
-
-        if type.is_a? Hash
-          scores << richness_of_information(data[field], type[:field], type[:type])
+      @text_fields.each do |field|
+        value = self.class.value(data, field)
+        if value.is_a?(Array)
+          value.each { |item| scores << tf_idf(item) }
         else
-          scores << richness_of_information(data, field, type)
+          scores << tf_idf(value)
         end
       end
       @score = scores.inject(:+) / scores.length
-    end
-
-    def self.value(data, field)
-      accessors = field.split(/\./).map { |a| a.to_sym }
-      accessors.inject(data) do |value, accessor|
-        value[accessor]
-      end
-    end
-
-    def richness_of_information(data, field, type)
-      case type
-      when :free_text
-        return tf_idf(data[field])
-      when :category
-      end
     end
 
     def tf_idf(text)
@@ -58,6 +39,17 @@ module Metrics
       tf_idfs.inject(:+) / term_frequency.length
     end
 
+    def self.value(data, field)
+      accessors = field.split(/\./).map { |a| a.to_sym }
+      accessors.inject(data) do |value, accessor|
+        if value.is_a?(Array)
+          value.map { |item| item[accessor] }
+        else
+          value[accessor]
+        end
+      end
+    end
+
     def self.term_frequency(text)
       term_frequency = Hash.new(0)
         words = text.downcase.split(/\W+/)
@@ -66,9 +58,6 @@ module Metrics
         end
       term_frequency
     end
-
-   
-
 
     private
     def index_field(record, field, id)

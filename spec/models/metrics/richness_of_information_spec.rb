@@ -6,14 +6,14 @@ describe Metrics::RichnessOfInformation do
 
     notes = 'These files provide detailed road safety data '\
             'about the circumstances of personal injury road '\
-            'accidents in GB from 2005',
+            'accidents in GB from 2005'
 
     expectation = Hash.new
     expectation['these']         = 1
     expectation['files']         = 1
     expectation['provide']       = 1
     expectation['detailed']      = 1
-    expectation['road']          = 1
+    expectation['road']          = 2
     expectation['safety']        = 1
     expectation['data']          = 1
     expectation['about']         = 1
@@ -78,6 +78,11 @@ describe Metrics::RichnessOfInformation do
     field = "a"
     value = Metrics::RichnessOfInformation.value(data, field)
     expect(value).to be(5)
+
+    data = { :a => [{ :b => 3 }, { :b => 5 }, { :b => 7 }] }
+    field = "a.b"
+    value = Metrics::RichnessOfInformation.value(data, field)
+    expect(value).to eq([3, 5, 7])
   end
 
   it "averages the scores if multiple documents are involved" do
@@ -100,8 +105,8 @@ describe Metrics::RichnessOfInformation do
     metadata = [many, few]
     metric = Metrics::RichnessOfInformation.new(metadata)
 
-    many_score = metric.compute(few_score)
-    few_score = metric.compute(many_score)
+    many_score = metric.compute(many)
+    few_score = metric.compute(few)
 
     # multiple field entries should not sum up but averaged
     expect(many_score).not_to be > few_score
