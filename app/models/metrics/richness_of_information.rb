@@ -4,6 +4,8 @@ module Metrics
 
     attr_reader :score, :document_numbers, :document_frequency
 
+    @text_fields = ["notes", "resources.description"]
+
     def initialize(metadata)
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @document_numbers = 0.0
@@ -15,6 +17,60 @@ module Metrics
       end
     end
 
+    def compute(data)
+
+      scores = []
+      @fields.each do |field, type|
+
+        value = value(data, field, @fields)
+
+        if type.is_a? Hash
+          scores << richness_of_information(data[field], type[:field], type[:type])
+        else
+          scores << richness_of_information(data, field, type)
+        end
+      end
+      @score = scores.inject(:+) / scores.length
+    end
+
+    def self.value(data, field)
+      accessors = field.split(/\./).map { |a| a.to_sym }
+      accessors.inject(data) do |value, accessor|
+        value[accessor]
+      end
+    end
+
+    def richness_of_information(data, field, type)
+      case type
+      when :free_text
+        return tf_idf(data[field])
+      when :category
+      end
+    end
+
+    def tf_idf(text)
+      tf_idfs = []
+      term_frequency = self.class.term_frequency(text)
+      term_frequency.each do |word, tf| 
+        idf = Math.log(@document_numbers / @document_frequency[word].length)
+        tf_idfs << tf * idf
+      end
+      tf_idfs.inject(:+) / term_frequency.length
+    end
+
+    def self.term_frequency(text)
+      term_frequency = Hash.new(0)
+        words = text.downcase.split(/\W+/)
+        words.each do |word|
+          term_frequency[word] += 1
+        end
+      term_frequency
+    end
+
+   
+
+
+    private
     def index_field(record, field, id)
       unless record[field].nil?
         @document_numbers += 1
@@ -26,33 +82,5 @@ module Metrics
       end
     end
 
-    def self.term_frequency(data)
-      term_frequency = count_words(data, :notes, Hash.new(0))
-      for resource in data[:resources]
-        term_frequency = count_words(resource, :description, term_frequency)
-      end
-      term_frequency
-    end
-
-    def self.count_words(entity, field, term_frequency)
-      unless entity[field].nil?
-        words = entity[field].downcase.split(/\W+/)
-        words.each do |word|
-          term_frequency[word] += 1
-        end
-      end
-      term_frequency
-    end
-
-    def compute(data)
-      term_frequency = self.class.term_frequency(data)
-      tf_idfs = []
-      term_frequency.each do |word, tf| 
-        idf = Math.log(@document_numbers / @document_frequency[word].length)
-        tf_idfs << tf * idf
-      end
-      @score = tf_idfs.inject(:+) / term_frequency.length
-    end
   end
-
 end

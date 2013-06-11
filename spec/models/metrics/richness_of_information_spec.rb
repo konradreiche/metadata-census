@@ -4,54 +4,83 @@ describe Metrics::RichnessOfInformation do
 
   it "computes the frequency of a word in a given text" do
 
-    data = { :notes    => 'These files provide detailed road safety data '\
-                          'about the circumstances of personal injury road '\
-                          'accidents in GB from 2005',
+    notes = 'These files provide detailed road safety data '\
+            'about the circumstances of personal injury road '\
+            'accidents in GB from 2005',
 
-            :resources => [{:description => 'Road Safety - Accidents 2005'},
-                           {:description => 'Road Safety - Accidents 2006'},
-                           {:description => 'Road Safety - Accidents 2007'},
-                           {:description => 'Road Safety - Accidents 2008'}]}
+    expectation = Hash.new
+    expectation['these']         = 1
+    expectation['files']         = 1
+    expectation['provide']       = 1
+    expectation['detailed']      = 1
+    expectation['road']          = 1
+    expectation['safety']        = 1
+    expectation['data']          = 1
+    expectation['about']         = 1
+    expectation['the']           = 1
+    expectation['circumstances'] = 1
+    expectation['of']            = 1
+    expectation['personal']      = 1
+    expectation['injury']        = 1
+    expectation['accidents']     = 1
+    expectation['in']            = 1
+    expectation['gb']            = 1
+    expectation['from']          = 1
+    expectation['2005']          = 1
 
-    expectation = {'these' => 1, 'files' => 1, 'provide' => 1, 'detailed' => 1,
-                   'road' => 6, 'safety' => 5, 'data' => 1, 'about' => 1,
-                   'the' => 1, 'circumstances' => 1, 'of' => 1,
-                   'personal' => 1, 'injury' => 1, 'accidents' => 5, 'in' => 1,
-                   'gb' => 1, 'from' => 1, '2005' => 2, '2006' => 1,
-                   '2007' => 1, '2008' => 1}
-
-    result = Metrics::RichnessOfInformation.term_frequency(data)
-    term_frequency, doc_length = result
-    expect(term_frequency).to eq(expectation)
+    actual = Metrics::RichnessOfInformation.term_frequency(notes)
+    expect(actual).to eq(expectation)
   end
 
-  record1 = {:id => '1',
-             :notes => 'Annual regional household income news.',
-             :resources => [{:description => 'PDF'},
-                            {:description => 'XLS'},
-                            {:description => 'DOC'}]}
-  record2 = {:id => '2',
-             :notes => 'Number of people registered to vote in elections.',
-             :resources => [{:description => 'PDF'}]}
+  it "computes the document frequency: words mapped to documents" do
 
-  expectation = {'annual' => ['1'], 'regional' => ['1'],
-                 'household' => ['1'], 'income' => ['1'], 'news' => ['1'],
-                 'pdf' => ['1', '2'], 'xls' => ['1'], 'doc' => ['1'],
-                 'number' => ['2'], 'of' => ['2'], 'people' => ['2'],
-                 'registered' => ['2'], 'to' => ['2'], 'vote' => ['2'],
-                 'in' => ['2'], 'elections' => ['2']}
+    record1 = {:id => '1',
+               :notes => 'Annual regional household income news.',
+               :resources => [{:description => 'PDF'},
+                              {:description => 'XLS'},
+                              {:description => 'DOC'}]}
+    record2 = {:id => '2',
+               :notes => 'Number of people registered to vote in elections.',
+               :resources => [{:description => 'PDF'}]}
 
-  metadata = [record1, record2]
-  subject { Metrics::RichnessOfInformation.new(metadata) }
+    expectation = Hash.new
+    expectation['annual']     = ['1']
+    expectation['regional']   = ['1']
+    expectation['household']  = ['1']
+    expectation['income']     = ['1']
+    expectation['news']       = ['1']
+    expectation['pdf']        = ['1', '2']
+    expectation['xls']        = ['1']
+    expectation['doc']        = ['1']
+    expectation['number']     = ['2']
+    expectation['of']         = ['2']
+    expectation['people']     = ['2']
+    expectation['registered'] = ['2']
+    expectation['to']         = ['2']
+    expectation['vote']       = ['2']
+    expectation['in']         = ['2']
+    expectation['elections']  = ['2']
 
-  it "computes the frequency of a word in all given texts" do
-    expect(subject.document_numbers).to be(6.0)
-    expect(subject.document_frequency).to eq(expectation)
+    metadata = [record1, record2]
+    metric = Metrics::RichnessOfInformation.new(metadata)
+
+    expect(metric.document_numbers).to be(6.0)
+    expect(metric.document_frequency).to eq(expectation)
+  end
+
+  it "#value" do
+    data = { :a => { :b => { :c => 3 }}}
+    field = "a.b.c"
+    value = Metrics::RichnessOfInformation.value(data, field)
+    expect(value).to be(3)
+
+    data = { :a => 5 }
+    field = "a"
+    value = Metrics::RichnessOfInformation.value(data, field)
+    expect(value).to be(5)
   end
 
   it "computes the Term Frequency-Inverse Document Frequency" do
-    result = Metrics::RichnessOfInformation.term_frequency(record1)
-    term_frequency, doc_length = result
     subject.compute(record1)
     expect(subject.score.round(5)).to be(1.70512)
   end
