@@ -56,4 +56,29 @@ describe Metrics::RichnessOfInformation do
     expect(subject.score.round(5)).to be(1.70512)
   end
 
+  it "averages the scores if multiple documents are involved" do
+
+   big_record = {:notes => 'These files provide detailed road safety data '\
+                            'about the circumstances of personal injury road '\
+                            'accidents in GB from 2005',
+
+                 :resources => [{:description => 'Road Safety - Accidents 2005'},
+                                {:description => 'Road Safety - Accidents 2006'},
+                                {:description => 'Road Safety - Accidents 2007'},
+                                {:description => 'Road Safety - Accidents 2008'}]}
+
+    small_record = {:notes => 'These files provide detailed road safety data '\
+                              'about the circumstances of personal injury road '\
+                              'accidents in GB from 2005',
+
+                    :resources => [{:description => 'Road Safety - Accidents 2008'}]}
+
+    metric = Metrics::RichnessOfInformation.new([small_record, big_record])
+    small_record_score = metric.compute(small_record)
+    big_record_score = metric.compute(big_record)
+
+    # Multiple record entries should not sum up but averaged
+    expect(big_record_score).not_to be > small_record_score
+  end
+
 end
