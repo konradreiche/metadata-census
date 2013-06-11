@@ -1,14 +1,14 @@
 #=require d3
 $ ->
   
-  if gon? and gon.accessibility_by_portals?
+  if gon? and gon.grouped_accessibility?
     data = []
-    for portal, score of gon.accessibility_by_portals
+    for portal, score of gon.grouped_accessibility
       data.push { name: portal, value: score }
 
     m = [30, 10, 10, 100]
     w = 800 - m[1] - m[3]
-    h = 930 - m[0] - m[2]
+    h = 730 - m[0] - m[2]
 
     format = d3.format(",.2f")
 
