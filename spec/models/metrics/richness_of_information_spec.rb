@@ -111,4 +111,27 @@ describe Metrics::RichnessOfInformation do
     # multiple field entries should not sum up but averaged
     expect(many_score).not_to be > few_score
   end
+
+  it "computes the Term Frequency Inverse Document Frequency (tf-idf)" do
+
+    record1 = {:id => '1',
+               :notes => 'Annual regional household income news.',
+               :resources => [{:description => 'PDF'},
+                              {:description => 'XLS'},
+                              {:description => 'DOC'}]}
+    record2 = {:id => '2',
+               :notes => 'Number of people registered to vote in elections.',
+               :resources => [{:description => 'PDF'}]}
+
+    metadata = [record1, record2]
+    metric = Metrics::RichnessOfInformation.new(metadata)
+
+    tf_idf = metric.tf_idf(record1[:notes])
+
+    # There are 6 documents, each word occurs only once (in the field itself),
+    # there are 5 words, hence ([Math.log(6 / 1)] * 5).sum / 5 == Math.log(6).
+    expect(tf_idf).to be(Math.log(6))
+
+  end
+
 end
