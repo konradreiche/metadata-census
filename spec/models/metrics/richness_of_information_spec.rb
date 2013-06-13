@@ -132,6 +132,12 @@ describe Metrics::RichnessOfInformation do
     # there are 5 words, hence ([Math.log(6 / 1)] * 5).sum / 5 == Math.log(6).
     expect(tf_idf).to be(Math.log(6))
 
+    tf_idf = metric.tf_idf(record1[:resources][0][:description])
+
+    # There are 6 documents, the one word occurs only once (in the field itself),
+    # there is 1 word, hence ([Math.log(6 / 2) * 1]) / 1 == Math.log(3).
+    expect(tf_idf).to be(Math.log(3))
+
   end
 
 end
