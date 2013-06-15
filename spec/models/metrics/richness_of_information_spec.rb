@@ -116,9 +116,9 @@ describe Metrics::RichnessOfInformation do
 
     record1 = {:id => '1',
                :notes => 'Annual regional household income news.',
-               :resources => [{:description => 'PDF'},
-                              {:description => 'XLS'},
-                              {:description => 'DOC'}]}
+               :resources => [{:description => 'Household Income - PDF'},
+                              {:description => 'Household Income - XLS'},
+                              {:description => 'Household Income - DOC'}]}
     record2 = {:id => '2',
                :notes => 'Number of people registered to vote in elections.',
                :resources => [{:description => 'PDF'}]}
@@ -132,11 +132,25 @@ describe Metrics::RichnessOfInformation do
     # there are 5 words, hence ([Math.log(6 / 1)] * 5).sum / 5 == Math.log(6).
     expect(tf_idf).to be(Math.log(6))
 
-    tf_idf = metric.tf_idf(record1[:resources][0][:description])
+    tf_idf = metric.tf_idf(record2[:resources][0][:description])
 
     # There are 6 documents, the one word occurs only once (in the field itself),
     # there is 1 word, hence ([Math.log(6 / 2) * 1]) / 1 == Math.log(3).
     expect(tf_idf).to be(Math.log(3))
+
+    tf_idf = metric.tf_idf(record1[:resources][0][:description])
+
+    # Total Documents => 6
+    # Words Document  => 3
+    #
+    # 'household' Occurs => 1, Total => 4
+    # 'income'    Occurs => 1, Total => 4
+    # 'PDF'       Occurs => 1, Total => 2
+    #
+    #   sum [1 * log(6 / 4), 1 * log(6 / 4), 1 * log(6 / 2)] / 3
+    # = sum [Math.log(1.5) * 2, Math.log(3)] / 3
+    #
+    #expect(tf_idf).to be((Math.log(1.5) + Math.log(3)) / 3)
 
   end
 
