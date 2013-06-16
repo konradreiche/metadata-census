@@ -44,22 +44,24 @@ describe Metrics::RichnessOfInformation do
                :resources => [{:description => 'PDF'}]}
 
     expectation = Hash.new
-    expectation['annual']     = ['1']
-    expectation['regional']   = ['1']
-    expectation['household']  = ['1']
-    expectation['income']     = ['1']
-    expectation['news']       = ['1']
-    expectation['pdf']        = ['1', '2']
-    expectation['xls']        = ['1']
-    expectation['doc']        = ['1']
-    expectation['number']     = ['2']
-    expectation['of']         = ['2']
-    expectation['people']     = ['2']
-    expectation['registered'] = ['2']
-    expectation['to']         = ['2']
-    expectation['vote']       = ['2']
-    expectation['in']         = ['2']
-    expectation['elections']  = ['2']
+    expectation['annual']     = [['1', :notes]]
+    expectation['regional']   = [['1', :notes]]
+    expectation['household']  = [['1', :notes]]
+    expectation['income']     = [['1', :notes]]
+    expectation['news']       = [['1', :notes]]
+    expectation['pdf']        = [['1', :resources, 0, :description],
+                                 ['2', :resources, 0, :description]]
+
+    expectation['xls']        = [['1', :resources, 1, :description]]
+    expectation['doc']        = [['1', :resources, 2, :description]]
+    expectation['number']     = [['2', :notes]]
+    expectation['of']         = [['2', :notes]]
+    expectation['people']     = [['2', :notes]]
+    expectation['registered'] = [['2', :notes]]
+    expectation['to']         = [['2', :notes]]
+    expectation['vote']       = [['2', :notes]]
+    expectation['in']         = [['2', :notes]]
+    expectation['elections']  = [['2', :notes]]
 
     metadata = [record1, record2]
     metric = Metrics::RichnessOfInformation.new(metadata)
@@ -70,17 +72,17 @@ describe Metrics::RichnessOfInformation do
 
   it "#value" do
     data = { :a => { :b => { :c => 3 }}}
-    field = "a.b.c"
+    field = [:a, :b, :c]
     value = Metrics::RichnessOfInformation.value(data, field)
     expect(value).to be(3)
 
     data = { :a => 5 }
-    field = "a"
+    field = [:a]
     value = Metrics::RichnessOfInformation.value(data, field)
     expect(value).to be(5)
 
     data = { :a => [{ :b => 3 }, { :b => 5 }, { :b => 7 }] }
-    field = "a.b"
+    field = [:a, :b]
     value = Metrics::RichnessOfInformation.value(data, field)
     expect(value).to eq([3, 5, 7])
   end
@@ -128,29 +130,47 @@ describe Metrics::RichnessOfInformation do
 
     tf_idf = metric.tf_idf(record1[:notes])
 
-    # There are 6 documents, each word occurs only once (in the field itself),
-    # there are 5 words, hence ([Math.log(6 / 1)] * 5).sum / 5 == Math.log(6).
-    expect(tf_idf).to be(Math.log(6))
+    # Total Documents    => 6
+    # Words in Documents => 5
+    #
+    # 'annual'    Occurs => 1, Total => 1
+    # 'regional'  Occurs => 1, Total => 1
+    # 'household' Occurs => 1, Total => 4
+    # 'income'    Occurs => 1, Total => 4
+    # 'news'      Occurs => 1, Total => 1
+    #
+    #   sum [1 * log(6/1), 1 * log(6/1), 1 * log(6/4), 1 * log(6/4),
+    #        1 * log(6/1)] / 5
+    #
+    # = sum [4 * log(6), 2 * log(1.5)] / 5
+    #
+    expect(tf_idf).to be((3 * Math.log(6) + 2 * Math.log(1.5)) / 5)
 
     tf_idf = metric.tf_idf(record2[:resources][0][:description])
 
-    # There are 6 documents, the one word occurs only once (in the field itself),
-    # there is 1 word, hence ([Math.log(6 / 2) * 1]) / 1 == Math.log(3).
+    # Total Documents   => 6
+    # Words in Document => 1
+    #
+    # 'PDF' Occurs => 1, Total => 2
+    #
+    #   sum [1 * log(6/2)] / 1
+    # = log(3)
+    #
     expect(tf_idf).to be(Math.log(3))
 
     tf_idf = metric.tf_idf(record1[:resources][0][:description])
 
-    # Total Documents => 6
-    # Words Document  => 3
+    # Total Documents   => 6
+    # Words in Document => 3
     #
     # 'household' Occurs => 1, Total => 4
     # 'income'    Occurs => 1, Total => 4
     # 'PDF'       Occurs => 1, Total => 2
     #
-    #   sum [1 * log(6 / 4), 1 * log(6 / 4), 1 * log(6 / 2)] / 3
-    # = sum [Math.log(1.5) * 2, Math.log(3)] / 3
+    #   sum [1 * log(6/4), 1 * log(6/4), 1 * log(6/2)] / 3
+    # = sum [2 * Math.log(1.5), Math.log(3)] / 3
     #
-    #expect(tf_idf).to be((Math.log(1.5) + Math.log(3)) / 3)
+    expect(tf_idf).to be((2 * Math.log(1.5) + Math.log(3)) / 3)
 
   end
 

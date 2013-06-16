@@ -5,21 +5,20 @@ module Metrics
     attr_reader :score, :document_numbers, :document_frequency
 
     def initialize(metadata)
-      @text_fields = ["notes", "resources.description"]
+      @text_fields = [[:notes], [:resources, :description]]
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @document_numbers = 0.0
-      for record in metadata
-        index_field(record, :notes, record[:id])
-        for resource in record[:resources]
-          index_field(resource, :description, record[:id])
+      metadata.each do |record|
+        @text_fields.each do |accessors|
+          index_fields(record, accessors.dup, [record[:id]])
         end
       end
     end
 
     def compute(data)
       scores = []
-      @text_fields.each do |field|
-        value = self.class.value(data, field)
+      @text_fields.each do |accessors|
+        value = self.class.value(data, accessors)
         if value.is_a?(Array)
           value.each { |item| scores << tf_idf(item) }
         else
@@ -39,8 +38,7 @@ module Metrics
       tf_idfs.inject(:+) / term_frequency.length
     end
 
-    def self.value(data, field)
-      accessors = field.split(/\./).map { |a| a.to_sym }
+    def self.value(data, accessors)
       accessors.inject(data) do |value, accessor|
         if value.is_a?(Array)
           value.map { |item| item[accessor] }
@@ -60,10 +58,10 @@ module Metrics
     end
 
     private
-    def index_field(record, field, id)
-      unless record[field].nil?
+    def index_text(text, id)
+      unless text.nil?
         @document_numbers += 1
-        record[field].downcase.split(/\W+/).each do |word|
+        text.downcase.split(/\W+/).each do |word|
           unless @document_frequency[word].include?(id)
             @document_frequency[word] << id
           end
@@ -71,5 +69,19 @@ module Metrics
       end
     end
 
+    def index_fields(record, accessors, id)
+      while not accessors.empty?
+        accessor = accessors.shift
+        id << accessor
+        if record[accessor].is_a?(Array)
+          record[accessor].each_with_index do |item, i|
+            index_fields(item, accessors.dup, id + [i])
+          end
+        else
+          record = record[accessor]
+        end
+      end
+      index_text(record, id)
+    end
   end
 end
