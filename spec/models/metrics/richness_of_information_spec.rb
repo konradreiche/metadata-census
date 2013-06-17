@@ -41,7 +41,6 @@ describe Metrics::RichnessOfInformation do
   end
 
   it "computes the occurence of a categorical value" do
-
     metadata = []
     metadata << {:id => '1', :tags => ['health', 'children'] }
     metadata << {:id => '2', :tags => ['health', 'population'] }
@@ -56,6 +55,30 @@ describe Metrics::RichnessOfInformation do
     expect(metric.categorical_frequency[[:tags]]['education']).to be(1)
     expect(metric.categorical_frequency[[:tags]]['business']).to be(1)
     expect(metric.categorical_frequency[[:tags]]['employment']).to be(1)
+  end
+
+  it "computes the negative probability of a categorical value to occur" do
+    metadata = []
+    metadata << {:id => '1', :tags => ['health', 'children'] }
+    metadata << {:id => '2', :tags => ['health', 'population'] }
+    metadata << {:id => '3', :tags => ['education', 'children'] }
+    metadata << {:id => '4', :tags => ['business', 'employment'] }
+
+    metric = Metrics::RichnessOfInformation.new(metadata)
+
+    health = metric.richness_of_information('health', :category, [:tags])
+    children = metric.richness_of_information('children', :category, [:tags]) 
+    business = metric.richness_of_information('business', :category, [:tags]) 
+    education = metric.richness_of_information('education', :category, [:tags]) 
+    population = metric.richness_of_information('population', :category, [:tags]) 
+    employment = metric.richness_of_information('employment', :category, [:tags]) 
+
+    expect(health).to be(- Math.log(0.25))
+    expect(children).to be(- Math.log(0.25))
+    expect(business).to be(- Math.log(0.125))
+    expect(education).to be(- Math.log(0.125))
+    expect(population).to be(- Math.log(0.125))
+    expect(employment).to be(- Math.log(0.125))
   end
 
   it "computes the frequency of a word in a given text" do

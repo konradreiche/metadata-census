@@ -44,7 +44,7 @@ module Metrics
       when :category
         count = @categorical_frequency[category][value]
         total = categorical_frequency[category].values.reduce(:+).to_f
-        count / total
+        - Math.log(count / total)
       when :text
         tf_idf(value)
       end
