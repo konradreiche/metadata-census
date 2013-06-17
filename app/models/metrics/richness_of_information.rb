@@ -2,30 +2,52 @@ module Metrics
 
   class RichnessOfInformation < Metric
 
-    attr_reader :score, :document_numbers, :document_frequency
+    attr_reader :score, :document_numbers,
+      :document_frequency, :categorical_frequency
 
     def initialize(metadata)
-      @text_fields = [[:notes], [:resources, :description]]
+      @fields = {:category => [[:tags]],
+                 :text => [[:notes], [:resources, :description]]}
+
       @document_frequency = Hash.new { |h,k| h[k] = [] }
+      @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
       @document_numbers = 0.0
+
       metadata.each do |record|
-        @text_fields.each do |accessors|
-          index_fields(record, accessors.dup, [record[:id]])
+        @fields.each do |type, fields|
+          fields.each do |accessors|
+            index_fields(record, accessors.dup, [record[:id]], type)
+          end
         end
       end
     end
 
     def compute(data)
       scores = []
-      @text_fields.each do |accessors|
-        value = self.class.value(data, accessors)
-        if value.is_a?(Array)
-          value.each { |item| scores << tf_idf(item) }
-        else
-          scores << tf_idf(value)
+      @fields.each do |type, fields|
+        fields.each do  |accessors|
+          value = self.class.value(data, accessors)
+          if value.is_a?(Array)
+            value.each do |item|
+              scores << richness_of_information(item, type, accessors)
+            end
+          else
+            scores << richness_of_information(value, type, accessors)
+          end
         end
       end
       @score = scores.inject(:+) / scores.length
+    end
+
+    def richness_of_information(value, type, category=nil)
+      case type
+      when :category
+        count = @categorical_frequency[category][value]
+        total = categorical_frequency[category].values.reduce(:+).to_f
+        count / total
+      when :text
+        tf_idf(value)
+      end
     end
 
     def tf_idf(text)
@@ -69,19 +91,34 @@ module Metrics
       end
     end
 
-    def index_fields(record, accessors, id)
-      while not accessors.empty?
-        accessor = accessors.shift
-        id << accessor
-        if record[accessor].is_a?(Array)
-          record[accessor].each_with_index do |item, i|
-            index_fields(item, accessors.dup, id + [i])
-          end
-        else
-          record = record[accessor]
-        end
+    def index_category(category, value)
+      unless value.nil?
+        @categorical_frequency[category][value] += 1
       end
-      index_text(record, id)
+    end
+
+    def index_fields(record, accessors, id, type)
+      if type == :category
+        value = self.class.value(record, accessors)
+        if value.is_a?(Array)
+          value.each { |item| index_category(accessors, item)  }
+        else
+          index_category(accessors, value)
+        end
+      else
+        while not record.nil? and not accessors.empty?
+          accessor = accessors.shift
+          id << accessor
+          if record[accessor].is_a?(Array)
+            record[accessor].each_with_index do |item, i|
+              index_fields(item, accessors.dup, id + [i], type)
+            end
+          else
+            record = record[accessor]
+          end
+        end
+        index_text(record, id)
+      end
     end
   end
 end

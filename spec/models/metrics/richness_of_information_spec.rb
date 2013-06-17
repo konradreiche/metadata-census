@@ -2,36 +2,6 @@ require 'spec_helper'
 
 describe Metrics::RichnessOfInformation do
 
-  it "computes the frequency of a word in a given text" do
-
-    notes = 'These files provide detailed road safety data '\
-            'about the circumstances of personal injury road '\
-            'accidents in GB from 2005'
-
-    expectation = Hash.new
-    expectation['these']         = 1
-    expectation['files']         = 1
-    expectation['provide']       = 1
-    expectation['detailed']      = 1
-    expectation['road']          = 2
-    expectation['safety']        = 1
-    expectation['data']          = 1
-    expectation['about']         = 1
-    expectation['the']           = 1
-    expectation['circumstances'] = 1
-    expectation['of']            = 1
-    expectation['personal']      = 1
-    expectation['injury']        = 1
-    expectation['accidents']     = 1
-    expectation['in']            = 1
-    expectation['gb']            = 1
-    expectation['from']          = 1
-    expectation['2005']          = 1
-
-    actual = Metrics::RichnessOfInformation.term_frequency(notes)
-    expect(actual).to eq(expectation)
-  end
-
   it "computes the document frequency: words mapped to documents" do
 
     record1 = {:id => '1',
@@ -70,21 +40,82 @@ describe Metrics::RichnessOfInformation do
     expect(metric.document_frequency).to eq(expectation)
   end
 
-  it "#value" do
-    data = { :a => { :b => { :c => 3 }}}
-    field = [:a, :b, :c]
-    value = Metrics::RichnessOfInformation.value(data, field)
-    expect(value).to be(3)
+  it "computes the occurence of a categorical value" do
 
-    data = { :a => 5 }
-    field = [:a]
-    value = Metrics::RichnessOfInformation.value(data, field)
-    expect(value).to be(5)
+    metadata = []
+    metadata << {:id => '1', :tags => ['health', 'children'] }
+    metadata << {:id => '2', :tags => ['health', 'population'] }
+    metadata << {:id => '3', :tags => ['education', 'children'] }
+    metadata << {:id => '4', :tags => ['business', 'employment'] }
 
-    data = { :a => [{ :b => 3 }, { :b => 5 }, { :b => 7 }] }
-    field = [:a, :b]
-    value = Metrics::RichnessOfInformation.value(data, field)
-    expect(value).to eq([3, 5, 7])
+    metric = Metrics::RichnessOfInformation.new(metadata)
+
+    expect(metric.categorical_frequency[[:tags]]['health']).to be(2)
+    expect(metric.categorical_frequency[[:tags]]['children']).to be(2)
+    expect(metric.categorical_frequency[[:tags]]['population']).to be(1)
+    expect(metric.categorical_frequency[[:tags]]['education']).to be(1)
+    expect(metric.categorical_frequency[[:tags]]['business']).to be(1)
+    expect(metric.categorical_frequency[[:tags]]['employment']).to be(1)
+  end
+
+  it "computes the frequency of a word in a given text" do
+
+    notes = 'These files provide detailed road safety data '\
+            'about the circumstances of personal injury road '\
+            'accidents in GB from 2005'
+
+    expectation = Hash.new
+    expectation['these']         = 1
+    expectation['files']         = 1
+    expectation['provide']       = 1
+    expectation['detailed']      = 1
+    expectation['road']          = 2
+    expectation['safety']        = 1
+    expectation['data']          = 1
+    expectation['about']         = 1
+    expectation['the']           = 1
+    expectation['circumstances'] = 1
+    expectation['of']            = 1
+    expectation['personal']      = 1
+    expectation['injury']        = 1
+    expectation['accidents']     = 1
+    expectation['in']            = 1
+    expectation['gb']            = 1
+    expectation['from']          = 1
+    expectation['2005']          = 1
+
+    actual = Metrics::RichnessOfInformation.term_frequency(notes)
+    expect(actual).to eq(expectation)
+  end
+
+  it "computes the frequency of a word in a given text" do
+
+    notes = 'These files provide detailed road safety data '\
+            'about the circumstances of personal injury road '\
+            'accidents in GB from 2005'
+
+    expectation = Hash.new
+    expectation['these']         = 1
+    expectation['files']         = 1
+    expectation['provide']       = 1
+    expectation['detailed']      = 1
+    expectation['road']          = 2
+    expectation['safety']        = 1
+    expectation['data']          = 1
+    expectation['about']         = 1
+    expectation['the']           = 1
+    expectation['circumstances'] = 1
+    expectation['of']            = 1
+    expectation['personal']      = 1
+    expectation['injury']        = 1
+    expectation['accidents']     = 1
+    expectation['in']            = 1
+    expectation['gb']            = 1
+    expectation['from']          = 1
+    expectation['2005']          = 1
+
+    actual = Metrics::RichnessOfInformation.term_frequency(notes)
+    expect(actual).to eq(expectation)
   end
 
   it "averages the scores if multiple documents are involved" do
@@ -171,7 +202,24 @@ describe Metrics::RichnessOfInformation do
     # = sum [2 * Math.log(1.5), Math.log(3)] / 3
     #
     expect(tf_idf).to be((2 * Math.log(1.5) + Math.log(3)) / 3)
-
   end
+
+  it "#value" do
+    data = { :a => { :b => { :c => 3 }}}
+    field = [:a, :b, :c]
+    value = Metrics::RichnessOfInformation.value(data, field)
+    expect(value).to be(3)
+
+    data = { :a => 5 }
+    field = [:a]
+    value = Metrics::RichnessOfInformation.value(data, field)
+    expect(value).to be(5)
+
+    data = { :a => [{ :b => 3 }, { :b => 5 }, { :b => 7 }] }
+    field = [:a, :b]
+    value = Metrics::RichnessOfInformation.value(data, field)
+    expect(value).to eq([3, 5, 7])
+  end
+
 
 end
