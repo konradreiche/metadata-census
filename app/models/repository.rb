@@ -61,11 +61,15 @@ class Repository
   end
 
   def best_record(metric)
-    sort_metric_scores(metric, 'desc').first.to_hash
+    record = sort_metric_scores(metric, 'desc').first.to_hash
+    raise Exceptions::RepositoryNoScores if record[metric.to_sym].nil?
+    record
   end
 
   def worst_record(metric)
-    sort_metric_scores(metric, 'asc').first.to_hash
+    record = sort_metric_scores(metric, 'asc').first.to_hash
+    raise Exceptions::RepositoryNoScores if record[metric.to_sym].nil?
+    record
   end
 
   private
