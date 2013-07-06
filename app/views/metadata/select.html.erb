@@ -1,0 +1,22 @@
+<h1>Metadata</h1>
+<div class="row">
+  <div class="span6">
+    <form class="form-inline" action="" method="get">
+      <fieldset>
+        <label for="repository">Repository</label>
+        <select name="repository">
+          <% for repository in @repositories %>
+            <option <%= selected?(repository.name, params[:repository])
+            %>><%= repository.name %></option>
+          <% end %>
+        </select>
+        <input type="submit" class="btn" value="Select">
+      </fieldset>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="span12 dashboard">
+    <pre id="metadata-viewer"></pre>
+  </div>
+</div>

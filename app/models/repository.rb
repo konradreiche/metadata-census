@@ -28,6 +28,13 @@ class Repository
     end.results.map { |entry| entry.to_hash }
   end
 
+  def sample
+    name = @name
+    Tire.search 'metadata' do
+      query { string 'repository:' + name }
+    end.results.map { |entry| entry.to_hash }.sample
+  end
+
   def total
     name = @name
     total = Tire.search('metadata', :search_type => 'count') do
