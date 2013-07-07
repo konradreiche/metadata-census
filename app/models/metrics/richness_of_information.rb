@@ -29,16 +29,20 @@ module Metrics
           value = self.class.value(data, accessors)
           if value.is_a?(Array)
             value.each do |item|
-              next if item.blank?
+              next if skip?(item)
               scores << richness_of_information(item, type, accessors)
             end
           else
-            next if value.blank?
+            next if skip?(value)
             scores << richness_of_information(value, type, accessors)
           end
         end
       end
       @score = scores.inject(:+) / scores.length
+    end
+
+    def skip?(value)
+      value.nil? or (value.is_a?(String) and value !~ /[^[:space:]]/)
     end
 
     def richness_of_information(value, type, category=nil)
