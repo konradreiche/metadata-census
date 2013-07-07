@@ -29,9 +29,11 @@ module Metrics
           value = self.class.value(data, accessors)
           if value.is_a?(Array)
             value.each do |item|
+              next if item.blank?
               scores << richness_of_information(item, type, accessors)
             end
           else
+            next if value.blank?
             scores << richness_of_information(value, type, accessors)
           end
         end
@@ -72,10 +74,10 @@ module Metrics
 
     def self.term_frequency(text)
       term_frequency = Hash.new(0)
-        words = text.downcase.split(/\W+/)
-        words.each do |word|
-          term_frequency[word] += 1
-        end
+      words = text.downcase.split(/\W+/)
+      words.each do |word|
+        term_frequency[word] += 1
+      end
       term_frequency
     end
 

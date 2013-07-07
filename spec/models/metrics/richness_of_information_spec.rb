@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+# TODO:
+# - write test if there are null entries
+# - write test if there is a semi-empty string " "
+
 describe Metrics::RichnessOfInformation do
 
   it "computes the document frequency: words mapped to documents" do
