@@ -12,7 +12,7 @@ gem 'gon'
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
-  gem 'pry-byebug'
+  gem 'pry-byebug', '1.1.1'
   gem 'quiet_assets'
 end
 
