@@ -42,7 +42,11 @@ class Repository
     end.results.total
   end
 
-  def metadata_with_field(field, value="*")
+  def get_record(id)
+    metadata_with_field("id", id).first
+  end
+
+  def metadata_with_field(field, value="*") # TODO: map field to symbol
     name = @name
     max = total
     Tire.search 'metadata' do
@@ -60,14 +64,22 @@ class Repository
     self.send("#{metric.name}=", score)
   end
 
+  def best_records(metric)
+    records = sort_metric_scores(metric, 'desc').map { |entry| entry.to_hash }
+  end
+
+  def worst_records(metric)
+    records = sort_metric_scores(metric, 'asc').map { |entry| entry.to_hash }
+  end
+
   def best_record(metric)
-    record = sort_metric_scores(metric, 'desc').first.to_hash
+    record = best_records(metric).first
     raise Exceptions::RepositoryNoScores if record[metric.to_sym].nil?
     record
   end
 
   def worst_record(metric)
-    record = sort_metric_scores(metric, 'asc').first.to_hash
+    record = worst_records(metric).first
     raise Exceptions::RepositoryNoScores if record[metric.to_sym].nil?
     record
   end

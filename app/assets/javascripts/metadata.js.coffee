@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  if gon.sample
+  if gon? and gon.sample?
     $("#metadata-viewer").html(JSON.stringify(gon.sample, null, 4))

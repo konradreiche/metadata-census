@@ -3,15 +3,37 @@
   <table class="table">
     <thead>
       <th>Field</th>
-        <th>Best Record (<%= "%.3f" % (@best_record[:richness_of_information]) %>)</th>
-        <th>Worst Record (<%= "%.3f" % (@worst_record[:richness_of_information]) %>)</th>
+      <th>
+        <div class="dropdown">
+          <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">Best Record<strong class="caret"></strong></a> (<%= "%.3f" % (@best_record[:richness_of_information]) %>)
+          <ul class="dropdown-menu" role="menu" aria-labelledyby="dLabel">
+            <% for record in @repository.best_records(:richness_of_information) %>
+              <li role="presentation">
+              <a role="menuitem"><a href=<%= link_for_record(record) %>><%= "%.4f" % record[:richness_of_information] %></a>
+              </li>
+            <% end %>
+          </ul>
+          </div>
+        </div>
+      </th>
+      <th>Worst Record (<%= "%.3f" % (@worst_record[:richness_of_information]) %>)</th>
     </thead>
     <tbody>
+        <tr>
+          <td><strong>Notes</strong></td>
+          <td><%= field_value(@best_record, :notes) %></td>
+          <td><%= field_value(@worst_record, :notes) %></td>
+        </tr>
+        <tr>
+          <td><strong>Tags</strong></td>
+          <td><%= field_value(@best_record, :tags) %></td>
+          <td><%= field_value(@worst_record, :tags) %></td>
+        </tr>
       <% @max_resources.times do |i| %>
         <tr>
-          <td>Description</td>
-          <td><%= resource_description(@best_record, i)  %></td>
-          <td><%= resource_description(@worst_record, i)  %></td>
+          <td><strong>Description <%= i + 1 %></strong></td>
+          <td><%= resource_field_value(@best_record, :description, i) %></td>
+          <td><%= resource_field_value(@worst_record, :description, i) %></td>
         </tr>
       <% end %>
     </tbody>

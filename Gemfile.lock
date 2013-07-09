@@ -191,6 +191,11 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
+    twitter-bootstrap-rails (2.2.7)
+      actionpack (>= 3.1)
+      execjs
+      rails (>= 3.1)
+      railties (>= 3.1)
     typhoeus (0.6.3)
       ethon (~> 0.5.11)
     tzinfo (0.3.37)
@@ -227,5 +232,6 @@ DEPENDENCIES
   tactful_tokenizer
   text-hyphen
   tire
+  twitter-bootstrap-rails
   typhoeus
   uglifier (>= 1.0.3)
