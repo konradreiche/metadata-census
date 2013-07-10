@@ -1,1 +1,3 @@
-$('.dropdown-toggle').dropdown()
+$ ->
+  $('.dropdown-toggle').dropdown()
+  $('.roi-details').tooltip()

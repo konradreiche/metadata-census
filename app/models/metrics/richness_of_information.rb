@@ -9,7 +9,6 @@ module Metrics
       @fields = {:category => [[:tags]],
                  :text => [[:notes], [:resources, :description]]}
 
-      @score_details = Hash.new
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
       @document_numbers = 0.0
@@ -25,6 +24,8 @@ module Metrics
 
     def compute(data)
       scores = []
+      @score_details = Hash.new
+
       @fields.each do |type, fields|
         fields.each do  |accessors|
           value = self.class.value(data, accessors)
