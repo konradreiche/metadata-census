@@ -73,24 +73,24 @@ class Repository
   end
 
   def best_record(metric)
-    record = best_records(metric).first
-    raise Exceptions::RepositoryNoScores if record[metric.to_sym].nil?
-    record
+    best_records(metric).first
   end
 
   def worst_record(metric)
-    record = worst_records(metric).first
-    raise Exceptions::RepositoryNoScores if record[metric.to_sym].nil?
-    record
+    worst_records(metric).first
   end
 
   private
   def sort_metric_scores(metric, sorting_order)
-    name = @name
-    search = Tire.search 'metadata' do
-      query { string "repository:#{name}" }
-      sort { by metric, sorting_order }
-    end.results
+    begin
+      name = @name
+      search = Tire.search 'metadata' do
+        query { string "repository:#{name}" }
+        sort { by metric, sorting_order }
+      end.results
+    rescue Tire::Search::SearchRequestFailed => e
+      raise Exceptions::RepositoryNoScores
+    end
   end
 
 end
