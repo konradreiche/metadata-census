@@ -2,13 +2,14 @@ module Metrics
 
   class RichnessOfInformation < Metric
 
-    attr_reader :score, :document_numbers,
+    attr_reader :score, :score_details, :document_numbers,
       :document_frequency, :categorical_frequency
 
     def initialize(metadata)
       @fields = {:category => [[:tags]],
                  :text => [[:notes], [:resources, :description]]}
 
+      @score_details = Hash.new
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
       @document_numbers = 0.0
@@ -28,16 +29,21 @@ module Metrics
         fields.each do  |accessors|
           value = self.class.value(data, accessors)
           if value.is_a?(Array)
-            value.each do |item|
+            value.each_with_index do |item, i|
               next if skip?(item)
-              scores << richness_of_information(item, type, accessors)
+              score = richness_of_information(item, type, accessors)
+              @score_details[accessors + [i]] = score
+              scores << score
             end
           else
             next if skip?(value)
-            scores << richness_of_information(value, type, accessors)
+            score = richness_of_information(value, type, accessors)
+            @score_details[accessors] = score
+            scores << score
           end
         end
       end
+      # TODO: scores.inject becomes sometimes nil, why?
       @score = scores.inject(:+) / scores.length
     end
 
