@@ -4,17 +4,7 @@
     <thead>
       <th>Field</th>
       <th>
-        <div class="dropdown">
-          <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">Best Record<strong class="caret"></strong></a> (<%= "%.3f" % (@best_record[:richness_of_information]) %>)
-          <ul class="dropdown-menu" role="menu" aria-labelledyby="dLabel">
-            <% for record in @repository.best_records(:richness_of_information) %>
-              <li role="presentation">
-              <a role="menuitem"><a href=<%= link_for_record(record) %>><%= "%.4f" % record[:richness_of_information] %></a>
-              </li>
-            <% end %>
-          </ul>
-          </div>
-        </div>
+        <%= record_dropdown_selector(@repository.best_records(:richness_of_information), :richness_of_information, "Best Record") %>
       </th>
       <th>Worst Record (<%= "%.3f" % (@worst_record[:richness_of_information]) %>)</th>
     </thead>

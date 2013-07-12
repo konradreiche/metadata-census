@@ -40,11 +40,5 @@ class Metrics::RichnessOfInformationController < ApplicationController
     end
   end
 
-  def link_for_record(record)
-    link = 'richness-of-information'
-    link = link + '?repository=' + @repository.name
-    link = link + '&best=' + record[:id]
-    link
-  end
 
 end

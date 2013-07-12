@@ -18,6 +18,31 @@ module MetricsHelper
                                   :"original-title" => "%.3f" % score}, title: '')
   end
 
+  def record_link(record)
+    link = 'richness-of-information'
+    link = link + '?repository=' + @repository.name
+    link = link + '&best=' + record[:id]
+    link
+  end
+
+  def record_dropdown_selector(records, metric, display_name)
+
+    menu = content_tag(:a, display_name, class: 'dropdown-toggle',
+                       id: 'dLabel', role: 'button', href: '#',
+                       data: {:toggle => 'dropdown', 'target' => '#'})
+
+    caret = content_tag(:strong, '', class: 'caret')
+    items = content_tag(:ul, class: 'dropdown-menu') do
+      records.each do |record|
+        score = "%.4f" % record[metric]
+        link = content_tag(:a, score, role: 'menuitem', href: record_link(record))
+        concat(content_tag(:li, link, role: 'presentation'))
+      end
+    end
+
+    content_tag(:div, (menu + caret + items).html_safe, class: 'dropdown')
+  end
+
   def print_tags(record, metric, field)
     result = ""
     value = record.has_key?(field) ? record[field] : ""
