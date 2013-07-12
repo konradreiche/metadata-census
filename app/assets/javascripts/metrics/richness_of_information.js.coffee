@@ -1,3 +1,3 @@
 $ ->
   $('.dropdown-toggle').dropdown()
-  $('.roi-details').tooltip()
+  $('.score-inspector').tooltip()

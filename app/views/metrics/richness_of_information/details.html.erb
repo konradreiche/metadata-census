@@ -21,8 +21,10 @@
     <tbody>
         <tr>
           <td><strong>Notes</strong></td>
-          <td><%= field_value(@best_record, :notes) %> (<a class="roi-details" href='#' data-toggle='tooltip' data-placement='left' title data-original-title='<%= @best_record[:richness_of_information_details][:"[:notes]"] %>'>Score</a>)</td>
-          <td><%= field_value(@worst_record, :notes) %></td>
+          <td><%= field_value(@best_record, :notes) %>
+          <%= intermediate_score(@best_record, :richness_of_information, [:notes]) %></td>
+          <td><%= field_value(@worst_record, :notes) %>
+          <%= intermediate_score(@worst_record, :richness_of_information, [:notes]) %></td>
         </tr>
         <tr>
           <td><strong>Tags</strong></td>
@@ -31,7 +33,7 @@
         </tr>
       <% @max_resources.times do |i| %>
         <tr>
-          <td><strong>Description <%= i + 1 %></strong></td>
+          <td><strong>Resource Description <%= i + 1 %></strong></td>
           <td><%= resource_field_value(@best_record, :description, i) %> (<a class="roi-details" href='#' data-toggle='tooltip' data-placement='left' title data-original-title='<%= @best_record[:richness_of_information_details][:"[:resources, :description, #{i}]"] %>'>Score</a>)</td>
           <td><%= resource_field_value(@worst_record, :description, i) %></td>
         </tr>

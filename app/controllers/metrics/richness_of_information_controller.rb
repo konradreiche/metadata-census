@@ -1,5 +1,6 @@
 class Metrics::RichnessOfInformationController < ApplicationController
 
+  helper MetricsHelper
   helper_method :field_value, :resource_field_value, :link_for_record
 
   def details
@@ -24,7 +25,11 @@ class Metrics::RichnessOfInformationController < ApplicationController
   private
   def field_value(record, field)
     if record.has_key?(field)
-      record[field]
+      if record[field].is_a?(Array)
+        record[field].join(", ")
+      else
+        record[field]
+      end
     else
       ''
       end
