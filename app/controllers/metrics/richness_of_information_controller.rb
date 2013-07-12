@@ -25,11 +25,7 @@ class Metrics::RichnessOfInformationController < ApplicationController
   private
   def field_value(record, field)
     if record.has_key?(field)
-      if record[field].is_a?(Array)
-        record[field].join(", ")
-      else
-        record[field]
-      end
+      record[field]
     else
       ''
       end
