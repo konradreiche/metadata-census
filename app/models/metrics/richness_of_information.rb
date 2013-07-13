@@ -44,8 +44,12 @@ module Metrics
           end
         end
       end
-      # TODO: scores.inject becomes sometimes nil, why?
-      @score = scores.inject(:+) / scores.length
+      
+      unless scores.empty?
+        @score = scores.inject(:+) / scores.length
+      else
+        @score = 0.0
+      end
     end
 
     def skip?(value)

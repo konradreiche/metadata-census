@@ -63,7 +63,7 @@ class MetricsController < ApplicationController
     repository_name = params[:repository]
     metric = params[:metric]
 
-    repository = Repository.find repository_name
+    repository = Repository.find(repository_name)
 
     case metric
     when 'completeness'
@@ -80,5 +80,6 @@ class MetricsController < ApplicationController
     @@jobs[metric] = id
     render :text => '0.0'
   end
+
 
 end
