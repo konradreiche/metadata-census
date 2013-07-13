@@ -43,10 +43,10 @@ class Repository
   end
 
   def get_record(id)
-    metadata_with_field("id", id).first
+    metadata_with_field(:id, id).first
   end
 
-  def metadata_with_field(field, value="*") # TODO: map field to symbol
+  def metadata_with_field(field, value="*")
     name = @name
     max = total
     Tire.search 'metadata' do

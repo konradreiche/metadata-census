@@ -3,11 +3,17 @@ class MetricsWorker
   include Sidekiq::Status::Worker
 
   def compute(repository, metric, *args)
-    scores = []
-    metadata = repository.metadata
 
-    total = metadata.length
-    metadata.each_with_index do |record, i|
+    scores = []
+    if @metadata.nil?
+      logger.info 'Loading metadata'
+      @metadata = repository.metadata
+    end
+
+    logger.info 'Starting to compute metadata scores'
+
+    total = @metadata.length
+    @metadata.each_with_index do |record, i|
       document = self.class.symbolize_keys(record.to_hash)
       metric.compute(document, *args)
       scores << metric.score
