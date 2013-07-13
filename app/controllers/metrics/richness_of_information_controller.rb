@@ -17,7 +17,12 @@ class Metrics::RichnessOfInformationController < ApplicationController
       @best_record = @repository.best_record('richness_of_information')
     end
     
-    @worst_record = @repository.worst_record('richness_of_information')
+    if params[:worst]
+      @worst_record = @repository.get_record(params[:worst])
+    else
+      @worst_record = @repository.worst_record('richness_of_information')
+    end
+
     @max_resources = [@best_record.fetch(:resources, []).length,
                       @worst_record.fetch(:resources, []).length].max
   end

@@ -18,16 +18,23 @@ module MetricsHelper
                                   :"original-title" => "%.3f" % score}, title: '')
   end
 
-  def record_link(record)
-    link = 'richness-of-information'
-    link = link + '?repository=' + @repository.name
-    link = link + '&best=' + record[:id]
-    link
+  def record_link(record, kind)
+    best = params[:best]
+    best = record[:id] if kind == :best
+    worst = params[:worst]
+    worst = record[:id] if kind == :worst
+    url = "richness-of-information?repository=#{@repository.name}"
+    url += "&best=#{best}" unless best.nil?
+    url += "&worst=#{worst}" unless worst.nil?
+    url
   end
 
-  def record_dropdown_selector(records, metric, display_name)
+  def record_selector(metric, kind)
+    records = @repository.best_records(metric) if kind == :best
+    records = @repository.worst_records(metric) if kind == :worst
 
-    menu = content_tag(:a, display_name, class: 'dropdown-toggle',
+    link_label = (kind == :best) ? "Best Record" : "Worst Record"
+    menu = content_tag(:a, link_label, class: 'dropdown-toggle',
                        id: 'dLabel', role: 'button', href: '#',
                        data: {:toggle => 'dropdown', 'target' => '#'})
 
@@ -35,8 +42,9 @@ module MetricsHelper
     items = content_tag(:ul, class: 'dropdown-menu') do
       records.each do |record|
         score = "%.4f" % record[metric]
-        link = content_tag(:a, score, role: 'menuitem', href: record_link(record))
-        concat(content_tag(:li, link, role: 'presentation'))
+        url = record_link(record, kind)
+        anchor = content_tag(:a, score, role: 'menuitem', href: url)
+        concat(content_tag(:li, anchor, role: 'presentation'))
       end
     end
 

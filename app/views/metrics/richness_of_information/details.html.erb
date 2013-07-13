@@ -1,12 +1,11 @@
 <% provide(:metric, "Richness of Information") %>
+<% metric = :richness_of_information %>
 <% content_for :content do %>
   <table class="table">
     <thead>
       <th>Field</th>
-      <th>
-        <%= record_dropdown_selector(@repository.best_records(:richness_of_information), :richness_of_information, "Best Record") %>
-      </th>
-      <th>Worst Record (<%= "%.3f" % (@worst_record[:richness_of_information]) %>)</th>
+      <th><%= record_selector(metric, :best) %></th>
+      <th><%= record_selector(metric, :worst) %></th>
     </thead>
     <tbody>
         <tr>
