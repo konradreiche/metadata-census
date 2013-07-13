@@ -183,7 +183,11 @@ describe Metrics::RichnessOfInformation do
                :notes => 'Number of people registered to vote in elections.',
                :resources => [{:description => 'PDF'}]}
 
-    metadata = [record1, record2]
+    record3 = {:id => '3',
+               :notes => nil,
+               :resources => [{}]}
+
+    metadata = [record1, record2, record3]
     metric = Metrics::RichnessOfInformation.new(metadata)
 
     tf_idf = metric.tf_idf(record1[:notes])
@@ -229,6 +233,11 @@ describe Metrics::RichnessOfInformation do
     # = sum [2 * Math.log(1.5), Math.log(3)] / 3
     #
     expect(tf_idf).to be((2 * Math.log(1.5) + Math.log(3)) / 3)
+
+    # If there are no fields to assert a Richness of Information the score
+    # should be zero.
+    score = metric.compute(record3)
+    expect(score).to be(0.0)
   end
 
   it "#value" do
