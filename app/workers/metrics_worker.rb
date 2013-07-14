@@ -26,7 +26,9 @@ class MetricsWorker
   end
 
   def update_document(document, metric)
-    document[metric.name + '_details'] = metric.score_details
+    if metric.respond_to?(:score_details)
+      document[metric.name + '_details'] = metric.score_details
+    end
 
     document[metric.name] = metric.score
     Tire.index 'metadata' do
