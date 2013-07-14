@@ -31,36 +31,28 @@ module Metrics
     end
 
     def compute(dataset)
-
-      for resource in dataset[:resources]
+      dataset[:resources].each do |resource|
         @resources += 1
-        unless resource[:mimetype].nil?
-          format = resource[:mimetype]
+        url = resource[:url]
+        unless resource[:format].nil?
+          format = @@mime_dictionary[resource[:format].downcase]
+          check(url, format)
         else
-          if resource[:format].nil?
-            return
-          end
-          format = resource[:format].downcase
+          format = [resource[:mimetype]]
+          check(url, format)
         end
-
-        if @@mime_dictionary.has_key?(format)
-          format = @@mime_dictionary[format]
-        else
-          format = [format]
-        end
-
-        request = Typhoeus::Request.new(resource[:url], {:method => :head,
-                                                         :timeout => 20,
-                                                         :connecttimeout => 10})
-
-        request.on_complete do |response|
-          content_type = response.headers['Content-Type']
-          @validated_formats += 1 if format.include?(content_type)
-        end
-        @dispatcher.queue(request)
-        @dispatcher.run
       end
+    end
 
+    def check(url, formats)
+      config = {:method => :head, :timeout => 20, :connecttimeout => 10}
+      request = Typhoeus::Request.new(url, config)
+      request.on_complete do |response|
+        content_type = response.headers['Content-Type']
+        @validated_formats += 1 if format.include?(content_type)
+      end
+      @dispatcher.queue(request)
+      @dispatcher.run
     end
 
   end
