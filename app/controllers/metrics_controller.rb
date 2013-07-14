@@ -32,17 +32,10 @@ class MetricsController < ApplicationController
 
   def accuracy_stats
     preprocess
-    stats = Hash.new 0
-
-    repository = params[:repository]
-    if repository.nil?
-      repository = @selected
-    else
-      repository = Repository.find repository
-    end
+    stats = Hash.new(0)
 
     size = 0.0
-    metadata = all_metadata(repository)
+    metadata = @selected.metadata
     metadata.each do |document|
       document[:resources].each do |resource|
         format = resource[:format]

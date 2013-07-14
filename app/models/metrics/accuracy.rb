@@ -64,4 +64,5 @@ module Metrics
     end
 
   end
+
 end
