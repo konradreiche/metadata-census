@@ -5,7 +5,7 @@ module Metrics
     attr_reader :score, :score_details, :document_numbers,
       :document_frequency, :categorical_frequency
 
-    def initialize(metadata)
+    def initialize(metadata, worker=nil)
       @fields = {:category => [[:tags]],
                  :text => [[:notes], [:resources, :description]]}
 
@@ -13,12 +13,13 @@ module Metrics
       @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
       @document_numbers = 0.0
 
-      metadata.each do |record|
+      metadata.each_with_index do |record, i|
         @fields.each do |type, fields|
           fields.each do |accessors|
             index_fields(record, accessors.dup, [record[:id]], type)
           end
         end
+        worker.at(i + 1, metadata.length) unless worker.nil?
       end
     end
 
@@ -44,16 +45,12 @@ module Metrics
           end
         end
       end
-      
+
       unless scores.empty?
         @score = scores.inject(:+) / scores.length
       else
         @score = 0.0
       end
-    end
-
-    def skip?(value)
-      value.nil? or (value.is_a?(String) and value !~ /[^[:space:]]/)
     end
 
     def richness_of_information(value, type, category=nil)
