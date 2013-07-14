@@ -13,6 +13,28 @@ module Metrics
                                           :right => 0)
     end
 
+    def compute(data)
+      scores = []
+      if not data[:notes].nil? and not skip?(data[:notes])
+        scores << flesch_reading_ease(data[:notes])
+      end
+
+      unless data[:resources].nil?
+        data[:resources].each do |resource|
+          if not resource[:description].nil? and not skip?(resource[:description])
+            scores << flesch_reading_ease(resource[:description])
+          end
+        end
+      end
+
+      unless scores.empty?
+        @score = scores.reduce(:+) / scores.size
+        require 'pry'; binding.pry unless @score.finite?
+      else
+        @score = 0.0
+      end
+    end
+
     def self.split_to_words(text)
       text.split /\W+/
     end
@@ -54,26 +76,6 @@ module Metrics
       # average number of syllables per word
       asw = syllables / words
       206.835 - (1.015 * asl) - (84.6 * asw)
-    end
-
-    def compute(data)
-
-      scores = []
-
-      unless data[:notes].nil?
-        scores << flesch_reading_ease(data[:notes])
-      end
-
-      unless data[:resources].nil?
-        data[:resources].each do |resource|
-          unless resource[:description].nil?
-            scores << flesch_reading_ease(resource[:description])
-          end
-        end
-      end
-
-      @score = scores.reduce(:+) / scores.size unless scores.empty?
-      
     end
 
   end
