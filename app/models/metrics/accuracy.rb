@@ -1,3 +1,4 @@
+require 'set'
 require 'typhoeus'
 
 module Metrics
@@ -16,10 +17,24 @@ module Metrics
       'txt'  => ['text/plain']
     }
 
-    def initialize
+    def initialize(metadata, worker=nil)
+      @worker = worker
+      @processed = 0
+      @requests = 0
+
       @resources = 0.0
       @validated_formats = 0.0
       @dispatcher = Typhoeus::Hydra.hydra
+
+      metadata.each_with_index do |dataset, i|
+        dataset[:resources].each do |resource|
+          @resources += 1
+          formats = determine_mime_types(resource)
+          url = resource[:url]
+          enqueue_request(url, formats) unless formats.nil?
+        end
+        @worker.at(i + i, @total) unless @worker.nil?
+      end
     end
 
     def score
@@ -31,28 +46,36 @@ module Metrics
     end
 
     def compute(dataset)
-      dataset[:resources].each do |resource|
-        @resources += 1
-        url = resource[:url]
-        unless resource[:format].nil?
-          format = @@mime_dictionary[resource[:format].downcase]
-          check(url, format)
-        else
-          format = [resource[:mimetype]]
-          check(url, format)
+      # blocking call
+      @dispatcher.run
+    end
+
+    def determine_mime_types(resource)
+      format = resource[:format]
+      unless format.nil?
+        format = format.downcase
+        if @@mime_dictionary.has_key?(format)
+          return @@mime_dictionary[format]
         end
+      end
+
+      format = resource[:mimetype]
+      unless format.nil?
+        return [format]
       end
     end
 
-    def check(url, formats)
-      config = {:method => :head, :timeout => 20, :connecttimeout => 10}
+    def enqueue_request(url, formats)
+      config = {:method => :head, :timeout => 20, :connecttimeout => 10, :nosignal => true}
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         content_type = response.headers['Content-Type']
-        @validated_formats += 1 if format.include?(content_type)
+        @validated_formats += 1 if formats.include?(content_type)
+        @worker.at(@processed + 1, @requests)
+        @processed += 1
       end
       @dispatcher.queue(request)
-      @dispatcher.run
+      @requests += 1
     end
 
   end

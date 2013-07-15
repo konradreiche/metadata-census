@@ -1,8 +1,11 @@
 class AccuracyMetricWorker < MetricsWorker
 
   def perform(repository_name)
-    repository = Repository.find repository_name
-    metric = Metrics::Accuracy.new
+    logger.info('Loading metadata')
+    repository = Repository.find(repository_name)
+    @metadata = repository.metadata
+    logger.info 'Preprocessing metadata'
+    metric = Metrics::Accuracy.new(@metadata, self)
     compute(repository, metric)
   end
 

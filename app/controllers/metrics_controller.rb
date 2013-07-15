@@ -1,3 +1,5 @@
+#require 'sidekiq/testing/inline'
+
 class MetricsController < ApplicationController
 
   @@jobs = Hash.new
