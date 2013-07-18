@@ -45,7 +45,7 @@ gem 'text-hyphen'
 gem 'tactful_tokenizer'
 
 # Sidekiq
-gem 'sidekiq'
+gem 'sidekiq', '>= 2.13.0'
 gem 'sidekiq-status'
 gem 'sinatra', require: false
 gem 'slim'
