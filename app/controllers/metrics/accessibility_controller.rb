@@ -9,10 +9,10 @@ class Metrics::AccessibilityController < ApplicationController
     end
 
     if @repository.id == 'GovData.de'
-      field = 'extras.metadata_original_portal'
+      field = :"extras.metadata_original_portal"
       gon.grouped_accessibility = normalize(@repository, field)
     else
-      field = 'groups'
+      field = :groups
       gon.grouped_accessibility = normalize(@repository, field)
     end
   end
@@ -24,7 +24,7 @@ class Metrics::AccessibilityController < ApplicationController
     min = values.min
     range = max - min
 
-    accessors = field.split(/\./)
+    accessors = field.to_s.split(/\./)
     grouped = Hash.new { |h, k| h[k] = [] }
     metadata.each do |record|
       group = accessors.inject(record) { |group, a| group[a.to_sym] }

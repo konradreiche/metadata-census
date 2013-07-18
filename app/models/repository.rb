@@ -53,7 +53,7 @@ class Repository
       query do
         boolean do
           must { string 'repository:' + name }
-          must { string field + ":" + value }
+          must { string field.to_s + ":" + value }
         end
       end
       size max
