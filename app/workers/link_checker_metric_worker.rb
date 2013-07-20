@@ -1,4 +1,4 @@
-class LinkCheckerWorker <  MetricsWorker
+class LinkCheckerMetricWorker <  MetricsWorker
 
   def perform(repository_name)
     logger.info('Loading metadata')
