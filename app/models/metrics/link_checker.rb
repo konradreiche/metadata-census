@@ -44,7 +44,7 @@ module Metrics
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         if response.success?
-          @resource_availability[id] = true
+          @resource_availability[id][url] = true
         end
         @worker.at(@processed + 1, @requests)
         @processed += 1
