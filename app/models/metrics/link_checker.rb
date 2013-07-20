@@ -10,11 +10,12 @@ module Metrics
       @processed = 0
       @requests = 0
       @total = metadata.length
+      @dispatcher = Typhoeus::Hydra.hydra
 
       @resource_availability = Hash.new { |h, k| h[k] = Hash.new }
       metadata.each_with_index do |dataset, i|
         dataset[:resources].each do |resource|
-          @resources += 1
+          @total += 1
           url = resource[:url]
           id = dataset[:id]
           enqueue_request(id, url)
