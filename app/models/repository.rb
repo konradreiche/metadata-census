@@ -18,6 +18,7 @@ class Repository
   property :richness_of_information
   property :accuracy
   property :accessibility
+  property :link_checker
 
   def metadata
     name = @name

@@ -31,6 +31,7 @@ module Metrics
       id = record[:id]
       values = @resource_availability[id].values
       @score = values.select { |b| b }.size / values.size.to_f
+      @score = 0.0 unless @score.finite?
     end
 
     def enqueue_request(id, url)
