@@ -62,6 +62,7 @@ module Metrics
       @worker = worker
       @processed = 0
       @requests = 0
+      @total = metadata.length
 
       @resources = 0.0
       @validated_formats = 0.0
