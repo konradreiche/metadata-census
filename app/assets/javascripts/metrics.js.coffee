@@ -96,7 +96,7 @@ $ ->
         $("##{metric} .score").text(parseFloat(score).toFixed(2))
 
     for metric in ['completeness', 'weighted-completeness',
-      'accuracy']
+      'accuracy', 'link-checker']
 
       attribute = metric.replace(/-/g, '_')
       if gon.repository[attribute]?

@@ -1,4 +1,4 @@
-#require 'sidekiq/testing/inline'
+require 'sidekiq/testing/inline'
 
 class MetricsController < ApplicationController
 
@@ -71,6 +71,8 @@ class MetricsController < ApplicationController
       id = AccuracyMetricWorker.perform_async(repository_name)
     when 'accessibility'
       id = AccessibilityMetricWorker.perform_async(repository_name)
+    when 'link-checker'
+      id = LinkCheckerMetricWorker.perform_async(repository_name)
     end
     @@jobs[metric] = id
     render :text => '0.0'
