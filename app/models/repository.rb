@@ -24,7 +24,7 @@ class Repository
     name = @name
     max = total / 4
     search = Tire::Search::Scan.new('metadata') do
-      query { term 'repository', name }
+      query { string 'repository:' + name }
       size max
     end.results.map { |entry| entry.to_hash }
   end
