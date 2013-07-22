@@ -4,7 +4,7 @@
     <form class="form-inline" action="" method="get">
       <fieldset>
         <label for="repository">Repository</label>
-        <select name="repository">
+        <select id="repository-selector" name="repository">
           <% for repository in @repositories %>
             <option <%= selected?(repository.name, params[:repository])
             %>><%= repository.name %></option>

@@ -1,6 +1,12 @@
 #=require d3
 $ ->
 
+  register_select_event = () ->
+
+    $("#repository-selector").on 'change', (e) =>
+      repository = $("#repository-selector").val()
+      window.location = "metrics?repository=#{repository}"
+
   check_result = (result) ->
       repeat = false
       for metric, status of result
@@ -104,5 +110,6 @@ $ ->
         metricMeter[metric].updateScore(score)
       
   if gon? and gon.repository?
+    register_select_event()
     load_scores(gon.repository, metricMeter)
     check_progress()
