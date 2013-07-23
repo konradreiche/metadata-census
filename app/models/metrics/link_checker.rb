@@ -3,7 +3,7 @@ require 'typhoeus'
 module Metrics
 
   class LinkChecker < Metric
-    attr_reader :score
+    attr_reader :score, :score_details
 
     def initialize(metadata, worker=nil)
       @worker = worker
@@ -32,6 +32,7 @@ module Metrics
       id = record[:id]
       responses = @resource_availability[id].values
       @score = responses.select { |r| success?(r) }.size / responses.size.to_f
+      @score_details = @resource_availability[id]
       @score = 0.0 unless @score.finite?
     end
 
