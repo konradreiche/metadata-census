@@ -1,4 +1,4 @@
-#require 'sidekiq/testing/inline'
+require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
 
