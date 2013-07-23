@@ -1,5 +1,7 @@
 class Metrics::LinkCheckerController < MetricsReportController
 
+  helper_method :success?
+
   def report
     super
     @url_request_responses = Hash.new
@@ -7,7 +9,14 @@ class Metrics::LinkCheckerController < MetricsReportController
     metadata.each do |document|
       @url_request_responses.merge! document[:link_checker_details]
     end
-    logger.info @url_request_responses.first
+  end
+
+  def success?(code)
+    if code.is_a?(Fixnum) and code >= 200 and code < 300
+      'successful'      
+    else
+      'unsuccessful'
+    end
   end
 
 end

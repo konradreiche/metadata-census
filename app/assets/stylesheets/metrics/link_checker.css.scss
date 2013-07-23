@@ -1,0 +1,18 @@
+.link-checker-table thead tr th:first-child,
+.link-checker-table tbody tr td:first-child {
+  width: 80%
+}
+
+.link-checker-table tbody tr td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.successful {
+  background-color: #dff0d8;
+}
+
+.unsuccessful {
+  background-color: #f2dede;
+}

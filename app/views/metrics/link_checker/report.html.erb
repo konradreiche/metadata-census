@@ -9,7 +9,7 @@
       <% @url_request_responses.each do |url, response| %>
         <tr>
           <td><%= url %></td>
-          <td><%= response %></td>
+          <td class='<%= success?(response) %>'><%= response %></td>
         </tr>
       <% end %>
     </tbody>
