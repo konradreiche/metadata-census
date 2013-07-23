@@ -15,6 +15,7 @@ MetadataCensus::Application.routes.draw do
   match '/metrics/accuracy', to: 'metrics#accuracy_stats'
   match '/metrics/richness-of-information', to: 'metrics/richness_of_information#details'
   match '/metrics/accessibility', to: 'metrics/accessibility#details'
+  match '/metrics/link-checker', to: 'metrics/link_checker#report'
 
   match '/repositories', to: 'repositories#overview'
   match '/repositories/map', to: 'repositories#map'

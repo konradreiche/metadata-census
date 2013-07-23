@@ -3,7 +3,7 @@ require 'sidekiq/testing/inline' if ENV['DEBUG']
 class MetricsController < ApplicationController
 
   @@jobs = Hash.new
-
+  
   def overview
     begin
       preprocess
