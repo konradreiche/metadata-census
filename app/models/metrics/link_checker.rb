@@ -26,12 +26,21 @@ module Metrics
 
     def compute(record)
       @score = 0.0
+
       # blocking call
       @dispatcher.run
       id = record[:id]
-      values = @resource_availability[id].values
-      @score = values.select { |b| b }.size / values.size.to_f
+      responses = @resource_availability[id].values
+      @score = responses.select { |r| success?(r) }.size / responses.size.to_f
       @score = 0.0 unless @score.finite?
+    end
+
+    def success?(response_code)
+      if response_code.is_a?(Fixnum)
+        response_code >= 200 and response_code < 300
+      else
+        false
+      end
     end
 
     def enqueue_request(id, url)
@@ -41,17 +50,26 @@ module Metrics
                 :connecttimeout => 10,
                 :nosignal => true}
 
-      @resource_availability[id][url] = false
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
-        if response.success?
-          @resource_availability[id][url] = true
-        end
+        @resource_availability[id][url] = response_value(response)
         @worker.at(@processed + 1, @requests)
         @processed += 1
       end
       @dispatcher.queue(request)
       @requests += 1
+    end
+
+    def response_value(response)
+      if response.success?
+        response.code
+      elsif response.timed_out?
+        'Timed out'
+      elsif response.code == 0
+        'Error: ' + response.return_message
+      else
+        response.code
+      end
     end
 
   end
