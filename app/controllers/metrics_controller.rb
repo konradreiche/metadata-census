@@ -39,7 +39,8 @@ class MetricsController < ApplicationController
     size = 0.0
     metadata = @selected.metadata
     metadata.each do |document|
-      document[:resources].each do |resource|
+      record = document[:record]
+      record[:resources].each do |resource|
         format = resource[:format]
         format = resource[:mimetype] unless resource[:mimetype].nil?
         next if format.nil?

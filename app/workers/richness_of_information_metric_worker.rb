@@ -5,7 +5,8 @@ class RichnessOfInformationMetricWorker < MetricsWorker
     repository = Repository.find(repository_name)
     @metadata = repository.metadata
     logger.info 'Preprocessing metadata'
-    metric = Metrics::RichnessOfInformation.new(@metadata, self)
+    records = @metadata.map { |document| document[:record] }
+    metric = Metrics::RichnessOfInformation.new(records, self)
     compute(repository, metric)
   end
 

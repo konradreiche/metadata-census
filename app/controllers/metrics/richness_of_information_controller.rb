@@ -28,7 +28,8 @@ class Metrics::RichnessOfInformationController < ApplicationController
   end
 
   private
-  def field_value(record, field)
+  def field_value(metadata, field)
+    record = metadata[:record]
     if record.has_key?(field)
       record[field]
     else
@@ -36,7 +37,8 @@ class Metrics::RichnessOfInformationController < ApplicationController
       end
   end
 
-  def resource_field_value(record, field, i)
+  def resource_field_value(metadat, field, i)
+    record = metadata[:record]
     resources = record[:resources]
     if not resources[i].nil? and resources[i].has_key?(field)
       resources[i][field]

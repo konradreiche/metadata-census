@@ -23,10 +23,11 @@ class Repository
   def metadata
     name = @name
     max = total / 4
-    search = Tire::Search::Scan.new('metadata') do
+    results = Tire::Search::Scan.new('metadata') do
       query { string 'repository:' + name }
       size max
-    end.results.map { |entry| entry.to_hash }
+    end.results
+    results.map { |entry| entry.to_hash }
   end
 
   def sample

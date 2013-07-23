@@ -15,11 +15,11 @@
           <% if field.is_a? Array %>
             <% subfields = field[1..-1] %>
             <% field = field.first %>
-            <% maximum = [@best[field].length, @worst[field].length].max %>
+            <% maximum = [@best[:record][field].length, @worst[:record][field].length].max %>
             <% maximum.times do |i| %>
               <% subfields.each_with_index do |subfield, j| %>
-                <% value_best = @best[field].andand[i].andand[subfield] %>
-                <% value_worst = @worst[field].andand[i].andand[subfield] %>
+                <% value_best = @best[:record][field].andand[i].andand[subfield] %>
+                <% value_worst = @worst[:record][field].andand[i].andand[subfield] %>
                 <tr>
                   <% if j == 0 %>
                     <td class='field' rowspan="<%= subfields.length %>"><%= field.humanize() %></td>
@@ -34,8 +34,8 @@
             <tr>
               <td class='field'><%= field.humanize() %></td>
               <td></td>
-              <td class='<%= set_class(@best[field]) %>'><%= @best[field]  %></td>
-              <td class='<%= set_class(@worst[field]) %>'><%= @worst[field]  %></td>
+              <td class='<%= set_class(@best[:record][field]) %>'><%= @best[:record][field]  %></td>
+              <td class='<%= set_class(@worst[:record][field]) %>'><%= @worst[:record][field]  %></td>
             </tr>
           <% end %>
         <% end %>

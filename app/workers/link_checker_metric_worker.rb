@@ -5,7 +5,8 @@ class LinkCheckerMetricWorker <  MetricsWorker
     repository = Repository.find(repository_name)
     @metadata = repository.metadata
     logger.info('Preprocessing metadata')
-    metric = Metrics::LinkChecker.new(@metadata, self)
+    records = @metadata.map { |document| document[:record] }
+    metric = Metrics::LinkChecker.new(records, self)
     compute(repository, metric)
   end
 

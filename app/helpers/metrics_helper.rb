@@ -51,11 +51,12 @@ module MetricsHelper
     content_tag(:div, (menu + caret + items).html_safe, class: 'dropdown')
   end
 
-  def print_tags(record, metric, field)
+  def print_tags(metadata, metric, field)
     result = ""
+    record = metadata[:record]
     value = record.has_key?(field) ? record[field] : ""
     value.each_with_index do |tag, i|
-      result += tag + ' ' + intermediate_score(record, metric, [field, i]) + ' '
+      result += tag + ' ' + intermediate_score(metadata, metric, [field, i]) + ' '
     end
     result.html_safe
   end

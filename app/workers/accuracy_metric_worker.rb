@@ -5,7 +5,8 @@ class AccuracyMetricWorker < MetricsWorker
     repository = Repository.find(repository_name)
     @metadata = repository.metadata
     logger.info 'Preprocessing metadata'
-    metric = Metrics::Accuracy.new(@metadata, self)
+    records = @metadata.map { |document| document[:record] }
+    metric = Metrics::Accuracy.new(records, self)
     compute(repository, metric)
   end
 

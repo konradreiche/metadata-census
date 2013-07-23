@@ -107,7 +107,8 @@ $ ->
       attribute = metric.replace(/-/g, '_')
       if gon.repository[attribute]?
         score = gon.repository[attribute].average
-        metricMeter[metric].updateScore(score)
+        if metric of metricMeter
+          metricMeter[metric].updateScore(score)
       
   if gon? and gon.repository?
     register_select_event()
