@@ -1,4 +1,5 @@
 require 'typhoeus'
+require 'uri'
 
 module Metrics
 
@@ -16,7 +17,7 @@ module Metrics
       metadata.each_with_index do |dataset, i|
         dataset[:resources].each do |resource|
           @total += 1
-          url = resource[:url]
+          url = URI.escape(resource[:url])
           id = dataset[:id]
           enqueue_request(id, url)
         end
@@ -53,12 +54,27 @@ module Metrics
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
-        @resource_availability[id][url] = response_value(response)
-        @worker.at(@processed + 1, @requests)
-        @processed += 1
+        response_value = response_value(response)
+        if redirect?(response_value)
+          @requests -= 1
+          updated_url = URI.escape(response.headers['Location'])
+          enqueue_request(id, updated_url)
+        else
+          @resource_availability[id][url] = response_value
+          @worker.at(@processed + 1, @requests)
+          @processed += 1
+        end
       end
       @dispatcher.queue(request)
       @requests += 1
+    end
+
+    def redirect?(response_code)
+      if response_code.is_a?(Fixnum)
+        response_code == 301 or response_code == 302
+      else
+        false
+      end
     end
 
     def response_value(response)
