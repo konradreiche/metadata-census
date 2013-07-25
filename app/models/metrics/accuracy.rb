@@ -3,6 +3,7 @@ require 'typhoeus'
 module Metrics
 
   class Accuracy < Metric
+    attr_reader :score, :score_details
     
     @@mime_dictionary = { 
       'csv'   => ['text/csv', 'text/x-comma-separated-values', 'text/comma-separated-values'],
@@ -64,32 +65,45 @@ module Metrics
       @requests = 0
       @total = metadata.length
 
-      @resources = 0.0
-      @validated_formats = 0.0
       @dispatcher = Typhoeus::Hydra.hydra
+      @resource_mime_types = Hash.new { |h, k| h[k] = Hash.new }
 
       metadata.each_with_index do |dataset, i|
         dataset[:resources].each do |resource|
-          @resources += 1
           formats = determine_mime_types(resource)
-          url = resource[:url]
-          enqueue_request(url, formats) unless formats.nil?
+          url = URI.encode(resource[:url])
+          id = dataset[:id]
+          enqueue_request(id, url, formats) unless formats.nil?
         end
         @worker.at(i + i, @total) unless @worker.nil?
       end
     end
 
-    def score
-      unless @resources == 0.0
-        @validated_formats / @resources
-      else
-        0.0
-      end
-    end
+    def compute(record)
+      @score = 0.0
 
-    def compute(dataset)
       # blocking call
       @dispatcher.run
+
+      id = record[:id]
+      types = @resource_mime_types[id]
+
+      validated = 0.0
+      resources = record[:resources].length
+
+      record[:resources].each do |resource|
+        url = resource[:url]
+        mime = types[url]
+        formats = determine_mime_types(resource)
+        validated += 1 if formats.include?(mime)
+      end
+
+      @score_details = types
+      unless resources == 0
+        @score = validated / resources
+      else
+        @score = 0.0
+      end
     end
 
     def determine_mime_types(resource)
@@ -105,14 +119,15 @@ module Metrics
       unless format.nil?
         return [format]
       end
+      []
     end
 
-    def enqueue_request(url, formats)
+    def enqueue_request(id, url, formats)
       config = {:method => :head, :timeout => 20, :connecttimeout => 10, :nosignal => true}
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         content_type = response.headers['Content-Type']
-        @validated_formats += 1 if formats.include?(content_type)
+        @resource_mime_types[id][url] = content_type
         @worker.at(@processed + 1, @requests)
         @processed += 1
       end
