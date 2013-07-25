@@ -7,7 +7,13 @@ class Metrics::LinkCheckerController < MetricsReportController
     @url_request_responses = Hash.new
     metadata = @repository.fetch_metadata
     metadata.each do |document|
-      @url_request_responses.merge! document[:link_checker_details]
+      unless document[:link_checker_details].nil?
+        @url_request_responses.merge! document[:link_checker_details]
+      end
+    end
+
+    if @url_request_responses.empty?
+      raise Exceptions::RepositoryNoScores
     end
   end
 
