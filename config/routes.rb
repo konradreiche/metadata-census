@@ -2,6 +2,8 @@ require 'sidekiq/web'
 
 MetadataCensus::Application.routes.draw do
 
+  get "report/repository"
+
   get "repositories/overview"
 
   root :to => 'static_pages#home'
