@@ -30,14 +30,6 @@ class Repository
     results.map { |entry| entry.to_hash }
   end
 
-  def fetch_metadata
-    name = @name
-    results = Tire::Search::Scan.new('metadata') do
-      query { string 'repository:' + name }
-    end.results
-    results.map { |entry| entry.to_hash }
-  end
-
   def sample
     name = @name
     Tire.search 'metadata' do
