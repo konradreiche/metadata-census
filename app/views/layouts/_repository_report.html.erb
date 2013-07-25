@@ -7,7 +7,7 @@
         <label for="repository">Repository</label>
         <select class="report repository-select" name="repository">
           <% for repository in @repositories %>
-            <option <%= selected?(repository.name, params[:repository])
+            <option <%= selected?(repository.name, params[:show])
             %>><%= repository.name %></option>
           <% end %>
         </select>
