@@ -2,6 +2,8 @@ require 'sidekiq/web'
 
 MetadataCensus::Application.routes.draw do
 
+  get "admin/control"
+
   get "report/repository"
 
   get "repositories/overview"
