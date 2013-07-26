@@ -2,7 +2,7 @@ require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
 
-  @@jobs = Hash.new
+  @@jobs = Hash.new { |hash, key| hash[key] = Hash.new }
   
   def overview
     begin
@@ -13,11 +13,13 @@ class MetricsController < ApplicationController
   end
 
   def status
-    status = {}
-    @@jobs.each do |metric, id|
-      status[metric] = Sidekiq::Status::get_all(id)
-      percent = Sidekiq::Status::pct_complete(id)
-      status[metric]['percent'] = percent.finite? ? percent : 0.0
+    status = Hash.new { |hash, key| hash[key] = Hash.new }
+    @@jobs.each do |repository, metrics|
+      metrics.each  do |metric, id|
+        status[repository][metric] = Sidekiq::Status::get_all(id)
+        percent = Sidekiq::Status::pct_complete(id)
+        status[repository][metric]['percent'] = percent.finite? ? percent : 0.0
+      end
     end
     render :json => status
   end
@@ -75,7 +77,7 @@ class MetricsController < ApplicationController
     when 'link-checker'
       id = LinkCheckerMetricWorker.perform_async(repository_name)
     end
-    @@jobs[metric] = id
+    @@jobs[repository_name][metric] = id
     render :text => '0.0'
   end
 

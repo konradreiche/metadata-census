@@ -1,23 +1,25 @@
 #=require d3
 $ ->
 
+  repository = null
+
   register_select_event = () ->
 
     $("#repository-selector").on 'change', (e) =>
       repository = $("#repository-selector").val()
       window.location = "metrics?repository=#{repository}"
 
-  check_result = (result) ->
-      repeat = false
-      for metric, status of result
-        if not repeat
-          repeat = repeat or status.percent != 100
-        $("##{metric} .bar").css('width', status.percent + '%')
-      if repeat
-        setTimeout(check_progress, 500)
+  check_results = (result) ->
+    repeat = false
+    for metric, status of result[repository]
+      if not repeat
+        repeat = repeat or status.percent != 100
+      $("##{metric} .bar").css('width', status.percent + '%')
+    if repeat
+      setTimeout(check_progress, 500)
 
-  check_progress = () ->
-    $.getJSON('/metrics/status', check_result)
+  check_progress = (repository) ->
+    $.getJSON('/metrics/status', check_results)
 
   metricMeter = {}
 
@@ -111,6 +113,7 @@ $ ->
           metricMeter[metric].updateScore(score)
       
   if gon? and gon.repository?
+    repository = gon.repository.id
     register_select_event()
     load_scores(gon.repository, metricMeter)
     check_progress()
