@@ -6,11 +6,13 @@ class MetricsWorker
 
     scores = []
     if @metadata.nil?
+      store state: :loading
       logger.info 'Loading metadata'
       @metadata = repository.metadata
     end
 
-    logger.info 'Starting to compute metadata scores'
+    store state: :computing
+    logger.info 'Compute metadata scores'
 
     total = @metadata.length
     @metadata.each_with_index do |document, i|
