@@ -12,11 +12,11 @@
       <% @metrics.each do |metric| %>
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
-          <td>Analyze</td>
+          <td><div class="admin control progress"><div class="bar"></div></div></td>
           <td rowspan="2"><button>X</button></td>
         </tr>
         <tr>
-          <td>Compute</td>
+          <td><div class="admin control progress"><div class="bar"></div></div></td>
         </tr>
       <% end %>
     </tbody>
