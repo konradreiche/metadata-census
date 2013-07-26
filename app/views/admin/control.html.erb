@@ -1,2 +1,24 @@
-<h1>Admin#control</h1>
-<p>Find me in app/views/admin/control.html.erb</p>
+<h1>Control Panel</h1>
+<div class="dashboard">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @metrics.each do |metric| %>
+        <tr>
+          <td rowspan="2"><%= metric.to_s.titlecase %></td>
+          <td>Analyze</td>
+          <td rowspan="2"><button>X</button></td>
+        </tr>
+        <tr>
+          <td>Compute</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
