@@ -1,5 +1,4 @@
 module Metrics
-
   class Metric
 
     def name

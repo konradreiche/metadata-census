@@ -13,12 +13,9 @@ class Repository
   property :longitude
   property :datasets
 
-  property :completeness
-  property :weighted_completeness
-  property :richness_of_information
-  property :accuracy
-  property :accessibility
-  property :link_checker
+  Metrics::IDENTIFIER.each do |metric|
+    property metric
+  end
 
   def metadata
     name = @name
