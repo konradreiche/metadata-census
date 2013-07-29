@@ -1,5 +1,13 @@
 <h1>Control Panel</h1>
 <div class="dashboard">
+  <div class="dropdown">
+    <div class="center">
+      <h3><%= @repository.name %> <strong class="repository caret"></strong></h3>
+      </div>
+    <ul class="dropdown-menu">
+      <li></li>
+    </ul>
+  </div>
   <table class="table">
     <thead>
       <tr>
@@ -13,7 +21,7 @@
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
           <td><div class="admin control progress"><div class="bar"></div></div></td>
-          <td rowspan="2"><button class="btn"><i class="icon-tasks"></i></button></td>
+          <td rowspan="2"><button class="btn"><strong class="icon-tasks"></strong></button></td>
         </tr>
         <tr>
           <td><div class="admin control progress"><div class="bar"></div></div></td>
