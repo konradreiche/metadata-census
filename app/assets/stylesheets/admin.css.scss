@@ -1,12 +1,27 @@
 // Place all the styles related to the Admin controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.btn-group .repository.caret {
+  margin-top: 0px;
+  vertical-align: middle;
+}
+
+.admin.btn-toolbar {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.admin.dropdown-toggle {
+  color: #333;
+  text-decoration: none;
+
+}
+
+.dropdown-menu li {
+  text-align: left;
+}
+
 .admin.control.progress {
   margin-top: 0em;
   margin-bottom: 0px;
-}
-
-.dropdown .repository.caret {
-  margin-top: 0px;
-  vertical-align: middle;
 }

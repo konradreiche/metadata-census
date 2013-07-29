@@ -1,12 +1,16 @@
 <h1>Control Panel</h1>
 <div class="dashboard">
-  <div class="dropdown">
-    <div class="center">
-      <h3><%= @repository.name %> <strong class="repository caret"></strong></h3>
-      </div>
-    <ul class="dropdown-menu">
-      <li></li>
-    </ul>
+  <div class="admin btn-toolbar">
+    <div class="btn-group">
+      <a class="admin dropdown-toggle" data-toggle="dropdown" href="#">
+        <h3><%= @repository.name %> <strong class="repository caret"></strong></h3>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <% @repositories.each do |repository| %>
+          <li><a href="#"><%= repository.name %></a></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
   <table class="table">
     <thead>
