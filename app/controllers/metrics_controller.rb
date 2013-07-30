@@ -58,28 +58,37 @@ class MetricsController < ApplicationController
   end
 
   def compute
-    repository_name = params[:repository]
-    metric = params[:metric]
+    repositories = create_repository_list(params[:repository])
+    metrics = create_metric_list(params[:metric])
 
-    repository = Repository.find(repository_name)
-
-    case metric
-    when 'completeness'
-      id = CompletenessMetricWorker.perform_async(repository_name)
-    when 'weighted-completeness'
-      id = WeightedCompletenessMetricWorker.perform_async(repository_name)
-    when 'richness-of-information'
-      id = RichnessOfInformationMetricWorker.perform_async(repository_name)
-    when 'accuracy'
-      id = AccuracyMetricWorker.perform_async(repository_name)
-    when 'accessibility'
-      id = AccessibilityMetricWorker.perform_async(repository_name)
-    when 'link-checker'
-      id = LinkCheckerMetricWorker.perform_async(repository_name)
+    repositories.each do |repository|
+      metrics.each do |metric|
+        id = worker(metric).send(:perform_asyn, repository.name)
+        @@jobs[repository.name][metric] = id
+      end
     end
-    @@jobs[repository_name][metric] = id
     render :text => '0.0'
   end
 
+  def create_repository_list(parameter)
+    if parameter == '*'
+      Repository.all
+    else
+      [Repository.find(parameter)]
+    end
+  end
+
+  def create_metric_list(parameter)
+    if parameter == '*'
+      Metrics::IDENTIFIERS
+    else
+      [parameter.to_sym]
+    end
+  end
+
+
+  def worker(metric)
+    metric.to_s.camelcase + "MetricWorker".constantize
+  end
 
 end
