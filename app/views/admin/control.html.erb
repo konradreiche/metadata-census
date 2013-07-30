@@ -12,10 +12,12 @@
       </ul>
     </div>
   </div>
+  <button class="btn compute-metric all"><strong class="icon-th"></strong> Compute All</button>
   <table class="table">
     <thead>
       <tr>
         <th>Metric</th>
+        <th>Progress</th>
         <th>Status</th>
         <th>Action</th>
       </tr>
@@ -25,6 +27,7 @@
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
           <td><div class="admin control progress"><div class="bar"></div></div></td>
+          <td></td>
           <td rowspan="2"><button class="btn compute-metric <%= metric  %>"><strong class="icon-tasks"></strong></button></td>
         </tr>
         <tr>
