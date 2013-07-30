@@ -7,7 +7,7 @@
       </a>
       <ul class="dropdown-menu" role="menu">
         <% @repositories.each do |repository| %>
-          <li><a href="#"><%= repository.name %></a></li>
+          <li><a href="?repository=<%= repository.name %>"><%= repository.name %></a></li>
         <% end %>
       </ul>
     </div>
@@ -25,7 +25,7 @@
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
           <td><div class="admin control progress"><div class="bar"></div></div></td>
-          <td rowspan="2"><button class="btn"><strong class="icon-tasks"></strong></button></td>
+          <td rowspan="2"><button class="btn compute-metric <%= metric  %>"><strong class="icon-tasks"></strong></button></td>
         </tr>
         <tr>
           <td><div class="admin control progress"><div class="bar"></div></div></td>

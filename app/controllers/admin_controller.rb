@@ -4,6 +4,7 @@ class AdminController < ApplicationController
   def control
     load_repositories(:repository)
     @metrics = Metrics::IDENTIFIER
+    gon.metrics = @metrics
   end
 
 

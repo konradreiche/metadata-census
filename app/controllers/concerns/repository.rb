@@ -4,7 +4,7 @@ module Concerns::Repository
     @repositories = ::Repository.all
     @repository = params[parameter] || @repositories.first.name
     @repository = ::Repository.find(@repository)
-    gon.repository = @repository
+    gon.repository = @repository.to_hash
   end
 
 end
