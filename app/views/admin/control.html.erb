@@ -28,12 +28,12 @@
       <% @metrics.each do |metric| %>
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
-          <td><div class="admin control progress"><%= create_bar(metric, :analyze) %></div></td>
+          <td><div class="admin control progress progress-info"><%= create_bar(metric, :analyze) %></div></td>
           <td><%= status(metric) %></td>
-          <td rowspan="2"><button class="btn compute-metric <%= metric  %>"><strong class="icon-tasks"></strong></button></td>
+          <td rowspan="2"><%= create_button(metric) %></td>
         </tr>
         <tr>
-          <td><div class="admin control progress"><%= create_bar(metric, :compute) %></div></td>
+          <td><div class="admin control progress progress-success"><%= create_bar(metric, :compute) %></div></td>
         </tr>
       <% end %>
     </tbody>
