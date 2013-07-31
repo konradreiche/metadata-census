@@ -1,14 +1,15 @@
 $ ->
 
+  createRequestCallback = (repository, metric) ->
+    return () ->
+      parameter = {"repository": repository, "metric": metric}
+      $.post("/metrics/compute", parameter)
+
   initializeButtons = () ->
 
     for metric in gon.metrics
       repository = gon.repository.name
-      $(".compute-metric.#{metric}").on 'click', (event) =>
-        parameter = { "repository": repository, "metric": metric }
-        $.post("/metrics/compute", parameter, (data, status) =>
-          console.log data
-        )
+      $(".compute-metric.#{metric}").bind 'click', createRequestCallback(repository, metric)
 
   if gon? and gon.repository? and gon.metrics?
 
