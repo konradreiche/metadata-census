@@ -66,7 +66,6 @@ $ ->
           "metric": metric
         }, (data, status) =>
           @updateScore(data)
-          check_progress()
         )
 
     updateScore: (score) ->
