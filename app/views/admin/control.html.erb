@@ -6,6 +6,8 @@
         <h3><%= @repository.name %> <strong class="repository caret"></strong></h3>
       </a>
       <ul class="dropdown-menu" role="menu">
+        <li><a href="?repository=*">All</a></li>
+        <li class="divider"></li>
         <% @repositories.each do |repository| %>
           <li><a href="?repository=<%= repository.name %>"><%= repository.name %></a></li>
         <% end %>
@@ -26,12 +28,12 @@
       <% @metrics.each do |metric| %>
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
-          <td><div class="admin control progress"><div class="bar"></div></div></td>
+          <td><div class="admin control progress"><%= create_bar(metric, :analyze) %></div></td>
           <td></td>
           <td rowspan="2"><button class="btn compute-metric <%= metric  %>"><strong class="icon-tasks"></strong></button></td>
         </tr>
         <tr>
-          <td><div class="admin control progress"><div class="bar"></div></div></td>
+          <td><div class="admin control progress"><%= create_bar(metric, :compute) %></div></td>
         </tr>
       <% end %>
     </tbody>
