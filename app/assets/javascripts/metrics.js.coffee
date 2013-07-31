@@ -115,4 +115,3 @@ $ ->
     repository = gon.repository.id
     register_select_event()
     load_scores(gon.repository, metricMeter)
-    check_progress()

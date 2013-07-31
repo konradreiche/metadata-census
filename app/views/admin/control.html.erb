@@ -29,7 +29,7 @@
         <tr>
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
           <td><div class="admin control progress"><%= create_bar(metric, :analyze) %></div></td>
-          <td></td>
+          <td><%= status(metric) %></td>
           <td rowspan="2"><button class="btn compute-metric <%= metric  %>"><strong class="icon-tasks"></strong></button></td>
         </tr>
         <tr>
