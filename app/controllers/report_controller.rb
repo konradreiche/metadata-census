@@ -8,7 +8,7 @@ class ReportController < ApplicationController
   end
 
   def average_score(repository)
-    metrics = Metrics::IDENTIFIER
+    metrics = Metrics::IDENTIFIERS
     sum = metrics.inject(0.0) do |sum, metric|
       score = repository.send(metric)
       unless score.nil?

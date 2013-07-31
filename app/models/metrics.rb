@@ -1,11 +1,11 @@
 module Metrics
 
-  IDENTIFIER = [:completeness,
-                :weighted_completeness,
-                :richness_of_information,
-                :accuracy,
-                :accessibility,
-                :link_checker]
+  IDENTIFIERS = [:completeness,
+                 :weighted_completeness,
+                 :richness_of_information,
+                 :accuracy,
+                 :accessibility,
+                 :link_checker]
 
   NORMALIZE = [:richness_of_information,
                :accessibility]

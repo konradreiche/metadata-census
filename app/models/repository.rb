@@ -13,7 +13,7 @@ class Repository
   property :longitude
   property :datasets
 
-  Metrics::IDENTIFIER.each do |metric|
+  Metrics::IDENTIFIERS.each do |metric|
     property metric
   end
 

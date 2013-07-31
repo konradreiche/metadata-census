@@ -1,10 +1,11 @@
 $ ->
 
-
   # Adds to each compute button a callback event
   initializeButtons = () ->
+    repository = gon.repository.name
+    $(".compute-metric.all").click(
+      createComputeMetricCallback(repository, '*'))
     for metric in gon.metrics
-      repository = gon.repository.name
       $(".compute-metric.#{metric}").click(
         createComputeMetricCallback(repository, metric))
 
@@ -26,7 +27,12 @@ $ ->
   # Change button state based on the boolean disable
   changeButtonState = (repository, metric, disable) ->
     repositoryId = repository.split('.').join('-')
-    button = $(".btn.compute-metric.#{repositoryId}.#{metric}")
+
+    if metric == '*'
+      button = $(".btn.compute-metric.all")
+    else
+      button = $(".btn.compute-metric.#{repositoryId}.#{metric}")
+
     if disable
       button.attr('disabled', 'disabled')
     else
