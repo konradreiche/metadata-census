@@ -1,19 +1,37 @@
 $ ->
 
+
   # Adds to each compute button a callback event
   initializeButtons = () ->
     for metric in gon.metrics
       repository = gon.repository.name
-      $(".compute-metric.#{metric}").click createRequestCallback(repository, metric)
+      $(".compute-metric.#{metric}").click(
+        createComputeMetricCallback(repository, metric))
 
   # Create the callback used for the metric button click handler
-  createRequestCallback = (repository, metric) ->
+  createComputeMetricCallback = (repository, metric) ->
     return () ->
+      disableButton(repository, metric)
       parameter = {'repository': repository, 'metric': metric}
-      $.post('/metrics/compute', parameter, (data, status) =>
-        requestStatus()
-      )
+      $.post('/metrics/compute', parameter, (data, status) => requestStatus())
 
+  # Enables the button
+  enableButton = (repository, metric) ->
+    changeButtonState(repository, metric, false)
+
+  # Disables the button
+  disableButton = (repository, metric) ->
+    changeButtonState(repository, metric, true)
+
+  # Change button state based on the boolean disable
+  changeButtonState = (repository, metric, disable) ->
+    repositoryId = repository.split('.').join('-')
+    button = $(".btn.compute-metric.#{repositoryId}.#{metric}")
+    if disable
+      button.attr('disabled', 'disabled')
+    else
+      button.removeAttr('disabled')
+    
   # Request the status of issued jobs
   requestStatus = () ->
     $.getJSON('/metrics/status', processStatus)
@@ -34,6 +52,11 @@ $ ->
       fillProgressBar(repository, metric, type, job.percent)
       if type == 'compute'
         fillProgressBar(repository, metric, 'analyze', '100%')
+
+    if job.status == 'complete'
+      enableButton(repository, metric)
+    else
+      disableButton(repository, metric)
 
   # Determines progress bar element that need change based on the
   # current job state
