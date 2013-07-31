@@ -63,11 +63,11 @@ class MetricsController < ApplicationController
 
     repositories.each do |repository|
       metrics.each do |metric|
-        id = worker(metric).send(:perform_asyn, repository.name)
+        id = worker(metric).send(:perform_async, repository.name)
         @@jobs[repository.name][metric] = id
       end
     end
-    render :text => '0.0'
+    render :nothing => true
   end
 
   def create_repository_list(parameter)
@@ -86,9 +86,8 @@ class MetricsController < ApplicationController
     end
   end
 
-
   def worker(metric)
-    metric.to_s.camelcase + "MetricWorker".constantize
+    (metric.to_s.camelcase + "MetricWorker").constantize
   end
 
 end
