@@ -14,22 +14,35 @@ $ ->
   processStatus = (response) ->
     for repository, metrics of response
       for metric, job of metrics
-        progressClass = '.admin.control.progress'
-        barDiv = $("#{progressClass} #{repository}.#{metric}.bar")
-        barDiv.css('width', job.percent)
+        type = determineBarType(job)
+        if type?
+          progressClass = '.admin.control.progress'
+          repositoryId = repository.split('.').join('-')
+          barDiv = $("#{progressClass} .#{repositoryId}.#{metric}.#{type}.bar")
+          barDiv.css('width', "#{job.percent}%")
+          if type == 'compute'
+            barDiv = $("#{progressClass} .#{repositoryId}.#{metric}.analyze.bar")
+            barDiv.css('width', "100%")
+
 
     if repeatRequest(response)
       setTimeout(requestStatus, 500)
 
+  determineBarType = (job) ->
+    type = null
+    types = ['analyze', 'compute']
+    if job.state? and job.state in types
+      type = job.state
+    return type
+
   repeatRequest = (response) ->
     for repository, metrics of response
       for metric, job of metrics
-        job.status == 'queued' or job.status == 'working'
-        return true
+        if job.status == 'queued' or job.status == 'working'
+          return true
     return false
 
   initializeButtons = () ->
-
     for metric in gon.metrics
       repository = gon.repository.name
       $(".compute-metric.#{metric}").click createRequestCallback(repository, metric)

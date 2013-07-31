@@ -1,13 +1,13 @@
 class AccuracyMetricWorker < MetricsWorker
 
   def perform(repository_name)
-    store state: :loading
+    store state: :load
     logger.info('Loading metadata')
 
     repository = Repository.find(repository_name)
     @metadata = repository.metadata
 
-    store state: :analyzing
+    store state: :analyze
     logger.info 'Analyzing metadata'
 
     records = @metadata.map { |document| document[:record] }

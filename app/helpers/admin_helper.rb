@@ -1,7 +1,8 @@
 module AdminHelper
 
   def create_bar(metric, type)
-    tag(:div, class: "#{metric} #{type} bar")
+    id = @repository.name.gsub('.', '-')
+    tag(:div, class: "#{id} #{metric} #{type} bar")
   end
 
 end
