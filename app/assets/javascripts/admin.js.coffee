@@ -3,8 +3,8 @@ $ ->
   # Create the callback used for the metric button click handler
   createRequestCallback = (repository, metric) ->
     return () ->
-      parameter = {"repository": repository, "metric": metric}
-      $.post("/metrics/compute", parameter, (data, status) =>
+      parameter = {'repository': repository, 'metric': metric}
+      $.post('/metrics/compute', parameter, (data, status) =>
         requestStatus()
       )
 
@@ -13,10 +13,20 @@ $ ->
 
   processStatus = (response) ->
     for repository, metrics of response
-      for metric, status of metrics
-        progressClass = "admin.control.progress"
+      for metric, job of metrics
+        progressClass = '.admin.control.progress'
         barDiv = $("#{progressClass} #{repository}.#{metric}.bar")
-        barDiv.css("width", status.percent)
+        barDiv.css('width', job.percent)
+
+    if repeatRequest(response)
+      setTimeout(requestStatus, 500)
+
+  repeatRequest = (response) ->
+    for repository, metrics of response
+      for metric, job of metrics
+        job.status == 'queued' or job.status == 'working'
+        return true
+    return false
 
   initializeButtons = () ->
 
@@ -29,5 +39,4 @@ $ ->
     # activate repository selector
     $('.dropdown-toggle').dropdown()
     initializeButtons()
-
-
+    requestStatus()
