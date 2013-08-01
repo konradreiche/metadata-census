@@ -1,4 +1,22 @@
 <% content_for :content do %>
-  <h3><%= "%.2f" % @score %><h3>
+  <h3><%= '%.2f' % (@score * 100) %></h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Quality</th>
+        <th>Report</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Metrics::IDENTIFIERS.each do |metric| %>
+        <tr>
+          <td><%= metric.to_s.titlecase %></td>
+          <td><%= metric_score(metric) %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
 <%= render 'layouts/repository_report' %>
