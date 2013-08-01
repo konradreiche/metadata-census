@@ -11,6 +11,11 @@ module Metrics
                :accessibility]
 
   def self.normalize(metric, values)
+
+    unless NORMALIZE.include?(metric)
+      return values
+    end
+
     scores = []
     repositories = Repository.all
     repositories.each do |repository|
@@ -23,7 +28,7 @@ module Metrics
     min = scores.min
     max = scores.max
     range = max - min
-    values.map { |value| 100 * (value - min) / range }
+    values.map { |value| (value - min) / range }
   end
 
 end
