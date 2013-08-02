@@ -31,4 +31,12 @@ module Metrics
     values.map { |value| (value - min) / range }
   end
 
+  def self.get_url_representation(metric)
+    metric.to_s.gsub('_', '-')
+  end
+
+  def self.get_internal_representation(metric)
+    metric.to_s.gsub('-', '_')
+  end
+
 end

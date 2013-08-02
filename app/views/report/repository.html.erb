@@ -13,7 +13,7 @@
         <tr>
           <td><%= metric.to_s.titlecase %></td>
           <td><%= metric_score(metric) %></td>
-          <td><a class="btn" href="/report/metric"><strong class="icon-th"></strong></a></td>
+          <td><%= create_metric_report_link(metric) %></td>
         </tr>
       <% end %>
     </tbody>
