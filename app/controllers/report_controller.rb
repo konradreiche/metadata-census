@@ -1,11 +1,15 @@
 class ReportController < ApplicationController
+  include Concerns::Repository
   helper_method :metric_score
 
   def repository
-    @repositories = Repository.all
-    @repository = params[:show] || @repositories.first.name
-    @repository = Repository.find(@repository)
+    load_repositories(:show)
     @score = average_score(@repository)
+  end
+
+  def metric
+    load_repositories(:repository)
+    @metric = params[:metric]
   end
 
   def metric_score(metric)

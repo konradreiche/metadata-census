@@ -1,0 +1,18 @@
+<h1>Metric Report</h1>
+<div class="dashboard">
+  <div class="report metric btn-toolbar">
+    <div class="btn-group">
+      <a class="metric report dropdown-toggle" data-toggle="dropdown" href="#">
+        <h3><%= @repository.name %> <strong class="repository caret"></strong></h3>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="?repository=*">All</a></li>
+        <li class="divider"></li>
+        <% @repositories.each do |repository| %>
+          <li><a href="?repository=<%= repository.name %>"><%= repository.name %></a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <%= yield :content %>
+</div>
