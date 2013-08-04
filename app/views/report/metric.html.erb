@@ -1,4 +1,5 @@
+<% provide(:parameter, 'repository') %>
+<% provide(:heading, 'Metric Report') %>
 <% content_for :content do %>
-  <%= @metric %>
 <% end %>
-<%= render 'layouts/report_metric %>
+<%= render 'layouts/repository_based' %>

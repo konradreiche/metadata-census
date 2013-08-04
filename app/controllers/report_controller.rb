@@ -9,7 +9,7 @@ class ReportController < ApplicationController
 
   def metric
     load_repositories(:repository)
-    @metric = params[:metric]
+    @metric = params[:show]
   end
 
   def metric_score(metric)
