@@ -1,5 +1,18 @@
 <% provide(:parameter, 'repository') %>
 <% provide(:heading, 'Metric Report') %>
+<% content_for :content_top do %>
+  <div class="repository-based btn-toolbar">
+    <div class="btn-group">
+      <a class="repository-based repository-selector dropdown-toggle" href="#"><%= @metric.to_s.titlecase %> 
+      <strong class="repository-based caret"></strong></a>
+      <ul class="dropdown-menu" role="menu">
+        <% Metrics::IDENTIFIERS.each do |metric| %>
+          <li><%= create_metric_link(metric) %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
 <% content_for :content do %>
 <% end %>
 <%= render 'layouts/repository_based' %>

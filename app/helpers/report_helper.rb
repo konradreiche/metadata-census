@@ -7,6 +7,12 @@ module ReportHelper
     content_tag(:a, icon, class: 'btn', href: url)
   end
 
+  def create_metric_link(metric)
+    metric= Metrics::get_url_representation(metric)
+    url = "/report/metric?show=#{metric}&repository=#{@repository.name}"
+    content_tag(:a, metric.to_s.titlecase, href: url)
+  end
+
   def create_repository_link(repository)
     if @metric.nil?
       url = "?show=#{repository.name}"
