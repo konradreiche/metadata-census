@@ -9,7 +9,9 @@ class ReportController < ApplicationController
 
   def metric
     load_repositories(:repository)
-    @metric = params[:show]
+    @metric = params[:show].underscore.to_sym
+    @record1 = @repository.best_record(@metric)
+    @record2 = @repository.worst_record(@metric)
   end
 
   def metric_score(metric)

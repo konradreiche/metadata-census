@@ -24,22 +24,21 @@ module ReportHelper
   end
 
   def create_record_submenu(i, sorting)
-    metric = @metric.underscore
     case sorting
     when :descending
-      records = @repository.best_records(metric)
+      records = @repository.best_records(@metric)
     when :ascending
-      records = @repository.worst_records(metric)
+      records = @repository.worst_records(@metric)
     end
 
     record_parameters = record_parameters(i)
     items = content_tag(:ul, class: 'dropdown-menu') do
       records.each do |record|
-        score = '%.2f' % record[metric.to_sym]
-        parameter = "record#{i}".to_sym
+        score = '%.2f' % record[@metric]
+        parameter = "record#{i + 1}".to_sym
         record_parameters[parameter] = record[:id]
 
-        url = metric_url(metric)
+        url = metric_url(@metric)
         url += '&' + record_parameters.to_query
         anchor = content_tag(:a, score, role: 'menuitem', href: url)
         concat(content_tag(:li, anchor, role: 'presentation'))
@@ -52,8 +51,13 @@ module ReportHelper
     record_numbers = (0..1).to_a
     record_numbers.delete(i)
     record_numbers.each do |i|
-      parameter = "record#{i}".to_sym
-      record_identifier[parameter] = params[parameter]
+      parameter = "record#{i + 1}".to_sym
+      if params[parameter].nil?
+        record = instance_variable_get("@#{parameter}")
+        record_identifier[parameter] = record[:id]
+      else
+        record_identifier[parameter] = params[parameter]
+      end
     end
     record_identifier
   end
