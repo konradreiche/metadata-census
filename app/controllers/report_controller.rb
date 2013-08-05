@@ -1,6 +1,6 @@
 class ReportController < ApplicationController
   include Concerns::Repository
-  helper_method :metric_score
+  helper_method :metric_score, :record
 
   def repository
     load_repositories(:show)
@@ -41,6 +41,10 @@ class ReportController < ApplicationController
       sum + value
     end
     sum / metrics.length
+  end
+
+  def record(i)
+    instance_variable_get("@record#{i + 1}")
   end
 
 end

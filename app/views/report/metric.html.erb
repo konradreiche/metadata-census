@@ -18,23 +18,35 @@
     <div class="span12">
       <div class="row">
         <% 2.times do |i| %>
-          <div class="span6 center report btn-toolbar">
-            <div class="report btn-group">
-              <a class="dropdown-toggle" href="#">
-                <strong>Record <%= i + 1 %></strong> <strong class="caret"></strong>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#">By Search</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-submenu">
-                  <a href="#">By Score (Descending)</a>
-                  <%= create_record_submenu(i, :descending) %>
-                </li>
-                <li class="dropdown-submenu">
-                  <a href="#">By Score (Ascending)</a>
-                  <%= create_record_submenu(i, :ascending) %>
-                </li>
-              </ul>
+          <div class="span6 center">
+            <div class="report btn-toolbar">
+              <div class="report btn-group">
+                <a class="dropdown-toggle" href="#">
+                  <strong>Record <%= i + 1 %></strong> <strong class="caret"></strong>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">By Search</a></li>
+                  <li class="divider"></li>
+                  <li class="dropdown-submenu">
+                    <a href="#">By Score (Descending)</a>
+                    <%= create_record_submenu(i, :descending) %>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a href="#">By Score (Ascending)</a>
+                    <%= create_record_submenu(i, :ascending) %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="span6">
+                <em><%= record(i)[:record][:id] %></em>
+                <div class="row">
+                  <div class="span6">
+                    <%= record(i)[:record][:name] %>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         <% end %>
