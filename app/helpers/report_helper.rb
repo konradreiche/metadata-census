@@ -23,4 +23,40 @@ module ReportHelper
     content_tag(:a, repository.name, href: url)
   end
 
+  def create_record_submenu(i, sorting)
+    metric = @metric.underscore
+    case sorting
+    when :descending
+      records = @repository.best_records(metric)
+    when :ascending
+      records = @repository.worst_records(metric)
+    end
+
+    record_parameters = record_parameters(i)
+    items = content_tag(:ul, class: 'dropdown-menu') do
+      records.each do |record|
+        score = '%.2f' % record[metric.to_sym]
+        parameter = "record#{i}".to_sym
+        record_parameters[parameter] = record[:id]
+
+        url = metric_url(metric)
+        url += '&' + record_parameters.to_query
+        anchor = content_tag(:a, score, role: 'menuitem', href: url)
+        concat(content_tag(:li, anchor, role: 'presentation'))
+      end
+    end
+  end
+
+  def record_parameters(i)
+    record_identifier = Hash.new
+    record_numbers = (0..1).to_a
+    record_numbers.delete(i)
+    record_numbers.each do |i|
+      parameter = "record#{i}".to_sym
+      record_identifier[parameter] = params[parameter]
+    end
+    record_identifier
+  end
+
 end
+

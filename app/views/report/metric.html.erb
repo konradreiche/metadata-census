@@ -25,7 +25,15 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="#">By Search</a></li>
-                <li><a href="#">By Score</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-submenu">
+                  <a href="#">By Score (Descending)</a>
+                  <%= create_record_submenu(i, :descending) %>
+                </li>
+                <li class="dropdown-submenu">
+                  <a href="#">By Score (Ascending)</a>
+                  <%= create_record_submenu(i, :ascending) %>
+                </li>
               </ul>
             </div>
           </div>
