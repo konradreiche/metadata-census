@@ -12,6 +12,14 @@ class ReportController < ApplicationController
     @metric = params[:show].underscore.to_sym
     @record1 = @repository.best_record(@metric)
     @record2 = @repository.worst_record(@metric)
+
+    2.times do |i|
+      parameter = "record#{i + 1}".to_sym
+      unless params[parameter].nil?
+        record = @repository.get_record(params[parameter])
+        instance_variable_set("@record#{i + 1}", record)
+      end
+    end
   end
 
   def metric_score(metric)
