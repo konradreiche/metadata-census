@@ -12,5 +12,11 @@ $ ->
   $("a.report.search").on 'click', (event) =>
     parameter = $(event.target).data('parameter')
     $(".search.report.row").toggle()
-    $("#record-search").toggle()
+    $("#search-results").toggle()
+
+  $("#search-input").on 'input', (event) =>
+    query = $("#search-input").val()
+    $.getJSON("/metadata/search?q=#{query}", (data) ->
+      console.log(data)
+    )
 

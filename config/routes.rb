@@ -2,13 +2,15 @@ require 'sidekiq/web'
 
 MetadataCensus::Application.routes.draw do
 
-  get "report/metric"
+  get 'report/metric'
 
-  get "admin/control"
+  get 'admin/control'
 
-  get "report/repository"
+  get 'report/repository'
 
-  get "repositories/overview"
+  get 'repositories/overview'
+  
+  get 'metadata/search'
 
   root :to => 'static_pages#home'
 

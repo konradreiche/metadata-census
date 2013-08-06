@@ -9,6 +9,15 @@ class MetadataController < ApplicationController
     end
   end
 
+  def search
+    q = params[:q]
+    result = Tire.search('metadata') do
+      query do
+        string q
+      end
+    end.results.map { |r| r.to_hash }
+    render json: result
+  end
 
   def preprocess
     @repositories = Repository.all
