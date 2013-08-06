@@ -1,4 +1,5 @@
 #=require d3
+#=require bootstrap-rowlink.min
 $ ->
 
   createMetricAbbreviation = (metric) ->
@@ -25,6 +26,10 @@ $ ->
         row = "<tr>#{id}#{name}#{scores}</tr>"
 
         $("#search-results>tbody").append(row)
+
+        $(".table > tbody > tr").on 'click', (event) =>
+          metric = gon.metric.split('_').join('-')
+          window.location = "/report/metric?show=#{metric}&repository=#{gon.repository.name}&record1=#{metadata.id}"
     else
       $("#search-results").hide()
 
@@ -47,4 +52,5 @@ $ ->
     query = if /\S/.test(query) then query else '*'
       
     $("#search-results").show()
-    $.getJSON("/metadata/search?q=#{query}", displayRecordResults)
+    $.getJSON("/metadata/search?q=#{query}&repository=#{gon.repository.name}", displayRecordResults)
+

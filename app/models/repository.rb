@@ -42,7 +42,7 @@ class Repository
   end
 
   def get_record(id)
-    metadata_with_field(:id, id).first
+    metadata_with_field(:_id, id).first
   end
 
   def metadata_with_field(field, value="*")

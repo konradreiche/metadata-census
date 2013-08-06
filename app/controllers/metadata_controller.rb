@@ -10,10 +10,14 @@ class MetadataController < ApplicationController
   end
 
   def search
+    repository = params[:repository]
     q = params[:q]
     result = Tire.search('metadata') do
       query do
-        string q
+        boolean do
+          must { string 'repository:' + repository }
+          must { string q }
+        end
       end
     end.results.map { |r| r.to_hash }
     render json: result
