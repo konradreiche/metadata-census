@@ -14,9 +14,9 @@
   </div>
 <% end %>
 <% content_for :content do %>
-  <div class="row">
+  <div class="report row">
     <div class="span12">
-      <div class="row">
+      <div class="report row">
         <% 2.times do |i| %>
           <div class="span6 center">
             <div class="report btn-toolbar">
@@ -50,6 +50,25 @@
             </div>
           </div>
         <% end %>
+      </div>
+      <div class="search report row center">
+        <div class="span10 table-centered">
+          <input class="input-xlarge" type="text" placeholder="Search..."></input>
+          <table id="record-search" class="table">
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Score</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
