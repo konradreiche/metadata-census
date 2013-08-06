@@ -1,6 +1,8 @@
 class ReportController < ApplicationController
   include Concerns::Repository
-  helper_method :metric_score, :record
+  include Concerns::Metric
+
+  helper_method :metric_score, :record, :metric_abbreviation
 
   def repository
     load_repositories(:show)
@@ -9,13 +11,7 @@ class ReportController < ApplicationController
 
   def metric
     load_repositories(:repository)
-
-    if params[:show].nil?
-      @metric = :completeness
-    else
-      @metric = params[:show].underscore.to_sym
-    end
-    gon.metric = @metric
+    load_metrics(:show)
 
     @record1 = @repository.best_record(@metric)
     @record2 = @repository.worst_record(@metric)
@@ -60,6 +56,12 @@ class ReportController < ApplicationController
 
   def record(i)
     instance_variable_get("@record#{i + 1}")
+  end
+
+  def metric_abbreviation(metric)
+    metric.to_s.split('_').inject('') do |abbreviation, word|
+      abbreviation + word.first
+    end.upcase
   end
 
 end

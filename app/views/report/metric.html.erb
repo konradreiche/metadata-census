@@ -53,20 +53,16 @@
       </div>
       <div class="search report row center">
         <div class="span10 table-centered">
-          <input id="search-input" class="input-xlarge" type="text" placeholder="Search..."></input>
+          <input id="search-input" class="report input-xlarge" type="text" placeholder="Search..."></input>
           <table id="search-results" class="table">
             <thead>
               <th>ID</th>
               <th>Name</th>
-              <th>Score</th>
+              <% Metrics::IDENTIFIERS.each do |metric| %>
+                <th><%= metric_abbreviation(metric) %></th>
+              <% end %>
             </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </div>

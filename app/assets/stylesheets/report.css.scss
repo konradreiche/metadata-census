@@ -39,3 +39,13 @@ a.dropdown-toggle {
 .report.row {
   margin-bottom: 0em;
 }
+
+#search-results tbody tr td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#search-input.report {
+  margin-bottom: 2.5em;
+}
