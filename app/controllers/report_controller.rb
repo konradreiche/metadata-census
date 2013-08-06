@@ -15,6 +15,7 @@ class ReportController < ApplicationController
     else
       @metric = params[:show].underscore.to_sym
     end
+    gon.metric = @metric
 
     @record1 = @repository.best_record(@metric)
     @record2 = @repository.worst_record(@metric)
