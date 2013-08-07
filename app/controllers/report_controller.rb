@@ -13,15 +13,24 @@ class ReportController < ApplicationController
     load_repositories(:repository)
     load_metrics(:show)
 
-    @record1 = @repository.best_record(@metric)
-    @record2 = @repository.worst_record(@metric)
-
     2.times do |i|
-      parameter = "record#{i + 1}".to_sym
+      variable = "@record#{i + 1}"
+      instance_variable_set(variable, default_record(i + 1))
+      parameter = variable.to_sym
       unless params[parameter].nil?
         record = @repository.get_record(params[parameter])
-        instance_variable_set("@record#{i + 1}", record)
+        instance_variable_set(variable, record)
       end
+      gon.send("record#{i + 1}=", record)
+    end
+  end
+
+  def default_record(i)
+    case i
+    when 1
+      @repository.best_record(@metric)
+    when 2
+      @repository.worst_record(@metric)
     end
   end
 
