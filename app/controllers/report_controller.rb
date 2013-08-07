@@ -14,14 +14,17 @@ class ReportController < ApplicationController
     load_metrics(:show)
 
     2.times do |i|
-      variable = "@record#{i + 1}"
-      instance_variable_set(variable, default_record(i + 1))
+      variable = "record#{i + 1}"
+      instance_variable = "@#{variable}"
       parameter = variable.to_sym
+
+      record = default_record(i + 1)
+      instance_variable_set(instance_variable, default_record(i + 1))
       unless params[parameter].nil?
         record = @repository.get_record(params[parameter])
-        instance_variable_set(variable, record)
+        instance_variable_set(instance_variable, record)
       end
-      gon.send("record#{i + 1}=", record)
+      gon.send("#{variable}=", record)
     end
   end
 

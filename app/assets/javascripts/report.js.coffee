@@ -41,7 +41,7 @@ $ ->
     record_numbers.splice(index, 1)
 
     for j in record_numbers
-      parameters["record#{j}"] = gon["record#{j}.id"]
+      parameters["record#{j}"] = gon["record#{j}"].id
 
     url = "/report/metric?" + $.param(parameters)
     return url
