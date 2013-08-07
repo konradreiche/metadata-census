@@ -1,7 +1,8 @@
 <h1><%= yield :heading %></h1>
 <div class="repository-based btn-toolbar">
   <div class="btn-group">
-    <a class="repository-based repository-selector dropdown-toggle" href="#"><%= @repository.name %> 
+    <a class="repository-based repository-selector dropdown-toggle" href="#">
+      <%= @repository.name == '*' ? 'All' : @repository.name %> 
     <strong class="repository-based caret"></strong></a>
     <ul class="dropdown-menu" role="menu">
       <li><a href="?<%= yield :parameter %>=*">All</a></li>
