@@ -26,10 +26,10 @@
     </thead>
     <tbody>
       <% @metrics.each do |metric| %>
-        <tr>
+        <tr class="admin control <%= metric %>">
           <td rowspan="2"><%= metric.to_s.titlecase %></td>
           <td><div class="admin control progress progress-info"><%= create_bar(metric, :analyze) %></div></td>
-          <td><%= status(metric) %></td>
+          <td class="admin control status"><%= status(metric) %></td>
           <td rowspan="2"><%= create_button(metric) %></td>
         </tr>
         <tr>

@@ -1,3 +1,5 @@
+#=require spin.min
+#=require jquery.spin
 $ ->
 
   # Adds to each compute button a callback event
@@ -13,6 +15,7 @@ $ ->
   createComputeMetricCallback = (repository, metric) ->
     return () ->
       disableButton(repository, metric)
+      showSpinner(metric)
       parameter = {'repository': repository, 'metric': metric}
       $.post('/metrics/compute', parameter, (data, status) => requestStatus())
 
@@ -23,6 +26,19 @@ $ ->
   # Disables the button
   disableButton = (repository, metric) ->
     changeButtonState(repository, metric, true)
+
+  # Adds a spinning wheel to the status table cell
+  showSpinner = (metric) ->
+    optitons =
+      lines: 10
+      length: 1
+    target = $(".admin.control.#{metric} > .admin.control.status")
+    target.spin(optitons)
+
+  # Removes the spinning wheel from the status table cell
+  hideSpinner = (metric) ->
+    target = $(".admin.control.#{metric} > .admin.control.status")
+    target.spin(false)
 
   # Change button state based on the boolean disable
   changeButtonState = (repository, metric, disable) ->
@@ -61,8 +77,10 @@ $ ->
 
     if job.status == 'complete'
       enableButton(repository, metric)
+      hideSpinner(metric)
     else
       disableButton(repository, metric)
+      showSpinner(metric)
 
   # Determines progress bar element that need change based on the
   # current job state
@@ -90,6 +108,8 @@ $ ->
     return false
 
   if gon? and gon.repository? and gon.metrics?
+    # create spinner and hide it
+    #spinner = new Spinner().spin(targets)
     # activate repository selector
     $('.dropdown-toggle').dropdown()
     initializeButtons()
