@@ -59,11 +59,15 @@ $ ->
     $.getJSON('/metrics/status', processStatus)
 
   # Processes the JSON-encoded job progress results
+  jobs = sum = 0
   processStatus = (response) ->
     for repository, metrics of response
       for metric, job of metrics
         displayJobProgress(repository, metric, job)
+        sum += job.percent
+        jobs += 1
 
+    fillOverallProgressBar(sum / jobs)
     if repeatRequest(response)
       setTimeout(requestStatus, 500)
 
@@ -91,6 +95,10 @@ $ ->
       type = job.state
     return type
 
+  fillOverallProgressBar = (percent) ->
+    barDiv = $(".admin.control.progress > .all.bar")
+    barDiv.css('width', "#{percent}%")
+
   # Fills a defined progress bar up to the given percent
   fillProgressBar = (repository, metric, type, percent) ->
     progressClass = '.admin.control.progress'
@@ -108,8 +116,6 @@ $ ->
     return false
 
   if gon? and gon.repository? and gon.metrics?
-    # create spinner and hide it
-    #spinner = new Spinner().spin(targets)
     # activate repository selector
     $('.dropdown-toggle').dropdown()
     initializeButtons()
