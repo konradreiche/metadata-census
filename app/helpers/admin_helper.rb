@@ -11,4 +11,12 @@ module AdminHelper
     content_tag(:button, icon, class: "btn compute-metric #{id} #{metric}")
   end
 
+  def status(metric)
+    unless @repository.send(metric).nil?
+      tag(:strong, class: 'icon-ok')
+    else
+      tag(:strong, class: 'icon-remove')
+    end
+  end
+
 end
