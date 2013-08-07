@@ -81,6 +81,7 @@ module Metrics
 
     def compute(record)
       @score = 0.0
+      @worker.at(@processed, @requests)
 
       # blocking call
       @dispatcher.run

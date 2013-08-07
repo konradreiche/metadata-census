@@ -14,6 +14,7 @@ module Metrics
 
       @dispatcher = Typhoeus::Hydra.hydra
       @resource_availability = Hash.new { |h, k| h[k] = Hash.new }
+
       metadata.each_with_index do |dataset, i|
         dataset[:resources].each do |resource|
           @total += 1
@@ -26,6 +27,7 @@ module Metrics
     end
 
     def compute(record)
+      @worker.at(@processed, @requests)
       @score = 0.0
 
       # blocking call
