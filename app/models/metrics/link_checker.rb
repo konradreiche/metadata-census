@@ -4,7 +4,7 @@ require 'uri'
 module Metrics
 
   class LinkChecker < Metric
-    attr_reader :score, :score_details
+    attr_reader :score, :report
 
     def initialize(metadata, worker=nil)
       @worker = worker
@@ -35,7 +35,7 @@ module Metrics
       id = record[:id]
       responses = @resource_availability[id].values
       @score = responses.select { |r| success?(r) }.size / responses.size.to_f
-      @score_details = @resource_availability[id]
+      @report = @resource_availability[id]
       @score = 0.0 unless @score.finite?
     end
 

@@ -20,7 +20,7 @@ class MetricsWorker
       metric.compute(record, *args)
       scores << metric.score
       update_document(document, metric)
-      at i + 1, total
+      at(i + 1, total)
     end
 
     update_repository(repository, metric, scores)
@@ -28,11 +28,13 @@ class MetricsWorker
   end
 
   def update_document(document, metric)
-    if metric.respond_to?(:score_details)
-      document[metric.name + '_details'] = metric.score_details
+    metric_name = metric.name.to_sym
+    document[metric_name] = { score: metric.score }
+
+    if metric.respond_to?(:report)
+      document[metric_name][:report] = metric.report
     end
 
-    document[metric.name] = metric.score
     Tire.index 'metadata' do
       update('ckan', document[:id], :doc => document)
     end

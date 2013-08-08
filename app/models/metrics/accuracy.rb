@@ -3,7 +3,7 @@ require 'typhoeus'
 module Metrics
 
   class Accuracy < Metric
-    attr_reader :score, :score_details
+    attr_reader :score, :report
     
     @@mime_dictionary = { 
       'csv'   => ['text/csv', 'text/x-comma-separated-values', 'text/comma-separated-values'],
@@ -99,7 +99,7 @@ module Metrics
         validated += 1 if formats.include?(mime)
       end
 
-      @score_details = types
+      @report = types
       unless resources == 0
         @score = validated / resources
       else
