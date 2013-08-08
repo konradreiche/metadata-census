@@ -32,7 +32,10 @@ $ ->
     optitons =
       lines: 10
       length: 1
-    target = $(".admin.control.#{metric} > .admin.control.status")
+    if metric == '*'
+      target = $(".admin.control > .admin.control.status")
+    else
+      target = $(".admin.control.#{metric} > .admin.control.status")
     target.spin(optitons)
 
   # Removes the spinning wheel from the status table cell
