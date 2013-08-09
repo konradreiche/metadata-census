@@ -18,7 +18,7 @@ module Metrics
       return values
     end
 
-    scores = []
+    scores = values
     repositories = Repository.all
     repositories.each do |repository|
       score = repository.send(metric)
