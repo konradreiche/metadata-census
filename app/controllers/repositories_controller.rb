@@ -2,6 +2,7 @@ class RepositoriesController < ApplicationController
   include Concerns::Repository
 
   def overview
+    load_all_repositories()
   end
 
   def leaderboard

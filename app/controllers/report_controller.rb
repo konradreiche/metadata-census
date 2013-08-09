@@ -48,24 +48,6 @@ class ReportController < ApplicationController
     end
   end
 
-  def average_score(repository)
-    metrics = Metrics::IDENTIFIERS
-    sum = metrics.inject(0.0) do |sum, metric|
-      score = repository.send(metric)
-      unless score.nil?
-        value = score[:average]
-        if Metrics::NORMALIZE.include?(metric)
-          value = Metrics::normalize(metric, [value]).first
-        end
-      else
-        value = 0.0
-      end
-
-      sum + value
-    end
-    sum / metrics.length
-  end
-
   def record(i)
     instance_variable_get("@record#{i + 1}")
   end

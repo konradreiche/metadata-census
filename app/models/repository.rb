@@ -12,6 +12,7 @@ class Repository
   property :latitude
   property :longitude
   property :datasets
+  property :score
 
   Metrics::IDENTIFIERS.each do |metric|
     property metric
@@ -79,7 +80,6 @@ class Repository
     worst_records(metric).first
   end
 
-  private
   def sort_metric_scores(metric, sorting_order)
     begin
       name = @name
@@ -90,6 +90,24 @@ class Repository
     rescue Tire::Search::SearchRequestFailed => e
       raise Exceptions::RepositoryNoScores
     end
+  end
+
+  private
+  def score
+    metrics = Metrics::IDENTIFIERS
+    sum = metrics.inject(0.0) do |sum, metric|
+      score = self.send(metric)
+      unless score.nil?
+        value = score[:average]
+        if Metrics::NORMALIZE.include?(metric)
+          value = Metrics::normalize(metric, [value]).first
+        end
+      else
+        value = 0.0
+      end
+      sum + value
+    end
+    sum / metrics.length
   end
 
 end
