@@ -2,8 +2,11 @@
 <div class="dashboard">
   <ul class="nav nav-pills">
 
-    <%= content_tag(:li, (link_to "List", repositories_path),
+    <%= content_tag(:li, (link_to "Overview", repositories_path),
                     :class => is_active?('overview')) %>
+
+    <%= content_tag(:li, (link_to "Leaderboard", repositories_leaderboard_path),
+                    :class => is_active?('leaderboard')) %>
 
     <%= content_tag(:li, (link_to "Map", repositories_map_path),
                     :class => is_active?('map')) %>

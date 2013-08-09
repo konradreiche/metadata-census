@@ -7,6 +7,8 @@ module Metrics
                  :accessibility,
                  :link_checker]
 
+  ABBREVIATIONS = [:C, :WC, :RoI, :ACCU, :ACCE, :LC]
+
   NORMALIZE = [:richness_of_information,
                :accessibility]
 

@@ -1,11 +1,11 @@
 class RepositoriesController < ApplicationController
+  include Concerns::Repository
 
   def overview
-    begin
-      @repositories = Repository.all
-    rescue Tire::Search::SearchRequestFailed
-      @repositories = []
-    end
+  end
+
+  def leaderboard
+    load_all_repositories()
   end
 
   def map

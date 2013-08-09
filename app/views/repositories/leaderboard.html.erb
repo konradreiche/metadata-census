@@ -1,0 +1,13 @@
+<% content_for :content do %>
+  <table class="table">
+    <thead>
+      <th>Rank</th>
+      <th>Repository</th>
+      <th>Score</th>
+      <% Metrics::ABBREVIATIONS.each do |abbreviation| %>
+        <th><%= abbreviation %></th>
+      <% end %>
+    </thead>
+  </table>
+<% end %>
+<%= render 'layouts/repositories' %>

@@ -12,6 +12,8 @@ MetadataCensus::Application.routes.draw do
   
   get 'metadata/search'
 
+  get 'repositories/leaderboard'
+
   root :to => 'static_pages#home'
 
   match '/metrics', to: 'metrics#overview'
