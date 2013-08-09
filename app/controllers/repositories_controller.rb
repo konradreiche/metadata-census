@@ -7,6 +7,7 @@ class RepositoriesController < ApplicationController
 
   def leaderboard
     load_all_repositories()
+    @repositories.to_a.sort! { |x, y| x.score <=> y.score }
   end
 
   def map

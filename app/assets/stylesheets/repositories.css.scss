@@ -7,3 +7,7 @@
 .table th {
   text-align: left
 }
+
+.repositories.leaderboard.table > th, td {
+  overflow: hidden;
+}
