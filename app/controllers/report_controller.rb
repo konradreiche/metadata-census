@@ -6,7 +6,7 @@ class ReportController < ApplicationController
 
   def repository
     load_repositories(:show)
-    @score = average_score(@repository)
+    @score = @repository.score
   end
 
   def metric

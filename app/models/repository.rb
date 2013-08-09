@@ -92,7 +92,6 @@ class Repository
     end
   end
 
-  private
   def score
     metrics = Metrics::IDENTIFIERS
     sum = metrics.inject(0.0) do |sum, metric|

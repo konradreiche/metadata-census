@@ -13,7 +13,7 @@ module Concerns::Repository
 
   def load_all_repositories
     begin
-      @repositories = Repository.all
+      @repositories = ::Repository.all
     rescue Tire::Search::SearchRequestFailed
       @repositories = []
     end
