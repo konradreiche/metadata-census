@@ -1,7 +1,7 @@
 #= require leaflet
 $ ->
 
-  if gon? and gon.repositories?
+  if $(".repositories.map").length
     
     map = L.map('map').setView [51.505, -0.09], 2
     L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {
