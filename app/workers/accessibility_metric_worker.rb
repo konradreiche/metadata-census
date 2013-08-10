@@ -1,9 +1,8 @@
 class AccessibilityMetricWorker < MetricWorker
 
-  def perform(repository_name)
-    repository = Repository.find repository_name
+  def perform(repository, metric)
     metric = Metrics::Accessibility.new('en_us')
-    compute(repository, metric)
+    super
   end
 
 end

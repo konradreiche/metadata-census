@@ -2,15 +2,8 @@ class MetricWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
-  def compute(repository, metric, *args)
-
+  def perform(repository, metric, *args)
     scores = []
-    if @metadata.nil?
-      store state: :load
-      logger.info 'Loading metadata'
-      @metadata = repository.metadata
-    end
-
     store state: :compute
     logger.info 'Compute metadata scores'
 
@@ -25,6 +18,12 @@ class MetricWorker
 
     update_repository(repository, metric, scores)
     refresh
+  end
+
+  def perform(repository, metric)
+    @metadata = Repository.find(repository).metadata
+    metric = metric.to_s.camelcase.constantize.new
+    compute(repository, metric)
   end
 
   def update_document(document, metric)
@@ -68,6 +67,24 @@ class MetricWorker
       end]
     else
       arg
+    end
+  end
+
+  private
+  def initialize_metadata
+    if @metadata.nil?
+      store state: :load
+      logger.info 'Loading metadata'
+      @metadata = repository.metadata
+    end
+  end
+
+  def initialize_metric(metric)
+    if metric.is_a?(String)
+      metric = metric.to_s.gsub(' ', '').constantize
+      metric.new
+    else
+      metric
     end
   end
 

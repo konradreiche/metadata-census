@@ -63,7 +63,7 @@ class MetricsController < ApplicationController
 
     repositories.each do |repository|
       metrics.each do |metric|
-        id = worker(metric).send(:perform_async, repository.name)
+        id = worker(metric).send(:perform_async, repository.name, metric)
         @@jobs[repository.name][metric] = id
       end
     end
@@ -86,8 +86,18 @@ class MetricsController < ApplicationController
     end
   end
 
+  ## Derive the metric worker class
+  #
+  # Uses +metric+ to dynamically retrieve the corresponding metric worker class
+  # which is used to instantiate a new computation job. If there is no metric
+  # worker matching the metric the default base class is returned.
+  #
   def worker(metric)
-    (metric.to_s.camelcase + "MetricWorker").constantize
+    begin
+      (metric.to_s.camelcase + "MetricWorker").constantize
+    rescue NameError
+      MetricWorker
+    end
   end
 
 end
