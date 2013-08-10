@@ -1,4 +1,4 @@
-class AccessibilityMetricWorker < MetricsWorker
+class AccessibilityMetricWorker < MetricWorker
 
   def perform(repository_name)
     repository = Repository.find repository_name

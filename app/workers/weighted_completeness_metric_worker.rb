@@ -1,4 +1,4 @@
-class WeightedCompletenessMetricWorker < MetricsWorker
+class WeightedCompletenessMetricWorker < MetricWorker
 
   def perform(repository_name)
     repository = Repository.find(repository_name)

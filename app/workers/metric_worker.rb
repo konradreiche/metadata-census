@@ -1,4 +1,4 @@
-class MetricsWorker
+class MetricWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 

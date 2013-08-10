@@ -1,4 +1,4 @@
-class LinkCheckerMetricWorker <  MetricsWorker
+class LinkCheckerMetricWorker <  MetricWorker
 
   def perform(repository_name)
     store state: :load
