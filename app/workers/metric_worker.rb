@@ -10,28 +10,22 @@ class MetricWorker
     total = @metadata.length
     @metadata.each_with_index do |document, i|
       record = self.class.symbolize_keys(document.to_hash)[:record]
-      metric.compute(record, *args)
-      scores << metric.score
-      update_document(document, metric)
+      @metric.compute(record, *args)
+      scores << @metric.score
+      update_document(document)
       at(i + 1, total)
     end
 
-    update_repository(repository, metric, scores)
+    update_repository(scores)
     refresh
   end
 
-  def perform(repository, metric)
-    @metadata = Repository.find(repository).metadata
-    metric = metric.to_s.camelcase.constantize.new
-    compute(repository, metric)
-  end
+  def update_document(document)
+    metric_name = @metric.name.to_sym
+    document[metric_name] = { score: @metric.score }
 
-  def update_document(document, metric)
-    metric_name = metric.name.to_sym
-    document[metric_name] = { score: metric.score }
-
-    if metric.respond_to?(:report)
-      document[metric_name][:report] = metric.report
+    if @metric.respond_to?(:report)
+      document[metric_name][:report] = @metric.report
     end
 
     Tire.index 'metadata' do
@@ -39,7 +33,7 @@ class MetricWorker
     end
   end
 
-  def update_repository(repository, metric, scores)
+  def update_repository(scores)
     scores.sort!
     minimum = scores.first
     maximum = scores.last
@@ -47,8 +41,8 @@ class MetricWorker
     median = scores[scores.length / 2]
 
     score = Score.new(minimum, maximum, average, median)
-    repository.update_score(metric, score)
-    repository.update_index
+    @repository.update_score(@metric, score)
+    @repository.update_index
   end
 
   def refresh

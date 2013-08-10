@@ -1,4 +1,4 @@
-class GenericMetricWorker < MetricsWorker
+class GenericMetricWorker < MetricWorker
 
   def perform(repository, metric, *args)
     @repository ||= Repository.find(repository)

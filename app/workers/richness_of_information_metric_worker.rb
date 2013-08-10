@@ -1,4 +1,4 @@
-class RichnessOfInformationMetricWorker < MetricWorker
+class RichnessOfInformationMetricWorker < GenericMetricWorker
 
   def perform(repository, metric)
     store state: :load

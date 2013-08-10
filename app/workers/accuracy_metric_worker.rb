@@ -1,4 +1,4 @@
-class AccuracyMetricWorker < MetricWorker
+class AccuracyMetricWorker < GenericMetricWorker
 
   def perform(repository, metric)
     store state: :load
