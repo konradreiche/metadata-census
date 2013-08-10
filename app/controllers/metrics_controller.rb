@@ -63,7 +63,8 @@ class MetricsController < ApplicationController
 
     repositories.each do |repository|
       metrics.each do |metric|
-        id = worker(metric).send(:perform_async, repository.name, metric)
+        worker = MetricWorker.worker_class(metric)
+        id = worker.send(:perform_async, repository.name, metric)
         @@jobs[repository.name][metric] = id
       end
     end
@@ -83,20 +84,6 @@ class MetricsController < ApplicationController
       Metrics::IDENTIFIERS
     else
       [parameter.to_sym]
-    end
-  end
-
-  ## Derive the metric worker class
-  #
-  # Uses +metric+ to dynamically retrieve the corresponding metric worker class
-  # which is used to instantiate a new computation job. If there is no metric
-  # worker matching the metric the default base class is returned.
-  #
-  def worker(metric)
-    begin
-      (metric.to_s.camelcase + "MetricWorker").constantize
-    rescue NameError
-      MetricWorker
     end
   end
 

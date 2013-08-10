@@ -70,21 +70,17 @@ class MetricWorker
     end
   end
 
-  private
-  def initialize_metadata
-    if @metadata.nil?
-      store state: :load
-      logger.info 'Loading metadata'
-      @metadata = repository.metadata
-    end
-  end
-
-  def initialize_metric(metric)
-    if metric.is_a?(String)
-      metric = metric.to_s.gsub(' ', '').constantize
-      metric.new
-    else
-      metric
+  ## Derive the metric worker class
+  #
+  # Uses +metric+ to dynamically retrieve the corresponding metric worker class
+  # which is used to instantiate a new computation job. If there is no metric
+  # worker matching the metric the default generic worker is returned.
+  #
+  def self.worker_class(metric)
+    begin
+      (metric.to_s.camelcase + "MetricWorker").constantize
+    rescue NameError
+      GenericMetricWorker
     end
   end
 
