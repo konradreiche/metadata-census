@@ -16,21 +16,21 @@ MetadataCensus::Application.routes.draw do
 
   root :to => 'static_pages#home'
 
-  match '/metrics', to: 'metrics#overview'
-  match '/metrics/compute', to: 'metrics#compute'
-  match '/metrics/status', to: 'metrics#status'
+  get '/metrics', to: 'metrics#overview'
+  get '/metrics/compute', to: 'metrics#compute'
+  get '/metrics/status', to: 'metrics#status'
 
-  match '/metrics/completeness', to: 'metrics/completeness#details'
-  match '/metrics/weighted-completeness', to: 'metrics/completeness#details'
-  match '/metrics/accuracy', to: 'metrics#accuracy_stats'
-  match '/metrics/richness-of-information', to: 'metrics/richness_of_information#details'
-  match '/metrics/accessibility', to: 'metrics/accessibility#details'
-  match '/metrics/link-checker', to: 'metrics/link_checker#report'
+  get '/metrics/completeness', to: 'metrics/completeness#details'
+  get '/metrics/weighted-completeness', to: 'metrics/completeness#details'
+  get '/metrics/accuracy', to: 'metrics#accuracy_stats'
+  get '/metrics/richness-of-information', to: 'metrics/richness_of_information#details'
+  get '/metrics/accessibility', to: 'metrics/accessibility#details'
+  get '/metrics/link-checker', to: 'metrics/link_checker#report'
 
-  match '/repositories', to: 'repositories#overview'
-  match '/repositories/map', to: 'repositories#map'
+  get '/repositories', to: 'repositories#overview'
+  get '/repositories/map', to: 'repositories#map'
 
-  match '/metadata', to: 'metadata#select'
+  get '/metadata', to: 'metadata#select'
 
   mount Sidekiq::Web, at: '/sidekiq'
 

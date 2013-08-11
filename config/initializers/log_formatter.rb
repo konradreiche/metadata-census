@@ -1,11 +1,4 @@
-class ActiveSupport::BufferedLogger
-
-  def formatter=(formatter)
-    @log.formatter = formatter
-  end
-end
-
-class Formatter
+class ActiveSupport::Logger::SimpleFormatter
 
   SEVERITY_TO_COLOR_MAP = {'DEBUG' => '0;37', 'INFO' => '32', 'WARN' =>'33',
                            'ERROR'=>'31', 'FATAL'=>'31', 'UNKNOWN'=>'37'}
@@ -18,5 +11,3 @@ class Formatter
   end
 
 end
-
-Rails.logger.formatter = Formatter.new
