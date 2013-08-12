@@ -14,6 +14,10 @@ module Metrics
       value.nil? or (value.is_a?(String) and value !~ /[^[:space:]]/)
     end
 
+    def normalize?
+      false
+    end
+
     ## List the metrics for dynamically generating the view
     # 
     def self.metrics

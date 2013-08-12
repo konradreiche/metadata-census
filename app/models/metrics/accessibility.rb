@@ -78,5 +78,9 @@ module Metrics
       206.835 - (1.015 * asl) - (84.6 * asw)
     end
 
+    def normalize?
+      true
+    end
+
   end
 end

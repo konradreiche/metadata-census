@@ -135,4 +135,9 @@ module Metrics
       end
     end
   end
+
+  def normalize?
+    true
+  end
+
 end
