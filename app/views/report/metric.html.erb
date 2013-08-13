@@ -68,6 +68,16 @@
       </div>
     </div>
   </div>
-  <%= render partial: "report/metric/#{@metric.to_s}" %>
+  <div class="row">
+    <div class="span10">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#analysis">Analysis</a></li>
+        <li><a href="#statistics">Statistics</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="tab-content">
+    <%= render partial: "report/metric/#{@metric.to_s}" %>
+  </div>
 <% end %>
 <%= render 'layouts/repository_based' %>
