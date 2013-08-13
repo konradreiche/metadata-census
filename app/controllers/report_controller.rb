@@ -15,7 +15,6 @@ class ReportController < ApplicationController
     load_metrics(:show)
     load_records
     report(@metric, @repository)
-    logger.info @report
   end
 
   def load_records
