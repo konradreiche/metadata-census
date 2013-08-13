@@ -34,7 +34,7 @@ module ReportHelper
     record_parameters = record_parameters(i)
     items = content_tag(:ul, class: 'dropdown-menu') do
       records.each do |record|
-        score = '%.2f' % record[@metric]
+        score = '%.2f' % record[@metric][:score]
         parameter = "record#{i + 1}".to_sym
         record_parameters[parameter] = record[:id]
 

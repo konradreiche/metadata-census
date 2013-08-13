@@ -83,6 +83,7 @@ class Repository
   def sort_metric_scores(metric, sorting_order)
     begin
       name = @name
+      metric = :"#{metric}.score"
       search = Tire.search 'metadata' do
         query { string "repository:#{name}" }
         sort { by metric, sorting_order }
