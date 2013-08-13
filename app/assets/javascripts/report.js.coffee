@@ -69,7 +69,6 @@ $ ->
     $(".nav.nav-tabs a").on 'click', (event) =>
       event.preventDefault()
       $(event.target).tab("show")
-    $(".nav.nav-tabs a:last").tab("show")
 
     $(".report.repository-select").on 'change', (event) =>
       repository = $(".report.repository-select").val()
