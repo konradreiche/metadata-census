@@ -1,6 +1,7 @@
 class ReportController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric
+  include Report::Metric
 
   helper_method :metric_score, :record, :metric_abbreviation
 
@@ -12,7 +13,12 @@ class ReportController < ApplicationController
   def metric
     load_repositories(:repository)
     load_metrics(:show)
+    load_records
+    report(@metric, @repository)
+    logger.info @report
+  end
 
+  def load_records
     2.times do |i|
       variable = "record#{i + 1}"
       instance_variable = "@#{variable}"
@@ -56,6 +62,10 @@ class ReportController < ApplicationController
     metric.to_s.split('_').inject('') do |abbreviation, word|
       abbreviation + word.first
     end.upcase
+  end
+
+  def link_checker
+
   end
 
 end

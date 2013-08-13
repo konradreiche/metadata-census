@@ -1,0 +1,14 @@
+<table class="link-checker-table table">
+  <thead>
+    <th>URL</th>
+    <th>Response</th>
+  </thead>
+  <tbody>
+    <% @report.each do |url, response| %>
+      <tr>
+        <td><%= url %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
