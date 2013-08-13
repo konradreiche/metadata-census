@@ -68,5 +68,6 @@
       </div>
     </div>
   </div>
+  <%= render partial: "report/metric/#{@metric.to_s}" %>
 <% end %>
 <%= render 'layouts/repository_based' %>
