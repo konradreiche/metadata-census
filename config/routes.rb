@@ -17,7 +17,7 @@ MetadataCensus::Application.routes.draw do
   root :to => 'static_pages#home'
 
   get '/metrics', to: 'metrics#overview'
-  get '/metrics/compute', to: 'metrics#compute'
+  post '/metrics/compute', to: 'metrics#compute'
   get '/metrics/status', to: 'metrics#status'
 
   get '/metrics/completeness', to: 'metrics/completeness#details'
