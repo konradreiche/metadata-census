@@ -2,7 +2,7 @@ module AdminHelper
 
   def create_bar(metric, type)
     id = @repository.name.gsub('.', '-')
-    tag(:div, class: "#{id} #{metric} #{type} bar")
+    tag(:div, class: "#{id} #{metric} #{type} progress-bar")
   end
 
   def create_button(metric)

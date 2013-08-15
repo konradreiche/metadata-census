@@ -99,14 +99,14 @@ $ ->
     return type
 
   fillOverallProgressBar = (percent) ->
-    barDiv = $(".admin.control.progress > .all.bar")
+    barDiv = $(".admin.control.progress > .all.progress-bar")
     barDiv.css('width', "#{percent}%")
 
   # Fills a defined progress bar up to the given percent
   fillProgressBar = (repository, metric, type, percent) ->
     progressClass = '.admin.control.progress'
     repositoryId = repository.split('.').join('-')
-    barDiv = $("#{progressClass} .#{repositoryId}.#{metric}.#{type}.bar")
+    barDiv = $("#{progressClass} .#{repositoryId}.#{metric}.#{type}.progress-bar")
     barDiv.css('width', "#{percent}%")
 
   # Determines whether the request for the job progress should
