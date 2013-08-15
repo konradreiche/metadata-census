@@ -12,6 +12,22 @@ module Metrics
   NORMALIZE = [:richness_of_information,
                :accessibility]
 
+  def self.metrics
+    initialize if Rails.env.development?
+    cls = Metrics::Metric
+    cls.metrics
+  end
+
+  ## Eager load all metric classes
+  # 
+  # In development environment the metric classes are wiped per request. This
+  # method helps to manually load them.
+  #
+  def self.initialize
+    path = Rails.root.join('app/models/metrics/*.rb')
+    Dir[path].each { |metric_file| load metric_file }
+  end
+
   def self.normalize(metric, values)
 
     unless NORMALIZE.include?(metric)

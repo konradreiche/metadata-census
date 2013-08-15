@@ -6,8 +6,8 @@ MetadataCensus::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Do eager load code on boot.
-  config.eager_load = true
+  # Don't eager load code on boot.
+  config.eager_load = false
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -18,7 +18,6 @@ MetadataCensus::Application.configure do
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
-
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large

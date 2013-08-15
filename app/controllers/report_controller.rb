@@ -43,7 +43,7 @@ class ReportController < ApplicationController
   end
 
   def metric_score(metric)
-    value = @repository.send(metric)
+    value = @repository.send(metric) if @repository.respond_to?(metric)
     unless value.nil?
       value = value[:average]
       value = Metrics::normalize(metric, [value]).first
@@ -61,10 +61,6 @@ class ReportController < ApplicationController
     metric.to_s.split('_').inject('') do |abbreviation, word|
       abbreviation + word.first
     end.upcase
-  end
-
-  def link_checker
-
   end
 
 end

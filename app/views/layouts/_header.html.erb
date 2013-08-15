@@ -9,13 +9,13 @@
     </button>
     <%= link_to "Metadata Census", root_path, class: "navbar-brand" %>
   </div>
-  <div class="collapse navbar-collapse navbar-ex3-collapse">
+  <div class="navbar-collapse navbar-ex3-collapse">
     <ul class="nav navbar-nav">
-      <%= create_navbar_button('Home', root_path) %>
-      <%= create_navbar_button('Metadata', metadata_path) %>
-      <%= create_navbar_button('Repositories', repositories_path) %>
-      <%= create_navbar_button('Control', admin_control_path) %>
-      <%= create_navbar_button('Report', report_repository_path) %>
+      <%= navbar_button('Home', root_path) %>
+      <%= navbar_button('Metadata', metadata_path) %>
+      <%= navbar_button('Repositories', repositories_path) %>
+      <%= navbar_button('Report', report_repository_path) %>
+      <%= navbar_button('Control', admin_control_path) %>
     </ul>
   </div>
 </nav>
