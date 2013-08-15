@@ -6,14 +6,13 @@ module MetricsHelper
 
   def intermediate_score(record, metric, accessors)
     accessors = accessors.to_s.to_sym
-    details = (metric.to_s + "_details").to_sym
 
-    if record[details].nil? or record[details][accessors].nil?
+    if record[metric][:report].nil? or record[metric][:report][accessors].nil?
       return
     end
 
-    score = record[details][accessors]
-    content_tag(:a, content_tag('i', '', class: 'icon-tasks'), class: 'score-inspector',
+    score = record[metric][:report][accessors]
+    content_tag(:a, content_tag('i', '', class: 'glyphicon-tasks'), class: 'score-inspector',
                 href: '#', data: {:toggle => 'tooltip', :placement => 'bottom',
                                   :"original-title" => "%.3f" % score}, title: '')
   end
@@ -41,7 +40,7 @@ module MetricsHelper
     caret = content_tag(:strong, '', class: 'caret')
     items = content_tag(:ul, class: 'dropdown-menu') do
       records.each do |record|
-        score = "%.4f" % record[metric]
+        score = "%.4f" % record[metric][:score]
         url = record_link(record, kind)
         anchor = content_tag(:a, score, role: 'menuitem', href: url)
         concat(content_tag(:li, anchor, role: 'presentation'))
