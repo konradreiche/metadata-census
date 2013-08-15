@@ -80,13 +80,14 @@ class Repository
     worst_records(metric).first
   end
 
-  def sort_metric_scores(metric, sorting_order)
+  def sort_metric_scores(metric, sorting_order, many=10)
     begin
       name = @name
       metric = :"#{metric}.score"
       search = Tire.search 'metadata' do
         query { string "repository:#{name}" }
         sort { by metric, sorting_order }
+        size many
       end.results
     rescue Tire::Search::SearchRequestFailed => e
       raise Exceptions::RepositoryNoScores
