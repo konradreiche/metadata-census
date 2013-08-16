@@ -3,24 +3,34 @@
   <h2><%= @repository.name == '*' ? 'All' : @repository.name %></h2>
 <% end %>
 <% content_for :content do %>
-  <h3>Score <%= '%.2f%' % (@score * 100) %></h3>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Metric</th>
-        <th>Quality</th>
-        <th>Report</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Metrics::metrics.each do |metric| %>
-        <tr>
-          <td><%= metric.to_s.titlecase %></td>
-          <td><%= metric_score(metric) %></td>
-          <td><%= create_metric_report_button(metric) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-10">
+      <div class="report repository score">
+        Score <%= '%.2f%' % (@score * 100) %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <table class="report repository table table-striped">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Quality</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Metrics::metrics.each do |metric| %>
+            <tr>
+              <td><%= metric.to_s.titlecase %></td>
+              <td><%= metric_score(metric) %></td>
+              <td><%= create_metric_report_button(metric) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% end %>
 <%= render 'layouts/repository_based' %>

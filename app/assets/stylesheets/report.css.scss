@@ -28,6 +28,20 @@
   vertical-align: middle;
 }
 
+.report.repository.table {
+  table-layout: fixed;
+}
+
+.report.repository.table td:nth-of-type(2),
+.report.repository.table th:nth-of-type(2) {
+  text-align: center;
+}
+
+.report.repository.table td:nth-of-type(3),
+.report.repository.table th:nth-of-type(3) {
+  text-align: right;
+}
+
 .btn-group .repository-based.caret {
   margin-top: 0px;
   vertical-align: middle;
