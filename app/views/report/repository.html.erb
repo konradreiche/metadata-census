@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <% Metrics::metrics.each do |metric| %>
+          <% Metrics::list.each do |metric| %>
             <tr>
               <td><%= metric.to_s.titlecase %></td>
               <td><%= metric_score(metric) %></td>

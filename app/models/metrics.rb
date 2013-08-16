@@ -12,7 +12,7 @@ module Metrics
   NORMALIZE = [:richness_of_information,
                :accessibility]
 
-  def self.metrics
+  def self.list
     initialize if Rails.env.development?
     cls = Metrics::Metric
     cls.metrics
