@@ -1,7 +1,7 @@
 module ReportHelper
 
   def create_metric_report_button(metric)
-    icon = tag(:strong, class: 'glyphicon glyphicon-th')
+    icon = content_tag(:span, nil, class: 'glyphicon glyphicon-list-alt')
     content_tag(:a, icon, class: 'btn btn-default', href: metric_url(metric))
   end
 

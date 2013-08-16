@@ -23,6 +23,11 @@
   position: relative;
 }
 
+.btn > span.glyphicon:before {
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
 .btn-group .repository-based.caret {
   margin-top: 0px;
   vertical-align: middle;
