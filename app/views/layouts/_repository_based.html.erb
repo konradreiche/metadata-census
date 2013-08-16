@@ -1,9 +1,7 @@
 <h1><%= yield :heading %></h1>
-<ul class="repository-navigation breadcrumb">
-  <li class="active"><a href="#">lol</a></li>
-  <li style="position:relative">
-    <a data-toggle="dropdown" href="#">
-      <%= @repository.name == '*' ? 'All' : @repository.name %>
+<ol class="report repository breadcrumb">
+  <li class="report repository selector">
+    <a data-toggle="dropdown" href="#"><%= @repository.name == '*' ? 'All' : @repository.name %></a>
     <ul class="dropdown-menu" role="menu">
       <li><a href="?<%= yield :parameter %>=*">All</a></li>
       <li class="divider"></li>
@@ -11,18 +9,11 @@
         <li><%= create_repository_link(repository) %></li>
       <% end %>
     </ul>
-    </a>
+    <strong class="caret"></strong>
+    <li class="active">Report</li>
   </li>
-  <li><a href="#"></a></li>
-</ul>
-<div class="repository-menu">
-</div>
+</ol>
 <%= yield :content_top %>
 <div class="dashboard">
-<ul class="breadcrumb">
-  <li><a href="#">X</a></li>
-  <li class="active">lol</li>
-</ul>
-
   <%= yield :content %>
 </div>
