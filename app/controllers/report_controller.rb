@@ -49,7 +49,7 @@ class ReportController < ApplicationController
       value = Metrics::normalize(metric, [value]).first
       '%.2f' % (value  * 100)
     else
-      ''
+      '-'
     end
   end
 
