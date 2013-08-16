@@ -1,17 +1,7 @@
 <% provide(:parameter, 'repository') %>
-<% provide(:heading, 'Metric Report') %>
-<% content_for :content_top do %>
-<div class="repository-menu">
-  <a class="repository-based repository-selector" data-toggle="dropdown" href="#">
-    <%= @metric.to_s.titlecase %> 
-    <strong class="repository-based caret"></strong>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <% Metrics::IDENTIFIERS.each do |metric| %>
-      <li><%= create_metric_report_link(metric) %></li>
-    <% end %>
-  </ul>
-</div>
+<% content_for :heading do %>
+  <h1>Metric Report</h1>
+  <h2><%= @metric.to_s.titlecase %></h2>
 <% end %>
 <% content_for :content do %>
   <div class="report row">

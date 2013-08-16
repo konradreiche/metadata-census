@@ -1,4 +1,4 @@
-<h1><%= yield :heading %></h1>
+<%= yield :heading %>
 <ol class="report repository breadcrumb">
   <li class="report repository selector">
     <a data-toggle="dropdown" href="#"><%= @repository.name == '*' ? 'All' : @repository.name %></a>
@@ -10,6 +10,8 @@
       <% end %>
     </ul>
     <strong class="caret"></strong>
+    <li class="report repository selector"><%= render partial: 'shared/dropdown_menu', locals: {entity_label: @metric.to_s.titlecase,
+    entity: Metrics.list, entity_link_method: :create_metric_report_link} %></li>
     <li class="active">Report</li>
   </li>
 </ol>
