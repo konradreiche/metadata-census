@@ -24,7 +24,8 @@ module Metrics
   # method helps to manually load them.
   #
   def self.initialize
-    path = Rails.root.join('app/models/metrics/*.rb')
+    directory = self.to_s.downcase
+    path = Rails.root.join("app/models/#{directory}/*.rb")
     Dir[path].each { |metric_file| load metric_file }
   end
 
