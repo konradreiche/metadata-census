@@ -42,18 +42,8 @@ module ReportHelper
   end
 
   def repository_report_link(repository)
-    if repository == :all
-      name = 'All'
-    else
-      name = repository.name
-    end
-
-    if @metric.nil?
-      url = "?show=#{name}"
-    else
-      url = "?show=#{@metric}&repository=#{name}"
-    end
-    content_tag(:a, name, href: url)
+    href = "/report/#{repository.name}"
+    content_tag(:a, repository.name, href: href)
   end
 
   def create_record_submenu(i, sorting)

@@ -6,7 +6,8 @@ MetadataCensus::Application.routes.draw do
 
   get 'admin/control'
 
-  get 'report/repository'
+  get 'report', to: 'report#repository'
+  get 'report/:repository', to: 'report#repository', constraints: { :repository => /[0-z\.]+/ }
 
   get 'repositories/overview'
   
@@ -20,6 +21,13 @@ MetadataCensus::Application.routes.draw do
   post '/metrics/compute', to: 'metrics#compute'
   get '/metrics/status', to: 'metrics#status'
 
+  get '/repositories', to: 'repositories#overview'
+  get '/repositories/map', to: 'repositories#map'
+  get '/metadata', to: 'metadata#select'
+
+  mount Sidekiq::Web, at: '/sidekiq'
+
+  # deprecated
   get '/metrics/completeness', to: 'metrics/completeness#details'
   get '/metrics/weighted-completeness', to: 'metrics/completeness#details'
   get '/metrics/accuracy', to: 'metrics#accuracy_stats'
@@ -27,12 +35,6 @@ MetadataCensus::Application.routes.draw do
   get '/metrics/accessibility', to: 'metrics/accessibility#details'
   get '/metrics/link-checker', to: 'metrics/link_checker#report'
 
-  get '/repositories', to: 'repositories#overview'
-  get '/repositories/map', to: 'repositories#map'
-
-  get '/metadata', to: 'metadata#select'
-
-  mount Sidekiq::Web, at: '/sidekiq'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

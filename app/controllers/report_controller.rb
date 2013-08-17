@@ -6,7 +6,7 @@ class ReportController < ApplicationController
   helper_method :metric_score, :record, :metric_abbreviation
 
   def repository
-    load_repositories(:show)
+    load_repositories(:repository)
     @score = @repository.score
   end
 

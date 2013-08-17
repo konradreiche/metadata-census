@@ -1,7 +1,5 @@
 <a data-toggle="dropdown" href="#"><%= link_text %></a>
 <ul class="dropdown-menu" role="menu">
-  <li><%= self.send(link_method, :all) %></li>
-  <li class="divider"></li>
   <% entities.each do |entity| %>
     <li><%= self.send(link_method, entity) %></li>
   <% end %>
