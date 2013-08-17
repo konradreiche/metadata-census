@@ -42,17 +42,6 @@ class ReportController < ApplicationController
     end
   end
 
-  def metric_score(metric)
-    value = @repository.send(metric) if @repository.respond_to?(metric)
-    unless value.nil?
-      value = value[:average]
-      value = Metrics::normalize(metric, [value]).first
-      '%.2f' % (value  * 100)
-    else
-      '-'
-    end
-  end
-
   def record(i)
     instance_variable_get("@record#{i + 1}")
   end

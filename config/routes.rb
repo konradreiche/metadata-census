@@ -8,11 +8,11 @@ MetadataCensus::Application.routes.draw do
   get 'repository/:repository/metric/:metric', to: 'metrics#show',
     constraints: { repository: /[0-z\.]+/ }
 
+  get 'repositories', to: 'repositories#index'
+
   get 'report/metric'
 
   get 'admin/control'
-
-  get 'repositories', to: 'repositories#show'
   
   get 'metadata/search'
 

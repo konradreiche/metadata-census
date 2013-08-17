@@ -1,6 +1,8 @@
 class RepositoriesController < ApplicationController
   include Concerns::Repository
 
+  helper_method :metric_score
+
   def index
     load_all_repositories()
   end
@@ -23,5 +25,18 @@ class RepositoriesController < ApplicationController
       @repositories = []
     end
   end
+
+  def metric_score(metric)
+    value = @repository.send(metric) if @repository.respond_to?(metric)
+    unless value.nil?
+      value = value[:average]
+      value = Metrics::normalize(metric, [value]).first
+      '%.2f' % (value  * 100)
+    else
+      '-'
+    end
+  end
+
+
 
 end
