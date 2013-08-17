@@ -1,8 +1,8 @@
 module Metrics
   class Metric
 
-    def name
-      self.class.name.underscore.split('/').last
+    def self.to_sym
+      self.name.demodulize.underscore.to_sym
     end
 
     ## Skip null fields and fields with whitespace strings
@@ -24,10 +24,14 @@ module Metrics
       @@metrics
     end
 
+    ## Keeps track of metric subclasses
+    #
+    # This method is called everytime a subclass of +Metrics::Metric+ is
+    # created and adds the subclass to the list of metrics.
+    #
     def self.inherited(subclass)
       @@metrics ||= []
-      metric = subclass.to_s.split('::').last.underscore.to_sym
-      @@metrics << metric
+      @@metrics << subclass.to_sym
     end
 
   end

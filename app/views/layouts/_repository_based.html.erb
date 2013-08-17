@@ -1,17 +1,7 @@
 <%= yield :heading %>
 <ol class="report repository breadcrumb">
-  <li class="report repository selector">
-    <a data-toggle="dropdown" href="#"><%= @repository.name == '*' ? 'All' : @repository.name %></a>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="?<%= yield :parameter %>=*">All</a></li>
-      <li class="divider"></li>
-      <% @repositories.each do |repository| %>
-        <li><%= create_repository_link(repository) %></li>
-      <% end %>
-    </ul>
-    <strong class="caret"></strong>
-    <li class="report repository selector"><%= render partial: 'shared/dropdown_menu', locals: {entity_label: @metric.to_s.titlecase,
-    entity: Metrics.list, entity_link_method: :create_metric_report_link} %></li>
+    <%= report_repository_selector %>
+    <%= report_metric_selector unless @metrics.nil? %>
     <li class="active">Report</li>
   </li>
 </ol>

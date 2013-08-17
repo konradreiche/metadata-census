@@ -1,9 +1,9 @@
-<a data-toggle="dropdown" href="#"><%= entity_label %></a>
+<a data-toggle="dropdown" href="#"><%= link_text %></a>
 <ul class="dropdown-menu" role="menu">
-  <li><%= self.send(entity_link_method, '*') %></li>
+  <li><%= self.send(link_method, :all) %></li>
   <li class="divider"></li>
-  <% entity.each do |entity| %>
-    <li><%= self.send(entity_link_method, entity) %></li>
+  <% entities.each do |entity| %>
+    <li><%= self.send(link_method, entity) %></li>
   <% end %>
 </ul>
 <strong class="caret"></strong>

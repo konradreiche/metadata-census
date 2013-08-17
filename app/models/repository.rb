@@ -14,7 +14,7 @@ class Repository
   property :datasets
   property :score
 
-  Metrics::IDENTIFIERS.each do |metric|
+  Metrics::list.each do |metric|
     property metric
   end
 
@@ -81,17 +81,16 @@ class Repository
   end
 
   def sort_metric_scores(metric, sorting_order, many=10)
-    begin
-      name = @name
-      metric = :"#{metric}.score"
-      search = Tire.search 'metadata' do
-        query { string "repository:#{name}" }
-        sort { by metric, sorting_order }
-        size many
-      end.results
-    rescue Tire::Search::SearchRequestFailed => e
-      raise Exceptions::RepositoryNoScores
-    end
+    name = @name
+    metric = :"#{metric}.score"
+    search = Tire.search 'metadata' do
+      query { string "repository:#{name}" }
+      sort { by metric, sorting_order }
+      size many
+    end.results
+  rescue Tire::Search::SearchRequestFailed => e
+    Rails.logger.warn e.message
+    raise Exceptions::RepositoryNoScores
   end
 
   def score

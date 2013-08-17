@@ -4,9 +4,9 @@ module Concerns::Repository
     load_all_repositories()
     @repository = params[parameter] || @repositories.first.name
     @repository = ::Repository.find(@repository)
-    if @repository.nil? and params[parameter] == '*'
+    if @repository.nil? and params[parameter] == 'All'
       @repository = Repository.new
-      @repository.name = '*'
+      @repository.name = 'All'
     end
     gon.repository = @repository.to_hash
   end

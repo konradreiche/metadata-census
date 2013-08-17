@@ -1,11 +1,9 @@
 module Concerns::Metric
 
   def load_metrics(parameter)
-    @metric = params[parameter] || Metrics::IDENTIFIERS.first
-    @metric = @metric.underscore if @metric.is_a?(String)
-    @metric = @metric.to_sym
+    @metric = params[parameter].underscore.to_sym || Metrics.list.first.name
     gon.metric = @metric
-    gon.metrics = Metrics::IDENTIFIERS
+    gon.metrics = Metrics.list.map { |metric| metric.to_sym }
   end
 
 end

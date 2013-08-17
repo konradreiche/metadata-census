@@ -6,25 +6,54 @@ module ReportHelper
   end
 
   def create_metric_report_link(metric)
-    metric = 'All' if metric == '*'
     content_tag(:a, metric.to_s.titlecase, href: metric_url(metric))
   end
 
+
+  ## Creates the URL to select repository and metric
+  #
+  #  The underscores are replaced with dashes for SEO reasons.
+  #
   def metric_url(metric)
-    metric = Metrics::get_url_representation(metric)
+    metric = metric.to_s.dasherize
     "/report/metric?show=#{metric}&repository=#{@repository.name}"
   end
 
-  def metric_selector(metric)
+  ## Creates the metric selector for the breadcrumb navigation.
+  #
+  def report_metric_selector
+    locals = { entities: Metrics.list,
+               link_text: @metric.to_s.titlecase,
+               link_method: :create_metric_report_link }
+
+    content = render(partial: 'shared/dropdown_menu', locals: locals)
+    content_tag(:li, content, class: 'report metric selector')
   end
 
-  def create_repository_link(repository)
-    if @metric.nil?
-      url = "?show=#{repository.name}"
+  ## Creates the repository selector for the breadcrumb navigation.
+  #
+  def report_repository_selector
+    locals = { entities: @repositories,
+               link_text: @repository.name,
+               link_method: :repository_report_link }
+
+    content = render(partial: 'shared/dropdown_menu', locals: locals)
+    content_tag(:li, content, class: 'report repository selector')
+  end
+
+  def repository_report_link(repository)
+    if repository == :all
+      name = 'All'
     else
-      url = "?show=#{@metric}&repository=#{repository.name}"
+      name = repository.name
     end
-    content_tag(:a, repository.name, href: url)
+
+    if @metric.nil?
+      url = "?show=#{name}"
+    else
+      url = "?show=#{@metric}&repository=#{name}"
+    end
+    content_tag(:a, name, href: url)
   end
 
   def create_record_submenu(i, sorting)

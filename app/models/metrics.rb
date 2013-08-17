@@ -50,11 +50,15 @@ module Metrics
     values.map { |value| (value - min) / range }
   end
 
-  def self.get_url_representation(metric)
+  def self.from_sym(symbol)
+    "#{self.name}::#{symbol.to_s.camelcase}".constantize
+  end
+
+  def self.url(metric)
     metric.to_s.gsub('_', '-')
   end
 
-  def self.get_internal_representation(metric)
+  def self.internal(metric)
     metric.to_s.gsub('-', '_')
   end
 
