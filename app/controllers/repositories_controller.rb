@@ -1,8 +1,13 @@
 class RepositoriesController < ApplicationController
   include Concerns::Repository
 
-  def overview
+  def index
     load_all_repositories()
+  end
+  
+  def show
+    load_repositories(:repository)
+    @score = @repository.score
   end
 
   def leaderboard

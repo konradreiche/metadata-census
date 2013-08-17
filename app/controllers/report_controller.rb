@@ -12,7 +12,7 @@ class ReportController < ApplicationController
 
   def metric
     load_repositories(:repository)
-    load_metrics(:show)
+    load_metrics(:metric)
     load_records
     report(@metric, @repository)
   end

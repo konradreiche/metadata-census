@@ -1,6 +1,8 @@
 require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
+  include Concerns::Repository
+  include Concerns::Metric 
 
   @@jobs = Hash.new { |hash, key| hash[key] = Hash.new }
   
@@ -10,6 +12,11 @@ class MetricsController < ApplicationController
     rescue Tire::Search::SearchRequestFailed
       @repositories = []
     end
+  end
+
+  def show
+    load_repositories(:repository)
+    load_metrics(:metric)
   end
 
   def status
