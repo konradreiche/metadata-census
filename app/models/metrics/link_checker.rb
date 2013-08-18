@@ -47,11 +47,11 @@ module Metrics
       end
     end
 
-    def enqueue_request(id, url)
+    def enqueue_request(id, url, method=:head)
 
-      config = {:method => :head,
-                :timeout => 20,
-                :connecttimeout => 10,
+      config = {:method => method,
+                :timeout => 80,
+                :connecttimeout => 60,
                 :nosignal => true}
 
       request = Typhoeus::Request.new(url, config)
@@ -61,6 +61,9 @@ module Metrics
           @requests -= 1
           updated_url = URI.escape(response.headers['Location'])
           enqueue_request(id, updated_url)
+        elsif client_error?(response_value, method)
+          @requests -= 1
+          enqueue_request(id, url, :get)
         else
           @resource_availability[id][url] = response_value
           @worker.at(@processed + 1, @requests)
@@ -73,10 +76,22 @@ module Metrics
 
     def redirect?(response_code)
       if response_code.is_a?(Fixnum)
-        response_code == 301 or response_code == 302
+        response_code == 301 || response_code == 302
       else
         false
       end
+    end
+
+    ##
+    # Checks whether the response is a HTTP 4xx client error
+    # 
+    # If there is a client error the probability is high that the link check
+    # cannot be reduced to a HTTP header request. In this case a full GET
+    # request is issued afterwards.
+    #
+    def client_error?(response, method)
+      method == :head && response.is_a?(Fixnum) &&
+        response >= 400 && response < 500 
     end
 
     def response_value(response)
