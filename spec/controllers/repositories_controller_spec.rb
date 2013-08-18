@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe RepositoriesController do
 
-  describe "GET 'overview'" do
+  describe "GET 'index'" do
     it "returns http success" do
-      get 'overview'
+      get 'index'
       response.should be_success
     end
   end
