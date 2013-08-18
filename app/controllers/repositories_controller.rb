@@ -31,12 +31,10 @@ class RepositoriesController < ApplicationController
     unless value.nil?
       value = value[:average]
       value = Metrics::normalize(metric, [value]).first
-      '%.2f' % (value  * 100)
+      '%.2f%' % (value  * 100)
     else
       '-'
     end
   end
-
-
 
 end

@@ -21,7 +21,7 @@ class MetricWorker
   end
 
   def update_document(document)
-    metric_name = @metric.name.to_sym
+    metric_name = @metric.name
     document[metric_name] = { score: @metric.score }
 
     if @metric.respond_to?(:report)

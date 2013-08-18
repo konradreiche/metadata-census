@@ -1,6 +1,10 @@
 module Metrics
   class Metric
 
+    def name
+      self.class.to_sym
+    end
+    
     def self.to_sym
       self.name.demodulize.underscore.to_sym
     end
@@ -35,4 +39,5 @@ module Metrics
     end
 
   end
+
 end
