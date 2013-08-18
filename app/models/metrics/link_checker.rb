@@ -18,16 +18,16 @@ module Metrics
       metadata.each_with_index do |dataset, i|
         dataset[:resources].each do |resource|
           @total += 1
-          url = URI.escape(resource[:url])
+          url = resource[:url]
           id = dataset[:id]
           enqueue_request(id, url)
         end
-        @worker.at(i + i, @total)
+        @worker.at(i + i, @total) unless @worker.nil?
       end
     end
 
     def compute(record)
-      @worker.at(@processed, @requests)
+      @worker.at(@processed, @requests) unless @worker.nil?
       @score = 0.0
 
       # blocking call
@@ -52,34 +52,25 @@ module Metrics
       config = {:method => method,
                 :timeout => 80,
                 :connecttimeout => 60,
+                :followlocation => true,
+                :ssl_verifypeer => false,
                 :nosignal => true}
 
-      request = Typhoeus::Request.new(url, config)
+      escaped = URI.escape(url, "[]")
+      request = Typhoeus::Request.new(escaped, config)
       request.on_complete do |response|
         response_value = response_value(response)
-        if redirect?(response_value)
-          @requests -= 1
-          updated_url = URI.escape(response.headers['Location'])
-          enqueue_request(id, updated_url)
-        elsif client_error?(response_value, method)
+        if client_error?(response_value, method)
           @requests -= 1
           enqueue_request(id, url, :get)
         else
           @resource_availability[id][url] = response_value
-          @worker.at(@processed + 1, @requests)
+          @worker.at(@processed + 1, @requests) unless @worker.nil?
           @processed += 1
         end
       end
       @dispatcher.queue(request)
       @requests += 1
-    end
-
-    def redirect?(response_code)
-      if response_code.is_a?(Fixnum)
-        response_code == 301 || response_code == 302
-      else
-        false
-      end
     end
 
     ##
