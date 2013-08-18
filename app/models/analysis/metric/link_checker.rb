@@ -1,8 +1,8 @@
-module Report::Metric
+module Analysis::Metric
 
   class LinkChecker
 
-    def self.report(repository)
+    def self.analyze(repository)
       report = OpenStruct.new
       responses = Hash.new
       distribution = Hash.new(0)

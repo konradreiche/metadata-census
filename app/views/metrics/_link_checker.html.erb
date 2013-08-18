@@ -5,7 +5,7 @@
       <th>Response</th>
     </thead>
     <tbody>
-      <% @report.responses.each do |url, response| %>
+      <% @analysis.responses.each do |url, response| %>
         <tr>
           <td><%= url %></td>
           <%= response_td(response) %>
@@ -16,7 +16,7 @@
 </div>
 <div id="statistics" class="tab-pane">
   <ul>
-    <% @report.distribution.each do |code, count| %>
+    <% @analysis.distribution.each do |code, count| %>
       <li><%= "#{code}: #{count}" %></li>
     <% end %>
   </ul>

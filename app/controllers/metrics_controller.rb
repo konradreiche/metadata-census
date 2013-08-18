@@ -3,7 +3,7 @@ require 'sidekiq/testing/inline' if ENV['DEBUG']
 class MetricsController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric 
-  include Report::Metric
+  include Analysis::Metric
 
   helper_method :metric_score, :record
 
@@ -21,7 +21,7 @@ class MetricsController < ApplicationController
     load_repositories(:repository)
     load_metrics(:metric)
     load_records
-    report(@metric, @repository)
+    analyze(@metric, @repository)
   end
 
   def status
