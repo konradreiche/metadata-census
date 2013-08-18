@@ -3,6 +3,9 @@ require 'sidekiq/testing/inline' if ENV['DEBUG']
 class MetricsController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric 
+  include Report::Metric
+
+  helper_method :metric_score, :record
 
   @@jobs = Hash.new { |hash, key| hash[key] = Hash.new }
   
@@ -17,6 +20,8 @@ class MetricsController < ApplicationController
   def show
     load_repositories(:repository)
     load_metrics(:metric)
+    load_records
+    report(@metric, @repository)
   end
 
   def status
@@ -39,29 +44,6 @@ class MetricsController < ApplicationController
       @selected = Repository.find params[:repository]
     end
     gon.repository = @selected.to_hash
-  end
-
-  def accuracy_stats
-    preprocess
-    stats = Hash.new(0)
-
-    size = 0.0
-    metadata = @selected.metadata
-    metadata.each do |document|
-      record = document[:record]
-      record[:resources].each do |resource|
-        format = resource[:format]
-        format = resource[:mimetype] unless resource[:mimetype].nil?
-        next if format.nil?
-        size += 1
-        stats[format.downcase] += 1
-      end
-    end
-    stats = stats.inject([]) do |result, item|
-      result << { "format" => item[0],
-                  "frequency" => item[1] / size }
-    end
-    gon.data = stats
   end
 
   def compute
@@ -92,6 +74,35 @@ class MetricsController < ApplicationController
     else
       [parameter.to_sym]
     end
+  end
+
+  def load_records
+    2.times do |i|
+      variable = "record#{i + 1}"
+      instance_variable = "@#{variable}"
+      parameter = variable.to_sym
+
+      record = default_record(i + 1)
+      instance_variable_set(instance_variable, default_record(i + 1))
+      unless params[parameter].nil?
+        record = @repository.get_record(params[parameter])
+        instance_variable_set(instance_variable, record)
+      end
+      gon.send("#{variable}=", record)
+    end
+  end
+
+  def default_record(i)
+    case i
+    when 1
+      @repository.best_record(@metric)
+    when 2
+      @repository.worst_record(@metric)
+    end
+  end
+
+  def record(i)
+    instance_variable_get("@record#{i + 1}")
   end
 
 end

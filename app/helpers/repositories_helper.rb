@@ -16,13 +16,13 @@ module RepositoriesHelper
   ## Creates the URL to select the repository and metric
   #
   def metric_url(metric)
-    "#{repository_url}/#{metric.to_s.dasherize}"
+    "#{repository_url}/metric/#{metric.to_s.dasherize}"
   end
 
   ## Creates the URL to select the repository
   #
   def repository_url
-    "/report/#{@repository.name}"
+    "/repository/#{@repository.name}"
   end
 
 
