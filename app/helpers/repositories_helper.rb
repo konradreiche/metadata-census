@@ -25,7 +25,6 @@ module RepositoriesHelper
     "/repository/#{@repository.name}"
   end
 
-
   ## Creates the metric selector for the breadcrumb navigation.
   #
   def report_metric_selector
@@ -34,7 +33,7 @@ module RepositoriesHelper
                link_method: :create_metric_report_link }
 
     content = render(partial: 'shared/dropdown_menu', locals: locals)
-    content_tag(:li, content, class: 'report metric selector')
+    content_tag(:li, content, class: 'metric selector')
   end
 
   ## Creates the repository selector for the breadcrumb navigation.
@@ -45,11 +44,11 @@ module RepositoriesHelper
                link_method: :repository_report_link }
 
     content = render(partial: 'shared/dropdown_menu', locals: locals)
-    content_tag(:li, content, class: 'report repository selector')
+    content_tag(:li, content, class: 'repository selector')
   end
 
   def repository_report_link(repository)
-    href = "/report/#{repository.name}"
+    href = "/repository/#{repository.name}"
     content_tag(:a, repository.name, href: href)
   end
 

@@ -1,4 +1,4 @@
-module ReportHelper::LinkCheckerHelper
+module MetricsHelper::LinkCheckerHelper
 
   def response_td(response)
     success = response.is_a?(Fixnum) and response >= 200 and response < 300
