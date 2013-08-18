@@ -2,8 +2,8 @@
 <div class="dashboard">
   <ul class="repository nav nav-pills">
 
-    <%= content_tag(:li, (link_to "Overview", repositories_path),
-                    :class => is_active?('overview')) %>
+    <%= content_tag(:li, (link_to "Index", repositories_path),
+                    :class => is_active?('index')) %>
 
     <%= content_tag(:li, (link_to "Leaderboard", repositories_leaderboard_path),
                     :class => is_active?('leaderboard')) %>
