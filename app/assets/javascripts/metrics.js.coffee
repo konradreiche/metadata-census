@@ -1,117 +1,97 @@
 #=require d3
+#=require bootstrap-rowlink.min
 $ ->
 
-  repository = null
+  # Metric abbreviation are used in the result table
+  createMetricAbbreviation = (metric) ->
+    abbreviation = ''
+    for word in metric.split('_')
+      abbreviation += word[0].toUpperCase()
+    return abbreviation
 
-  register_select_event = () ->
+  # Create one result row for the result table
+  createTableRow = (metadata, i) ->
+    record = metadata.id
+    url = createReportLink(record, i)
+    tdId = "<td><a href=\"#{url}\">#{metadata.record.id}</a></td>"
+    tdName = "<td>#{metadata.record.name}</td>"
 
-    $("#repository-selector").on 'change', (e) =>
-      repository = $("#repository-selector").val()
-      window.location = "metrics?repository=#{repository}"
+    tdScores = ""
+    for metric in gon.metrics
+      if metadata[metric]?
+        tdScore = "<td>#{metadata[metric].toFixed(2)}</td>"
+      else
+        tdScore = "<td>N/A</td>"
+      tdScores += tdScore
 
-  check_results = (result) ->
-    repeat = false
-    for metric, status of result[repository]
-      if not repeat
-        repeat = repeat or status.percent != 100
-      $("##{metric} .bar").css('width', status.percent + '%')
-    if repeat
-      setTimeout(check_progress, 500)
+    return "<tr class='rowlink'>#{tdId}#{tdName}#{tdScores}</tr>"
 
-  check_progress = (repository) ->
-    $.getJSON('/metrics/status', check_results)
+  # Create the URLs used in the result table
+  createReportLink = (record, i) ->
 
-  metricMeter = {}
+    metric = metric_url_representation(gon.metric)
+    repository = gon.repository.name
 
-  class MetricMeter
-    
-    TWO_PI: 2 * Math.PI
-    
-    constructor: (metric) ->
+    parameters =
+      show: metric
+      repository: repository
 
-      @arc = d3.svg.arc()
-        .startAngle(0)
-        .innerRadius(35)
-        .outerRadius(45)
+    parameters["record#{i}"] = record
 
-      width = 240
-      height = 125
+    record_numbers = [1..2]
+    index = $.inArray(i, record_numbers)
+    record_numbers.splice(index, 1)
 
-      selector = "##{metric}"
-      svg = d3.select(selector).insert("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    for j in record_numbers
+      parameters["record#{j}"] = gon["record#{j}"].id
 
-      meter = svg.append("g")
-        .attr("class", "progress-meter")
+    url = "/report/metric?" + $.param(parameters)
+    return url
 
-      meter.append("path")
-        .attr("class", "background")
-        .attr("d", @arc.endAngle @TWO_PI)
+  metric_url_representation = (metric) ->
+    return metric.split('_').join('-')
 
-      @foreground = meter.append("path")
-        .attr("class", "foreground")
+  # Callback function for querying the metadata records
+  displayRecordResults = (result) ->
+    which_record = $("#search-input").data("record")
+    if result.length > 0
+      for metadata in result
+        row = createTableRow(metadata, which_record)
+        $("#search-results > tbody").append(row)
+    else
+      $("#search-results").hide()
 
-      @text = meter.append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", ".35em")
-        .text("?")
+  # Initializer function to set up the page
+  initialize = () ->
 
-      $(selector).bind "click", (event) =>
-        repository = $("select[name=repository]").val()
-        $.post("metrics/compute", {
-          "repository": repository,
-          "metric": metric
-        }, (data, status) =>
-          @updateScore(data)
-        )
+    $(".dropdown-toggle").dropdown()
+    $(".search.report.row").hide()
+    $(".nav.nav-tabs a").on 'click', (event) =>
+      event.preventDefault()
+      $(event.target).tab("show")
 
-    updateScore: (score) ->
-      i = d3.interpolate(0.0, score)
-      @foreground.transition().tween("progress", () =>
-        return (t) =>
-          progress = i(t)
-          @foreground.attr("d", @arc.endAngle(@TWO_PI * progress))
-      ).duration(1000).each("end", () =>
-        formatPercent = d3.format(".0%")
-        @text.text(formatPercent score).transition().delay(1000)
-      )
+    $(".report.repository-select").on 'change', (event) =>
+      repository = $(".report.repository-select").val()
+      window.location = "repository?show=#{repository}"
 
-  $(".metric-meter").each () ->
-    metric = @id
-    metricMeter[metric] = new MetricMeter metric
+    $("a.report.search").on 'click', (event) =>
+      record = $(event.target).data('record')
+      $(".search.report.row").show()
+      $("#search-input").data('record', record)
+      $("#search-results").hide()
 
-  $(".score").bind "click", (event) =>
-    metric = $(event.target).parent()[0].id
-    repository = $("select[name=repository]").val()
-    $.post("metrics/compute", {
-      "repository": repository,
-      "metric": metric
-    }, (data, status) =>
-      $("#" + metric + " " + ".score").text(parseFloat(data).toFixed(2))
-      check_progress()
-    )
+    $("#search-input").on 'input', (event) =>
+      $("#search-results tbody").empty()
+      $("#search-results").show()
 
-  load_scores = (repository, metricMeter) ->
+      query = $("#search-input").val()
+      query = if /\S/.test(query) then query else '*'
+      repository = gon.repository.name
 
-    for metric in ['accessibility', 'richness-of-information']
-      attribute = metric.replace(/-/g, '_')
-      if gon.repository[attribute]?
-        score = gon.repository[attribute].average
-        $("##{metric} .score").text(parseFloat(score).toFixed(2))
+      data =
+        q: query
+        repository: repository
 
-    for metric in ['completeness', 'weighted-completeness',
-      'accuracy', 'link-checker']
+      $.getJSON("/metadata/search", data, displayRecordResults)
 
-      attribute = metric.replace(/-/g, '_')
-      if gon.repository[attribute]?
-        score = gon.repository[attribute].average
-        if metric of metricMeter
-          metricMeter[metric].updateScore(score)
-      
-  if gon? and gon.repository?
-    repository = gon.repository.id
-    register_select_event()
-    load_scores(gon.repository, metricMeter)
+  initialize()

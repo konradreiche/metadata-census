@@ -15,6 +15,8 @@
   </table>
 </div>
 <div id="statistics" class="tab-pane">
+  <div class="metric link-checker pie-chart">
+  </div>
   <ul>
     <% @analysis.distribution.each do |code, count| %>
       <li><%= "#{code}: #{count}" %></li>
