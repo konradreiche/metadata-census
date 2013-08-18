@@ -22,6 +22,7 @@ class MetricsController < ApplicationController
     load_metrics(:metric)
     load_records
     analyze(@metric, @repository)
+    gon.analysis = @analysis.gon
   end
 
   def status

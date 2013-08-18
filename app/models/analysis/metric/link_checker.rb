@@ -15,6 +15,7 @@ module Analysis::Metric
       end
       report.responses = responses
       report.distribution = distribution
+      report.gon = distribution
       report
     end
 
