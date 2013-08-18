@@ -1,6 +1,6 @@
 #=require raphael-min
 #=require g.raphael-min
-#=require g.pie
+#=require g.pie-min
 $ ->
 
   renderCode = (code) ->
