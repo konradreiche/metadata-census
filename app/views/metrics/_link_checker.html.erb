@@ -15,11 +15,10 @@
   </table>
 </div>
 <div id="statistics" class="tab-pane">
-  <div class="metric link-checker pie-chart">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="metric link-checker pie-chart">
+      </div>
+    </div>
   </div>
-  <ul>
-    <% @analysis.distribution.each do |code, count| %>
-      <li><%= "#{code}: #{count}" %></li>
-    <% end %>
-  </ul>
 </div>

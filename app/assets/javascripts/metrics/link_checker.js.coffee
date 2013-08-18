@@ -1,15 +1,28 @@
 #=require raphael-min
 #=require g.raphael-min
-#=require g.pie-min
+#=require g.pie
 $ ->
 
-  generate_pie_chart = (values) ->
-    raphael = Raphael($(".metric.link-checker.pie-chart")[0], 500, 800)
+  renderCode = (code) ->
+    if isFinite(code) and not isNaN(code)
+      "HTTP #{code}"
+    else
+      code
+
+  if $(".metric.link-checker.pie-chart").exists
+    $(".metrics.nav >> a.statistics").on "click", (event) =>
+        values = (count for code, count of gon.analysis)
+        legend = ("## - #{renderCode(code)}" for code, count of gon.analysis)
+        generate_pie_chart(values, legend)
+
+  generate_pie_chart = (values, legend) ->
+    raphael = Raphael($(".metric.link-checker.pie-chart")[0], 1000, 500)
     raphael.text(250, 250, "Responses")
 
     information =
-      legend: ['%%.%%']
-      legendpos: "south"
+      legend: legend
+      legendpos: "east"
+      minPercent: 0.001
       href: []
 
     pie = raphael.piechart(250, 250, 200, values, information)
@@ -28,7 +41,3 @@ $ ->
           this.label[1].attr({ "font-weight": 400 })
 
     )
-
-  if $(".metric.link-checker.pie-chart").exists
-    values = (count for code, count of gon.analysis)
-    generate_pie_chart(values)
