@@ -23,6 +23,7 @@ class MetricsController < ApplicationController
     load_records
     analyze(@metric, @repository)
     gon.analysis = @analysis.gon
+    @score = @repository.send(@metric)[:average]
   end
 
   def status

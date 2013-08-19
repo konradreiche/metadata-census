@@ -60,4 +60,8 @@ module MetricsHelper
     result.html_safe
   end
 
+  def score
+    '%.2f%' % (@score * 100)
+  end
+
 end

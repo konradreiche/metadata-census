@@ -1,18 +1,34 @@
 <div id="analysis" class="tab-pane active">
-  <table class="link-checker-table table">
-    <thead>
-      <th>URL</th>
-      <th>Response</th>
-    </thead>
-    <tbody>
-      <% @analysis.responses.each do |url, response| %>
-        <tr>
-          <td><%= url %></td>
-          <%= response_td(response) %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="input-group">
+        <input class="form-control" type="text">
+        <div class="input-group-btn">
+          <button class="btn btn-default">Working</button>
+          <button class="btn btn-default">All</button>
+          <button class="btn btn-default">Broken</button>
+        </div>
+      </div>
+    </div>
+  </div> 
+  <div class="row">
+    <div class="col-md-12">
+      <table class="link-checker-table table">
+        <thead>
+          <th>URL</th>
+          <th>Response</th>
+        </thead>
+        <tbody>
+          <% @analysis.responses.each do |url, response| %>
+            <tr>
+              <td><%= url %></td>
+              <%= response_td(response) %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <div id="statistics" class="tab-pane">
   <div class="row">

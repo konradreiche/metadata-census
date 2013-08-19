@@ -18,7 +18,7 @@ module Metrics
       metadata.each_with_index do |dataset, i|
         dataset[:resources].each do |resource|
           @total += 1
-          url = resource[:url]
+          url = URI.unescape(resource[:url])
           id = dataset[:id]
           enqueue_request(id, url)
         end
