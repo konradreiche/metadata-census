@@ -11,18 +11,14 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <ul class="nav nav-tabs">
+      <ul class="metrics nav nav-tabs">
         <li class="active"><a href="#analysis">Analysis</a></li>
         <li><a class="statistics" href="#statistics">Statistics</a></li>
       </ul>
     </div>
   </div>
   <div class="tab-content">
-    <div class="row">
-      <div class="col-md-12">
-        <%= render partial: "metrics/#{@metric.to_s}" %>
-      </div>
-    </div>
+    <%= render partial: "metrics/#{@metric.to_s}" %>
   </div>
 <% end %>
 <%= render 'layouts/repository_based' %>
