@@ -1,11 +1,11 @@
 <div id="analysis" class="tab-pane active">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8 col-md-offset-2">
       <div class="input-group">
         <input class="form-control" type="text">
         <div class="input-group-btn">
           <button class="btn btn-default">Working</button>
-          <button class="btn btn-default">All</button>
+          <button class="btn btn-default" disabled="disabled">All</button>
           <button class="btn btn-default">Broken</button>
         </div>
       </div>
@@ -20,6 +20,7 @@
         </thead>
         <tbody>
           <% @analysis.responses.each do |url, response| %>
+            <% next if successful?(response) %>
             <tr>
               <td><%= url %></td>
               <%= response_td(response) %>
