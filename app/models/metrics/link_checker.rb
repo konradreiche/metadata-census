@@ -49,12 +49,14 @@ module Metrics
 
     def enqueue_request(id, url, method=:head)
 
-      config = {:method => method,
-                :timeout => 80,
-                :connecttimeout => 60,
-                :followlocation => true,
-                :ssl_verifypeer => false,
-                :nosignal => true}
+      config = { headers: { 'User-Agent' => 'curl/7.29.0' },
+                 ssl_verifypeer: false,
+                 ssl_verifyhost: 2,  # disable host verification
+                 followlocation: true,
+                 connecttimeout: 120,
+                 method: method,
+                 nosignal: true,
+                 timeout: 180 }
 
       escaped = URI.escape(url, "[]")
       request = Typhoeus::Request.new(escaped, config)
