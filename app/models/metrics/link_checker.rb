@@ -47,22 +47,24 @@ module Metrics
       end
     end
 
-    def enqueue_request(id, url, method=:head)
+    def enqueue_request(id, url, cto=120, method=:head, try=1)
 
       config = { headers: { 'User-Agent' => 'curl/7.29.0' },
                  ssl_verifypeer: false,
                  ssl_verifyhost: 2,  # disable host verification
                  followlocation: true,
-                 connecttimeout: 120,
+                 connecttimeout: cto,
                  method: method,
                  nosignal: true,
                  timeout: 180 }
 
-      escaped = URI.escape(url, "[]")
-      request = Typhoeus::Request.new(escaped, config)
+      request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         response_value = response_value(response)
-        if client_error?(response_value, method)
+        if response.timed_out? && try <= 3
+          @requests -= 1
+          enqueue_request(id, url, cto + 60, method, try + 1)
+        elsif client_error?(response_value, method)
           @requests -= 1
           enqueue_request(id, url, :get)
         else
