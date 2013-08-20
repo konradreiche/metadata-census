@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="tab-content">
-    <%= render partial: "metrics/#{@metric.to_s}" %>
+    <%= render partial: "metrics/partials/#{@metric.to_s}" %>
   </div>
 <% end %>
 <%= render 'layouts/repository_based' %>
