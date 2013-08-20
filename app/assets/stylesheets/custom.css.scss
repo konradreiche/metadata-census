@@ -103,3 +103,9 @@ footer ul li {
   margin: 0 auto !important;
   float: none !important;
 }
+
+// set back to default value (auto) due to mismatch in height between text
+// input and buttons in a button group, remove if this does not happen anymore
+.form-control {
+  height: auto;
+}

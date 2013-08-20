@@ -11,9 +11,7 @@ $ ->
 
   if $(".metric.link-checker.pie-chart").exists
     $(".metrics.nav >> a.statistics").on "click", (event) =>
-      console.log 'ok'
       if $(".metric.link-checker.pie-chart").is(":empty")
-        console.log 'ok2'
         values = (count for code, count of gon.analysis)
         legend = ("## - #{renderCode(code)}" for code, count of gon.analysis)
         generate_pie_chart(values, legend)
