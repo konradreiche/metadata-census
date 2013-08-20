@@ -66,7 +66,7 @@ module Metrics
           enqueue_request(id, url, cto + 60, method, try + 1)
         elsif client_error?(response_value, method)
           @requests -= 1
-          enqueue_request(id, url, :get)
+          enqueue_request(id, url, cto, :get, try)
         else
           @resource_availability[id][url] = response_value
           @worker.at(@processed + 1, @requests) unless @worker.nil?
