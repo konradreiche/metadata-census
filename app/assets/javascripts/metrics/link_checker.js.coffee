@@ -2,6 +2,21 @@
 #=require g.raphael-min
 #=require g.pie-min
 $ ->
+ 
+  activatePieChart = () ->
+    divPieChart = $(".metric.link-checker.pie-chart")
+    if divPieChart.is(":empty") and not divPieChart.is(":hidden")
+      values = (count for code, count of gon.analysis)
+      legend = ("## - #{renderCode(code)}" for code, count of gon.analysis)
+      generate_pie_chart(values, legend)
+
+  # Activate one of the tabs
+  activateTab = () ->
+    activeTab = $("[href=#{window.location.hash.replace("/", "")}]")
+    activeTab and activeTab.tab('show')
+    divPieChart = $(".metric.link-checker.pie-chart")
+    activatePieChart()
+
 
   renderCode = (code) ->
     if isFinite(code) and not isNaN(code)
@@ -11,10 +26,6 @@ $ ->
 
   if $(".metric.link-checker.pie-chart").exists
     $(".metrics.nav >> a.statistics").on "click", (event) =>
-      if $(".metric.link-checker.pie-chart").is(":empty")
-        values = (count for code, count of gon.analysis)
-        legend = ("## - #{renderCode(code)}" for code, count of gon.analysis)
-        generate_pie_chart(values, legend)
 
   generate_pie_chart = (values, legend) ->
     raphael = Raphael($(".metric.link-checker.pie-chart")[0], 1000, 500)
@@ -45,3 +56,10 @@ $ ->
           this.label[1].attr({ "font-weight": 400 })
 
     )
+
+  activateTab()
+
+  $('a[data-toggle="tab"').on "shown.bs.tab", (event) ->
+    $(event.target).preventDefault()
+    window.location.hash = "#{$(this).attr("href")}".replace("#", "")
+    activatePieChart()
