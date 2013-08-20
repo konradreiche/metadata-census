@@ -1,6 +1,11 @@
 .link-checker-table thead tr th:first-child,
 .link-checker-table tbody tr td:first-child {
-  width: 80%
+  width: 10%
+}
+
+.link-checker-table thead tr th:nth-child(3),
+.link-checker-table tbody tr td:nth-child(3) {
+  width: 20%
 }
 
 .link-checker-table tbody tr td {

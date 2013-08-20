@@ -4,12 +4,12 @@ module Analysis::Metric
 
     def self.analyze(repository)
       report = OpenStruct.new
-      responses = Hash.new
+      responses = Hash.new { |hash, key| hash[key] = Hash.new }
       distribution = Hash.new(0)
       repository.metadata.each do |document|
         unless document[:link_checker].maybe[:report].nil?
           document_report = document[:link_checker][:report]
-          responses.merge!(document_report)
+          responses[document[:record][:id]] = document_report
           document_report.each { |url, response| distribution[response] += 1 }
         end
       end

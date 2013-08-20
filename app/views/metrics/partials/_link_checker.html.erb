@@ -15,16 +15,20 @@
     <div class="col-md-12">
       <table class="link-checker-table table">
         <thead>
+          <th>ID</th>
           <th>URL</th>
           <th>Response</th>
         </thead>
         <tbody>
-          <% @analysis.responses.each do |url, response| %>
-            <% next if successful?(response) %>
-            <tr>
-              <td><%= url %></td>
-              <%= response_td(response) %>
-            </tr>
+          <% @analysis.responses.each do |id, responses| %>
+            <% responses.each do |url, response| %>
+              <% next if successful?(response) %>
+              <tr>
+                <td><%= id %></td>
+                <td><%= content_tag(:a, url, href: url) %></td>
+                <%= response_td(response) %>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
