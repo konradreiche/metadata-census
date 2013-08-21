@@ -2,7 +2,7 @@
 #=require g.raphael-min
 #=require g.pie-min
 $ ->
- 
+
   activatePieChart = () ->
     divPieChart = $(".metric.link-checker.pie-chart")
     if divPieChart.is(":empty") and not divPieChart.is(":hidden")
@@ -17,6 +17,13 @@ $ ->
     divPieChart = $(".metric.link-checker.pie-chart")
     activatePieChart()
 
+  # Filter for the result table
+  tableFilter = (header, table) ->
+    $("#link-checker-filter").on "input", (event) ->
+       rows = $(".link-checker-table > tbody > tr")
+       rows.hide()
+       rows.filter(":contains(#{$(this).val()})").show()
+  tableFilter()
 
   renderCode = (code) ->
     if isFinite(code) and not isNaN(code)
@@ -60,6 +67,6 @@ $ ->
   activateTab()
 
   $('a[data-toggle="tab"').on "shown.bs.tab", (event) ->
-    $(event.target).preventDefault()
+    event.preventDefault()
     window.location.hash = "#{$(this).attr("href")}".replace("#", "")
     activatePieChart()
