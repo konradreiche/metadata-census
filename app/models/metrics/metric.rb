@@ -18,7 +18,7 @@ module Metrics
       value.nil? or (value.is_a?(String) and value !~ /[^[:space:]]/)
     end
 
-    def normalize?
+    def self.normalize?
       false
     end
 

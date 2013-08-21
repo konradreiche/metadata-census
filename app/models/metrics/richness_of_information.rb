@@ -134,10 +134,11 @@ module Metrics
         index_text(record, id)
       end
     end
-  end
 
-  def normalize?
-    true
+    def self.normalize?
+      true
+    end
+
   end
 
 end

@@ -99,7 +99,7 @@ class Repository
       score = self.send(metric)
       unless score.nil?
         value = score[:average]
-        if Metrics::NORMALIZE.include?(metric)
+        if Metrics.from_sym(metric).normalize?
           value = Metrics::normalize(metric, [value]).first
         end
       else

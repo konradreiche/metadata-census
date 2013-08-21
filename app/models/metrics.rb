@@ -1,8 +1,5 @@
 module Metrics
 
-  NORMALIZE = [:richness_of_information,
-               :accessibility]
-
   def self.list
     initialize if Rails.env.development?
     cls = Metrics::Metric
@@ -21,11 +18,7 @@ module Metrics
   end
 
   def self.normalize(metric, values)
-
-    unless NORMALIZE.include?(metric)
-      return values
-    end
-
+    return values unless Metrics.from_sym(metric).normalize?
     scores = values
     repositories = Repository.all
     repositories.each do |repository|

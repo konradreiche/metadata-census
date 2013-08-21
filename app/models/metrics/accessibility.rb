@@ -78,7 +78,7 @@ module Metrics
       206.835 - (1.015 * asl) - (84.6 * asw)
     end
 
-    def normalize?
+    def self.normalize?
       true
     end
 
