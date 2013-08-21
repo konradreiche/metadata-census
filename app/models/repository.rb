@@ -94,7 +94,7 @@ class Repository
   end
 
   def score
-    metrics = Metrics::IDENTIFIERS
+    metrics = Metrics.list
     sum = metrics.inject(0.0) do |sum, metric|
       score = self.send(metric)
       unless score.nil?
