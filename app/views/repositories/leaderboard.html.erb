@@ -4,8 +4,8 @@
       <th>Rank</th>
       <th>Repository</th>
       <th>Score</th>
-      <% Metrics::ABBREVIATIONS.each do |abbreviation| %>
-        <th><%= abbreviation %></th>
+      <% Metrics.list.each do |metric| %>
+        <th><%= metric.to_s.titlecase %></th>
       <% end %>
     </thead>
     <tbody>
@@ -14,7 +14,7 @@
           <td><%= i + 1 %></td>
           <td><%= repository.name %></td>
           <td><%= '%.2f' % repository.score %></td>
-          <% Metrics::IDENTIFIERS.each do |metric| %>
+          <% Metrics.list.each do |metric| %>
             <% result = repository.send(metric) %>
             <% score = if result.nil? then nil else result.average end %>
             <td><%= if score.nil? then '?' else '%.2f' % score end %></td>

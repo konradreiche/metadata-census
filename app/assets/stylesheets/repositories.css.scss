@@ -12,6 +12,24 @@
   text-align: left
 }
 
-.repositories.leaderboard.table > th, td {
+.repositories.leaderboard.table th,
+.repositories.leaderboard.table td {
   overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.repositories.leaderboard.table > thead tr th:first-child,
+.repositories.leaderboard.table > thead tr th:first-child {
+  width: 5%
+}
+
+.repositories.leaderboard.table > thead tr th:nth-child(2),
+.repositories.leaderboard.table > thead tr th:nth-child(2) {
+  width: 10%
+}
+
+.repositories.leaderboard.table > thead tr th:nth-child(3),
+.repositories.leaderboard.table > thead tr th:nth-child(3) {
+  width: 5%
 }
