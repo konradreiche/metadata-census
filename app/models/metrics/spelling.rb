@@ -8,7 +8,7 @@ module Metrics
     def compute(record)
 
       detection_text = record[:notes].to_s
-      record[:resources].each do |resource|
+      record[:resources].to_a.each do |resource|
         detection_text += resource[:description].to_s
       end
 
@@ -21,7 +21,7 @@ module Metrics
         words += 1
         mistakes += 1 unless speller.correct?(word)
       end
-      record[:resoures].each do |resource|
+      record[:resoures].to_a.each do |resource|
         words(resource[:description].to_s).each do |word|
           words += 1
           mistakes += 1 unless speller.correct?(word)
@@ -33,7 +33,7 @@ module Metrics
 
     def aspell(language)
       codes = { english: 'en', german: 'de', spanish: 'es' }
-      Aspell.new(codes[language])
+      FFI::Aspell::Speller.new(codes[language])
     end
 
     def words(text)
