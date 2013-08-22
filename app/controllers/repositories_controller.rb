@@ -10,6 +10,7 @@ class RepositoriesController < ApplicationController
   def show
     load_repositories(:repository)
     @score = @repository.score
+    gon.score = @score
   end
 
   def leaderboard
