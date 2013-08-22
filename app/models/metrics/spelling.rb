@@ -19,21 +19,24 @@ module Metrics
       mistakes = 0
       words(record[:notes].to_s).each do |word|
         words += 1
+        next if word.length < 7
         mistakes += 1 unless speller.correct?(word)
       end
-      record[:resoures].to_a.each do |resource|
+      record[:resources].to_a.each do |resource|
         words(resource[:description].to_s).each do |word|
           words += 1
+          next if word.length < 7
           mistakes += 1 unless speller.correct?(word)
         end
       end
 
-      mistakes.to_f / words.to_f
+      1.0 - mistakes.to_f / words.to_f
     end
 
     def aspell(language)
       codes = { english: 'en', german: 'de', spanish: 'es' }
-      FFI::Aspell::Speller.new(codes[language])
+      aspell = FFI::Aspell::Speller.new(codes[language])
+      aspell
     end
 
     def words(text)
