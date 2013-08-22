@@ -3,7 +3,7 @@ require 'typhoeus'
 module Metrics
 
   class Accuracy < Metric
-    attr_reader :score, :report
+    attr_reader :report
     
     @@mime_dictionary = { 
       'csv'   => ['text/csv', 'text/x-comma-separated-values', 'text/comma-separated-values'],
@@ -80,7 +80,6 @@ module Metrics
     end
 
     def compute(record)
-      @score = 0.0
       @worker.at(@processed, @requests)
 
       # blocking call
@@ -101,9 +100,9 @@ module Metrics
 
       @report = types
       unless resources == 0
-        @score = validated / resources
+        validated / resources
       else
-        @score = 0.0
+        0.0
       end
     end
 

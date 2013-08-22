@@ -10,9 +10,9 @@ class MetricWorker
     total = @metadata.length
     @metadata.each_with_index do |document, i|
       record = self.class.symbolize_keys(document.to_hash)[:record]
-      @metric.compute(record, *args)
-      scores << @metric.score
-      update_document(document)
+      score = @metric.compute(record, *args)
+      update_document(document, score)
+      scores << score
       at(i + 1, total)
     end
 
@@ -20,9 +20,9 @@ class MetricWorker
     refresh
   end
 
-  def update_document(document)
+  def update_document(document, score)
     metric_name = @metric.name
-    document[metric_name] = { score: @metric.score }
+    document[metric_name] = { score: score }
 
     if @metric.respond_to?(:report)
       document[metric_name][:report] = @metric.report

@@ -5,8 +5,6 @@ module Metrics
 
   class Accessibility < Metric
 
-    attr_reader :score
-
     def initialize(language)
       @sentence_tokenizer = TactfulTokenizer::Model.new
       @word_hyphenizer = Text::Hyphen.new(:language => language, :left => 0,
@@ -28,9 +26,9 @@ module Metrics
       end
 
       unless scores.empty?
-        @score = scores.reduce(:+) / scores.size
+        scores.reduce(:+) / scores.size
       else
-        @score = 0.0
+        0.0
       end
     end
 

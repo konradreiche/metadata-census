@@ -2,7 +2,7 @@ module Metrics
 
   class RichnessOfInformation < Metric
 
-    attr_reader :score, :report, :document_numbers,
+    attr_reader :report, :document_numbers,
       :document_frequency, :categorical_frequency
 
     def initialize(metadata, worker=nil)
@@ -47,9 +47,9 @@ module Metrics
       end
 
       unless scores.empty?
-        @score = scores.inject(:+) / scores.length
+        scores.inject(:+) / scores.length
       else
-        @score = 0.0
+        0.0
       end
     end
 

@@ -1,7 +1,7 @@
 module Metrics
 
   class Completeness < Metric
-    attr_reader :fields, :fields_completed, :score
+    attr_reader :fields, :fields_completed
 
     def initialize(schema)
       @schema = schema
@@ -10,7 +10,7 @@ module Metrics
 
     def compute(data)
       @fields_completed = count_completed_fields(data, @schema)
-      @score = @fields_completed / @fields.to_f
+      @fields_completed / @fields.to_f
     end
 
     def count_completed_fields(data, schema, stack=[])

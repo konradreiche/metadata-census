@@ -4,7 +4,7 @@ require 'uri'
 module Metrics
 
   class LinkChecker < Metric
-    attr_reader :score, :report
+    attr_reader :report
 
     def initialize(metadata, worker=nil)
       @worker = worker
@@ -28,15 +28,15 @@ module Metrics
 
     def compute(record)
       @worker.at(@processed, @requests) unless @worker.nil?
-      @score = 0.0
 
       # blocking call
       @dispatcher.run
       id = record[:id]
       responses = @resource_availability[id].values
-      @score = responses.select { |r| success?(r) }.size / responses.size.to_f
       @report = @resource_availability[id]
-      @score = 0.0 unless @score.finite?
+      score = responses.select { |r| success?(r) }.size / responses.size.to_f
+      return 0.0 unless score.finite?
+      score
     end
 
     def success?(response_code)
