@@ -13,3 +13,23 @@
  *= require_tree .
  */
 @import "bootstrap";
+
+.table {
+  table-layout: fixed;
+}
+
+.table th {
+  text-align: center;
+}
+
+.row {
+  margin-bottom: 2em;
+}
+
+.progress-meter .background {
+  fill: #ccc;
+}
+
+.progress-meter text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

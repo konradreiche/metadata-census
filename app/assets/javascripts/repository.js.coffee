@@ -10,6 +10,10 @@ scoreMeter = (selector, score) ->
     .innerRadius(35)
     .outerRadius(45)
 
+  color = d3.scale.linear()
+    .domain([0.0, 0.5, 1.0])
+    .range(["red", "yellow", "green"])
+
   width = height = 120
   svg = d3.select(selector).insert("svg")
     .attr("width", width)
@@ -26,6 +30,7 @@ scoreMeter = (selector, score) ->
 
   foreground = meter.append("path")
     .attr("class", "foreground")
+    .attr("fill", d3.hsl(color(score)))
 
   text = meter.append("text")
     .attr("text-anchor", "middle")
