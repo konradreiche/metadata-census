@@ -30,7 +30,6 @@ scoreMeter = (selector, score) ->
 
   foreground = meter.append("path")
     .attr("class", "foreground")
-    .attr("fill", d3.hsl(color(score)))
 
   text = meter.append("text")
     .attr("text-anchor", "middle")
@@ -41,6 +40,7 @@ scoreMeter = (selector, score) ->
     return (t) =>
       progress = i(t)
       foreground.attr("d", arc.endAngle(twoPi * progress))
+      foreground.attr("fill", color(progress))
   ).duration(1000).each("end", () =>
     formatPercent = d3.format(".0%")
     text.text(formatPercent score).transition().delay(1000)
