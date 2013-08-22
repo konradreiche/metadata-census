@@ -37,7 +37,7 @@ describe Metrics::Completeness do
     
     expect(metric.fields).to be(6)
     expect(metric.fields_completed).to be(4)
-    expect(metric.score).to be(4.0 / 6.0)
+    expect(score).to be(4.0 / 6.0)
   end
 
   resources_schema = {:type => 'object',
