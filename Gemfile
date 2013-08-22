@@ -38,6 +38,8 @@ gem 'json'
 gem 'typhoeus'
 gem 'text-hyphen'
 gem 'tactful_tokenizer'
+gem 'whatlanguage'
+gem 'ffi-aspell'
 
 # Sidekiq
 gem 'sidekiq', '>= 2.13.0'

@@ -72,6 +72,8 @@ GEM
       mime-types (~> 1.18)
     execjs (2.0.0)
     ffi (1.9.0)
+    ffi-aspell (0.0.3)
+      ffi (>= 1.0.11)
     gon (4.1.1)
       actionpack (>= 2.3.0)
       json
@@ -202,6 +204,7 @@ GEM
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     websocket (1.0.7)
+    whatlanguage (1.0.4)
     xpath (1.0.0)
       nokogiri (~> 1.3)
 
@@ -214,6 +217,7 @@ DEPENDENCIES
   capybara (= 2.0.0)
   coffee-rails (~> 4.0.0)
   d3_rails
+  ffi-aspell
   gon
   jquery-rails
   json
@@ -233,3 +237,4 @@ DEPENDENCIES
   tire
   typhoeus
   uglifier (>= 1.3.0)
+  whatlanguage

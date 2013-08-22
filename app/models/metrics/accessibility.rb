@@ -29,7 +29,6 @@ module Metrics
 
       unless scores.empty?
         @score = scores.reduce(:+) / scores.size
-        require 'pry'; binding.pry unless @score.finite?
       else
         @score = 0.0
       end
