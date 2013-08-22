@@ -7,8 +7,7 @@ metricMeter = (selector, score) ->
     .innerRadius(35)
     .outerRadius(45)
 
-  width = 240
-  height = 125
+  width = height = 120
   svg = d3.select(selector).insert("svg")
     .attr("width", width)
     .attr("height", height)
