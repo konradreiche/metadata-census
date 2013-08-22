@@ -259,6 +259,20 @@
     "title": "CUA Office Public License Version 1.0", 
     "url": "http://www.opensource.org/licenses/cuaoffice.php"
   }, 
+  "dl-de-by-1.0": {
+    "domain_content": true,
+    "domain_data": true,
+    "domain_software": false,
+    "family": "",
+    "id": "dl-de-by-1.0",
+    "is_generic": true,
+    "is_okd_compliant": true,
+    "is_osi_compliant": false,
+    "maintainer": "",
+    "status": "active",
+    "title": "Datenlizenz Deutschland Namensnennung",
+    "url": "http://www.daten-deutschland.de/bibliothek/Datenlizenz_Deutschland/dl-de-by-1.0"
+  },
   "dli-model-use": {
     "domain_content": false, 
     "domain_data": false, 

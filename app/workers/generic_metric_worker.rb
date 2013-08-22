@@ -3,7 +3,7 @@ class GenericMetricWorker < MetricWorker
   def perform(repository, metric, *args)
     @repository ||= Repository.find(repository)
     @metadata ||= @repository.metadata
-    @metric ||= metric.to_s.camelcase.constantize.new
+    @metric ||= Metrics.from_sym(metric).new
     super
   end
 
