@@ -1,4 +1,7 @@
-metricMeter = (selector, score) ->
+scoreMeter = (selector, score) ->
+
+  unless $(selector).exists()
+    return
 
   twoPi = 2 * Math.PI
 
@@ -39,4 +42,7 @@ metricMeter = (selector, score) ->
   )
 
 $ ->
-  metricMeter(".repository.score.meter", gon.score)
+
+  if gon.score?
+    scoreMeter(".repository.score.meter", gon.score)
+    scoreMeter(".metric.score.meter", gon.score)

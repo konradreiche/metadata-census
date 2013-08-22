@@ -24,6 +24,7 @@ class MetricsController < ApplicationController
     analyze(@metric, @repository)
     gon.analysis = @analysis.gon
     @score = @repository.send(@metric)[:average]
+    gon.score = @score
   end
 
   def status
