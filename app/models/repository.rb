@@ -23,7 +23,7 @@ class Repository
     max = 5000
     results = []
     (total() / 4.0 / max).ceil.times do
-      results << Tire::Search::Scan.new('metadata') do
+      results += Tire::Search::Scan.new('metadata') do
         query { string 'repository:' + name }
         size max
       end.results
