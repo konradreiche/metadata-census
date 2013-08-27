@@ -12,7 +12,7 @@ scoreMeter = (selector, score) ->
 
   color = d3.scale.linear()
     .domain([0.0, 0.5, 1.0])
-    .range(["red", "yellow", "green"])
+    .range(["#CE1836", "#EDB92E", "#A3A948"])
 
   width = height = 120
   svg = d3.select(selector).insert("svg")
