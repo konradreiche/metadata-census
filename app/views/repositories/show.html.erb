@@ -11,12 +11,12 @@
   </div>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <table class="report repository table table-striped">
+      <table class="repository metric table table-striped">
         <thead>
           <tr>
             <th>Metric</th>
             <th>Quality</th>
-            <th>Report</th>
+            <th>Analysis</th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
             <tr>
               <td><%= metric.to_s.titlecase %></td>
               <td><%= metric_score(metric) %></td>
-              <td><%= create_metric_report_button(metric) %></td>
+              <td><%= create_metric_analysis_button(metric) %></td>
             </tr>
           <% end %>
         </tbody>

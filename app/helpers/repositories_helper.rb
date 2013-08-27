@@ -4,7 +4,7 @@ module RepositoriesHelper
     "active" if params[:action] == page_name
   end
 
-  def create_metric_report_button(metric)
+  def create_metric_analysis_button(metric)
     icon = content_tag(:span, nil, class: 'glyphicon glyphicon-list-alt')
     content_tag(:a, icon, class: 'btn btn-default', href: metric_url(metric))
   end
