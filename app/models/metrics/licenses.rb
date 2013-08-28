@@ -2,8 +2,6 @@ module Metrics
 
   class Licenses < Metric
 
-    attr_reader :report
-
     def initialize(path=nil)
       path = 'app/assets/resources/licenses.json' if path.nil?
       @licenses = JSON.parse(File.read(path)).with_indifferent_access
@@ -19,6 +17,10 @@ module Metrics
       @report = license
       return 1.0 if license_open?(license)
       0.0
+    end
+
+    def analysis
+      @report
     end
 
   end

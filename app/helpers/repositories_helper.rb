@@ -9,7 +9,7 @@ module RepositoriesHelper
     content_tag(:a, icon, class: 'btn btn-default', href: metric_url(metric))
   end
 
-  def create_metric_report_link(metric)
+  def create_metric_analysis_link(metric)
     content_tag(:a, metric.to_s.titlecase, href: metric_url(metric))
   end
 
@@ -27,10 +27,10 @@ module RepositoriesHelper
 
   ## Creates the metric selector for the breadcrumb navigation.
   #
-  def report_metric_selector
+  def analysis_metric_selector
     locals = { entities: Metrics.list,
                link_text: @metric.to_s.titlecase,
-               link_method: :create_metric_report_link }
+               link_method: :create_metric_analysis_link }
 
     content = render(partial: 'shared/dropdown_menu', locals: locals)
     content_tag(:li, content, class: 'metric selector')
@@ -38,16 +38,16 @@ module RepositoriesHelper
 
   ## Creates the repository selector for the breadcrumb navigation.
   #
-  def report_repository_selector
+  def analysis_repository_selector
     locals = { entities: @repositories,
                link_text: @repository.name,
-               link_method: :repository_report_link }
+               link_method: :repository_analysis_link }
 
     content = render(partial: 'shared/dropdown_menu', locals: locals)
     content_tag(:li, content, class: 'repository selector')
   end
 
-  def repository_report_link(repository)
+  def repository_analysis_link(repository)
     href = "/repository/#{repository.name}"
     content_tag(:a, repository.name, href: href)
   end

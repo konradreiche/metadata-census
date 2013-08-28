@@ -38,6 +38,12 @@ module Metrics
       @@metrics << subclass.to_sym
     end
 
+    ## Default implementation to retrieve the analysis
+    #
+    def analysis
+      {}
+    end
+
   end
 
 end

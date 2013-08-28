@@ -23,10 +23,7 @@ class MetricWorker
   def update_document(document, score)
     metric_name = @metric.name
     document[metric_name] = { score: score }
-
-    if @metric.respond_to?(:report)
-      document[metric_name][:report] = @metric.report
-    end
+    document[metric_name][:analysis] = @metric.analysis
 
     Tire.index 'metadata' do
       update('ckan', document[:id], :doc => document)

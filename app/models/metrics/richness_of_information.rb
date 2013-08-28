@@ -2,8 +2,8 @@ module Metrics
 
   class RichnessOfInformation < Metric
 
-    attr_reader :report, :document_numbers,
-      :document_frequency, :categorical_frequency
+    attr_reader :document_numbers, :document_frequency,
+      :categorical_frequency
 
     def initialize(metadata, worker=nil)
       @fields = {:category => [[:tags]],
@@ -25,7 +25,7 @@ module Metrics
 
     def compute(data)
       scores = []
-      @report = Hash.new
+      @analysis = Hash.new
 
       @fields.each do |type, fields|
         fields.each do  |accessors|
@@ -34,13 +34,13 @@ module Metrics
             value.each_with_index do |item, i|
               next if skip?(item)
               score = richness_of_information(item, type, accessors)
-              @report[accessors + [i]] = score
+              @analysis[accessors + [i]] = score
               scores << score
             end
           else
             next if skip?(value)
             score = richness_of_information(value, type, accessors)
-            @report[accessors] = score
+            @analysis[accessors] = score
             scores << score
           end
         end
@@ -137,6 +137,10 @@ module Metrics
 
     def self.normalize?
       true
+    end
+
+    def analysis
+      @analysis
     end
 
   end
