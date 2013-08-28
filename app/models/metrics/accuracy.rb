@@ -97,11 +97,14 @@ module Metrics
         validated += 1 if formats.include?(mime)
       end
 
-      @analysis = types
-      unless resources == 0
-        validated / resources
-      else
+      return score, types
+    end
+
+    def score
+      if resource != 0
         0.0
+      else
+        validated / resources
       end
     end
 

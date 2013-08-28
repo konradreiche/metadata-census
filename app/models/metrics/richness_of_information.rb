@@ -45,7 +45,10 @@ module Metrics
           end
         end
       end
+      return score(scores), @analysis
+    end
 
+    def score(scores)
       unless scores.empty?
         scores.inject(:+) / scores.length
       else

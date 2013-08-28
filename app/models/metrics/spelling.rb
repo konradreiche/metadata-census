@@ -33,7 +33,8 @@ module Metrics
         end
       end
 
-      1.0 - mistakes.to_f / words.to_f
+      score = 1.0 - mistakes.to_f / words.to_f
+      return score
     end
 
     def aspell(language)

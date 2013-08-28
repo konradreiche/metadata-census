@@ -15,12 +15,8 @@ module Metrics
     def compute(record)
       license = record[:license_id]
       @report = license
-      return 1.0 if license_open?(license)
-      0.0
-    end
-
-    def analysis
-      @report
+      return 1.0, @report if license_open?(license)
+      return 0.0, @report
     end
 
   end

@@ -35,8 +35,8 @@ module Metrics
       responses = @resource_availability[id].values
       @report = @resource_availability[id]
       score = responses.select { |r| success?(r) }.size / responses.size.to_f
-      return 0.0 unless score.finite?
-      score
+      return 0.0, @report unless score.finite?
+      return score, @report
     end
 
     def success?(response_code)

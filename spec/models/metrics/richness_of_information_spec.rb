@@ -165,8 +165,8 @@ describe Metrics::RichnessOfInformation do
     metadata = [many, few]
     metric = Metrics::RichnessOfInformation.new(metadata)
 
-    many_score = metric.compute(many)
-    few_score = metric.compute(few)
+    many_score = metric.compute(many).first
+    few_score = metric.compute(few).first
 
     # multiple field entries should not sum up but averaged
     expect(many_score).not_to be > few_score
@@ -236,7 +236,7 @@ describe Metrics::RichnessOfInformation do
 
     # If there are no fields to assert a Richness of Information the score
     # should be zero.
-    score = metric.compute(record3)
+    score = metric.compute(record3).first
     expect(score).to be(0.0)
   end
 

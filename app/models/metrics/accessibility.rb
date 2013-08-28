@@ -16,7 +16,6 @@ module Metrics
       if not data[:notes].nil? and not skip?(data[:notes])
         scores << flesch_reading_ease(data[:notes])
       end
-
       unless data[:resources].nil?
         data[:resources].each do |resource|
           if not resource[:description].nil? and not skip?(resource[:description])
@@ -24,11 +23,14 @@ module Metrics
           end
         end
       end
+      return score(scores)
+    end
 
-      unless scores.empty?
-        scores.reduce(:+) / scores.size
-      else
+    def score(scores)
+      if scores.empty?
         0.0
+      else
+        scores.reduce(:+) /scores.size
       end
     end
 

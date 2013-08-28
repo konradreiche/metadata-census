@@ -10,8 +10,8 @@ class MetricWorker
     total = @metadata.length
     @metadata.each_with_index do |document, i|
       record = self.class.symbolize_keys(document.to_hash)[:record]
-      score = @metric.compute(record, *args)
-      update_document(document, score)
+      score, analysis = @metric.compute(record, *args)
+      update_document(document, score, analysis)
       scores << score
       at(i + 1, total)
     end
@@ -20,10 +20,10 @@ class MetricWorker
     refresh
   end
 
-  def update_document(document, score)
+  def update_document(document, score, analysis)
     metric_name = @metric.name
     document[metric_name] = { score: score }
-    document[metric_name][:analysis] = @metric.analysis
+    document[metric_name][:analysis] = analysis
 
     Tire.index 'metadata' do
       update('ckan', document[:id], :doc => document)
