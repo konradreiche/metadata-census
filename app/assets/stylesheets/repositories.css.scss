@@ -8,6 +8,10 @@
   height: 40em;
 }
 
+.repository.breadcrumb {
+  background-color: #fff;
+}
+
 .repository.breadcrumb > li {
   position: relative;
 }
@@ -48,5 +52,3 @@
 .repository.metric.table th:nth-of-type(3) {
   text-align: center;
 }
-
-

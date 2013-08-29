@@ -2,7 +2,7 @@ class RepositoriesController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric
 
-  before_filter :init
+  before_filter :init, except: [:index]
   helper_method :metric_score
 
   ## 
@@ -14,6 +14,7 @@ class RepositoriesController < ApplicationController
   end
 
   def index
+    load_all_repositories()
   end
   
   def show
@@ -37,7 +38,6 @@ class RepositoriesController < ApplicationController
   end
 
   def leaderboard
-    load_all_repositories()
     @repositories.to_a.sort! { |x, y| x.score <=> y.score }
   end
 
