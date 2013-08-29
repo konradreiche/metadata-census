@@ -8,6 +8,9 @@
   height: 40em;
 }
 
+.repository.breadcrumb > li {
+  position: relative;
+}
 
 .repositories.leaderboard.table th,
 .repositories.leaderboard.table td {
@@ -33,7 +36,7 @@
 
 .repository.metric.table td:nth-of-type(1),
 .repository.metric.table th:nth-of-type(1) {
-  text-align: left;
+  text-align: center;
 }
 
 .repository.metric.table td:nth-of-type(2),
@@ -43,7 +46,7 @@
 
 .repository.metric.table td:nth-of-type(3),
 .repository.metric.table th:nth-of-type(3) {
-  text-align: right;
+  text-align: center;
 }
 
 
