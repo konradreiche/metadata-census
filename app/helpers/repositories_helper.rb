@@ -38,7 +38,7 @@ module RepositoriesHelper
 
   ## Creates the repository selector for the breadcrumb navigation.
   #
-  def analysis_repository_selector
+  def repository_selector
     locals = { entities: @repositories,
                link_text: @repository.name,
                link_method: :repository_analysis_link }
