@@ -27,11 +27,12 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def metric_score(metric)
+  def metric_score(metric, weighting={})
     value = @repository.send(metric) if @repository.respond_to?(metric)
     unless value.nil?
       value = value[:average]
       value = Metrics::normalize(metric, [value]).first
+      value = value * weighting[metric] unless weighting.empty?
       '%.2f%' % (value  * 100)
     else
       '-'
