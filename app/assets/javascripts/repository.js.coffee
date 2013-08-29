@@ -1,3 +1,5 @@
+root = exports ? this
+
 scoreMeter = (selector, score) ->
 
   unless $(selector).exists()
@@ -46,8 +48,14 @@ scoreMeter = (selector, score) ->
     text.text(formatPercent score).transition().delay(1000)
   )
 
-$ ->
+# Update the metriiic scores according to the weighting
+updateScores = () ->
+  $("#weighting-modal").on "hidden.bs.modal", () =>
+    for metric in gon.metrics
+      console.log $("input[id^=#{metric}]").val()
 
-  if gon.score?
+$ ->
+  if getPaths()[0] == 'repository'
     scoreMeter(".repository.score.meter", gon.score)
     scoreMeter(".metric.score.meter", gon.score)
+    updateScores()

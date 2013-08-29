@@ -14,4 +14,13 @@
 #= require bootstrap
 #= require jquery_ujs
 #= require_tree .
+root = exports ? this
+
 $.fn.exists = () -> this.length > 0
+
+# Retrieves parts of the current location path name in order to deliver the
+# current context for JavaScript. This is used as a condition to decide which
+# code to execute
+root.getPaths = () ->
+  split = window.location.pathname.split("/")
+  return [split[1], split[3]]
