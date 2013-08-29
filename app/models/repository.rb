@@ -96,7 +96,7 @@ class Repository
     raise Exceptions::RepositoryNoScores
   end
 
-  def score
+  def score(weighting={})
     metrics = Metrics.list
     sum = metrics.inject(0.0) do |sum, metric|
       score = self.send(metric)
@@ -108,7 +108,7 @@ class Repository
       else
         value = 0.0
       end
-      sum + value
+      sum + (value * weighting.fetch(metric, 1.0))
     end
     sum / metrics.length
   end

@@ -1,16 +1,39 @@
 class RepositoriesController < ApplicationController
   include Concerns::Repository
+  include Concerns::Metric
 
+  before_filter :init
   helper_method :metric_score
 
+  ## 
+  # Load additional resources
+  #
+  def init
+    load_repositories(:repository)
+    load_metrics()
+  end
+
   def index
-    load_all_repositories()
   end
   
   def show
-    load_repositories(:repository)
     @score = @repository.score
     gon.score = @score
+  end
+
+  def score
+    weighting = Hash.new
+    @metrics.each do |metric|
+      weighting[metric] = params[metric].to_i unless params[metric].nil?
+    end
+    render text: @repository.score(weighting)
+  end
+
+  def scores
+    result = @metrics.each_with_object({}) do |metric, scores|
+      scores[metric] = metric_score(metric)
+    end
+    render json: result
   end
 
   def leaderboard
@@ -27,12 +50,11 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def metric_score(metric, weighting={})
+  def metric_score(metric, weighting=1.0)
     value = @repository.send(metric) if @repository.respond_to?(metric)
     unless value.nil?
       value = value[:average]
       value = Metrics::normalize(metric, [value]).first
-      value = value * weighting[metric] unless weighting.empty?
       '%.2f%' % (value  * 100)
     else
       '-'
