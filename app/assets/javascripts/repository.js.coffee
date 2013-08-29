@@ -51,9 +51,13 @@ scoreMeter = (selector, score) ->
 # Update the metriiic scores according to the weighting
 updateScores = () ->
   $("#weighting-modal").on "hidden.bs.modal", () =>
+    weighting = {}
     for metric in gon.metrics
       weight = $("input[id^=#{metric}]").val()
-        
+      if not not weight
+        weighting[metric] = weight
+    $.getJSON "#{window.location.pathname}/score", weighting, (data) =>
+      console.log data
 $ ->
 
   if getPaths()[0] == 'repository'
