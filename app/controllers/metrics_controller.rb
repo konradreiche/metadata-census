@@ -5,7 +5,7 @@ class MetricsController < ApplicationController
   include Concerns::Metric 
   include Analysis::Metric
 
-  helper_method :metric_score, :record
+  helper_method :metric_score, :record, :select_partial
 
   @@jobs = Hash.new { |hash, key| hash[key] = Hash.new }
   
@@ -22,7 +22,7 @@ class MetricsController < ApplicationController
     load_metrics(:metric)
     load_records
     analyze(@metric, @repository)
-    gon.analysis = @analysis.gon
+    gon.analysis = @analysis
     @score = @repository.send(@metric)[:average]
     gon.score = @score
   end
@@ -106,6 +106,14 @@ class MetricsController < ApplicationController
 
   def record(i)
     instance_variable_get("@record#{i + 1}")
+  end
+
+  def select_partial
+    partials = "app/views/metrics/partials"
+    metric_partial_path = "#{partials}/_#{@metric}.html.erb"
+    metric_partial = "metrics/partials/#{@metric}"
+    default_partial = "metrics/partials/default"
+    File.exist?(metric_partial_path) ? metric_partial : default_partial
   end
 
 end

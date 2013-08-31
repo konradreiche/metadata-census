@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="tab-content">
-    <%= render partial: "metrics/partials/#{@metric.to_s}" %>
+    <%= render partial: select_partial() %>
   </div>
 <% end %>
 <%= render 'layouts/repository_breadcrumb' %>
