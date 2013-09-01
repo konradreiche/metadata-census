@@ -13,7 +13,7 @@ registerListener = (scoreMeter) ->
 $ ->
 
   if getPath(1) == 'repository'
-    sm = new ScoreMeter(".repository.score.meter", gon.score)
+    sm = new ScoreMeter(".repository.score-meter", gon.score)
     registerListener(sm)
   else if getPath(2) == 'metric'
-    sm = new ScoreMeter(".metric.score.meter", gon.score)
+    sm = new ScoreMeter(".metric.score-meter", gon.score)
