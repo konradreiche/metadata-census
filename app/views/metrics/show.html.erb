@@ -4,14 +4,10 @@
   <h2><%= @metric.to_s.titlecase %></h2>
 <% end %>
 <% content_for :content do %>
-  <div class="row">
-    <div class="col-md-offset-5">
-      <div class="metric score meter"></div>
-    </div>
-  </div>
+  <%= render partial: 'layouts/metric_header' %>
   <div class="row">
     <div class="col-md-12">
-      <ul class="metrics nav nav-tabs">
+      <ul class="metrics nav nav-tabs nav-justified">
         <li class="active"><a href="#analysis" data-toggle="tab">Analysis</a></li>
         <li><a href="#statistics" data-toggle="tab">Statistics</a></li>
       </ul>

@@ -20,10 +20,11 @@ class MetricsController < ApplicationController
   def show
     load_repositories(:repository)
     load_metrics(:metric)
-    load_records
+    load_records()
+
     analyze(@metric, @repository)
     gon.analysis = @analysis
-    @score = @repository.send(@metric)[:average]
+    @score = @repository.send(@metric).maybe[:average]
     gon.score = @score
   end
 
@@ -39,22 +40,11 @@ class MetricsController < ApplicationController
     render :json => status
   end
 
-  def preprocess
-    @repositories = Repository.all
-    if params[:repository].nil?
-      @selected = @repositories.first if @selected.nil?
-    else
-      @selected = Repository.find params[:repository]
-    end
-    gon.repository = @selected.to_hash
-  end
-
   def compute
-    repositories = create_repository_list(params[:repository])
-    metrics = create_metric_list(params[:metric])
-
-    repositories.each do |repository|
-      metrics.each do |metric|
+    load_repositories(:repository)
+    load_metrics()
+    @repositories.each do |repository|
+      @metrics.each do |metric|
         worker = MetricWorker.worker_class(metric)
         id = worker.send(:perform_async, repository.name, metric)
         @@jobs[repository.name][metric] = id
@@ -63,49 +53,16 @@ class MetricsController < ApplicationController
     render :nothing => true
   end
 
-  def create_repository_list(parameter)
-    if parameter == '*'
-      Repository.all
-    else
-      [Repository.find(parameter)]
-    end
-  end
-
-  def create_metric_list(parameter)
-    if parameter == '*'
-      Metrics::IDENTIFIERS
-    else
-      [parameter.to_sym]
-    end
-  end
-
+  ##
+  # Loads the metadata records in order to populate the metric view.
+  #
   def load_records
-    2.times do |i|
-      variable = "record#{i + 1}"
-      instance_variable = "@#{variable}"
-      parameter = variable.to_sym
-
-      record = default_record(i + 1)
-      instance_variable_set(instance_variable, default_record(i + 1))
-      unless params[parameter].nil?
-        record = @repository.get_record(params[parameter])
-        instance_variable_set(instance_variable, record)
-      end
-      gon.send("#{variable}=", record)
+    if params[:documents].nil?
+      @documents = [@repository.best_record(@metric),
+                    @repository.worst_record(@metric)]
+    else
+      @documents = params[:documents].map { |id| @repository.document(id) }
     end
-  end
-
-  def default_record(i)
-    case i
-    when 1
-      @repository.best_record(@metric)
-    when 2
-      @repository.worst_record(@metric)
-    end
-  end
-
-  def record(i)
-    instance_variable_get("@record#{i + 1}")
   end
 
   def select_partial

@@ -45,7 +45,7 @@ class Repository
     end.results.total
   end
 
-  def get_record(id)
+  def document(id)
     metadata_with_field(:_id, id).first
   end
 
