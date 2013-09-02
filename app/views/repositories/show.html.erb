@@ -1,7 +1,7 @@
 <% provide(:parameter, :show) %>
 <% content_for :heading do %>
   <h1>Repository Report</h1>
-  <h2><%= @repository.name == '*' ? 'All' : @repository.name %></h2>
+  <h2><%= @repository.name %></h2>
 <% end %>
 <% content_for :content do %>
   <div class="row">

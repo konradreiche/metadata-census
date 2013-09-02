@@ -28,12 +28,17 @@ module RepositoriesHelper
   ## Creates the metric selector for the breadcrumb navigation.
   #
   def analysis_metric_selector
-    locals = { entities: Metrics.list,
-               link_text: @metric.to_s.titlecase,
-               link_method: :create_metric_analysis_link }
+    route = { controller: 'metrics', 
+              action: 'show',
+              metric: @metric.to_s }
+    if current_page?(route)
+      locals = { entities: Metrics.list,
+                 link_text: @metric.to_s.titlecase,
+                 link_method: :create_metric_analysis_link }
 
-    content = render(partial: 'shared/dropdown_menu', locals: locals)
-    content_tag(:li, content, class: 'metric selector')
+      content = render(partial: 'shared/dropdown_menu', locals: locals)
+      content_tag(:li, content, class: 'metric selector')
+    end
   end
 
   ## Creates the repository selector for the breadcrumb navigation.
