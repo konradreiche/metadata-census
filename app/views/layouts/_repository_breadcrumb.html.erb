@@ -1,7 +1,7 @@
 <%= yield :heading %>
 <ol class="report repository breadcrumb">
     <%= repository_selector %>
-    <%= report_metric_selector if current_page?('metric#show')  %>
+    <%= analysis_metric_selector if current_page?(:controller => 'metrics', :action => 'show')  %>
     <li class="active">Report</li>
   </li>
 </ol>
