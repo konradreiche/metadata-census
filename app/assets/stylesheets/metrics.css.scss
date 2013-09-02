@@ -2,3 +2,9 @@
   margin-top: 2em;
   margin-bottom: 2em;
 }
+
+// create a information box for the records
+.metric.record-info.table th:first-child {
+  width: 15%;
+}
+
