@@ -67,6 +67,10 @@ class Repository
     self.send("#{metric.name}=", score)
   end
 
+  ##
+  # Returns a list of records sorted in descending by the score with respect to
+  # the given metric.
+  #
   def best_records(metric)
     records = sort_metric_scores(metric, 'desc').map { |entry| entry.to_hash }
   end
