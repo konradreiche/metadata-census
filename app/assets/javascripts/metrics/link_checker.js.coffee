@@ -18,7 +18,7 @@ $ ->
     activatePieChart()
 
   # Filter for the result table
-  tableFilter = (header, table) ->
+  tableFilter = () ->
     $("#link-checker-filter").on "input", (event) ->
        rows = $(".link-checker-table > tbody > tr")
        rows.hide()

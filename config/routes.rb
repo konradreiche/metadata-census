@@ -2,19 +2,24 @@ require 'sidekiq/web'
 
 MetadataCensus::Application.routes.draw do
 
+  id = { repository: /[0-z\.]+/ }
+
   get 'repository/:repository', to: 'repositories#show', 
-    constraints: { repository: /[0-z\.]+/ }
+    constraints: id
 
   get 'repository/:repository/metric/:metric', to: 'metrics#show',
-    constraints: { repository: /[0-z\.]+/ }
+    constraints: id
 
   get 'repositories', to: 'repositories#index'
 
   get 'repository/:repository/score', to: 'repositories#score',
-    constraints: { repository: /[0-z\.]+/ }
+    constraints: id
 
   get 'repository/:repository/scores', to: 'repositories#scores',
-    constraints: { repository: /[0-z\.]+/ }
+    constraints: id
+
+  get 'repository/:repository/metadata', to: 'metadata#search',
+    constraints: id
 
   get 'report/metric'
 

@@ -11,7 +11,7 @@ class MetadataController < ApplicationController
 
   def search
     repository = params[:repository]
-    q = params[:q]
+    q = params[:query]
     result = Tire.search('metadata') do
       query do
         boolean do

@@ -12,3 +12,8 @@
 .btn.record-selector {
   position: relative;
 }
+
+.table.metric.record-results thead tr th:first-child,
+.table.metric.record-results thead tr td:first-child {
+  width: 80%
+}
