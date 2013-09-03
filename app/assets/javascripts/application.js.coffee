@@ -14,6 +14,7 @@
 #= require bootstrap
 #= require jquery_ujs
 #= require list.min.js
+#= require underscore.js
 #= require_tree .
 root = exports ? this
 
