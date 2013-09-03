@@ -22,15 +22,20 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12">
+                <div id="results" class="col-md-12">
+                  <!-- The list class is used to make List.js working -->
                   <table class="table metric record-results">
                     <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Score</th>
+                        <th class="name">Name</th>
+                        <th class="score">Score</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="list">
+                      <tr>
+                        <td class="name"></td>
+                        <td class="score"></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
