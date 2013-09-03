@@ -1,26 +1,27 @@
 root = exports ? this
 
 $ ->
-  tableFilter = () ->
-    $("#record-search-input").on "input", (event) ->
 
-      options =
-        valueNames: ["name", "score"]
-      data =
-        query: $(this).val()
+  # Initializes the record search
+  #
+  initRecordSearch = () ->
+    options = { valueNames: ["name", "score"] }
+    list = new List("record-search-results", options, [])
+    $(".list").empty()
 
-      values = []
+    $("#record-search-input").on "input", (event) =>
+      inputValue = $(event.target).val()
+      inputValue = if /\S/.test(inputValue) then inputValue else '*'
+      data = { query: inputValue }
       url = "/repository/#{gon.repository.name}/metadata"
 
-      $.getJSON url, data, (result) ->
+      list.clear()
+      $.getJSON url, data, (result) =>
         for document in result
-          console.log document
-          values.push({ name: document.record.name, score: document[gon.metric].score })
-
-      console.log values
-      resultList = new List("results", options, values)
-      #rows = $(".table.metric.record-results > tbody > tr")
+          name = document.record.name
+          score = (document[gon.metric].score * 100).toFixed(2)
+          list.add({ name: name, score: "#{score}%" })
 
   if getPath(2) == 'metric'
     sm = new ScoreMeter(".metric.score-meter", gon.score)
-    tableFilter()
+    initRecordSearch()
