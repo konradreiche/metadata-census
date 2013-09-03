@@ -7,8 +7,8 @@
           <%= record_selector_entry(@documents[i], document) %>
         <% end %>
       </ul>
-      <a class="btn record-selector dropdown btn-default glyphicon glyphicon-search" href="#search-modal" data-toggle="modal"></a>
-      <div class="modal fade" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <a class="btn record-selector dropdown btn-default glyphicon glyphicon-search" href="<%= "#search-modal-#{i}" %>" data-toggle="modal"></a>
+      <div class="modal fade" id="<%= "search-modal-#{i}" %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -18,13 +18,13 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-md-12">
-                  <input id="record-search-input" class="form-control" type="text" placeholder="Search..."></input>
+                  <input id="<%= "record-search-input-#{i}" %>" class="form-control" type="text" placeholder="Search..."></input>
                 </div>
               </div>
               <div class="row">
-                <div id="record-search-results" class="col-md-12">
+                <div id="<%= "record-search-results-#{i}" %>" class="col-md-12" data-document="<%= @documents[i][:id] %>">
                   <!-- The list class is used to make List.js working -->
-                  <table class="table metric record-results">
+                  <table data-provides="rowlink" class="table metric record-results">
                     <thead>
                       <tr>
                         <th class="name">Name</th>

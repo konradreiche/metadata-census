@@ -63,6 +63,7 @@ class MetricsController < ApplicationController
     else
       @documents = params[:documents].map { |id| @repository.document(id) }
     end
+    gon.documents = @documents
   end
 
   def select_partial
