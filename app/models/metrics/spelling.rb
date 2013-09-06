@@ -1,8 +1,20 @@
 module Metrics
+
   class Spelling < Metric
 
     def initialize
       @wl = WhatLanguage.new(:all)
+    end
+
+    def self.description
+      description = <<-TEXT
+      The spelling metric measures the number of spelling mistakes on metadata
+      record fields that are used for descriptive fields. While the number of
+      spelling mistakes is an arguable quality factor it should be clear that
+      misspelled terms make it for some metadata records less likely to be
+      found.
+      TEXT
+      description.lstrip.rstrip
     end
 
     def compute(record)
