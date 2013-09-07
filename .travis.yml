@@ -7,6 +7,6 @@ services:
   - elasticsearch
 
 before_install:
-  - sudo apt-get install aspell
+  - sudo apt-get install aspell*
 
 script: bundle exec rspec spec
