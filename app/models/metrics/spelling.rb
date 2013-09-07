@@ -37,9 +37,9 @@ module Metrics
               misspelled << word
             end
           end
-          path  = value.is_a?(Array) ? accessor + [i] : accessor
+          path  = value.is_a?(Array) ? accessor + [i + 1] : accessor
           score = 1.0 - mistakes.fdiv(words)
-          analysis[path] = { score: score, misspelled: misspelled }
+          analysis[path] = { score: score, misspelled: misspelled.uniq }
         end
       end
 
