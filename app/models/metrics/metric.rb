@@ -38,6 +38,22 @@ module Metrics
       @@metrics << subclass.to_sym
     end
 
+    ##
+    # Retrieves a value fromm the record based on the provided accessor path.
+    #
+    # Used by metrics that need to retrieve values from a specified set of
+    # fields. For instance the Spelling and Richness of Information metric.
+    #
+    def self.value(record, accessors)
+      accessors.inject(record) do |value, accessor|
+        if value.is_a?(Array)
+          value.map { |item| item[accessor] }
+        else
+          value[accessor]
+        end
+      end
+    end
+
   end
 
 end

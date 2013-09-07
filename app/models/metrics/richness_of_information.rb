@@ -77,16 +77,6 @@ module Metrics
       tf_idfs.inject(:+) / term_frequency.length
     end
 
-    def self.value(data, accessors)
-      accessors.inject(data) do |value, accessor|
-        if value.is_a?(Array)
-          value.map { |item| item[accessor] }
-        else
-          value[accessor]
-        end
-      end
-    end
-
     def self.term_frequency(text)
       term_frequency = Hash.new(0)
       words = text.downcase.split(/\W+/)

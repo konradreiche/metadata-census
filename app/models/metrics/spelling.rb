@@ -4,6 +4,7 @@ module Metrics
 
     def initialize
       @wl = WhatLanguage.new(:all)
+      @fields = { :text => [[:notes], [:resources, :description]] }
     end
 
     def self.description
@@ -18,35 +19,43 @@ module Metrics
     end
 
     def compute(record)
-      detection_text = record[:notes].to_s
-      record[:resources].to_a.each do |resource|
-        detection_text += resource[:description].to_s
-      end
-
-      language = @wl.language(detection_text)
-      speller = aspell(language)
-
       words = 0
       mistakes = 0
-      words(record[:notes].to_s).each do |word|
-        words += 1
-        next if word.length < 7
-        correct = speller.correct?(word)
-        mistakes += 1 unless correct
-        Sidekiq.logger.warn word unless correct
-      end
-      record[:resources].to_a.each do |resource|
-        words(resource[:description].to_s).each do |word|
-          words += 1
-          next if word.length < 7
-          correct = speller.correct?(word)
-          mistakes += 1 unless correct
-          Sidekiq.logger.warn word unless correct
+      analysis = Hash.new
+      speller = aspell(detect_language(record))
+
+      @fields[:text].each do |accessor|
+        value = value(record, accessor)
+        index = value.is_a?(Array)
+        Array(value).each_with_index do |text, i|
+          w = 0
+          m = 0
+          words(text.to_s).each do |word|
+            w += 1
+            words += 1
+            next if word.length < 7
+            correct = speller.correct?(word)
+            m += 1 unless correct
+            mistakes += 1 unless correct
+            if index
+              analysis[accessor + [i]] = [m, w]
+            else
+              analysis[accessor] = [m, w]
+            end
+            Sidekiq.logger.warn(word) unless correct
+          end
         end
       end
 
       score = 1.0 - mistakes.to_f / words.to_f
-      return score
+      return score, analysis
+    end
+
+    def detect_language(record)
+      detection_text = @fields[:text].reduce('') do |text, accessor|
+        text + Array(value(record, accessor)).join(' ')
+      end
+      @wl.language(detection_text)
     end
 
     def aspell(language)
