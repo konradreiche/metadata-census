@@ -42,18 +42,16 @@ class MetricsController < ApplicationController
 
   def compute
     load_repositories(:repository)
-    load_metrics()
-    @repositories.each do |repository|
-      @metrics.each do |metric|
-        worker = MetricWorker.worker_class(metric)
-        id = worker.send(:perform_async, repository.name, metric)
-        @@jobs[repository.name][metric] = id
-      end
-    end
+    load_metrics(:metric)
+
+    worker = MetricWorker.worker_class(@metric)
+    id = worker.send(:perform_async, @repository.name, @metric)
+    @@jobs[@repository.name][@metric] = id
+
     render :nothing => true
   end
 
-  ##
+  #
   # Loads the metadata records in order to populate the metric view.
   #
   def load_records

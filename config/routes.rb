@@ -21,6 +21,9 @@ MetadataCensus::Application.routes.draw do
   get 'repository/:repository/metadata', to: 'metadata#search',
     constraints: id
 
+  post 'repository/:repository/metric/:metric/compute', to: 'metrics#compute',
+    constraints: id
+
   get 'report/metric'
 
   get 'admin/control'
@@ -32,7 +35,6 @@ MetadataCensus::Application.routes.draw do
   root :to => 'static_pages#home'
 
   get '/metrics', to: 'metrics#overview'
-  post '/metrics/compute', to: 'metrics#compute'
   get '/metrics/status', to: 'metrics#status'
 
   get '/repositories/map', to: 'repositories#map'
