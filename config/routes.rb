@@ -42,15 +42,6 @@ MetadataCensus::Application.routes.draw do
 
   mount Sidekiq::Web, at: '/sidekiq'
 
-  # deprecated
-  get '/metrics/completeness', to: 'metrics/completeness#details'
-  get '/metrics/weighted-completeness', to: 'metrics/completeness#details'
-  get '/metrics/accuracy', to: 'metrics#accuracy_stats'
-  get '/metrics/richness-of-information', to: 'metrics/richness_of_information#details'
-  get '/metrics/accessibility', to: 'metrics/accessibility#details'
-  get '/metrics/link-checker', to: 'metrics/link_checker#report'
-
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -66,3 +66,23 @@
     </div>
   <% end %>
 </div>
+<div class="row">
+  <% 2.times do |i| %>
+    <div class="col-md-6">
+      <table class="metric table table-bordered table-striped">
+        <tbody>
+          <% analysis = @documents[i][@metric][:analysis] %>
+          <% analysis.each do |key, value| %>
+            <tr>
+              <th><%= key.to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
+              <th><%= "%.2f%" % (value[:score] * 100) %></th>
+            </tr>
+            <tr>
+              <td colspan="2"><%= value.except(:score).values.first.join(', ') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
