@@ -1,8 +1,12 @@
 language: ruby
+
 rvm:
-    - 2.0.0
+  - 2.0.0
 
 services:
-    - elasticsearch
+  - elasticsearch
+
+before_install:
+  - sudo apt-get install aspell
 
 script: bundle exec rspec spec
