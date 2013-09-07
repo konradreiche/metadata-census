@@ -47,9 +47,9 @@ module Metrics
     def self.value(record, accessors)
       accessors.inject(record) do |value, accessor|
         if value.is_a?(Array)
-          value.map { |item| item[accessor] }
+          value.map { |item| item[accessor] unless item.nil? }
         else
-          value[accessor]
+          value[accessor] unless value.nil?
         end
       end
     end

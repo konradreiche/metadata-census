@@ -19,41 +19,37 @@ module Metrics
     end
 
     def compute(record)
-      words = 0
-      mistakes = 0
       analysis = Hash.new
+      all_words = all_mistakes = 0
       speller = aspell(detect_language(record))
 
       @fields[:text].each do |accessor|
-        value = value(record, accessor)
-        index = value.is_a?(Array)
+        value = self.class.value(record, accessor)
         Array(value).each_with_index do |text, i|
-          w = 0
-          m = 0
+          misspelled = []
+          words = mistakes = 0
           words(text.to_s).each do |word|
-            w += 1
-            words += 1
+            all_words = words += 1
             next if word.length < 7
-            correct = speller.correct?(word)
-            m += 1 unless correct
-            mistakes += 1 unless correct
-            if index
-              analysis[accessor + [i]] = [m, w]
-            else
-              analysis[accessor] = [m, w]
+
+            unless speller.correct?(word)
+              all_mistakes = mistakes += 1
+              misspelled << word
             end
-            Sidekiq.logger.warn(word) unless correct
           end
+          path  = value.is_a?(Array) ? accessor + [i] : accessor
+          score = 1.0 - mistakes.fdiv(words)
+          analysis[path] = { score: score, misspelled: misspelled }
         end
       end
 
-      score = 1.0 - mistakes.to_f / words.to_f
+      score = 1.0 - all_mistakes.fdiv(all_words)
       return score, analysis
     end
 
     def detect_language(record)
       detection_text = @fields[:text].reduce('') do |text, accessor|
-        text + Array(value(record, accessor)).join(' ')
+        text + Array(self.class.value(record, accessor)).join(' ')
       end
       @wl.language(detection_text)
     end
