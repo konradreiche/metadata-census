@@ -51,7 +51,7 @@ class MetricsController < ApplicationController
     render :nothing => true
   end
 
-  #
+  ##
   # Loads the metadata records in order to populate the metric view.
   #
   def load_records
@@ -64,6 +64,12 @@ class MetricsController < ApplicationController
     gon.documents = @documents
   end
 
+  ##
+  # Selects the partial for displaying the metric report.
+  #
+  # The selection is done based on the current metric. Either there is a
+  # specific partial or a general partial (default) is returned as fallback.
+  #
   def select_partial
     partials = "app/views/metrics/partials"
     metric_partial_path = "#{partials}/_#{@metric}.html.erb"
