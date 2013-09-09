@@ -121,4 +121,12 @@ class Repository
     self.score <=> other.score
   end
 
+  def query(*fields)
+    repository = @name
+    Tire::Search::Scan.new('metadata') do
+      query { string "repository:#{repository}" }
+      fields fields
+    end.map { |scroll| scroll.map(&:to_hash) }.flatten
+  end
+
 end
