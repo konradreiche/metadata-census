@@ -1,4 +1,4 @@
-module Analysis::Metric
+module Analysis
 
   class LinkChecker
 

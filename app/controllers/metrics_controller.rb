@@ -3,7 +3,7 @@ require 'sidekiq/testing/inline' if ENV['DEBUG']
 class MetricsController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric 
-  include Analysis::Metric
+  include Analysis
 
   helper_method :metric_score, :record, :select_partial
 
@@ -22,7 +22,7 @@ class MetricsController < ApplicationController
     load_metrics(:metric)
     load_records()
 
-    analyze(@metric, @repository)
+    analyze()
     gon.analysis = @analysis
     @score = @repository.send(@metric).maybe[:average]
     gon.score = @score
