@@ -8,7 +8,7 @@ module Analysis::Metric
   end
 
   ##
-  # Generates statistics based on a metric and a group
+  # Generates statistics based on all the sub-scores.
   #
   # The group is determined through an accessor path.
   #
@@ -28,6 +28,26 @@ module Analysis::Metric
       end / documents.length
     end
     groups
+  end
+
+  ##
+  # Generates statistics based on the details of metric results.
+  #
+  # Counts the occurences of detail values.
+  #
+  def self.group_details_by(repository, metric)
+    metadata = repository.query(metric)
+    details = Hash.new(0)
+
+    metadata.each do |document|
+      # iterate the detail values of the metric analysis data
+      document[metric][:analysis].to_h.each do |field, analysis|
+        analysis.except(:score).values.first.each do |detail|
+          details[detail] += 1
+        end
+      end
+    end
+    details
   end
   
 end
