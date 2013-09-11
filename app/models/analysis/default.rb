@@ -3,9 +3,9 @@ module Analysis
   class Default
 
     def self.analyze(repository, metric)
-      analysis = OpenStruct.new
-      analysis.scores = group_scores_by(repository, metric, :"record.groups")
-      analysis.details = group_details(repository, metric)
+      scores = group_scores_by(repository, metric, :"record.groups")
+      details = group_details(repository, metric)
+      return { scores: scores, details: details }
     end
 
     ##

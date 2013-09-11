@@ -90,5 +90,9 @@
   </div>
 </div>
 <div id="statistics" class="tab-pane fade">
-  Statistics
+  <ul>
+  <% @analysis[:details].each do |value, count| %>
+    <li><%= "#{value} (#{count})" %></li>
+  <% end %>
+  </ul>
 </div>
