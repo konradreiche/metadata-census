@@ -27,6 +27,10 @@ MetadataCensus::Application.routes.draw do
   get 'report/metric'
 
   get 'admin/control'
+
+  namespace :admin do
+    get 'import'
+  end
   
   get 'metadata/search'
 

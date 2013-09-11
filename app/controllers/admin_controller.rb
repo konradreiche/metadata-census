@@ -7,4 +7,7 @@ class AdminController < ApplicationController
     load_metrics()
   end
 
+  def import
+  end
+
 end

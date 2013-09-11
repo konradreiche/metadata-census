@@ -28,7 +28,7 @@ $ ->
       .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-    d3.csv("data.csv", (data, error) =>
+    d3.csv "data.csv", (error, data) =>
       values = (+ value for value in data.values)
 
       g = svg.selectAll(".arc")
