@@ -5,10 +5,16 @@ $ ->
   ##
   # Sets up the pie chart for the statistics tab
   #
-  initPieChart = () ->
+  initPieChart = (analysis) ->
 
-    width = 960
-    height = 500
+    data = []
+    for key, value of analysis
+      data.push({ key: key, value: value })
+
+    console.log data
+
+    width = 480
+    height = 250
     radius = Math.min(width, height) / 2
 
     color = d3.scale.ordinal().range(["#98abc5", "#8a89a6", "#7b6888",
@@ -28,24 +34,21 @@ $ ->
       .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-    d3.csv "data.csv", (error, data) =>
-      values = (+ value for value in data.values)
+    g = svg.selectAll(".arc")
+      .data(pie(data))
+      .enter().append("g")
+      .attr("class", "arc")
 
-      g = svg.selectAll(".arc")
-        .data(pie(data))
-        .enter().append("g")
-        .attr("class", "arc")
+    g.append("path")
+      .attr("d", arc)
+      .style("fill", (d) -> return color(d.data.key))
 
-      g.append("path")
-        .attr("d", arc)
-        .style("fill", (d) -> return color(d.data.key))
-
-      g.append("text")
-        .attr("transform", (d) -> return "translate(#{arc.centroid(d)})")
-        .attr("dy", ".35em")
-        .style("text-anchor", "middle")
-        .text((d) -> return d.data.key)
-      
+    g.append("text")
+      .attr("transform", (d) -> return "translate(#{arc.centroid(d)})")
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text((d) -> return d.data.key)
+    
 
   recordSelectionLink = (current, next) ->
     documents = (document.id for document in gon.documents)
@@ -89,4 +92,4 @@ $ ->
   if getPath(2) == 'metric'
     sm = new ScoreMeter(".metric.score-meter", gon.score)
     initRecordSearch(i) for i in [0..1]
-    initPieChart()
+    initPieChart(gon.analysis.details)

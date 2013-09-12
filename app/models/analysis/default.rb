@@ -51,6 +51,23 @@ module Analysis
           end
         end
       end
+      thin_out(details)
+    end
+
+    private
+    ## 
+    # Thins out the values by replacing values that go below a certain
+    # threshold into its own key.
+    #
+    def self.thin_out(details, threshold=15)
+      others = 0
+      details.each do |key, value|
+        if value < threshold
+          others += value
+          details.delete(key)
+        end
+      end
+      details["Others"] = others
       details
     end
 
