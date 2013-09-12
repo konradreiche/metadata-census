@@ -7,7 +7,7 @@ class AdminController < ApplicationController
     load_metrics()
   end
 
-  def import
+  def importer
     archives = Dir.glob('archives/**/*').select { |fn| File.file?(fn) }
     @archives = archives.inject({}) do |result, archive|
       parts = File.basename(archive).split('-')
@@ -15,6 +15,12 @@ class AdminController < ApplicationController
       result[archive.split('/').last] = date
       result
     end
+  end
+
+  def import
+    file = params[:file]
+    repositories = YAML.load_file(file)
+    repositories = repositories.with_indifferent_access
   end
 
 end

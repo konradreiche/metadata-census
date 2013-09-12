@@ -1,5 +1,7 @@
 #=require spin.min
 #=require jquery.spin
+root = exports ? this
+
 $ ->
 
   # Adds to each compute button a callback event
@@ -10,6 +12,11 @@ $ ->
     for metric in gon.metrics
       $(".compute-metric.#{metric}").click(
         createComputeMetricCallback(repository, metric))
+
+  # Initialize HTTP POST request for button to load repositories
+  initializeRepositoryButton = () ->
+    $("#repository-importer").on "click", (e) ->
+      $.post("import", { file: "repositories.yml" })
 
   # Create the callback used for the metric button click handler
   createComputeMetricCallback = (repository, metric) ->
@@ -117,6 +124,9 @@ $ ->
         if job.status == 'queued' or job.status == 'working'
           return true
     return false
+
+  if root.isPath("/admin/importer")
+    initializeRepositoryButton()
 
   if gon? and gon.repository? and gon.metrics?
     # activate repository selector

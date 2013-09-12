@@ -28,6 +28,8 @@ root.getPath = (index) ->
   paths = [split[1], split[3]]
   return paths[index - 1]
 
+root.isPath = (path) -> window.location.pathname == path
+
 class ScoreMeter
 
   TWO_PI: 2 * Math.PI
