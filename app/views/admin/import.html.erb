@@ -1,9 +1,26 @@
 <h1>Administration</h1>
 <h2>Metadata Importer</h2>
 <div class="dashboard">
-  <ul>
-    <% Dir.entries('dumps').each do |dump| %>
-      <%= content_tag(:li, dump) if File.file?("dumps/#{dump}") %>
-    <% end %>
-  </ul>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Date</th>
+            <th>Import</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @archives.each do |file, date| %>
+            <tr>
+              <td><%= file %></td>
+              <td><%= date.strftime("%F") %></td>
+              <td><button class="btn btn-default glyphicon glyphicon-log-in"></button></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
