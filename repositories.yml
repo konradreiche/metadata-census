@@ -1,0 +1,30 @@
+CKAN:
+    - name: GovData.de
+      url:  https://www.govdata.de/ckan/api
+      location: Berlin, Germany
+      dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
+ 
+    - name: data.gov.uk
+      url: http://data.gov.uk/api
+      location: London, UK
+      dump: http://data.gov.uk/data/dumps/data.gov.uk-ckan-meta-data-latest.json.zip
+
+    - name: publicdata.eu
+      url: http://publicdata.eu/api
+      location: Brussels, Belgium
+      rows: 100000
+
+    - name: catalogodatos.gub.uy
+      url: https://catalogodatos.gub.uy/api
+      location: Montevideo, Uruguay
+      rows: 100000
+
+    - name: data.qld.gov.au
+      url: https://data.qld.gov.au/api
+      location: Queensland, Australia
+      rows: 100000
+
+    - name: catalog.data.gov
+      url: http://catalog.data.gov/api
+      location: USA, Washington, DC
+      rows: 100000

@@ -28,6 +28,7 @@ root.getPath = (index) ->
   paths = [split[1], split[3]]
   return paths[index - 1]
 
+# This function exists for reasons of readability
 root.isPath = (path) -> window.location.pathname == path
 
 class ScoreMeter

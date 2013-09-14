@@ -19,8 +19,15 @@ class AdminController < ApplicationController
 
   def import
     file = params[:file]
-    repositories = YAML.load_file(file)
-    repositories = repositories.with_indifferent_access
+    catalog = YAML.load_file(file)
+    catalog = catalog.with_indifferent_access
+    catalog.each do |type, repositories|
+      repositories.each do |repository|
+        attributes = repository.delete("location")
+        Repository.new(attributes)
+      end
+    end
+
   end
 
 end

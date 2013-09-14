@@ -29,6 +29,9 @@ MetadataCensus::Application.routes.draw do
   get 'admin/control'
 
   namespace :admin do
+    resources :repositories do
+      resource :metadata
+    end
     get 'importer'
     post 'import'
   end
