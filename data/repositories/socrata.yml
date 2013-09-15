@@ -2,5 +2,5 @@ name: Socrata Repositories
 
 Socrata:
     - name: data.cityofnewyork.us
-    - url: https://data.cityofnewyork.us/api
-    - location: New York, NY, USA
+      url: https://data.cityofnewyork.us/api
+      location: New York, NY, USA

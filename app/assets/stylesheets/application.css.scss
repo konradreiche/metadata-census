@@ -53,7 +53,13 @@
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   margin: 0.5em;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  width: 47.5%;
+  height: 30em;
+}
+
+@media (min-width: 992px) {
+  .dashboard-6 {
+    width: 47.5%;
+  }
 }
 
 .content {
@@ -62,4 +68,8 @@
 
 h3 {
   margin-bottom: 0.75em;
+}
+
+.dashboard-description {
+  margin-bottom: 2em;
 }
