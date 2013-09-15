@@ -33,3 +33,30 @@
 .progress-meter text {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+.dashboard {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-color: #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  padding: 1em;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+
+.dashboard-6 {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-color: #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin: 0.5em;
+  padding: 1em;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  width: 47.5%;
+}
+
+.content {
+  margin-top: 4em;
+}

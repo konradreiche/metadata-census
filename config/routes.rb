@@ -30,7 +30,6 @@ MetadataCensus::Application.routes.draw do
 
   namespace :admin do
     resources :repositories do
-      resource :metadata
     end
     get 'importer'
     post 'import'
