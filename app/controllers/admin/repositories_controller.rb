@@ -7,11 +7,13 @@ class Admin::RepositoriesController < ApplicationController
 
   def repository_files
     files = Dir.glob('data/repositories/*.yml').select { |f| File.file?(f) }
-    files.map { |yaml| YAML.load_file(yaml).with_indifferent_access }
+    files.map do |yaml| 
+      { yaml => YAML.load_file(yaml).with_indifferent_access }
+    end.reduce(:merge)
   end
 
-  def repository_count(file)
-    file.except(:name).values.map(&:length).reduce(:+)
+  def repository_count(yaml)
+    yaml.except(:name).values.map(&:length).reduce(:+)
   end
     
 end

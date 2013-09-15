@@ -5,10 +5,10 @@
     <h3><span class="glyphicon glyphicon-hdd"></span> Repositories</h3>
     <p class="dashboard-description">Select a file to import repositories.</p>
     <ul class="list-group">
-      <% @repository_files.each do |file| %>
+      <% @repository_files.each do |file, yaml| %>
         <li class="list-group-item">
-          <span class="badge"><%= repository_count(file) %></span>
-          <%= file[:name] %> | <a href="#">Import</a>
+          <span class="badge"><%= repository_count(yaml) %></span>
+          <%= yaml[:name] %> | <%= content_tag(:a, 'Import', class: 'import-link', data: { file: file }, href: '#' ) %>
         </li>
       <% end %>
     </ul>
