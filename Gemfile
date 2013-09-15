@@ -33,6 +33,8 @@ gem 'jquery-rails'
 gem 'tire'
 gem 'andand'
 
+gem 'geocoder'
+
 # Metrics
 gem 'json'
 gem 'typhoeus'

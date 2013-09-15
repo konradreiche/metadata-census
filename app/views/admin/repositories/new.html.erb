@@ -9,6 +9,7 @@
         <li class="list-group-item">
           <span class="badge"><%= repository_count(yaml) %></span>
           <%= yaml[:name] %> | <%= content_tag(:a, 'Import', class: 'import-link', data: { file: file }, href: '#' ) %>
+          <span class="label label-success pull-right">Imported...</span>
         </li>
       <% end %>
     </ul>

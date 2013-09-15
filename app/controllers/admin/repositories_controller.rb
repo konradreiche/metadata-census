@@ -1,6 +1,19 @@
 class Admin::RepositoriesController < ApplicationController
   helper_method :repository_count
 
+  def create
+    file = params[:file]
+    catalog = YAML.load_file(file).with_indifferent_access
+    catalog[:repositories].each do |repository|
+      location = repository.delete(:location)
+      location = Geocoder.search(location).first
+
+      repository[:latitude] = location.latitude
+      repository[:longitude] = location.longitude
+    end
+    render nothing: true
+  end
+
   def new
     @repository_files = repository_files
   end
