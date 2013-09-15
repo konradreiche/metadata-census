@@ -8,8 +8,10 @@
       <% @repository_files.each do |file, yaml| %>
         <li class="list-group-item">
           <span class="badge"><%= repository_count(yaml) %></span>
-          <%= yaml[:name] %> | <%= content_tag(:a, 'Import', class: 'import-link', data: { file: file }, href: '#' ) %>
-          <span class="label label-success pull-right">Imported...</span>
+          <%= yaml[:name] %> <%= import_link(file)  %>
+          <span class="label label-info pull-right">Importing...</span>
+          <span class="label label-success pull-right">Done</span>
+          <span class="label label-danger pull-right">Error</span>
         </li>
       <% end %>
     </ul>
