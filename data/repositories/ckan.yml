@@ -1,3 +1,5 @@
+name: CKAN Repositories
+
 CKAN:
     - name: GovData.de
       url:  https://www.govdata.de/ckan/api
