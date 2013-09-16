@@ -51,7 +51,7 @@ class Admin::RepositoriesController < ApplicationController
   #
   def parse_meta_metadata(file)
     result = {}
-    keys = [:id, :date]
+    keys = [:id, :date, :count]
 
     pick_next = false
     pick_key = nil

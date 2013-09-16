@@ -22,7 +22,7 @@
     <ul class="list-group">
       <% @metadata_archives.each do |file, info| %>
         <li class="list-group-item">
-          <span class="badge"><%= info[:count] %></span>
+          <span class="badge"><%= number_with_delimiter(info[:count]) %></span>
           <%= "(#{info[:date]}) #{info[:id]}" %> <%= import_link(file)  %>
           <span class="label label-info pull-right">Importing...</span>
           <span class="label label-success pull-right">Done</span>
