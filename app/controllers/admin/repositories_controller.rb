@@ -5,18 +5,15 @@ class Admin::RepositoriesController < ApplicationController
     file = params[:file]
     catalog = YAML.load_file(file).with_indifferent_access
 
-    repositories = catalog[:repositories].map do |repository|
-      location = repository.delete(:location)
-      location = Geocoder.search(location).first
-
+    repositories = catalog[:repositories].each do |repository|
+      location = Geocoder.search(repository[:location]).first
       repository[:latitude] = location.latitude
       repository[:longitude] = location.longitude
 
-      repository.delete(:dump)
-      repository.delete(:rows)
-      Repository.new(repository)
+      entity = Repository.find(repository[:id])
+      entity = Repository.new if entity.nil?
+      entity.update(repository)
     end
-    repositories.each { |repository| repository.index.store(repository) }
 
     render nothing: true
   end

@@ -64,6 +64,17 @@ class Repository
     end.results.map { |entry| entry.to_hash }
   end
 
+  ##
+  # Updates this repository based on a given repository hash.
+  #
+  def update(repository)
+    self.class.properties.each do |property|
+      value = repository[property]
+      self.send("#{property}=", value) unless value.nil?
+    end
+    self.update_index
+  end
+
   def update_score(metric, score)
     self.send("#{metric.name}=", score)
   end
