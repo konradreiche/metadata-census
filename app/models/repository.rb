@@ -6,6 +6,7 @@ class Repository
 
   validates_presence_of :name, :type, :url, :datasets, :latitude, :longitude
 
+  property :id
   property :name
   property :type
   property :url
