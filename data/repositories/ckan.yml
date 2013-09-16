@@ -40,5 +40,11 @@ repositories:
       name: catalog.data.gov
       url: http://catalog.data.gov/api
       type: CKAN
-      location: USA, Washington, DC
+      location: Washington, DC, USA
       rows: 100000
+
+    - id: opendata.admin.ch
+      name: opendata.admin.ch
+      url: http://opendata.admin.ch/api
+      type: CKAN
+      location: Bern, Switzerland
