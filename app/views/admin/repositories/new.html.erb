@@ -19,5 +19,16 @@
   <div class="dashboard-6 col-md-6">
     <h3><span class="glyphicon glyphicon-align-justify"></span> Metadata</h3>
     <p class="dashboard-description">Import and associate metadata with a certain repository.</p>
+    <ul class="list-group">
+      <% @metadata_archives.each do |file, info| %>
+        <li class="list-group-item">
+          <span class="badge"><%= info[:count] %></span>
+          <%= "(#{info[:date]}) #{info[:id]}" %> <%= import_link(file)  %>
+          <span class="label label-info pull-right">Importing...</span>
+          <span class="label label-success pull-right">Done</span>
+          <span class="label label-danger pull-right">Error</span>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
