@@ -34,6 +34,8 @@ gem 'tire'
 gem 'andand'
 
 gem 'geocoder'
+gem 'yajl-ruby'
+gem 'json-stream'
 
 # Metrics
 gem 'json'
