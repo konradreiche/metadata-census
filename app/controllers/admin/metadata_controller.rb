@@ -14,8 +14,12 @@ class Admin::MetadataController < ApplicationController
     parser = Yajl::Parser.new(symbolize_keys: true)
 
     File.open(file) do |file|
-      metadata = parser.parse(file)
-      Metadata.create!(_metadata)
+      meta_metadata = parser.parse(file)
+      attributes = meta_metadata(meta_metadata)
+      meta_metadata[:metadata].each do |metadata|
+        attributes[:record] = metadata
+        Metadata.create!(attributes)
+      end
     end
 
     render nothing: true
@@ -24,19 +28,13 @@ class Admin::MetadataController < ApplicationController
   private
 
   ##
-  # Indexes the metadata to the database.
+  # Retrieves the meta-metadata.
   #
-  def index(parsed)
-    type = 'ckan'
-    date = parsed[:date]
-    repository = @repository.id
-    records = parsed[:metadata].map do |record|
-      Metadata.new(record, type, repository, date)
-    end
-
-    Tire.index 'metadata' do
-      create
-      import records
+  def meta_metadata(metadata)
+    fields = Metadata.fields.keys.map(&:to_sym)
+    metadata.keys.inject({}) do |meta_metadata, key|
+      meta_metadata[key] = metadata[key] if fields.include?(key)
+      meta_metadata
     end
 
   end

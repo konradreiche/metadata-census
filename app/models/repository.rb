@@ -3,6 +3,8 @@ class Repository
 
   validates_presence_of :id, :name, :url, :type, :latitude, :longitude
 
+  has_many :metadata
+
   field :id
   field :name
   field :type
@@ -14,19 +16,6 @@ class Repository
 
   Metrics::list.each do |metric|
     field metric
-  end
-
-  def metadata
-    name = @name
-    max = 5000
-    results = []
-    (total() / 4.0 / max).ceil.times do
-      results += Tire::Search::Scan.new('metadata') do
-        query { string 'repository:' + name }
-        size max
-      end.results
-    end
-    results.map { |entry| entry.to_hash }
   end
 
   def sample

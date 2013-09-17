@@ -1,12 +1,13 @@
 class Metadata
   include Mongoid::Document
 
-  validates_presence_of :record, :repository, :date, :type, :count
+  validates_presence_of :record, :repository, :date, :type
 
   field :record
   field :repository
   field :date
   field :type
-  field :count
+
+  belongs_to :repository
 
 end
