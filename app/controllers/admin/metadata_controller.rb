@@ -14,8 +14,8 @@ class Admin::MetadataController < ApplicationController
     parser = Yajl::Parser.new(symbolize_keys: true)
 
     File.open(file) do |file|
-      parsed = parser.parse(file)
-      index(parsed)
+      meta_metadata = parser.parse(file)
+      MetaMetadata.create!(meta_metadata)
     end
 
     render nothing: true

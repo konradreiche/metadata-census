@@ -8,12 +8,12 @@ module Concerns::Repository
       @repository = Repository.new
       @repository.name = 'All'
     end
-    gon.repository = @repository.to_hash
+    gon.repository = @repository
   end
 
   def load_all_repositories
     begin
-      @repositories = ::Repository.all
+      @repositories = ::Repository.all.to_a
     rescue Tire::Search::SearchRequestFailed
       @repositories = []
     end
