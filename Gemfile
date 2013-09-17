@@ -31,6 +31,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 
 gem 'tire'
+gem 'mongoid', github: 'mongoid/mongoid'
+gem 'bson_ext'
+
 gem 'andand'
 
 gem 'geocoder'
