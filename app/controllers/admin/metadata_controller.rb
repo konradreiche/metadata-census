@@ -10,7 +10,6 @@ class Admin::MetadataController < ApplicationController
   end
 
   def create
-    require 'pry'; binding.pry
     file = params[:file]
     parser = Yajl::Parser.new(symbolize_keys: true)
 
@@ -28,7 +27,7 @@ class Admin::MetadataController < ApplicationController
   # Indexes the metadata to the database.
   #
   def index(parsed)
-    type = 'CKAN'
+    type = 'ckan'
     date = parsed[:date]
     repository = @repository.id
 
@@ -36,7 +35,7 @@ class Admin::MetadataController < ApplicationController
 
       Tire.index 'metadata' do
         create
-        store Metadata.new(metadata, repository, date, type)
+        store Metadata.new(metadata, type, repository, date)
       end
 
     end
