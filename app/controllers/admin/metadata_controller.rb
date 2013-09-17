@@ -30,15 +30,15 @@ class Admin::MetadataController < ApplicationController
     type = 'ckan'
     date = parsed[:date]
     repository = @repository.id
-
-    parsed[:metadata].each_with_index do |metadata, i|
-
-      Tire.index 'metadata' do
-        create
-        store Metadata.new(metadata, type, repository, date)
-      end
-
+    records = parsed[:metadata].map do |record|
+      Metadata.new(record, type, repository, date)
     end
+
+    Tire.index 'metadata' do
+      create
+      import records
+    end
+
   end
 
 end
