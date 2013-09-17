@@ -2,34 +2,37 @@ require 'sidekiq/web'
 
 MetadataCensus::Application.routes.draw do
 
-  id = { repository: /[0-z\.]+/ }
+  id_regex = /[0-z\.]+/
 
   get 'repository/:repository', to: 'repositories#show', 
-    constraints: id
+    constraints: { repository: id_regex }
 
   get 'repository/:repository/metric/:metric', to: 'metrics#show',
-    constraints: id
+    constraints: { repository: id_regex }
 
   get 'repositories', to: 'repositories#index'
 
   get 'repository/:repository/score', to: 'repositories#score',
-    constraints: id
+    constraints: { repository: id_regex }
 
   get 'repository/:repository/scores', to: 'repositories#scores',
-    constraints: id
+    constraints: { repository: id_regex }
 
   get 'repository/:repository/metadata', to: 'metadata#search',
-    constraints: id
+    constraints: { repository: id_regex }
 
   post 'repository/:repository/metric/:metric/compute', to: 'metrics#compute',
-    constraints: id
+    constraints: { repository: id_regex }
 
   get 'report/metric'
 
   get 'admin/control'
 
   namespace :admin do
-    resources :repositories do
+    constraints({ id: id_regex }) do
+      resources :repositories do
+        resource :metadata
+      end
     end
     get 'importer'
     post 'import'

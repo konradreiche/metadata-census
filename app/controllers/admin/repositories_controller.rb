@@ -26,6 +26,9 @@ class Admin::RepositoriesController < ApplicationController
     @metadata_archives = metadata_archives()
   end
 
+  ##
+  # Returns a list of available YAML files containing repositories to import.
+  #
   def repository_files
     files = Dir.glob('data/repositories/*.yml').select { |f| File.file?(f) }
     files.map do |yaml| 
