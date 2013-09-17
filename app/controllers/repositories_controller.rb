@@ -15,7 +15,6 @@ class RepositoriesController < ApplicationController
 
   def index
     load_all_repositories()
-    require 'pry'; binding.pry
   end
   
   def show
