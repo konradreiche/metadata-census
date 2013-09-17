@@ -1,12 +1,45 @@
+require 'yajl'
+
 class Admin::MetadataController < ApplicationController
+  include Concerns::Repository
+
+  before_filter :init
+
+  def init
+    load_repositories(:repository_id)
+  end
 
   def create
+    require 'pry'; binding.pry
     file = params[:file]
-    id = params[:repository_id]
-    repository = Repository.find(id)
+    parser = Yajl::Parser.new(symbolize_keys: true)
 
+    File.open(file) do |file|
+      parsed = parser.parse(file)
+      index(parsed)
+    end
 
     render nothing: true
+  end
+
+  private
+
+  ##
+  # Indexes the metadata to the database.
+  #
+  def index(parsed)
+    type = 'CKAN'
+    date = parsed[:date]
+    repository = @repository.id
+
+    parsed[:metadata].each_with_index do |metadata, i|
+
+      Tire.index 'metadata' do
+        create
+        store Metadata.new(metadata, repository, date, type)
+      end
+
+    end
   end
 
 end
