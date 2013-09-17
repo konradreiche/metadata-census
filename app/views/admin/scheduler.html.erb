@@ -1,0 +1,33 @@
+<h1>Administration</h1>
+<h2>Scheduler</h2>
+<div class="content row">
+  <div class="dashboard col-md-12">
+    <button class="btn compute-metric all"><strong class="icon-th"></strong> Compute All</button>
+    <div class="admin control progress progress-success">
+      <div class="all progress-bar"></div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Progress</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @metrics.each do |metric| %>
+          <tr class="admin control <%= metric %>">
+            <td rowspan="2"><%= metric.to_s.titlecase %></td>
+            <td><div class="admin control progress progress-info"><%= create_bar(metric, :analyze) %></div></td>
+            <td class="admin control status"><%= status(metric) %></td>
+            <td rowspan="2"><%= create_button(metric) %></td>
+          </tr>
+          <tr>
+            <td><div class="admin control progress progress-success"><%= create_bar(metric, :compute) %></div></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

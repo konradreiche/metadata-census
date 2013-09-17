@@ -26,16 +26,17 @@ MetadataCensus::Application.routes.draw do
 
   get 'report/metric'
 
-  get 'admin/control'
-
+  # /admin
   namespace :admin do
+
     constraints({ id: id_regex }) do
       resources :repositories do
         resource :metadata
       end
     end
-    get 'importer'
-    post 'import'
+
+    get 'scheduler'
+
   end
   
   get 'metadata/search'
