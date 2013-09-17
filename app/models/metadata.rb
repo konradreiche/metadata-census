@@ -1,4 +1,4 @@
-class MetaMetadata
+class Metadata
   include Mongoid::Document
 
   validates_presence_of :record, :repository, :date, :type, :count
