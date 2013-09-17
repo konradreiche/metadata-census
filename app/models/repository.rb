@@ -1,21 +1,19 @@
 class Repository
-  include Tire::Model::Persistence
-  include Tire::Model::Search
-  include Tire::Model::Callbacks
+  include Mongoid::Document
 
-  validates_presence_of :name, :type, :url, :datasets, :latitude, :longitude
+  validates_presence_of :id, :name, :url, :type, :latitude, :longitude
 
-  property :id
-  property :name
-  property :type
-  property :url
-  property :latitude
-  property :longitude
-  property :datasets
-  property :score
+  field :id
+  field :name
+  field :type
+  field :url
+  field :latitude
+  field :longitude
+  field :datasets
+  field :score
 
   Metrics::list.each do |metric|
-    property metric
+    field metric
   end
 
   def metadata

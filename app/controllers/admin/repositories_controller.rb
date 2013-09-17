@@ -9,13 +9,8 @@ class Admin::RepositoriesController < ApplicationController
     catalog = YAML.load_file(file).with_indifferent_access
 
     repositories = catalog[:repositories].each do |repository|
-      location = Geocoder.search(repository[:location]).first
-      repository[:latitude] = location.latitude
-      repository[:longitude] = location.longitude
-
-      entity = Repository.find(repository[:id])
-      entity = Repository.new if entity.nil?
-      entity.update(repository)
+      attributes = attribute_hash(repository).with_indifferent_access
+      Repository.create!(attributes)
     end
 
     render nothing: true
@@ -80,6 +75,23 @@ class Admin::RepositoriesController < ApplicationController
 
   def repository_count(yaml)
     yaml.except(:name).values.map(&:length).reduce(:+)
+  end
+
+  private
+
+  ##
+  # Returns hash of valid attributes which can be used to create a new
+  # +Repository+ object.
+  #
+  def attribute_hash(repository_hash)
+    city = repository_hash[:location]
+    location = Geocoder.search(city).first
+
+    repository_hash[:latitude] = location.latitude
+    repository_hash[:longitude] = location.longitude
+    repository_hash.delete_if do |attribute, value|
+      not Repository.fields.include?(attribute)
+    end
   end
     
 end
