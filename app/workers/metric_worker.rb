@@ -1,49 +1,40 @@
+##
+# Base metric worker which all metric worker have to subclass.
+#
 class MetricWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
   def perform(repository, metric, *args)
     scores = []
-    store state: :compute
-    logger.info 'Compute metadata scores'
+    store :state => :compute
+    logger.info('Compute metadata scores')
 
-    total = @metadata.length
     @metadata.each_with_index do |document, i|
-      record = self.class.symbolize_keys(document.to_hash)[:record]
+      record = document.record.with_indifferent_access
       score, analysis = @metric.compute(record, *args)
-      update_document(document, score, analysis)
+
+      document[metric] = { score: score }
+      document[metric][:analysis] = analysis
+      document.save!
+
       scores << score
-      at(i + 1, total)
+      at(i + 1, @metadata.length)
     end
 
-    update_repository(scores)
-    refresh
+    update_repository(metric, scores)
   end
 
-  def update_document(document, score, analysis)
-    metric_name = @metric.name
-    document[metric_name] = { score: score }
-    document[metric_name][:analysis] = analysis
-
-    Tire.index 'metadata' do
-      update('ckan', document[:id], :doc => document)
-    end
-  end
-
-  def update_repository(scores)
+  def update_repository(metric, scores)
     scores.sort!
-    minimum = scores.first
-    maximum = scores.last
-    average = scores.inject(:+) / scores.length
-    median = scores[scores.length / 2]
+    min = scores.first
+    max = scores.last
+    avg = scores.inject(:+) / scores.length
+    med = scores[scores.length / 2]
 
-    score = Score.new(minimum, maximum, average, median)
-    @repository.update_score(@metric, score)
-    @repository.update_index
-  end
-
-  def refresh
-    Tire.index('metadata') { refresh }
+    score = { minimum: min, maximum: max, average: avg, median: med }
+    @repository[metric] = score
+    @repository.save!
   end
 
   def self.symbolize_keys arg

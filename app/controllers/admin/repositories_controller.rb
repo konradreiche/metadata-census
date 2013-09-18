@@ -5,7 +5,7 @@ class Admin::RepositoriesController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric
 
-  before_filter :init
+  before_filter :init, :only => [:scheduler, :status]
   helper_method :repository_count
 
   def create
