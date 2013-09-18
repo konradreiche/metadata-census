@@ -29,14 +29,15 @@ MetadataCensus::Application.routes.draw do
   # /admin
   namespace :admin do
 
-    # redirected to resourcful path
-    get 'scheduler'
+    get 'scheduler'  # redirected to resourcful path
 
     constraints({ repository_id: id_regex }) do
       resources :repositories do
 
         resource :metadata
+
         get 'scheduler'
+        get 'status'
 
         resources :metrics, only: [] do
           post 'schedule'

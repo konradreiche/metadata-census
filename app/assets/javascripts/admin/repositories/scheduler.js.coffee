@@ -24,7 +24,7 @@ $ ->
       $.post(url, (data, status) -> startRequestStatusLoop())
 
   startRequestStatusLoop = () ->
-    $.getJSON("/admin/scheduler/status", processStatus)
+    $.getJSON("/admin/repositories/#{repository}/status", processStatus)
 
   processStatus = (response) ->
     for repository, metric of response

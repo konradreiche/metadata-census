@@ -5,6 +5,7 @@ class Admin::RepositoriesController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric
 
+  before_filter :init
   helper_method :repository_count
 
   def create
@@ -77,8 +78,11 @@ class Admin::RepositoriesController < ApplicationController
   end
 
   def scheduler
-    load_repositories(:repository_id)
-    load_metrics()
+  end
+
+  def status
+    repository = @repository.id
+    render json: Job.where(repository: repository).to_a
   end
 
   def repository_count(yaml)
@@ -100,6 +104,11 @@ class Admin::RepositoriesController < ApplicationController
     repository_hash.delete_if do |attribute, value|
       not Repository.fields.include?(attribute)
     end
+  end
+
+  def init
+    load_repositories(:repository_id)
+    load_metrics()
   end
     
 end
