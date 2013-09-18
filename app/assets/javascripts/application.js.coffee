@@ -19,6 +19,10 @@
 root = exports ? this
 
 $.fn.exists = () -> this.length > 0
+RegExp.escape = (string) -> string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+# Regular expression for repository identifier
+root.repositoryRegExp = "[0-z\.]+"
 
 # Retrieves parts of the current location path name in order to deliver the
 # current context for JavaScript. This is used as a condition to decide which
@@ -29,7 +33,10 @@ root.getPath = (index) ->
   return paths[index - 1]
 
 # This function exists for reasons of readability
-root.isPath = (path) -> window.location.pathname == path
+root.isPath = (path, regExp, id) ->
+  paths = path.split(":id")
+  paths = paths.map (path) -> RegExp.escape(path)
+  new RegExp(paths.join(regExp)).test(path)
 
 class ScoreMeter
 
