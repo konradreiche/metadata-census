@@ -1,9 +1,9 @@
 class AdminController < ApplicationController
   include Concerns::Repository
-  include Concerns::Metric
 
   def scheduler
-    redirect_to controller: "admin/repositories", action: "scheduler", repository_id: "data.gov.uk"
+    load_repositories()
+    redirect_to controller: "admin/repositories", action: "scheduler", repository_id: @repository
   end
 
 end

@@ -77,7 +77,7 @@ class Admin::RepositoriesController < ApplicationController
   end
 
   def scheduler
-    load_repositories(:repository)
+    load_repositories(:repository_id)
     load_metrics()
   end
 

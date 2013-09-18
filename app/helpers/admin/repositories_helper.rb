@@ -9,4 +9,9 @@ module Admin::RepositoriesHelper
     content_tag(:a, 'Import', class: 'metadata-import-link', data: data , href: '#' )
   end
 
+  def scheduler_anchor_tag(repository)
+    href = "/admin/repositories/#{repository.id}/scheduler"
+    content_tag(:a, repository.name, href: href)
+  end
+
 end

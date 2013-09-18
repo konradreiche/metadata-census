@@ -1,7 +1,7 @@
 <div class="navigation row">
   <div class="dashboard-col col-md-12">
     <ol class="dashboard breadcrumb">
-      <%= repository_selector %>
+      <%= repository_selector(link_method) %>
       <li class="active"><%= params[:action].titlecase %></li>
       <%= yield %>
     </ol>

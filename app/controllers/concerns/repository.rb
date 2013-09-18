@@ -1,6 +1,6 @@
 module Concerns::Repository
 
-  def load_repositories(parameter)
+  def load_repositories(parameter=nil)
     load_all_repositories()
     @repository = params[parameter] || @repositories.first.name
     @repository = ::Repository.find(@repository)
