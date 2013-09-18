@@ -11,6 +11,7 @@ $ ->
       button = $(event.target)
       button.attr("disabled", "disabled")
 
-  if root.isPath("/admin/repositories/:id/scheduler", root.repositoryRegExp, gon.repository.id)
+  id = gon.repository.id
+  if root.isPath("/admin/repositories/:repository_id/scheduler", id)
     initMetricJobButtons()
 
