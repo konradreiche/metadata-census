@@ -82,7 +82,16 @@ class Admin::RepositoriesController < ApplicationController
 
   def status
     repository = @repository.id
-    render json: Job.where(repository: repository).to_a
+    jobs = Job.where(repository: repository)
+  
+    status = jobs.to_a.inject({}) do |status, job|
+      status[job.metric] = Sidekiq::Status::get_all(job.sidekiq_id)
+      percent = Sidekiq::Status::pct_complete(job.sidekiq_id)
+      status[:percent] = percent.finite? ? percent : 0.0
+      status
+    end
+
+    render json: status
   end
 
   def repository_count(yaml)

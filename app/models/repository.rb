@@ -103,6 +103,7 @@ class Repository
     sum = metrics.inject(0.0) do |sum, metric|
       score = self.send(metric)
       unless score.nil?
+        score = score.with_indifferent_access
         value = score[:average]
         if Metrics.from_sym(metric).normalize?
           value = Metrics::normalize(metric, [value]).first
