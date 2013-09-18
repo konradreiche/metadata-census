@@ -5,9 +5,8 @@ module AdminHelper
     tag(:div, class: "#{id} #{metric} #{type} progress-bar")
   end
 
-  def create_button(metric)
-    id = @repository.name.gsub('.', '-')
-    classes = 'btn btn-default glyphicon glyphicon-cloud-upload schedule-metric-job'
+  def schedule_job_button(metric)
+    classes = 'btn btn-default glyphicon glyphicon-cloud-upload schedule-job'
     data = { metric: metric }
     tag(:button, class: classes, data: data)
   end

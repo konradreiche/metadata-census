@@ -2,16 +2,24 @@ root = exports ? this
 
 $ ->
 
-  initMetricJobButtons = () ->
-    repository = gon.repository.name
-    $(".schedule-metric-job").on "click", initJobCallback()
+  hideStatusLabels = () ->
+    $(".label").hide()
 
-  initJobCallback = () ->
+  showStatusLabel = (metric) ->
+    $("##{metric}.label").show()
+
+  initScheduleJobButtons = () ->
+    repository = gon.repository.name
+    $(".schedule-job").on "click", createScheduleJobCallback()
+
+  createScheduleJobCallback = () ->
     return (event) ->
       button = $(event.target)
+      metric = button.data("metric")
       button.attr("disabled", "disabled")
+      showStatusLabel(metric)
 
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)
-    initMetricJobButtons()
-
+    hideStatusLabels()
+    initScheduleJobButtons()

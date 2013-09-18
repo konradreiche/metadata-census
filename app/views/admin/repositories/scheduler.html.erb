@@ -15,7 +15,7 @@
           <th>Progress</th>
           <th>Status</th>
           <th>Last Updated</th>
-          <th>Action</th>
+          <th>Schedule Job</th>
         </tr>
       </thead>
       <tbody>
@@ -24,11 +24,12 @@
             <td rowspan="2"><%= metric.to_s.titlecase %></td>
             <td><div class="admin control progress progress-info"><%= create_bar(metric, :analyze) %></div></td>
             <td class="admin control status" rowspan="2">
-              <span class="label label-info">Computing...</span>
+              <%= content_tag(:span, 'Computing...', class: "label label-info", id: metric) %>
               <%= status(metric) %>
             </td>
             <td rowspan="2">N/A</td>
-            <td rowspan="2"><%= create_button(metric) %></td>
+            <td rowspan="2"><%= schedule_job_button(metric) %></td>
+            <%=  %>
           </tr>
           <tr>
             <td><div class="admin control progress progress-success"><%= create_bar(metric, :compute) %></div></td>

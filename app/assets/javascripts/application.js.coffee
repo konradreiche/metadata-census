@@ -37,7 +37,7 @@ root.isPath = (path, id)  ->
   paths = path.split(":repository_id")
   paths = paths.map (path) -> RegExp.escape(path)
   regExp = root.regExps.repository_id
-  new RegExp(paths.join(regExp)).test(path)
+  new RegExp(paths.join(regExp)).test(window.location.pathname)
 
 class ScoreMeter
 
