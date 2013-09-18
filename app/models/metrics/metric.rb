@@ -6,7 +6,7 @@ module Metrics
     end
     
     def self.to_sym
-      self.name.demodulize.underscore.to_sym
+      self.name.demodulize.underscore.dasherize.to_sym
     end
 
     ## Skip null fields and fields with whitespace strings
