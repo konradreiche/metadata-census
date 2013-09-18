@@ -2,6 +2,9 @@ require 'json/stream'
 require 'yajl'
 
 class Admin::RepositoriesController < ApplicationController
+  include Concerns::Repository
+  include Concerns::Metric
+
   helper_method :repository_count
 
   def create
@@ -71,6 +74,11 @@ class Admin::RepositoriesController < ApplicationController
     end
 
     result
+  end
+
+  def scheduler
+    load_repositories(:repository)
+    load_metrics()
   end
 
   def repository_count(yaml)
