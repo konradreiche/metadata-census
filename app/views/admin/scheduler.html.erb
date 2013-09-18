@@ -8,12 +8,13 @@
     </div>
   </div>
   <div class="dashboard col-md-12">
-    <table class="table">
+    <table class="admin scheduler table">
       <thead>
         <tr>
           <th>Metric</th>
           <th>Progress</th>
           <th>Status</th>
+          <th>Last Updated</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -22,7 +23,11 @@
           <tr class="admin control <%= metric %>">
             <td rowspan="2"><%= metric.to_s.titlecase %></td>
             <td><div class="admin control progress progress-info"><%= create_bar(metric, :analyze) %></div></td>
-            <td class="admin control status"><%= status(metric) %></td>
+            <td class="admin control status" rowspan="2">
+              <span class="label label-info">Computing...</span>
+              <%= status(metric) %>
+            </td>
+            <td rowspan="2">N/A</td>
             <td rowspan="2"><%= create_button(metric) %></td>
           </tr>
           <tr>

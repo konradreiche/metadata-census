@@ -130,6 +130,5 @@ $ ->
 
   if gon? and gon.repository? and gon.metrics?
     # activate repository selector
-    $('.dropdown-toggle').dropdown()
     initializeButtons()
     requestStatus()

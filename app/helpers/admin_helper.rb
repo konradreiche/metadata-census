@@ -7,8 +7,9 @@ module AdminHelper
 
   def create_button(metric)
     id = @repository.name.gsub('.', '-')
-    icon = tag(:strong, class: 'icon-tasks')
-    content_tag(:button, icon, class: "btn compute-metric #{id} #{metric}")
+    classes = 'btn btn-default glyphicon glyphicon-cloud-upload schedule-metric-job'
+    data = { metric: metric }
+    tag(:button, class: classes, data: data)
   end
 
   def status(metric)

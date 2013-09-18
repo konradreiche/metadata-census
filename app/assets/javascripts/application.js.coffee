@@ -85,3 +85,7 @@ class ScoreMeter
     )
 
 root.ScoreMeter = ScoreMeter
+
+# Activate repository breadcrumb dropdown if available
+$('.dropdown-toggle').dropdown()
+

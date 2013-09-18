@@ -3,3 +3,11 @@
   margin-bottom: 0px;
 }
 
+.admin.scheduler.table > tbody tr td {
+  vertical-align: middle;
+}
+
+.admin.scheduler.table > thead tr th:nth-child(n+2),
+.admin.scheduler.table > tbody tr td:nth-child(n+2) {
+  text-align: center;
+}

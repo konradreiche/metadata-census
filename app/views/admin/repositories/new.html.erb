@@ -9,9 +9,9 @@
         <li class="list-group-item">
           <span class="badge"><%= repository_count(yaml) %></span>
           <%= yaml[:name] %> <%= import_link(file)  %>
-          <span class="label label-info pull-right">Importing...</span>
-          <span class="label label-success pull-right">Done</span>
-          <span class="label label-danger pull-right">Error</span>
+          <span class="admin repositories label label-info pull-right">Importing...</span>
+          <span class="admin repositories label label-success pull-right">Done</span>
+          <span class="admin repositories label label-danger pull-right">Error</span>
         </li>
       <% end %>
     </ul>
@@ -24,9 +24,9 @@
         <li class="list-group-item">
           <span class="badge"><%= number_with_delimiter(info[:count]) %></span>
           <%= "(#{info[:date]}) #{info[:repository]}" %> <%= import_metadata_link(info[:repository], file) %>
-          <span class="label label-info pull-right">Importing...</span>
-          <span class="label label-success pull-right">Done</span>
-          <span class="label label-danger pull-right">Error</span>
+          <span class="admin repositories label label-info pull-right">Importing...</span>
+          <span class="admin repositories label label-success pull-right">Done</span>
+          <span class="admin repositories label label-danger pull-right">Error</span>
         </li>
       <% end %>
     </ul>
