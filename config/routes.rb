@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 MetadataCensus::Application.routes.draw do
 
-  id_regex = /[0-z\.]+/
+  id_regex = /[0-z\.\-]+/
 
   get 'repository/:repository', to: 'repositories#show', 
     constraints: { repository: id_regex }
@@ -32,10 +32,16 @@ MetadataCensus::Application.routes.draw do
     # redirected to resourcful path
     get 'scheduler'
 
-    constraints({ id: id_regex }) do
+    constraints({ repository_id: id_regex }) do
       resources :repositories do
+
         resource :metadata
         get 'scheduler'
+
+        resources :metrics, only: [] do
+          post 'schedule'
+        end
+
       end
     end
 
