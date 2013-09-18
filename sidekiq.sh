@@ -1,3 +1,3 @@
 #!/bin/sh
-redis-cli -c "flushall"
-bundle exec sidekiq -t 0
+redis-cli -c "FLUSHALL"
+bundle exec sidekiq -C config/sidekiq.yml

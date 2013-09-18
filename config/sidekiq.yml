@@ -1,0 +1,7 @@
+# Sidekiq configuration
+---
+:daemon: true
+:concurrency: 6
+:logfile: ./log/sidekiq.log
+:pidfile: ./tmp/pids/sidekiq.pid
+:timeout: 0
