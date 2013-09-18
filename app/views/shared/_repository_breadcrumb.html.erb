@@ -1,0 +1,9 @@
+<div class="navigation row">
+  <div class="dashboard-col col-md-12">
+    <ol class="dashboard breadcrumb">
+      <%= repository_selector %>
+      <li class="active"><%= params[:action].titlecase %></li>
+      <%= yield %>
+    </ol>
+  </div>
+</div>

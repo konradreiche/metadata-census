@@ -1,11 +1,13 @@
 <h1>Administration</h1>
 <h2>Scheduler</h2>
-<div class="content row">
+<%= render partial: 'shared/repository_breadcrumb' %>
+<div class="row">
   <div class="dashboard col-md-12">
-    <button class="btn compute-metric all"><strong class="icon-th"></strong> Compute All</button>
-    <div class="admin control progress progress-success">
+    <div class="admin scheduler progress progress-success">
       <div class="all progress-bar"></div>
     </div>
+  </div>
+  <div class="dashboard col-md-12">
     <table class="table">
       <thead>
         <tr>
