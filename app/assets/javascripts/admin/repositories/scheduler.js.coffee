@@ -93,6 +93,7 @@ $ ->
     metric = button.data("metric")
 
     url = "/admin/repositories/#{id}/metrics/#{metric}/schedule"
+    resetStatus(metric)
     $.post url, statusLoop(metric)
 
   ###
@@ -101,7 +102,6 @@ $ ->
   statusLoop = (metric) ->
     return () =>
 
-      resetStatus(metric)
       $.getJSON "/admin/repositories/#{id}/status", (response) ->
         updateElements(response)
 
