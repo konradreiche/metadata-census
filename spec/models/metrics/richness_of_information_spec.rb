@@ -51,14 +51,16 @@ describe Metrics::RichnessOfInformation do
     metadata << {:id => '3', :tags => ['education', 'children'] }
     metadata << {:id => '4', :tags => ['business', 'employment'] }
 
+    metadata.each { |record| record[:tags] = record[:tags].map { |tag| { name: tag } } }
+
     metric = Metrics::RichnessOfInformation.new(metadata)
 
-    expect(metric.categorical_frequency[[:tags]]['health']).to be(2)
-    expect(metric.categorical_frequency[[:tags]]['children']).to be(2)
-    expect(metric.categorical_frequency[[:tags]]['population']).to be(1)
-    expect(metric.categorical_frequency[[:tags]]['education']).to be(1)
-    expect(metric.categorical_frequency[[:tags]]['business']).to be(1)
-    expect(metric.categorical_frequency[[:tags]]['employment']).to be(1)
+    expect(metric.categorical_frequency[[:tags, :name]]['health']).to be(2)
+    expect(metric.categorical_frequency[[:tags, :name]]['children']).to be(2)
+    expect(metric.categorical_frequency[[:tags, :name]]['population']).to be(1)
+    expect(metric.categorical_frequency[[:tags, :name]]['education']).to be(1)
+    expect(metric.categorical_frequency[[:tags, :name]]['business']).to be(1)
+    expect(metric.categorical_frequency[[:tags, :name]]['employment']).to be(1)
   end
 
   it "computes the negative probability of a categorical value to occur" do
@@ -68,14 +70,16 @@ describe Metrics::RichnessOfInformation do
     metadata << {:id => '3', :tags => ['education', 'children'] }
     metadata << {:id => '4', :tags => ['business', 'employment'] }
 
+    metadata.each { |record| record[:tags] = record[:tags].map { |tag| { name: tag } } }
+
     metric = Metrics::RichnessOfInformation.new(metadata)
 
-    health = metric.richness_of_information('health', :category, [:tags])
-    children = metric.richness_of_information('children', :category, [:tags]) 
-    business = metric.richness_of_information('business', :category, [:tags]) 
-    education = metric.richness_of_information('education', :category, [:tags]) 
-    population = metric.richness_of_information('population', :category, [:tags]) 
-    employment = metric.richness_of_information('employment', :category, [:tags]) 
+    health = metric.richness_of_information('health', :category, [:tags, :name])
+    children = metric.richness_of_information('children', :category, [:tags, :name]) 
+    business = metric.richness_of_information('business', :category, [:tags, :name]) 
+    education = metric.richness_of_information('education', :category, [:tags, :name]) 
+    population = metric.richness_of_information('population', :category, [:tags, :name]) 
+    employment = metric.richness_of_information('employment', :category, [:tags, :name]) 
 
     expect(health).to be(- Math.log(0.25))
     expect(children).to be(- Math.log(0.25))
