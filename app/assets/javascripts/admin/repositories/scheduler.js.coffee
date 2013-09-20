@@ -15,7 +15,7 @@ $ ->
 
   # Maps the job status to the status label class.
   STATUS_LABEL_CLASS =
-    queued:    "label-info",
+    queued:    "label-warning",
     working:   "label-info",
     complete:  "label-success",
     failed:    "label-danger"

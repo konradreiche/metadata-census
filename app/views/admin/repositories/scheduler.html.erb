@@ -24,6 +24,7 @@
             <td rowspan="2"><%= metric.to_s.titlecase %></td>
             <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :analyze) %></div></td>
             <td class="admin control status" rowspan="2">
+              <%= content_tag(:span, 'Queued', class: "label label-warning", id: metric) %>
               <%= content_tag(:span, 'Computing...', class: "label label-info", id: metric) %>
               <%= content_tag(:span, 'Done', class: "label label-success", id: metric) %>
               <%= content_tag(:span, 'Error', class: "label label-danger", id: metric) %>
