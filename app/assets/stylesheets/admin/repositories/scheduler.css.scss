@@ -1,3 +1,21 @@
+// No extra spacing below
 .admin.repositories.scheduler.progress {
   margin-bottom: 0px;
+}
+
+// Remove border line cells with two elements
+.admin.repositories.scheduler.table > tbody tr:nth-child(even) td {
+  border-top-color: transparent;
+}
+
+// Cells with two elements, remove spacing between both, upper element
+.admin.repositories.scheduler.table > tbody tr:nth-child(odd) td {
+  padding-bottom: 4px;
+  padding-top: 10px;
+}
+
+// Cells with two elements, remove spacing between both, lower element
+.admin.repositories.scheduler.table > tbody tr:nth-child(even) td {
+  padding-bottom: 10px;
+  padding-top: 4px;
 }

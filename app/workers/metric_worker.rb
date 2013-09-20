@@ -1,3 +1,5 @@
+require 'time'
+
 ##
 # Base metric worker which all metric worker have to subclass.
 #
@@ -14,7 +16,7 @@ class MetricWorker
       record = document.record.with_indifferent_access
       score, analysis = @metric.compute(record, *args)
 
-      document[metric] = { score: score }
+      document[metric][:score] = score
       document[metric][:analysis] = analysis
       document.save!
 
@@ -26,14 +28,16 @@ class MetricWorker
   end
 
   def update_repository(metric, scores)
+    score = Hash.new
     scores.sort!
-    min = scores.first
-    max = scores.last
-    avg = scores.inject(:+) / scores.length
-    med = scores[scores.length / 2]
 
-    score = { minimum: min, maximum: max, average: avg, median: med }
+    score[:minimum] = scores.first
+    score[:maximum] = scores.last
+    score[:average] = scores.inject(:+) / scores.length
+    score[:median] = scores[scores.length / 2]
+
     @repository[metric] = score
+    @repository[metric][:last_updated] = DateTime.now.to_s
     @repository.save!
   end
 
