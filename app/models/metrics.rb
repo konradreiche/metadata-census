@@ -35,7 +35,7 @@ module Metrics
   end
 
   def self.from_sym(symbol)
-    "#{self.name}::#{symbol.to_s.camelcase}".constantize
+    "#{self.name}::#{symbol.to_s.underscore.camelcase}".constantize
   end
 
   def self.url(metric)

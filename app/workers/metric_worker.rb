@@ -13,7 +13,9 @@ class MetricWorker
     logger.info('Compute metadata scores')
 
     @metadata.each_with_index do |document, i|
-      record = document.record.with_indifferent_access
+      document[metric] = Hash.new if document[metric].nil?
+
+      record = document.record
       score, analysis = @metric.compute(record, *args)
 
       document[metric][:score] = score
@@ -64,7 +66,7 @@ class MetricWorker
   #
   def self.worker_class(metric)
     begin
-      (metric.to_s.camelcase + "MetricWorker").constantize
+      (metric.to_s.underscore.camelcase + "MetricWorker").constantize
     rescue NameError
       GenericMetricWorker
     end

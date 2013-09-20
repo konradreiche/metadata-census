@@ -2,10 +2,11 @@ require 'digest'
 
 class Metadata
   include Mongoid::Document
+  include Mongoid::Extensions::Hash::IndifferentAccess
 
   validates_presence_of :record, :repository, :date, :type
 
-  field :record
+  field :record, type: Hash
   field :repository
   field :date
   field :type

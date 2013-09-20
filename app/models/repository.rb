@@ -19,53 +19,6 @@ class Repository
     field metric, type: Hash
   end
 
-  def sample
-    name = @name
-    Tire.search 'metadata' do
-      query { string 'repository:' + name }
-    end.results.map { |entry| entry.to_hash }.sample
-  end
-
-  def total
-    name = @name
-    total = Tire.search('metadata', :search_type => 'count') do
-      query { string 'repository:' + name }
-    end.results.total
-  end
-
-  def document(id)
-    metadata_with_field(:_id, id).first
-  end
-
-  def metadata_with_field(field, value="*")
-    name = @name
-    max = total
-    Tire.search 'metadata' do
-      query do
-        boolean do
-          must { string 'repository:' + name }
-          must { string field.to_s + ":" + value }
-        end
-      end
-      size max
-    end.results.map { |entry| entry.to_hash }
-  end
-
-  ##
-  # Updates this repository based on a given repository hash.
-  #
-  def update(repository)
-    self.class.properties.each do |property|
-      value = repository[property]
-      self.send("#{property}=", value) unless value.nil?
-    end
-    self.update_index
-  end
-
-  def update_score(metric, score)
-    self.send("#{metric.name}=", score)
-  end
-
   ##
   # Returns a list of records sorted in descending by the score with respect to
   # the given metric.

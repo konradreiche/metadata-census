@@ -10,7 +10,7 @@ class RichnessOfInformationMetricWorker < GenericMetricWorker
     store stage: :analyze
     logger.info 'Analyzing metadata'
 
-    records = @metadata.map { |document| document[:record] }
+    records = @metadata.map { |document| document.record }
     @metric = Metrics::RichnessOfInformation.new(records, self)
     super
   end
