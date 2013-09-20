@@ -1,4 +1,4 @@
-module Admin::RepositoriesHelper
+module AdminHelper::RepositoriesHelper
 
   def import_link(file)
     content_tag(:a, 'Import', class: 'import-link', data: { file: file }, href: '#' )
