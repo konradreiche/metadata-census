@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         <% @metrics.each do |metric| %>
-          <tr class="admin control <%= metric %>">
+          <tr class="status <%= metric %>">
             <td rowspan="2"><%= metric.to_s.titlecase %></td>
             <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :analyze) %></div></td>
             <td class="admin control status" rowspan="2">

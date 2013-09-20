@@ -9,7 +9,7 @@ class Admin::MetricsController < ApplicationController
     job = Job.find_by(repository: @repository.id, metric: @metric)
     id = worker.send(:perform_async, @repository.id, @metric)
 
-    if job.exists?
+    if not job.nil?
       job.update_attributes!(sidekiq_id: id)
     else
       Job.create!(sidekiq_id: id, repository: @repository.id, metric: @metric)

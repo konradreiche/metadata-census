@@ -109,6 +109,7 @@ $ ->
           setTimeout(statusLoop(metric), 500)
         else
           updateElements(response)
+          updateDateTime(metric)
 
   ###
   Checks the current status to see if all jobs have terminated.
@@ -119,6 +120,15 @@ $ ->
         return false
 
     return true
+
+  ###
+  Fetches and dispalys the last updated date and time of the metric.
+  ###
+  updateDateTime = (metric) ->
+    url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
+    $.getJSON url, (response) ->
+       $(".status.#{metric} .date").html(response.date)
+       $(".status.#{metric}").next("tr").children(".time").html(response.time)
 
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)

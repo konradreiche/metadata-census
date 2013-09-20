@@ -4,7 +4,6 @@ module Concerns::Repository
     load_all_repositories()
     @repository = params[parameter] || @repositories.first.name
     @repository = ::Repository.find(@repository)
-    require 'pry'; binding.pry
     gon.repository = @repository
   end
 
