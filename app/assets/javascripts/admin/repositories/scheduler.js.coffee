@@ -76,6 +76,15 @@ $ ->
       button.prop("disabled", false)
 
   ###
+  Resets the job status of the given metric back to zero progress.
+  ###
+  resetStatus = (metric) ->
+    $("##{metric}.label").hide()
+    $(".schedule-job.#{metric}").prop("disabled", true)
+    $(".progress-bar.#{metric}.#{ANALYZE}").css("width", "0%")
+    $(".progress-bar.#{metric}.#{COMPUTE}").css("width", "0%")
+
+  ###
   Schedules a new job to compute the metric for the current repository.
   ###
   scheduleJob = (event) ->
@@ -84,20 +93,23 @@ $ ->
     metric = button.data("metric")
 
     url = "/admin/repositories/#{id}/metrics/#{metric}/schedule"
-    $.post url, statusLoop
+    $.post url, statusLoop(metric)
 
   ###
   Starts the status loop.
   ###
-  statusLoop = () ->
+  statusLoop = (metric) ->
+    return () =>
 
-    $.getJSON "/admin/repositories/#{id}/status", (response) ->
-      updateElements(response)
-
-      if not finished(response)
-        setTimeout(statusLoop, 500)
-      else
+      resetStatus(metric)
+      $.getJSON "/admin/repositories/#{id}/status", (response) ->
         updateElements(response)
+
+        if not finished(response)
+          setTimeout(statusLoop(metric), 500)
+        else
+          updateElements(response)
+
   ###
   Checks the current status to see if all jobs have terminated.
   ###
