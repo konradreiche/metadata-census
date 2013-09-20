@@ -3,8 +3,8 @@
 <%= render partial: 'shared/repository_breadcrumb', locals: { :link_method => :scheduler_anchor_tag } %>
 <div class="row">
   <div class="dashboard col-md-12">
-    <div class="admin scheduler progress progress-success">
-      <div class="all progress-bar"></div>
+    <div class="admin repositories scheduler progress">
+      <div id="total-progress-bar" class="progress-bar"></div>
     </div>
   </div>
   <div class="dashboard col-md-12">

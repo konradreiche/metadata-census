@@ -44,6 +44,8 @@ $ ->
       updateStatusLabel(metric, job.status)
       updateButtons(metric, job.status)
 
+    updateTotalProgressBar(response)
+
   ###
   Fills a certain progress bar to the given percentage.
   ###
@@ -55,6 +57,21 @@ $ ->
 
     barElement = $(".progress-bar.#{metric}.#{stage}")
     barElement.css("width", "#{percent}%")
+
+  ###
+  Updates the total progress bar which is an aggregate of all the progress.
+  ###
+  updateTotalProgressBar = (response) ->
+
+    total = 0
+    i = 0
+
+    for metric, job of response
+      if job.stage == COMPUTE
+        total += job.percent
+        i += 1
+
+     $("#total-progress-bar").css("width", "#{total / i}%")
 
   ###
   Displays the status label corresponding to the job stage.
