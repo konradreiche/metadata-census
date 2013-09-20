@@ -1,3 +1,5 @@
+require 'sidekiq/testing/inline' if ENV['DEBUG']
+
 class Admin::MetricsController < ApplicationController
   include Concerns::Repository
   include Concerns::Metric
