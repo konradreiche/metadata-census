@@ -1,5 +1,6 @@
 class Repository
   include Mongoid::Document
+  include Mongoid::Extensions::Hash::IndifferentAccess
 
   validates_presence_of :id, :name, :url, :type, :latitude, :longitude
 
@@ -15,7 +16,7 @@ class Repository
   field :score
 
   Metrics::list.each do |metric|
-    field metric
+    field metric, type: Hash
   end
 
   def sample

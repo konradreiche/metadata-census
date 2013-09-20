@@ -34,6 +34,8 @@ gem 'tire'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
 
+gem "mongoid-indifferent-access", require: "mongoid_indifferent_access"
+
 gem 'andand'
 
 gem 'geocoder'
