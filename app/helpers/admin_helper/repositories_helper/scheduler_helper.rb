@@ -5,7 +5,7 @@ module AdminHelper::RepositoriesHelper::SchedulerHelper
       last_updated = DateTime.parse(@repository[metric][:last_updated])
       content_tag(:td, last_updated.strftime('%a %b %e %Y'), class: 'date')
     else
-      content_tag(:td, 'N/A', rowspan: '2')
+      content_tag(:td, 'N/A', class: 'date', rowspan: '2')
     end
   end
 

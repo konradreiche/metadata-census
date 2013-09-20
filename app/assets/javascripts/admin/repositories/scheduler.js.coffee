@@ -127,8 +127,18 @@ $ ->
   updateDateTime = (metric) ->
     url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
     $.getJSON url, (response) ->
-       $(".status.#{metric} .date").html(response.date)
-       $(".status.#{metric}").next("tr").children(".time").html(response.time)
+      dateCell = $(".status.#{metric} .date")
+      timeCell = $(".status.#{metric}").next("tr").children(".time")
+      if timeCell.exists()
+        dateCell.text(response.date)
+        timeCell.text(response.time)
+      else
+        dateCell.text(response.date)
+        dateCell.removeAttr("rowspan")
+        timeCell = $("<td>#{response.time}</td>")
+        timeCell.addClass("time")
+        $(".status.#{metric}").next("tr").append(timeCell)
+
 
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)
