@@ -22,7 +22,7 @@
         <% @metrics.each do |metric| %>
           <tr class="admin control <%= metric %>">
             <td rowspan="2"><%= metric.to_s.titlecase %></td>
-            <td><div class="admin control progress progress-info"><%= create_bar(metric, :analyze) %></div></td>
+            <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :analyze) %></div></td>
             <td class="admin control status" rowspan="2">
               <%= content_tag(:span, 'Computing...', class: "label label-info", id: metric) %>
               <%= status(metric) %>
@@ -32,7 +32,7 @@
             <%=  %>
           </tr>
           <tr>
-            <td><div class="admin control progress progress-success"><%= create_bar(metric, :compute) %></div></td>
+            <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :compute) %></div></td>
           </tr>
         <% end %>
       </tbody>

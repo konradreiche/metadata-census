@@ -1,8 +1,8 @@
 module AdminHelper
 
   def create_bar(metric, type)
-    id = @repository.name.gsub('.', '-')
-    tag(:div, class: "#{id} #{metric} #{type} progress-bar")
+    bar = { analyze: "progress-bar-success", compute: "progress-bar-info" }
+    tag(:div, class: "progress-bar #{bar[type]} #{metric} #{type}")
   end
 
   def schedule_job_button(metric)

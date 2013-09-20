@@ -21,20 +21,34 @@ $ ->
       showStatusLabel(metric)
 
       url = "/admin/repositories/#{repository}/metrics/#{metric}/schedule"
-      $.post(url, (data, status) -> startRequestStatusLoop())
+      $.post(url, (data, status) -> requestStatusLoop())
 
-  startRequestStatusLoop = () ->
+  requestStatusLoop = () ->
+    repository = gon.repository.id
     $.getJSON("/admin/repositories/#{repository}/status", processStatus)
 
   processStatus = (response) ->
-    for repository, metric of response
-      for metric, job of metric
-        updateJobProgress(repository, metric, job)
+    for metric, job of response
+      updateProgressBar(metric, job.state, job.percent)
+      if job.state == "compute"
+        updateProgressBar(metric, "analyze", 100)
 
-  updateJobProgress = (repository, metric, job) ->
-    null
+    if not finished(response)
+      setTimeout(requestStatusLoop, 500)
+
+  updateProgressBar = (metric, state, percent) ->
+    barElement = $(".progress-bar.#{metric}.#{state}")
+    barElement.css("width", "#{percent}%")
+
+  finished = (response) ->
+    for metric, status in response
+      if job.status in ["queued", "working"]
+        return false
+
+    return true
 
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)
     hideStatusLabels()
     initScheduleJobButtons()
+    requestStatusLoop()

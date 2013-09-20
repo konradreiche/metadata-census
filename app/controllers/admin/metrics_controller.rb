@@ -7,8 +7,8 @@ class Admin::MetricsController < ApplicationController
   def schedule
     worker = MetricWorker.worker_class(@metric)
     id = worker.send(:perform_async, @repository.id, @metric)
-
     Job.create!(sidekiq_id: id, repository: @repository.id, metric: @metric)
+
     render nothing: true
   end
 
