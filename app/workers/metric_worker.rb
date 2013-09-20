@@ -9,7 +9,7 @@ class MetricWorker
 
   def perform(repository, metric, *args)
     scores = []
-    store :state => :compute
+    store :stage => :compute
     logger.info('Compute metadata scores')
 
     @metadata.each_with_index do |document, i|
