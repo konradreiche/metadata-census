@@ -1,0 +1,4 @@
+# Sidekiq configuration
+---
+:concurrency: 6
+:timeout: 0
