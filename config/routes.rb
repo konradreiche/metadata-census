@@ -40,6 +40,7 @@ MetadataCensus::Application.routes.draw do
         get 'status'
 
         resources :metrics, only: [] do
+          get  'last_updated'
           post 'schedule'
         end
 
