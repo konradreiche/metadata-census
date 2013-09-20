@@ -16,13 +16,13 @@ module Metrics
       @resource_availability = Hash.new { |h, k| h[k] = Hash.new }
 
       metadata.each_with_index do |dataset, i|
-        dataset[:resources].each do |resource|
+        dataset[:resources].to_a.each do |resource|
           @total += 1
           url = URI.unescape(resource[:url])
           id = dataset[:id]
           enqueue_request(id, url)
         end
-        @worker.at(i + i, @total) unless @worker.nil?
+        @worker.at(i, @total) unless @worker.nil?
       end
     end
 

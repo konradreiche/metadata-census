@@ -87,7 +87,7 @@ module Metrics
       id = record[:id]
       types = @resource_mime_types[id]
 
-      validated = 0.0
+      validated = 0
       resources = record[:resources].length
 
       record[:resources].each do |resource|
@@ -97,15 +97,10 @@ module Metrics
         validated += 1 if formats.include?(mime)
       end
 
-      return score, types
-    end
+      score = validated.fdiv(resources)
+      score = 0.0 if resources == 0
 
-    def score
-      if resource != 0
-        0.0
-      else
-        validated / resources
-      end
+      return score, types
     end
 
     def determine_mime_types(resource)
