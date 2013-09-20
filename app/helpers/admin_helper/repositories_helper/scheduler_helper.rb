@@ -16,4 +16,13 @@ module AdminHelper::RepositoriesHelper::SchedulerHelper
     end
   end
 
+  def schedule_job_button(metric)
+    classes = ['btn', 'btn-default']
+    classes += ['glyphicon glyphicon-cloud-upload']
+    classes += ['schedule-job', metric]
+
+    data = { metric: metric }
+    tag(:button, class: classes.join(' '), data: data)
+  end
+
 end
