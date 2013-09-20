@@ -40,18 +40,18 @@ $ ->
   ###
   updateElements = (response) ->
     for metric, job of response
-      fillProgressBar(metric, job.stage, job.percent)
-      displayStatusLabel(metric, job.status)
-      setButtonState(metric, job.status)
+      updateProgressBar(metric, job.stage, job.percent)
+      updateStatusLabel(metric, job.status)
+      updateButtons(metric, job.status)
 
   ###
   Fills a certain progress bar to the given percentage.
   ###
-  fillProgressBar = (metric, stage, percent) ->
+  updateProgressBar = (metric, stage, percent) ->
 
     # In stage compute, analyze is already finished
     if stage == COMPUTE
-      fillProgressBar(metric, ANALYZE, 100)
+      updateProgressBar(metric, ANALYZE, 100)
 
     barElement = $(".progress-bar.#{metric}.#{stage}")
     barElement.css("width", "#{percent}%")
@@ -59,16 +59,15 @@ $ ->
   ###
   Displays the status label corresponding to the job stage.
   ###
-  displayStatusLabel = (metric, status) ->
+  updateStatusLabel = (metric, status) ->
     labelClass = STATUS_LABEL_CLASS[status]
     $("##{metric}.label").hide()
     $("##{metric}.label.#{labelClass}").show()
 
-
   ###
   Either enables or disables the button based on the job status.
   ###
-  setButtonState = (metric, status) ->
+  updateButtons = (metric, status) ->
     button = $(".schedule-job.#{metric}")
 
     if status in ["queued", "working"]
@@ -80,71 +79,30 @@ $ ->
   Schedules a new job to compute the metric for the current repository.
   ###
   scheduleJob = (event) ->
-    button = $(event.target)
     id = gon.repository.id
+    button = $(event.target)
     metric = button.data("metric")
 
-    disableButton(metric, true)
-    resetProgressBar(metric)
-
     url = "/admin/repositories/#{id}/metrics/#{metric}/schedule"
-    $.post(url, requestStatusLoop)
-
-  disableButton = (metric, disable) ->
-    $(".schedule-job.#{metric}").prop("disabled", disable)
-
-  createScheduleJobCallback = () ->
+    $.post url, statusLoop
 
   ###
-  Retrieves the job status and updates the interface. The request status loop
-  is repeated until all jobs of this repository are finished.
+  Starts the status loop.
   ###
-  requestStatusLoop = () ->
-    id = gon.repository.id
-    $.getJSON("/admin/repositories/#{id}/status", processStatus)
+  statusLoop = () ->
 
-  ###
-  Iterates the status objects and updates the interface accordingly.
-  ###
-  processStatus = (response) ->
-    
-    for metric, job of response
-      fillProgressBar(metric, job.stage, job.percent)
-      disableButton(metric, true)
+    $.getJSON "/admin/repositories/#{id}/status", (response) ->
+      updateElements(response)
 
-      console.log job
-      # If job is in the compute stage, analyze is finished
-      if job.stage == COMPUTE
-        fillProgressBar(metric, ANALYZE, 100)
-      
-      if job.status == FAILED
-        showStatusLabel(metric, "failed")
-
-    if not finished(response)
-      setTimeout(requestStatusLoop, 500)
-    else
-      displayCompletions(response)
-
+      if not finished(response)
+        setTimeout(statusLoop, 500)
+      else
+        updateElements(response)
   ###
-  Updates the interface to reflect the completion of all jobs.
+  Checks the current status to see if all jobs have terminated.
   ###
-  displayCompletions = (response) ->
-    for metric, job of response
-      if job.status != FAILED
-        fillProgressBar(metric, ANALYZE, 100)
-        fillProgressBar(metric, COMPUTE, 100)
-        showStatusLabel(metric, "finished")
-        disableButton(metric, false)
-
-  ###
-  Sets the progress bars of a certain metric back to 0%.
-  ###
-  resetProgressBar = (metric) ->
-    fillProgressBar(metric, ANALYZE, 0)
-    fillProgressBar(metric, COMPUTE, 0)
-
   finished = (response) ->
-    for metric, status in response
+    for metric, job of response
       if job.status in ["queued", "working"]
         return false
 
