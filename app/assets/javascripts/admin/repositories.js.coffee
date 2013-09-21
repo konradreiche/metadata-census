@@ -43,7 +43,7 @@ $ ->
       repository = $(this).data("repository")
 
       data = { file: file }
-      $.post("/admin/repositories/#{repository}/metadata", data, (response) =>
+      $.post("/admin/repositories/#{repository}/snapshots", data, (response) =>
         importingLabel.fadeOut "fast", () =>
           doneLabel.fadeIn().fadeOut "fast", () =>
             anchor.show()

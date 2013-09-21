@@ -4,20 +4,16 @@ class Repository
 
   validates_presence_of :id, :name, :url, :type, :latitude, :longitude
 
-  has_many :metadata
+  has_many :snapshots
 
   field :id
   field :name
+
   field :type
   field :url
+
   field :latitude
   field :longitude
-  field :datasets
-  field :score
-
-  Metrics::list.each do |metric|
-    field metric, type: Hash
-  end
 
   ##
   # Returns a list of records sorted in descending by the score with respect to
