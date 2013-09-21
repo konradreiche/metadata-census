@@ -6,7 +6,7 @@ module Metrics
       :categorical_frequency
 
     def initialize(metadata, worker=nil)
-      @fields = {:category => [[:tags, :name]],
+      @fields = {:category => [[:tags]],
                  :text => [[:notes], [:resources, :description]]}
 
       @document_frequency = Hash.new { |h,k| h[k] = [] }
