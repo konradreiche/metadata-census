@@ -10,11 +10,6 @@ class MetricsController < ApplicationController
   @@jobs = Hash.new { |hash, key| hash[key] = Hash.new }
   
   def overview
-    begin
-      preprocess
-    rescue Tire::Search::SearchRequestFailed
-      @repositories = []
-    end
   end
 
   def show

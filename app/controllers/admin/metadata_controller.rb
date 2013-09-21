@@ -1,4 +1,5 @@
 require 'yajl'
+require 'yajl/gzip'
 
 class Admin::MetadataController < ApplicationController
   include Concerns::Repository
@@ -11,32 +12,42 @@ class Admin::MetadataController < ApplicationController
 
   def create
     file = params[:file]
-    parser = Yajl::Parser.new(symbolize_keys: true)
+    attributes = nil
 
     File.open(file) do |file|
-      meta_metadata = parser.parse(file)
-      attributes = meta_metadata(meta_metadata)
-      meta_metadata[:metadata].each do |metadata|
-        attributes[:record] = metadata
-        Metadata.create!(attributes)
+      parse_metadata(file) do |parsed|
+
+        case parsed
+        when Hash
+          attributes = filter_header(parsed)
+        when Array
+          parsed.each do |metadata|
+            attributes[:record] = metadata
+            Metadata.create!(attributes)
+          end
+        else
+          raise TypeError, "Unknown type #{parsed.class}"
+        end
+
       end
     end
 
     render nothing: true
   end
 
-  private
+  def parse_metadata(file)
+    gz = Zlib::GzipReader.new(file)
+    parser = Yajl::Parser.new(symbolize_keys: true)
+    parser.on_parse_complete = Proc.new { |obj| yield(obj) }
+    parser << gz.read
+  end
 
-  ##
-  # Retrieves the meta-metadata.
-  #
-  def meta_metadata(metadata)
+  def filter_header(header)
     fields = Metadata.fields.keys.map(&:to_sym)
-    metadata.keys.inject({}) do |meta_metadata, key|
-      meta_metadata[key] = metadata[key] if fields.include?(key)
-      meta_metadata
+    header.keys.inject({}) do |filtered, key|
+      filtered[key] = header[key] if fields.include?(key)
+      filtered
     end
-
   end
 
 end

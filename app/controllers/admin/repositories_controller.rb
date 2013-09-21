@@ -1,5 +1,5 @@
-require 'json/stream'
 require 'yajl'
+require 'yajl/gzip'
 
 class Admin::RepositoriesController < ApplicationController
   include Concerns::Repository
@@ -43,7 +43,7 @@ class Admin::RepositoriesController < ApplicationController
     archives = Dir.glob('data/archives/**/*').select { |f| File.file?(f) }
 
     archives.inject({}) do |result, archive|
-      result[archive] = parse_meta_metadata(archive)
+      result[archive] = parse_header(archive)
       result
     end
   end
@@ -51,30 +51,11 @@ class Admin::RepositoriesController < ApplicationController
   ##
   # Parses the meta-metadata from the archive in a stream-based fashion.
   #
-  def parse_meta_metadata(file)
-    result = {}
-    keys = [:repository, :date, :count]
-
-    pick_next = false
-    pick_key = nil
-
-    parser = JSON::Stream::Parser.new do
-      value { |value| result[pick_key] = value if pick_next }
-
-      key do |key|
-        pick_next = keys.include?(key.to_sym) 
-        pick_key = key.to_sym
-      end
-    end
-
-    File.open(file, 'r') do |file|
-      file.each_char do |char|
-        parser << char
-        break if result.keys.sort == keys.sort
-      end
-    end
-
-    result
+  def parse_header(file)
+    reader = Yajl::Gzip::StreamReader.new(File.new(file, 'r'))
+    parser = Yajl::Parser.new(symbolize_keys: true)
+    parser.on_parse_complete = Proc.new { |obj| return obj }
+    parser << reader.readline
   end
 
   def scheduler
