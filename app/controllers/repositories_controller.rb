@@ -42,16 +42,13 @@ class RepositoriesController < ApplicationController
   end
 
   def map
-    begin
-      @repositories = Repository.all
-      gon.repositories = @repositories.map { |r| r.attributes }
-    rescue Tire::Search::SearchRequestFailed
-      @repositories = []
-    end
+    @repositories = Repository.all
+    gon.repositories = @repositories.map { |r| r.attributes }
   end
 
   def metric_score(metric, weighting=1.0)
-    value = @repository.send(metric) if @repository.respond_to?(metric)
+    snapshot = @repository.snapshots.last
+    value = snapshot.maybe(metric)
     unless value.nil?
       value = value[:average]
       value = Metrics::normalize(metric, [value]).first

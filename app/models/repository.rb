@@ -51,7 +51,7 @@ class Repository
   def score(weighting={})
     metrics = Metrics.list
     sum = metrics.inject(0.0) do |sum, metric|
-      score = self.send(metric)
+      score = snapshots.last.maybe(metric)
       unless score.nil?
         score = score.with_indifferent_access
         value = score[:average]

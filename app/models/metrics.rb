@@ -22,7 +22,7 @@ module Metrics
     scores = values
     repositories = Repository.all
     repositories.each do |repository|
-      score = repository.send(metric)
+      score = repository.snapshots.last.maybe(metric)
       unless score.nil?
         scores << score[:minimum]
         scores << score[:maximum]
