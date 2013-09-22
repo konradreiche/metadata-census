@@ -6,10 +6,12 @@ module AdminHelper
   end
 
   def status(metric)
-    unless @repository.send(metric).nil?
-      tag(:strong, class: 'icon-ok')
-    else
+    snapshot = @repository.snapshots.last
+
+    if snapshot.nil? || snapshot.send(metric).nil?
       tag(:strong, class: 'icon-remove')
+    else
+      tag(:strong, class: 'icon-ok')
     end
   end
 

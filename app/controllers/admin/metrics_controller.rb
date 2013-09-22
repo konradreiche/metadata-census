@@ -21,9 +21,18 @@ class Admin::MetricsController < ApplicationController
   end
 
   def last_updated
-    last_updated = DateTime.parse(@repository.send(@metric)[:last_updated])
-    render json: { date: last_updated.strftime('%a %b %e %Y'),
-                   time: last_updated.strftime('%T') }
+    snapshot = @repository.snapshots.last
+    date = snapshot.send(@metric).to_h[:last_updated]
+
+    if date.nil?
+      result = { date: 'N/A', time: 'N/A' }
+    else
+      last_updated = DateTime.parse(date)
+      result = { date: last_updated.strftime('%a %b %e %Y'),
+                 time: last_updated.strftime('%T') }
+    end
+
+    render json: result
   end
 
   private

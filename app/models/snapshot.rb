@@ -6,11 +6,13 @@ class Snapshot
 
   validates_presence_of :date
 
+  has_many :metadata_records
+
   field :_id, default: -> { Digest::MD5.hexdigest("#{date}#{repository}") }
 
   field :date, type: Date
 
-  field :records, type: Array, default: -> { Array.new }
+  field :repository
 
   Metrics::list.each do |metric|
     field metric, type: Hash

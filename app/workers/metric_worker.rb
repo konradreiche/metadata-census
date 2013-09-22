@@ -26,10 +26,11 @@ class MetricWorker
       at(i + 1, @metadata.length)
     end
 
-    update_repository(metric, scores)
+    update_snapshot(metric, scores)
   end
 
-  def update_repository(metric, scores)
+  def update_snapshot(metric, scores)
+    snapshot = @repository.snapshots.last
     score = Hash.new
     scores.sort!
 
@@ -38,9 +39,9 @@ class MetricWorker
     score[:average] = scores.inject(:+) / scores.length
     score[:median] = scores[scores.length / 2]
 
-    @repository[metric] = score
-    @repository[metric][:last_updated] = DateTime.now.to_s
-    @repository.save!
+    snapshot[metric] = score
+    snapshot[metric][:last_updated] = DateTime.now.to_s
+    snapshot.save!
   end
 
   def self.symbolize_keys arg

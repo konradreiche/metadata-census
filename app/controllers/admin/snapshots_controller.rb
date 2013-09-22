@@ -23,14 +23,15 @@ class Admin::SnapshotsController < ApplicationController
           snapshot = Snapshot.create!(attributes)
         when Array
           parsed.each do |metadata|
-            metadata = Metadata.create!(record: metadata)
-            snapshot.records << metadata
+            metadata = MetadataRecord.create!(record: metadata)
+            snapshot.metadata_records << metadata
           end
         else
           raise TypeError, "Unknown type #{parsed.class}"
         end
 
       end
+      snapshot.save!
     end
 
     render nothing: true

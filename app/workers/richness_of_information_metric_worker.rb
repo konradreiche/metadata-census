@@ -5,7 +5,7 @@ class RichnessOfInformationMetricWorker < GenericMetricWorker
     logger.info 'Loading metadata'
 
     @repository ||= Repository.find(repository)
-    @metadata ||= @repository.metadata
+    @metadata ||= @repository.snapshots.last.metadata_records
 
     store stage: :analyze
     logger.info 'Analyzing metadata'

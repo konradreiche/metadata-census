@@ -2,7 +2,7 @@ class GenericMetricWorker < MetricWorker
 
   def perform(repository, metric, *args)
     @repository ||= Repository.find(repository)
-    @metadata ||= @repository.metadata.to_a
+    @metadata ||= @repository.snapshots.last.metadata_records
     @metric ||= Metrics.from_sym(metric).new
     super
   end

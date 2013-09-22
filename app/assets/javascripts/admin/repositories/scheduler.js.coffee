@@ -144,8 +144,13 @@ $ ->
   updateDateTime = (metric) ->
     url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
     $.getJSON url, (response) ->
+
+      if response.date == 'N/A' or response.time == 'N/A'
+        return
+
       dateCell = $(".status.#{metric} .date")
       timeCell = $(".status.#{metric}").next("tr").children(".time")
+
       if timeCell.exists()
         dateCell.text(response.date)
         timeCell.text(response.time)
