@@ -1,5 +1,14 @@
 module RepositoriesHelper
 
+  def count(repository)
+    snapshot = repository.snapshots.last
+    if snapshot.nil?
+      '0'
+    else
+      number_with_delimiter(snapshot.metadata_records.count)
+    end
+  end
+
   def is_active?(page_name)
     "active" if params[:action] == page_name
   end
