@@ -2,9 +2,9 @@ module AdminHelper::RepositoriesHelper::SchedulerHelper
 
   def last_updated_date(metric)
     snapshot = @repository.snapshots.last
-    metric = snapshot.send(metric)
+    metric = snapshot.maybe(metric)
 
-    if not metric[:last_updated].nil?
+    if not metric.nil? and not metric[:last_updated].nil?
       last_updated = DateTime.parse(metric[:last_updated])
       content_tag(:td, last_updated.strftime('%a %b %e %Y'), class: 'date')
     else
@@ -14,9 +14,9 @@ module AdminHelper::RepositoriesHelper::SchedulerHelper
 
   def last_updated_time(metric)
     snapshot = @repository.snapshots.last
-    metric = snapshot.send(metric)
+    metric = snapshot.maybe(metric)
 
-    if not metric[:last_updated].nil?
+    if not metric.nil? and not metric[:last_updated].nil?
       last_updated = DateTime.parse(metric[:last_updated])
       content_tag(:td, last_updated.strftime('%T'), class: 'time')
     end

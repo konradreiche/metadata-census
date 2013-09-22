@@ -42,6 +42,7 @@
       <thead>
         <tr>
           <th>Metric</th>
+          <th>Weighting</th>
           <th>Quality</th>
           <th>Analysis</th>
         </tr>
@@ -50,6 +51,7 @@
         <% Metrics.list.each do |metric| %>
           <tr>
             <td><%= metric.to_s.titlecase %></td>
+            <td><input type="range"></td>
             <td><%= metric_score(metric) %></td>
             <td><%= create_metric_analysis_button(metric) %></td>
           </tr>
