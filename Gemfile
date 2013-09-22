@@ -12,7 +12,7 @@ gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.g
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
-  gem 'pry-byebug', '1.1.1'
+  gem 'pry-byebug'
   gem 'quiet_assets'
 end
 
@@ -66,6 +66,3 @@ gem 'slim'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
