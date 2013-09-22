@@ -19,5 +19,14 @@ class Snapshot
   end
 
   belongs_to :repository
+  
+
+  def best_record(metric)
+    metadata_records.all.sort(:"#{metric}.score" => 1).first
+  end
+
+  def worst_record(metric)
+    metadata_records.all.sort(:"#{metric}.score" => 1).last
+  end
 
 end

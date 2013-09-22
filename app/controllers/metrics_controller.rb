@@ -51,8 +51,9 @@ class MetricsController < ApplicationController
   #
   def load_records
     if params[:documents].nil?
-      @documents = [@repository.best_record(@metric),
-                    @repository.worst_record(@metric)]
+      snapshot = @repository.snapshots.last
+      @documents = [snapshot.best_record(@metric),
+                    snapshot.worst_record(@metric)]
     else
       @documents = params[:documents].map { |id| @repository.document(id) }
     end

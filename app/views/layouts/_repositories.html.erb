@@ -1,18 +1,19 @@
 <h1>Repositories</h1>
+<h2><%= params[:action].titlecase %></h2>
+<ul class="dashboard content repository nav nav-pills">
+
+  <%= content_tag(:li, (link_to "Index", repositories_path),
+                  :class => is_active?('index')) %>
+
+  <%= content_tag(:li, (link_to "Leaderboard", repositories_leaderboard_path),
+                  :class => is_active?('leaderboard')) %>
+
+  <%= content_tag(:li, (link_to "Map", repositories_map_path),
+                  :class => is_active?('map')) %>
+
+  <%= content_tag(:li, (link_to "Timeline", '#'),
+                  :class => is_active?('timeline')) %>
+</ul>
 <div class="dashboard">
-  <ul class="repository nav nav-pills">
-
-    <%= content_tag(:li, (link_to "Index", repositories_path),
-                    :class => is_active?('index')) %>
-
-    <%= content_tag(:li, (link_to "Leaderboard", repositories_leaderboard_path),
-                    :class => is_active?('leaderboard')) %>
-
-    <%= content_tag(:li, (link_to "Map", repositories_map_path),
-                    :class => is_active?('map')) %>
-
-    <%= content_tag(:li, (link_to "Timeline", '#'),
-                    :class => is_active?('timeline')) %>
-  </ul>
   <%= yield :content %>
 </div>

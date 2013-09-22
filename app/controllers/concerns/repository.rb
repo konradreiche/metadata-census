@@ -8,11 +8,7 @@ module Concerns::Repository
   end
 
   def load_all_repositories
-    begin
-      @repositories = ::Repository.all.to_a
-    rescue Tire::Search::SearchRequestFailed
-      @repositories = []
-    end
+    @repositories = ::Repository.all.to_a
     gon.repositories = @repositories
   end
 
