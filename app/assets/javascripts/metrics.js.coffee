@@ -41,12 +41,6 @@ $ ->
       .attr("d", arc)
       .style("fill", (d) -> return color(d.data.key))
 
-    g.append("text")
-      .attr("transform", (d) -> return "translate(#{arc.centroid(d)})")
-      .attr("dy", ".35em")
-      .style("text-anchor", "middle")
-      .text((d) -> return d.data.key)
-
     # create legend
     legend = d3.select("#pie-chart").append("svg")
       .attr("class", "legend")

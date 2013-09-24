@@ -49,7 +49,7 @@ module Analysis
       metadata.each do |document|
         # iterate the detail values of the metric analysis data
         document.send(metric)[:analysis].to_a.each do |analysis|
-          score = analysis[:score].round(1)
+          score = analysis[:score].round
           details[score] += 1
         end
       end
@@ -61,7 +61,7 @@ module Analysis
     # Thins out the values by replacing values that go below a certain
     # threshold into its own key.
     #
-    def self.thin_out(details, threshold=15)
+    def self.thin_out(details, threshold=0)
       others = 0
       details.each do |key, value|
         if value < threshold
