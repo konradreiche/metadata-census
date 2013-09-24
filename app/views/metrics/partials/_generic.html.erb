@@ -1,7 +1,7 @@
 <div id="analysis" class="pill-pane active">
   <div class="row">
     <% 2.times do |i| %>
-      <div class="col-md-6">
+      <div class="dashboard-6 col-md-6">
         <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <% @repository.latest_snapshot.best_records(@metric).each do |document| %>
