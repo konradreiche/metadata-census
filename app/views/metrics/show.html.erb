@@ -1,6 +1,13 @@
 <h1>Metric Report</h1>
 <h2><%= @metric.to_s.titlecase %></h2>
-<%= render partial: 'layouts/metric_header' %>
+<div class="row dashboard">
+  <div class="col-md-2 col-md-offset-1">
+    <div class="metric score-meter"></div>
+  </div>
+  <div class="col-md-6">
+    <p class="description">&ldquo;<%= Metrics.from_sym(@metric).description %>&rdquo;</p>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-12">
     <ul id="report-tab" class="metrics nav nav-tabs nav-justified">

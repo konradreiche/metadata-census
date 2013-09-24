@@ -73,8 +73,13 @@
   margin-bottom: 0px;
 }
 
-.content {
-  margin-top: 4em;
+h2 {
+  font-size: 1.7em;
+  letter-spacing: -1px;
+  margin-bottom: 3em;
+  text-align: center;
+  font-weight: normal;
+  color: #999;
 }
 
 h3 {
@@ -83,4 +88,101 @@ h3 {
 
 .dashboard-description {
   margin-bottom: 2em;
+}
+
+/* Universal */
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 60px;
+  background-color: #efefef;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+.nav-pills li {
+  margin-right: 1em;
+}
+
+/* Typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* Footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #999;
+}
+
+footer a {
+  color: #555;
+}
+
+footer a:hover {
+  color: #222;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  float: right;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-left: 10px;
+}
+
+.caret {
+  margin-top: 0px;
+  vertical-align: middle;
+}
+
+.table-centered {
+  margin: 0 auto !important;
+  float: none !important;
+}
+
+// set back to default value (auto) due to mismatch in height between text
+// input and buttons in a button group, remove if this does not happen anymore
+.form-control {
+  height: auto;
 }
