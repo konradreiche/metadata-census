@@ -23,7 +23,7 @@
 }
 
 .row {
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 .progress-meter .background {
@@ -67,6 +67,11 @@
   .dashboard-6 {
     width: 49%;
   }
+}
+
+// For dashboard columns without a h3 tag
+.without-heading {
+  padding-top: 1em;
 }
 
 // For columns that are not the dashboard, but require the sizing as a bounding
