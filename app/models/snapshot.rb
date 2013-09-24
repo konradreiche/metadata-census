@@ -45,9 +45,4 @@ class Snapshot
     self.date <=> other.date
   end
 
-  def query(metric, group=nil)
-    field = :"#{metric}.score"
-    metadata_records.only(field, group).all
-  end
-
 end

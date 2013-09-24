@@ -5,6 +5,7 @@ module Analysis
     def self.analyze(repository, metric)
       scores = group_scores_by(repository, metric, :"record.groups")
       details = group_details(repository, metric)
+
       return { scores: scores, details: details }
     end
 
@@ -14,7 +15,8 @@ module Analysis
     # The group is determined through an accessor path.
     #
     def self.group_scores_by(repository, metric, group)
-      metadata = repository.latest_snapshot.query(metric, group)
+      snapshot = repository.snapshots.last
+      metadata = snapshot.metadata_records.only(metric, group)
       groups = Hash.new { |hash, key| hash[key] = [] }
 
       metadata.each do |document|
@@ -40,15 +42,15 @@ module Analysis
     # than two additional keys, the first one is chosen.
     #
     def self.group_details(repository, metric)
-      metadata = repository.latest_snapshot.query(metric)
+      snapshot = repository.snapshots.last
+      metadata = snapshot.metadata_records.only(metric)
       details = Hash.new(0)
 
       metadata.each do |document|
         # iterate the detail values of the metric analysis data
-        document[metric][:analysis].to_h.each do |field, analysis|
-          analysis.except(:score).values.first.each do |detail|
-            details[detail] += 1
-          end
+        document.send(metric)[:analysis].to_a.each do |analysis|
+          score = analysis[:score].round(1)
+          details[score] += 1
         end
       end
       thin_out(details)

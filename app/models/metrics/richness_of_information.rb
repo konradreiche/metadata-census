@@ -51,6 +51,7 @@ module Metrics
           end
         end
       end
+
       return score(scores), @analysis
     end
 
