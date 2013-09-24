@@ -75,7 +75,7 @@
                   <% item = item.with_indifferent_access %>
                   <tr>
                     <th><%= item[:field].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                    <th><%= "%.2f%" % (item[:score] * 100) %></th>
+                    <th><%= "%.2f%" % (Metrics.normalize(@metric, item[:score]) * 100) %></th>
                   </tr>
                   <tr>
                     <%= content_tag(:td, Metrics::Metric.value(@documents[i].record, item[:field]), colspan: '2')%>
