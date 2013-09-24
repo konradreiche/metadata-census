@@ -7,10 +7,13 @@ module MetricsHelper
   # link. The +new+ document is used for the menu item text and the link.
   #
   def record_selector_entry(current, new)
-    score = "%6.2f%" % (new[@metric]["score"] * 100)
+    normalized = Metrics.normalize(@metric, new.send(@metric)[:score])
+    score = "%6.2f%" % (normalized * 100)
     score = score.gsub(' ', '&nbsp;')
-    text = "#{score} &#8212; #{new[:record][:name]}".html_safe
+
+    text = "#{score} &#8212; #{new.record[:name]}".html_safe
     href = record_selector_entry_link(current, new)
+
     anchor = content_tag(:a, text, role: 'menuitem', tabindex: '-1', href: href)
     content_tag(:li, anchor, role: 'presentation')
   end
@@ -19,8 +22,9 @@ module MetricsHelper
   # Constructs the link for an entry of the record selector
   #
   def record_selector_entry_link(current, new)
-    documents = @documents.map { |document| document[:id] }
-    documents[documents.index(current[:id])] = new[:id]
+    documents = @documents.map { |document| document.id }
+    documents[documents.index(current.id)] = new.id
+
     query = documents.map do |document|
       URI.unescape(document.to_query(:"documents[]"))
     end * '&'

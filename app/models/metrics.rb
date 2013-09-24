@@ -19,8 +19,10 @@ module Metrics
 
   def self.normalize(metric, values)
     return values unless Metrics.from_sym(metric).normalize?
-    scores = values
+  
+    scores = Array(values)
     repositories = Repository.all
+
     repositories.each do |repository|
       score = repository.snapshots.last.maybe(metric)
       unless score.nil?
@@ -28,9 +30,12 @@ module Metrics
         scores << score[:maximum]
       end
     end
+
     min = scores.min
     max = scores.max
     range = max - min
+
+    return (values - min) / range unless values.is_a?(Array)
     values.map { |value| (value - min) / range }
   end
 

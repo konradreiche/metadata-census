@@ -22,7 +22,7 @@ class Snapshot
  
   def best_records(metric)
     field = :"#{metric}.score"
-    metadata_records.all.sort(field => 1).limit(10)
+    metadata_records.all.sort(field => -1).limit(10)
   end
 
   def worst_records(metric)

@@ -19,7 +19,9 @@ class MetricsController < ApplicationController
 
     analyze()
     gon.analysis = @analysis
-    @score = @repository.latest_snapshot.send(@metric).maybe[:average]
+
+    score = @repository.snapshots.last.send(@metric)
+    @score = Metrics::normalize(@metric, score[:average])
     gon.score = @score
   end
 
@@ -55,7 +57,7 @@ class MetricsController < ApplicationController
       @documents = [snapshot.best_record(@metric),
                     snapshot.worst_record(@metric)]
     else
-      @documents = params[:documents].map { |id| @repository.document(id) }
+      @documents = params[:documents].map { |id| MetadataRecord.find(id) }
     end
     gon.documents = @documents
   end

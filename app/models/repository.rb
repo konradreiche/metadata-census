@@ -4,7 +4,7 @@ class Repository
 
   validates_presence_of :id, :name, :url, :type, :latitude, :longitude
 
-  has_many :snapshots
+  has_many :snapshots, :order => :date.asc
 
   field :id
   field :name
