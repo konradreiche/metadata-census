@@ -79,6 +79,76 @@ $ ->
 
     return parseFloat($.ajax(ajax).responseText)
 
+  ###
+  Draws the bar chart to display the score distribution grouped by groups.
+  ###
+  initBarChart = (scores) ->
+
+    data = []
+    for key, value of scores
+      data.push({ group: key, score: value })
+
+    margin =
+      top: 40
+      right: 20
+      bottom: 30
+      left: 40
+
+    width = 500 - margin.left - margin.right
+    height = 500 - margin.top - margin.bottom
+
+    x = d3.scale.ordinal()
+      .rangeRoundBands([0, width], .1)
+
+    y = d3.scale.linear()
+      .range([height, 0])
+
+    xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+
+    yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
+
+    tip = d3.tip()
+      .attr("class", "d3-tip")
+      .offset([-10, 0])
+      .html (d) ->
+        "<strong>Group: </strong> <span class=\"group-tip\">#{d.group}</span>"
+
+    svg = d3.select("#bar-chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(#{margin.left},#{margin.top})")
+
+    svg.call(tip)
+
+    x.domain(data.map (d) -> d.group)
+    y.domain([0, d3.max(data, (d) -> d.score )])
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Score")
+
+    svg.selectAll(".bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", (d) -> x(d.group))
+      .attr("width", x.rangeBand())
+      .attr("y", (d) -> y(d.score))
+      .attr("height", (d) -> height - y(d.score))
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
+
   # Initializes the record search
   #
   initRecordSearch = (i) ->
@@ -116,4 +186,6 @@ $ ->
   if getPath(2) == 'metric'
     sm = new ScoreMeter(".metric.score-meter", gon.score)
     initRecordSearch(i) for i in [0..1]
+
     initPieChart(gon.analysis.details)
+    initBarChart(gon.analysis.scores)

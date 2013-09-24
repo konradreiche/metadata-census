@@ -15,6 +15,8 @@
 #= require jquery_ujs
 #= require list.min.js
 #= require underscore.js
+#= require d3
+#= require d3.tip.js
 #= require_tree .
 root = exports ? this
 

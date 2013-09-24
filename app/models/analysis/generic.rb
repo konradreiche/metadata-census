@@ -1,6 +1,6 @@
 module Analysis
 
-  class Default
+  class Generic
 
     def self.analyze(repository, metric)
       scores = group_scores_by(repository, metric, :"record.groups")
