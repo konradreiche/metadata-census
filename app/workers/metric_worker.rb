@@ -18,8 +18,8 @@ class MetricWorker
       record = document.record
       score, analysis = @metric.compute(record, *args)
 
-      document[metric][:score] = score
-      document[metric][:analysis] = analysis
+      document.send(metric)[:score] = score
+      document.send(metric)[:analysis] = analysis
       document.save!
 
       scores << score

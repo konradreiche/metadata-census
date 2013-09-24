@@ -31,7 +31,7 @@ module Metrics
 
     def compute(data)
       scores = []
-      @analysis = Hash.new
+      @analysis = []
 
       @fields.each do |type, fields|
         fields.each do  |accessors|
@@ -40,13 +40,13 @@ module Metrics
             value.each_with_index do |item, i|
               next if skip?(item)
               score = richness_of_information(item, type, accessors)
-              @analysis[accessors + [i]] = score
+              @analysis << { field: accessors + [i], score: score }
               scores << score
             end
           else
             next if skip?(value)
             score = richness_of_information(value, type, accessors)
-            @analysis[accessors] = score
+            @analysis << { field: accessors, score: score }
             scores << score
           end
         end

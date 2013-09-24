@@ -9,6 +9,10 @@ module Metrics
       self.name.demodulize.underscore.dasherize.to_sym
     end
 
+    def self.description
+      ""
+    end
+
     ## Skip null fields and fields with whitespace strings
     #
     # Checks +value+ whether it is a null-valued field. A string is also null
@@ -47,7 +51,11 @@ module Metrics
     def self.value(record, accessors)
       accessors.inject(record) do |value, accessor|
         if value.is_a?(Array)
-          value.map { |item| item[accessor] unless item.nil? }
+          if accessor.is_a?(Fixnum)
+            value[accessor]
+          else
+            value.map { |item| item[accessor] unless item.nil? }
+          end
         else
           value[accessor] unless value.nil?
         end
