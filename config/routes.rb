@@ -21,11 +21,23 @@ MetadataCensus::Application.routes.draw do
   get 'repository/:repository/scores', to: 'repositories#scores',
     constraints: { repository: id_regex }
 
-  get 'repository/:repository/metadata', to: 'metadata#search',
-    constraints: { repository: id_regex }
-
   post 'repository/:repository/metric/:metric/compute', to: 'metrics#compute',
     constraints: { repository: id_regex }
+
+  constraints({ repository_id: id_regex }) do
+
+    resources :repositories, only: [] do
+      resource :metadata, only: [] do
+
+        member do
+         get 'normalize'
+         get 'search'
+        end
+
+      end
+    end
+
+  end
 
   # /admin
   namespace :admin do
@@ -49,8 +61,6 @@ MetadataCensus::Application.routes.draw do
     end
 
   end
-  
-  get 'metadata/search'
 
   get 'repositories/leaderboard'
 

@@ -21,6 +21,9 @@ root = exports ? this
 $.fn.exists = () -> this.length > 0
 RegExp.escape = (string) -> string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
+# Function to retrieve identifier from a MongoDB document
+root.id = (document) -> document["_id"]["$oid"]
+
 # Regular expression for repository identifier
 root.regExps = { repository_id: "[0-z\.]+" }
 

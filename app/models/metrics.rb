@@ -18,7 +18,8 @@ module Metrics
   end
 
   def self.normalize(metric, values)
-    return values unless Metrics.from_sym(metric).normalize?
+    metric = metric.to_sym
+    return values unless self.from_sym(metric).normalize?
   
     scores = Array(values)
     repositories = Repository.all

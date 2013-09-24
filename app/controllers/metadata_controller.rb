@@ -1,19 +1,27 @@
 class MetadataController < ApplicationController
+  include Concerns::Repository
 
-  def select
+  before_filter :init
+
+  def init
+    load_repositories(:repository_id)
   end
 
   def search
+    query = params[:term]
+    snapshot = @repository.snapshots.last
+    
+    criteria = { :"record.title" => /#{query}.*/ }
+    query = MetadataRecord.where(snapshot: snapshot).any_of(criteria).limit(10)
+    render json: query.all
   end
 
-  def preprocess
-    @repositories = Repository.all
-    if params[:repository].nil?
-      @selected = @repositories.first if @selected.nil?
-    else
-      @selected = Repository.find params[:repository]
-    end
-    gon.repository = @selected.to_hash
+  def normalize
+    metric = params[:metric]
+    score = Float(params[:score])
+    
+    normalized = Metrics.normalize(metric, score)
+    render text: normalized
   end
 
 end

@@ -11,8 +11,6 @@ $ ->
     for key, value of analysis
       data.push({ key: key, value: value })
 
-    console.log data
-
     width = 480
     height = 250
     radius = Math.min(width, height) / 2
@@ -51,11 +49,20 @@ $ ->
     
 
   recordSelectionLink = (current, next) ->
-    documents = (document.id for document in gon.documents)
+    documents = (root.id(document) for document in gon.documents)
     documents[documents.indexOf(current)] = next
     parameter = ({ name: "documents[]", value: id } for id in documents)
     query = decodeURIComponent($.param(parameter))
     "?#{query}"
+
+  normalize = (score) ->
+    ajax =
+      dataType: "json"
+      url: "/repositories/#{gon.repository.name}/metadata/normalize"
+      async: false
+      data: { metric: gon.metric, score: score }
+
+    return parseFloat($.ajax(ajax).responseText)
 
   # Initializes the record search
   #
@@ -69,20 +76,22 @@ $ ->
       inputValue = $(event.target).val()
       inputValue = if /\S/.test(inputValue) then inputValue else '*'
       data = { query: inputValue }
-      url = "/repository/#{gon.repository.name}/metadata"
+      url = "/repositories/#{gon.repository.name}/metadata/search"
 
       list.clear()
       $.getJSON url, data, (result) =>
+
         for document in result
           name = document.record.name
-          score = (document[gon.metric].score * 100).toFixed(2)
-          id = document.id
-          list.add({ name: name, score: "#{score}%", id: id })
+          score = (document[gon.metric].score).toFixed(2)
+          score = normalize(score).toFixed(2)
+          list.add({ name: name, score: "#{score * 100}%", id: id(document) })
 
         # add row link feature
         $(".list > tr").addClass("rowlink")
         $(".list > tr > td").addClass("nolink")
         current = $("#record-search-results-#{i}").data("document")
+
         for item in list.items
           text = $(item.elm).children("td:first-child").contents()
           attributes = { href: recordSelectionLink(current, item.values().id) }
