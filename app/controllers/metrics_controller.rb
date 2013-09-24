@@ -64,14 +64,14 @@ class MetricsController < ApplicationController
   # Selects the partial for displaying the metric report.
   #
   # The selection is done based on the current metric. Either there is a
-  # specific partial or a general partial (default) is returned as fallback.
+  # specific partial or a generic partial is returned as fallback.
   #
   def select_partial
     partials = "app/views/metrics/partials"
     metric_partial_path = "#{partials}/_#{@metric}.html.erb"
     metric_partial = "metrics/partials/#{@metric}"
-    default_partial = "metrics/partials/default"
-    File.exist?(metric_partial_path) ? metric_partial : default_partial
+    generic_partial = "metrics/partials/generic"
+    File.exist?(metric_partial_path) ? metric_partial : generic_partial
   end
 
 end
