@@ -11,7 +11,7 @@ $ ->
     for key, value of analysis
       data.push({ key: key, value: value })
 
-    width = 480
+    width = 350
     height = 250
     radius = Math.min(width, height) / 2
 
@@ -26,7 +26,7 @@ $ ->
       .sort(null)
       .value((d) -> return d.value)
 
-    svg = d3.select("#statistics").append("svg")
+    svg = d3.select("#pie-chart").append("svg")
       .attr("width", width)
       .attr("height", height)
       .append("g")
@@ -46,6 +46,27 @@ $ ->
       .attr("dy", ".35em")
       .style("text-anchor", "middle")
       .text((d) -> return d.data.key)
+
+    # create legend
+    legend = d3.select("#pie-chart").append("svg")
+      .attr("class", "legend")
+      .attr("width", 100)
+      .attr("height", 225)
+      .selectAll("g")
+      .data(color.domain().slice().reverse())
+      .enter().append("g")
+      .attr("transform", (d, i) -> "translate(0,#{i * 20})")
+
+    legend.append("rect")
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color)
+
+    legend.append("text")
+      .attr("x", 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .text((d) -> d)
     
 
   recordSelectionLink = (current, next) ->
