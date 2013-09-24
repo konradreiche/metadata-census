@@ -1,20 +1,14 @@
-<% provide(:parameter, 'repository') %>
-<% content_for :heading do %>
-  <h1>Metric Report</h1>
-  <h2><%= @metric.to_s.titlecase %></h2>
-<% end %>
-<% content_for :content do %>
-  <%= render partial: 'layouts/metric_header' %>
-  <div class="row">
-    <div class="col-md-12">
-      <ul id="report-tab" class="metrics nav nav-tabs nav-justified">
-        <li class="active"><a href="#analysis" data-toggle="tab">Analysis</a></li>
-        <li><a href="#statistics" data-toggle="tab">Statistics</a></li>
-      </ul>
-    </div>
+<h1>Metric Report</h1>
+<h2><%= @metric.to_s.titlecase %></h2>
+<%= render partial: 'layouts/metric_header' %>
+<div class="row">
+  <div class="col-md-12">
+    <ul id="report-tab" class="metrics nav nav-tabs nav-justified">
+      <li class="active"><a href="#analysis" data-toggle="tab">Analysis</a></li>
+      <li><a href="#statistics" data-toggle="tab">Statistics</a></li>
+    </ul>
   </div>
-  <div class="tab-content">
-    <%= render partial: select_partial() %>
-  </div>
-<% end %>
-<%= render 'layouts/repository_breadcrumb' %>
+</div>
+<div class="tab-content">
+  <%= render partial: select_partial() %>
+</div>

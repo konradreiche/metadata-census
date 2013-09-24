@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-          <% @repository.best_records(@metric).each do |document| %>
+          <% @repository.latest_snapshot.best_records(@metric).each do |document| %>
             <%= record_selector_entry(@documents[i], document) %>
           <% end %>
         </ul>
@@ -72,15 +72,14 @@
       <div class="col-md-6">
         <table class="metric table table-bordered table-striped">
           <tbody>
-            <% analysis = @documents[i][@metric][:analysis] %>
+            <% analysis = @documents[i][@metric]["analysis"] %>
             <% analysis.each do |key, value| %>
               <tr>
                 <th><%= key.to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                <th><%= "%.2f%" % (value[:score] * 100) %></th>
+                <th><%= "%.2f%" % (value * 100) %></th>
               </tr>
               <tr>
-                <% values = value.except(:score).values.first.join(', ') %>
-                <%= content_tag(:td, values, colspan: '2') unless values.empty? %>
+                <%= content_tag(:td, value, colspan: '2')%>
               </tr>
             <% end %>
           </tbody>

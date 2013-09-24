@@ -19,7 +19,7 @@ class MetricsController < ApplicationController
 
     analyze()
     gon.analysis = @analysis
-    @score = @repository.send(@metric).maybe[:average]
+    @score = @repository.latest_snapshot.send(@metric).maybe[:average]
     gon.score = @score
   end
 

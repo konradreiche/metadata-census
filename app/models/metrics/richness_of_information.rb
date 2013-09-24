@@ -23,6 +23,12 @@ module Metrics
       end
     end
 
+    def self.description
+      "The Richness of Information metric measures the uniqueness of a metadata
+      record. The more unique its content is the higher the probability that it
+      contains meaningful and not redundant content."
+    end
+
     def compute(data)
       scores = []
       @analysis = Hash.new

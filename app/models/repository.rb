@@ -36,16 +36,6 @@ class Repository
   end
 
   def sort_metric_scores(metric, sorting_order, many=10)
-    name = @name
-    metric = :"#{metric}.score"
-    search = Tire.search 'metadata' do
-      query { string "repository:#{name}" }
-      sort { by metric, sorting_order }
-      size many
-    end.results
-  rescue Tire::Search::SearchRequestFailed => e
-    Rails.logger.warn e.message
-    raise Exceptions::RepositoryNoScores
   end
 
   def score(weighting={})
@@ -66,16 +56,12 @@ class Repository
     sum / metrics.length
   end
 
-  def <=>(other)
-    self.score <=> other.score
+  def latest_snapshot
+    snapshots.sort.last
   end
 
-  def query(*fields)
-    repository = @name
-    Tire::Search::Scan.new('metadata') do
-      query { string "repository:#{repository}" }
-      fields fields
-    end.map { |scroll| scroll.map(&:to_hash) }.flatten
+  def <=>(other)
+    self.score <=> other.score
   end
 
 end

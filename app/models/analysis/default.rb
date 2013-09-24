@@ -14,7 +14,7 @@ module Analysis
     # The group is determined through an accessor path.
     #
     def self.group_scores_by(repository, metric, group)
-      metadata = repository.query(metric, group)
+      metadata = repository.latest_snapshot.query(metric, group)
       groups = Hash.new { |hash, key| hash[key] = [] }
 
       metadata.each do |document|
@@ -25,7 +25,7 @@ module Analysis
 
       groups.each do |group, documents|
         groups[group] = documents.inject(0.0) do |score, document|
-          score + document[metric][:score]
+          score + document[metric]["score"]
         end / documents.length
       end
       groups
@@ -40,7 +40,7 @@ module Analysis
     # than two additional keys, the first one is chosen.
     #
     def self.group_details(repository, metric)
-      metadata = repository.query(metric)
+      metadata = repository.latest_snapshot.query(metric)
       details = Hash.new(0)
 
       metadata.each do |document|
