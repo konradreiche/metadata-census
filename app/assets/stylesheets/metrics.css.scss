@@ -26,3 +26,8 @@
 .arc path {
   stroke: #fff;
 }
+
+// Add a gap between tabs and record selection button
+.repositories.metric.tab-pane {
+  margin-bottom: 1em;
+}
