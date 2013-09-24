@@ -8,11 +8,11 @@ class Snapshot
 
   has_many :metadata_records
 
-  field :_id, default: -> { Digest::MD5.hexdigest("#{date}#{repository}") }
-
   field :date, type: Date
 
   field :repository
+
+  field :_id, type: String, default: -> { Digest::MD5.hexdigest("#{date}#{repository.id}") }
 
   Metrics::list.each do |metric|
     field metric, type: Hash
