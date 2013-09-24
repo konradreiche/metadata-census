@@ -6,6 +6,10 @@ class MetadataRecord
 
   field :record, type: Hash
 
+  Metrics::list.each do |metric|
+    field metric, type: Hash
+  end
+
   belongs_to :snapshot
 
 end
