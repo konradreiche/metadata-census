@@ -13,7 +13,6 @@ module Analysis
     private
     def self.fields(schema)
       schema[:properties].map do |k, v|
-
         case v[:type]
         when "array"
           v[:items][:type] == "object" ? [k] + fields(v[:items]) : k

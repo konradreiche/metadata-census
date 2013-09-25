@@ -22,20 +22,20 @@
                 <% subfields.each_with_index do |subfield, j| %>
                   <% values = (0..1).to_a.map { |j| @documents[j].record[field].maybe[i].maybe[subfield] } %>
                   <tr>
-                    <%= content_tag(:td, field.humanize(), rowspan: subfields.length) if j == 0 %>
-                    <td><%= subfield.humanize() %></td>
+                    <%= content_tag(:td, titleize(field), rowspan: subfields.length) if j == 0 %>
+                    <td><%= titleize(subfield) %></td>
                     <% 2.times do |j| %>
-                      <%= content_tag(:td, values[j], class: Metrics.blank?(values[j]) ? 'incomplete' : 'complete') %>
+                      <%= value(values[j]) %>
                     <% end %>
                   </tr>
                 <% end %>
               <% end %>
             <% else %>
               <tr>
-                <td><%= field.humanize() %></td>
+                <td><%= titleize(field) %></td>
                 <td></td>
                 <% 2.times do |i| %>
-                  <%= content_tag(:td, @documents[i][field], class: Metrics.blank?(@documents[i][field]) ? 'incomplete' : 'complete') %>
+                  <%= value(@documents[i].record[field]) %>
                 <% end %>
               </tr>
             <% end %>

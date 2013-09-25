@@ -31,4 +31,14 @@ module MetricsHelper
     "?#{query}"
   end
 
+  ##
+  # Titlize record field names.
+  #
+  def titleize(field)
+    defined = { "url" => "URL" }
+    return defined[field] if defined.key?(field)
+
+    field.titleize()
+  end
+
 end
