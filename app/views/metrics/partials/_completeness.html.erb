@@ -2,7 +2,7 @@
   <%= render partial: 'shared/record_selector' %>
   <div class="dashboard row">
     <div class="col-md-12">
-      <table class="table table-bordered completeness-table">
+      <table class="repositories metric completeness table table-bordered completeness-table">
         <thead>
           <tr>
             <th>Field</th>
@@ -22,8 +22,8 @@
                 <% subfields.each_with_index do |subfield, j| %>
                   <% values = (0..1).to_a.map { |j| @documents[j].record[field].maybe[i].maybe[subfield] } %>
                   <tr>
-                    <%= content_tag(:td, titleize(field), rowspan: subfields.length) if j == 0 %>
-                    <td><%= titleize(subfield) %></td>
+                    <%= content_tag(:th, titleize(field), rowspan: subfields.length) if j == 0 %>
+                    <th><%= titleize(subfield) %></th>
                     <% 2.times do |j| %>
                       <%= value(values[j]) %>
                     <% end %>
@@ -32,7 +32,7 @@
               <% end %>
             <% else %>
               <tr>
-                <td><%= titleize(field) %></td>
+                <th><%= titleize(field) %></th>
                 <td></td>
                 <% 2.times do |i| %>
                   <%= value(@documents[i].record[field]) %>
