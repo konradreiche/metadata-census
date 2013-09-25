@@ -56,6 +56,8 @@ class Admin::RepositoriesController < ApplicationController
     parser = Yajl::Parser.new(symbolize_keys: true)
     parser.on_parse_complete = Proc.new { |obj| return obj }
     parser << reader.readline
+  rescue Zlib::GzipFile::Error
+    logger.error("Invalid file format: unexpected end of file for #{file}")
   end
 
   def scheduler

@@ -8,6 +8,11 @@ module Metrics
       @fields = count_fields(schema)
     end
 
+    def self.description
+      "Measures the completeness of a metadata record by counting the number of
+      fields with a non-null value."
+    end
+
     def compute(data)
       @fields_completed = count_completed_fields(data, @schema)
       @fields_completed / @fields.to_f

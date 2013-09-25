@@ -9,14 +9,14 @@
       <% end %>
     </thead>
     <tbody>
-      <% @repositories.each_with_index do |repository, i| %>
+      <% @repositories.sort.reverse.each_with_index do |repository, i| %>
         <tr>
           <td><%= i + 1 %></td>
           <td><%= repository.name %></td>
           <td><%= '%.2f' % repository.score %></td>
           <% Metrics.list.each do |metric| %>
-            <% result = repository.send(metric) %>
-            <% score = if result.nil? then nil else result.average end %>
+            <% result = repository.snapshots.last.maybe(metric) %>
+            <% score = if result.nil? then nil else result[:average] end %>
             <td><%= if score.nil? then '?' else '%.2f' % score end %></td>
           <% end %>
           <td></td>
