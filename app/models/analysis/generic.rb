@@ -3,7 +3,7 @@ module Analysis
   class Generic
 
     def self.analyze(repository, metric)
-      scores = group_scores_by(repository, metric, :"record.groups")
+      scores = group_scores_by(repository, metric, %s(record.groups))
       details = group_details(repository, metric)
 
       return { scores: scores, details: details }

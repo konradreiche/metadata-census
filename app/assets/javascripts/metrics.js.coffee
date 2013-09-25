@@ -97,11 +97,13 @@ $ ->
     width = 500 - margin.left - margin.right
     height = 500 - margin.top - margin.bottom
 
-    x = d3.scale.ordinal()
-      .rangeRoundBands([0, width], .1)
+    xAxisOffset = 25
 
-    y = d3.scale.linear()
-      .range([height, 0])
+    x = d3.scale.linear()
+      .range([0, width])
+
+    y = d3.scale.ordinal()
+      .rangeBands([0, height], .2)
 
     xAxis = d3.svg.axis()
       .scale(x)
@@ -125,27 +127,36 @@ $ ->
 
     svg.call(tip)
 
-    x.domain(data.map (d) -> d.group)
-    y.domain([0, d3.max(data, (d) -> d.score )])
+    x.domain([0, d3.max(data, (d) -> d.score )])
+    y.domain(data.map (d) -> d.group)
 
     svg.append("g")
       .attr("class", "y axis")
+      .attr("transform", "translate(10,0)")
       .call(yAxis)
       .append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
+      .attr("y", -xAxisOffset)
+      .attr("dy", ".5em")
       .style("text-anchor", "end")
-      .text("Score")
+      .text("Groups")
+
+    d3.selectAll(".tick text")
+      .attr("class", "y-axis-label")
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(#{xAxisOffset},#{height})")
+      .call(xAxis)
 
     svg.selectAll(".bar")
       .data(data)
       .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", (d) -> x(d.group))
-      .attr("width", x.rangeBand())
-      .attr("y", (d) -> y(d.score))
-      .attr("height", (d) -> height - y(d.score))
+      .attr("x", xAxisOffset)
+      .attr("y", (d) -> y(d.group))
+      .attr("width", (d) -> x(d.score))
+      .attr("height", (d) -> y.rangeBand())
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
 
@@ -186,6 +197,5 @@ $ ->
   if getPath(2) == 'metric'
     sm = new ScoreMeter(".metric.score-meter", gon.score)
     initRecordSearch(i) for i in [0..1]
-
     initPieChart(gon.analysis.details)
     initBarChart(gon.analysis.scores)

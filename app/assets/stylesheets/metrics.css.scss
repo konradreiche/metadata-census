@@ -27,7 +27,7 @@
   stroke: #fff;
 }
 
-.dashboard-statistic {
+.statistic-heading {
   margin-bottom: 2em;
   text-align: center;
 }
@@ -87,6 +87,11 @@
 
 .group-tip {
   color: #FF0000;
+}
+
+/* Hide tick labels */
+.y-axis-label { 
+  display: none; 
 }
 
 /* Completeness table  */
