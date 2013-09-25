@@ -69,11 +69,19 @@ class MetricsController < ApplicationController
   # specific partial or a generic partial is returned as fallback.
   #
   def select_partial
-    partials = "app/views/metrics/partials"
-    metric_partial_path = "#{partials}/_#{@metric}.html.erb"
-    metric_partial = "metrics/partials/#{@metric}"
-    generic_partial = "metrics/partials/generic"
-    File.exist?(metric_partial_path) ? metric_partial : generic_partial
+    dir = "app/views/metrics/partials/_"
+
+    lookup_path = Metrics.from_sym(@metric).ancestors
+    lookup_path = lookup_path.drop_while do |ancestor| 
+      path = dir + ancestor.to_sym.to_s + '.html.erb'
+      not File.exists?(path) &&  ancestor != Metrics::Metric
+    end
+
+    if lookup_path.first == Metrics::Metric || lookup_path.empty?
+      "metrics/partials/generic"
+    else
+      "metrics/partials/#{lookup_path.first.to_sym.to_s.underscore}"
+    end
   end
 
 end
