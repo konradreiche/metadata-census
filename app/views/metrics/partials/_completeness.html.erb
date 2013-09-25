@@ -1,14 +1,48 @@
 <div class="analysis pill-pane active">
-  <% 2.times do |i| %>
-    <%= content_for i.to_s.to_sym do %>
-      <table class="table bordered">
+  <%= render partial: 'shared/record_selector' %>
+  <div class="dashboard row">
+    <div class="col-md-12">
+      <table class="table table-bordered completeness-table">
         <thead>
           <tr>
             <th>Field</th>
+            <th>Subfield</th>
+            <% 2.times do |i| %>
+              <th><%= @documents[i].record[:name] %></th>
+            <% end %>
           </tr>
         </thead>
+        <tbody>
+          <% @analysis[:properties].each do |field| %>
+            <% if field.is_a?(Array) %>
+              <% subfields = field[1..-1] %>
+              <% field = field.first %>
+              <% maximum = @documents.map { |d| d.record[field].length }.max %>
+              <% maximum.times do |i| %>
+                <% subfields.each_with_index do |subfield, j| %>
+                  <% values = 2.map { |j| @documents[j].record[field].maybe[i].maybe[subfield] } %>
+                  <tr>
+                    <%= content_tag(:td, field.humanize(), rowspan: subfields.length) if j == 0 %>
+                    <td><%= subfield.humanize() %></td>
+                    <% 2.times do |j| %>
+                      <%= content_tag(:td, values[j], class: Metrics.blank?(values[j]) ? 'incomplete' : 'complete') %>
+                    <% end %>
+                  </tr>
+                <% end %>
+              <% end %>
+            <% else %>
+              <tr>
+                <td><%= field.humanize() %></td>
+                <td></td>
+                <% 2.times do |i| %>
+                  <%= content_tag(:td, @documents[i][field], class: Metrics.blank?(@documents[i][field]) ? 'incomplete' : 'complete') %>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
       </table>
-    <% end %>
-  <% end %>
+    </div>
+  </div>
 </div>
-<%= render partial: 'shared/record_selector' %>
+

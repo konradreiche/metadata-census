@@ -1,0 +1,123 @@
+{
+"type": "object", 
+  "description": "JSON Schema Representation of an OGPD prototype dataset/document/app aligned with theCKAN metadata schema", 
+  "properties": {
+    "name": {
+      "required": true, 
+      "description": "Name: Ein für Menschen lesbarer Bezeichner des Datensatzes, des Dokuments oder der Apps, der für eine Identifizierung genutzt werden kann (einfache ASCII-Präsentation des Titels, auch für die Pretty-Link-URL, Linked Data URIs)",
+      "pattern": "^[a-z0-9_-]{2,}$", 
+      "type": "string"
+    }, 
+    "title": {
+      "required": true, 
+      "description": "Titel: Der Titel beschreibt den Datensatz, das Dokument oder die App prägnant und wird z. B. in Suchergebnissen und Listen angezeigt.",
+      "type": "string"
+    }, 
+    "author": {
+      "required": true, 
+      "description": "Veröffentlichende Stelle: Die Behörde, von der die Daten stammen. Bei Apps der App-Hersteller.",
+      "type": "string"
+    }, 
+    "author_email": {
+      "required": false, 
+      "description": "Veröffentlichende Stelle Email: Email-Adresse oder Kontaktformular der Veröffentlichenden Stelle.",
+      "format": "uri",
+      "type": "string"
+    }, 
+    "maintainer": {
+      "required": false, 
+      "description": "Datenverantwortliche Stelle: Dieser Ansprechpartner kann bei Fragen und Anmerkungen zu den Daten kontaktiert werden.",
+      "type": "string"
+    }, 
+    "maintainer_email": {
+      "required": false, 
+      "description": "Datenverantwortliche Stelle Email: Email-Adresse oder Kontaktformular der Datenverantwortlichen Stelle.",
+      "format": "uri",
+      "type": "string"
+    }, 
+    "notes": {
+      "required": true, 
+      "description": "Beschreibung: Beschreibung und weitere Informationen zum Datensatz, zum Dokument oder zur App, wird auf der Detailseite dargestellt und kann mehrere Absätze umfassen.",
+      "type": "string"
+    }, 
+    "groups": {
+      "required": true, 
+      "description": "Kategorien: Kategorien für die Datensätze und Dokumente. Die Kategorien sind statisch und werden vom Portalbetreiber langfristig gepflegt, s.u. bzw. <a href='https://github.com/fraunhoferfokus/ogd-metadata/blob/master/kategorien/deutschland.json'>Liste</a>",
+      "type": "array", 
+      "items": {
+        "enum": ["wirtschaft_arbeit", "transport_verkehr", "umwelt_klima", "geo", "gesundheit", "verbraucher", "infrastruktur_bauen_wohnen", "bildung_wissenschaft", "verwaltung", "gesetze_justiz", "bevoelkerung", "politik_wahlen", "soziales", "kultur_freizeit_sport_tourismus"], 
+        "type": "string", 
+        "description": "Liste der vordefinierten Kategorien"
+      } 
+    },
+    "tags": {
+      "required": false, 
+      "description": "Schlagwörter: Freie Schlüsselwörter des Datensatzes, des Dokuments oder der App",
+      "items": {
+        "type": "string"
+      }, 
+      "type": "array"
+    },
+    "url": {
+      "required": false, 
+      "description": "Website: Die ursprüngliche Webadresse des Datensatzes, Dokuments oder der App, um zu weiteren Informationen über den Datensatz, das Dokument oder die App zu gelangen. Wird auf der Detailseite als Link angezeigt.", 
+      "type": "string", 
+      "format": "uri"
+	}, 
+    "type": {
+        "required": true, 
+        "description": "Typ: Zeigt an, ob ein Datensatz, ein Dokument, eine App beschrieben wird. Entscheidet darüber, in welchem Bereich diese Metadaten angezeigt werden.", 
+        "type": "string", 
+        "enum": ["datensatz", "dokument", "app"]
+    }, 
+    "resources": {
+      "required": true, 
+      "description": "Ressourcen: Folgende Felder können für jede Ressource individuell angegeben werden.",
+      "type": "array", 
+      "items": {
+        "required": true, 
+        "type": "object", 
+        "properties": {
+          "url": {
+            "required": true, 
+            "description": "URL: Verweis auf die eigentliche Datendatei, das Dokument oder die Anwendung.", 
+            "type": "string", 
+            "format": "uri"
+          },
+          "format": {
+            "required": true, 
+            "description": "Format: Typ der Ressource (MIME Types)",
+            "type": "string"
+          },
+          "description": {
+            "required": false, 
+            "description": "Beschreibung: Erläuterung, welche Rolle die Ressource für den Datensatz, das Dokument bzw. die App spielt (z. B. ob es sich dabei um eine bestimmte Zeitscheibe oder Schlüsselliste handelt. Der Beschreibungstext, wird mit dem Link zur Ressource unterlegt.)",
+            "type": "string"
+          }, 
+          "language": {
+            "required": false, 
+            "description": "Sprache: Sprache als ISO 639-1-Code, in der die Ressource verfasst ist.",
+            "pattern": "^[a-z]{2}$", 
+            "type": "string"
+          }, 
+          "hash": {
+            "required": false, 
+            "description": "Prüfsumme: Bei statischen Dateien die SHA2-Prüfsumme bzw. bei dynamischen Daten ein Zertifikat zur Überprüfung der Integrität.",
+            "type": "string"
+          } 
+        }
+      } 
+    },
+    "license_id": {
+  	  "enum": ["apache", "app_commercial", "app_freeware", "app_opensource", "bsd-license", "cc-by", "cc-by-sa", "cc-nc", "cc-by-nd", "cc-zero", "dl-de-by-1.0", "dl-de-by-nc-1.0", "geolizenz-closed", "geolizenz-i-a", "gfdl", "gpl-3.0", "mozilla", "odc-by", "odc-odbl", "odc-pddl", "official-work", "other-closed", "other-open"], 
+      "type": "string", 
+      "required": true, 
+      "description": "Lizenz-ID: Lizenz aus einer festen Liste, s.u. bzw. <a href='https://github.com/fraunhoferfokus/ogd-metadata/blob/master/lizenzen/deutschland.json'>Liste</a>"
+    }, 
+    "extras": {
+      "required": true, 
+      "type": "object", 
+      "description": "Extras: Zusaetzliche Angaben"
+    }
+  }
+}

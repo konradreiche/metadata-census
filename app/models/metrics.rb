@@ -52,4 +52,8 @@ module Metrics
     metric.to_s.gsub('-', '_')
   end
 
+  def self.blank?(value)
+    value.nil? || (value.is_a?(String) && value !~ /[^[:space:]]/)
+  end
+
 end
