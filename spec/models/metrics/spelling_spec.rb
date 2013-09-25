@@ -14,7 +14,7 @@ describe Metrics::Spelling do
     score, analysis = metric.compute(record)
     accessor = [:notes]
     expect(score).to be(0.75) 
-    expect(analysis[accessor]).to eq({ score: 0.75, misspelled: ['aaaatext'] })
+    expect(analysis.first).to eq({ field: accessor, score: 0.75, misspelled: ['aaaatext'] })
   end
 
   it "should also work on nested records" do
@@ -23,7 +23,7 @@ describe Metrics::Spelling do
     score, analysis = metric.compute(record)
     accessor = [:resources, :description]
     expect(score).to be(1.0) 
-    expect(analysis[accessor]).to eq({ score: 1.0, misspelled: []})
+    expect(analysis.first).to eq({ field: accessor, score: 1.0, misspelled: []})
   end
 
 end
