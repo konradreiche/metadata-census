@@ -20,7 +20,7 @@
               <% maximum = @documents.map { |d| d.record[field].length }.max %>
               <% maximum.times do |i| %>
                 <% subfields.each_with_index do |subfield, j| %>
-                  <% values = 2.map { |j| @documents[j].record[field].maybe[i].maybe[subfield] } %>
+                  <% values = (0..1).to_a.map { |j| @documents[j].record[field].maybe[i].maybe[subfield] } %>
                   <tr>
                     <%= content_tag(:td, field.humanize(), rowspan: subfields.length) if j == 0 %>
                     <td><%= subfield.humanize() %></td>

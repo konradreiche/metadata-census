@@ -15,9 +15,9 @@ module Analysis
       schema[:properties].map do |k, v|
 
         case v[:type]
-        when :array
+        when "array"
           v[:items][:type] == "object" ? [k] + fields(v[:items]) : k
-        when :object
+        when "object"
           v[:properties].nil? ? k : fields(v)
         else
           k
