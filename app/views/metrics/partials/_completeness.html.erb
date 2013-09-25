@@ -1,3 +1,14 @@
 <div class="analysis pill-pane active">
-  <%= render partial: 'shared/record_selector' %>
+  <% 2.times do |i| %>
+    <%= content_for i.to_s.to_sym do %>
+      <table class="table bordered">
+        <thead>
+          <tr>
+            <th>Field</th>
+          </tr>
+        </thead>
+      </table>
+    <% end %>
+  <% end %>
 </div>
+<%= render partial: 'shared/record_selector' %>
