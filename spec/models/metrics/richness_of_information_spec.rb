@@ -257,5 +257,53 @@ describe Metrics::RichnessOfInformation do
     expect(value).to eq([3, 5, 7])
   end
 
+  it "validates the example in my thesis" do
+
+    record1 = { id: 'A',
+                tags: ['Health', 'Children'],
+                notes: %Q(Quarterly release of the Hospital Standardised
+                          Mortality Ratios (HSMR) of all hospitals
+                          participating in the Scottish Patient Safety
+                          Programme.) }
+
+    record2 = { id: 'B',
+                tags: ['Finance', 'Spendings'],
+                notes: %Q(A monthly-updated list of all financial spend
+                          transactions made by the Department for Business,
+                          Innovation and Skills, as part of the commitment of
+                          the Government to transparency in expenditure.) }
+
+    record3 = { id: 'C',
+                tags: ['Social', 'Health'],
+                notes: %Q(Series of annual surveys designed to measure health
+                          and health related behaviours in adults and
+                          children.) }
+
+    metadata = [record1, record2, record3]
+    metric = Metrics::RichnessOfInformation.new(metadata)
+ 
+    health = metric.richness_of_information('Health', :category, [:tags])
+    children = metric.richness_of_information('Children', :category, [:tags])
+    finance = metric.richness_of_information('Finance', :category, [:tags])
+    spendings = metric.richness_of_information('Spendings', :category, [:tags])
+    social = metric.richness_of_information('Social', :category, [:tags])
+
+    expect(health).to eq(- Math.log(1.fdiv(3)))
+    expect(health.round(4)).to eq(1.0986)
+
+    others = [children, finance, spendings, social]
+    expect(others).to eq(Array.new(4, - Math.log(1.fdiv(6))))
+    expect(others.map { |p| p.round(4) }).to eq(Array.new(4, 1.7918))
+
+    tf_idf = metric.tf_idf(record1[:notes])
+    expect(tf_idf.round(4)).to eq(0.9117)
+
+    tf_idf = metric.tf_idf(record2[:notes])
+    expect(tf_idf.round(4)).to eq(0.9387)
+
+    tf_idf = metric.tf_idf(record3[:notes])
+    expect(tf_idf.round(4)).to eq(0.9501)
+
+  end
 
 end
