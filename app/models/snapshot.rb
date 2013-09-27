@@ -12,7 +12,7 @@ class Snapshot
 
   field :repository
 
-  field :_id, type: String, default: -> { Digest::MD5.hexdigest("#{date}#{repository.id}") }
+  field :_id, type: String, default: -> { Digest::MD5.hexdigest("#{repository.id}#{date}") }
 
   Metrics::list.each do |metric|
     field metric, type: Hash

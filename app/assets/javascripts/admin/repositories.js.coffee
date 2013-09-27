@@ -31,6 +31,8 @@ $ ->
   initMetadataImportLinks = () ->
 
     $("a.metadata-import-link").on "click", (event) ->
+      event.preventDefault()
+
       anchor = $(this)
       anchor.hide()
 

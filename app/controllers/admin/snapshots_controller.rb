@@ -1,3 +1,4 @@
+require 'digest'
 require 'yajl'
 require 'yajl/gzip'
 
@@ -23,7 +24,9 @@ class Admin::SnapshotsController < ApplicationController
           snapshot = Snapshot.create!(attributes)
         when Array
           parsed.each do |metadata|
-            metadata = MetadataRecord.create!(record: metadata)
+            id = Digest::MD5.hexdigest(metadata[:id] + snapshot.id)
+            attributes = { id: id, record: metadata }
+            metadata = MetadataRecord.create!(attributes)
             snapshot.metadata_records << metadata
           end
         else

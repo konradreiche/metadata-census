@@ -1,3 +1,5 @@
+require 'digest'
+
 class MetadataRecord
   include Mongoid::Document
   include Mongoid::Extensions::Hash::IndifferentAccess

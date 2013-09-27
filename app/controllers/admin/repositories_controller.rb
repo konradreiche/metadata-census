@@ -57,6 +57,7 @@ class Admin::RepositoriesController < ApplicationController
   def parse_header(file)
     reader = Yajl::Gzip::StreamReader.new(File.new(file, 'r'))
     parser = Yajl::Parser.new(symbolize_keys: true)
+
     parser.on_parse_complete = Proc.new { |obj| return obj }
     loop { parser << reader.readchar }
   rescue Zlib::GzipFile::Error
