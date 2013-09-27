@@ -7,7 +7,7 @@ describe Metrics::Accessibility do
     
     text = "Estimates of average farm rent prices by farm type."
     expectations = ['Estimates', 'of', 'average', 'farm', 'rent', 'prices',
-                    'by', 'farm', 'type']
+                    'by', 'farm', 'type.']
     
     words = Metrics::Accessibility.split_to_words(text)
     words.should match_array expectations
@@ -117,7 +117,7 @@ describe Metrics::Accessibility do
            "licence currently in force."
 
     words = Metrics::Accessibility.words(text).to_f
-    expect(words).to be(73.0)
+    expect(words).to be(72.0)
 
     sentences = accessibility.sentences(text).to_f
     expect(sentences).to be(2.0)
@@ -130,14 +130,14 @@ describe Metrics::Accessibility do
     average_sentence_length = words / sentences
     average_syllables_per_word = syllables / words
 
-    expect(average_sentence_length).to be(36.5)
-    expect(average_syllables_per_word).to be(1.8493150684931507)
+    expect(average_sentence_length).to be(36.0)
+    expect(average_syllables_per_word).to be(1.875)
 
     score = accessibility.flesch_reading_ease(text)
-    expect(score).to be(13.335445205479488)
+    expect(score).to be(11.670000000000016)
 
     score = accessibility.compute({ :notes => text })
-    expect(score).to be(13.335445205479488)
+    expect(score).to be(11.670000000000016)
 
   end
 
