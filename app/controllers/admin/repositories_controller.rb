@@ -42,8 +42,11 @@ class Admin::RepositoriesController < ApplicationController
     options = { symbolize_keys: true }
     archives = Dir.glob('data/archives/**/*').select { |f| File.file?(f) }
 
-    archives.inject({}) do |result, archive|
-      result[archive] = parse_header(archive)
+    result = Hash.new { |hash, key| hash[key] = [] }
+    archives.inject(result) do |result, archive|
+      header = parse_header(archive)
+      header[:file] = archive
+      result[header[:repository]] << header
       result
     end
   end
@@ -55,7 +58,7 @@ class Admin::RepositoriesController < ApplicationController
     reader = Yajl::Gzip::StreamReader.new(File.new(file, 'r'))
     parser = Yajl::Parser.new(symbolize_keys: true)
     parser.on_parse_complete = Proc.new { |obj| return obj }
-    parser << reader.readline
+    loop { parser << reader.readchar }
   rescue Zlib::GzipFile::Error
     logger.error("Invalid file format: unexpected end of file for #{file}")
   end
