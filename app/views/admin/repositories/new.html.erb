@@ -20,13 +20,21 @@
     <h3><span class="glyphicon glyphicon-compressed"></span> Snapshots</h3>
     <p class="dashboard-description">Select a file to import metadata for a repository. </p>
     <ul class="list-group">
-      <% @metadata_archives.each do |file, info| %>
+      <% @metadata_archives.each do |repository, snapshots| %>
         <li class="list-group-item">
-          <span class="badge"><%= number_with_delimiter(info[:count]) %></span>
-          <%= "(#{info[:date]}) #{info[:repository]}" %> <%= import_metadata_link(info[:repository], file) %>
-          <span class="admin repositories label label-info pull-right">Importing...</span>
-          <span class="admin repositories label label-success pull-right">Done</span>
-          <span class="admin repositories label label-danger pull-right">Error</span>
+         <h4><%= repository %></h4> 
+          <ol class="list-group" >
+            <% snapshots.each do |snapshot| %>
+              <li class="list-group-item">
+                <span class="badge"><%= number_with_delimiter(snapshot[:count]) %></span>
+                <%= snapshot[:date] %>
+                <%= import_metadata_link(snapshot[:repository], snapshot[:file]) %>
+                <span class="admin repositories label label-info pull-right">Importing...</span>
+                <span class="admin repositories label label-success pull-right">Done</span>
+                <span class="admin repositories label label-danger pull-right">Error</span>
+              </li>
+            <% end %>
+          </ol>
         </li>
       <% end %>
     </ul>
