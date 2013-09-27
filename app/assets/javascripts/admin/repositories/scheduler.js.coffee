@@ -111,22 +111,23 @@ $ ->
 
     url = "/admin/repositories/#{id}/metrics/#{metric}/schedule"
     resetStatus(metric)
-    $.post url, statusLoop(metric)
+    $.post url, statusLoop(id)
 
   ###
   Starts the status loop.
   ###
-  statusLoop = (metric) ->
+  statusLoop = (id) ->
+
     return () =>
 
       $.getJSON "/admin/repositories/#{id}/status", (response) ->
         updateElements(response)
 
         if not finished(response)
-          setTimeout(statusLoop(metric), 500)
+          setTimeout(statusLoop(id), 500)
         else
           updateElements(response)
-          updateDateTime(metric)
+          updateDateTime()
 
   ###
   Checks the current status to see if all jobs have terminated.
@@ -142,27 +143,29 @@ $ ->
   Fetches and dispalys the last updated date and time of the metric.
   ###
   updateDateTime = (metric) ->
-    url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
-    $.getJSON url, (response) ->
 
-      if response.date == 'N/A' or response.time == 'N/A'
-        return
+    for metric in gon.metrics
+      url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
+      $.getJSON url, (response) ->
 
-      dateCell = $(".status.#{metric} .date")
-      timeCell = $(".status.#{metric}").next("tr").children(".time")
+        if response.date == 'N/A' or response.time == 'N/A'
+          return
 
-      if timeCell.exists()
-        dateCell.text(response.date)
-        timeCell.text(response.time)
-      else
-        dateCell.text(response.date)
-        dateCell.removeAttr("rowspan")
-        timeCell = $("<td>#{response.time}</td>")
-        timeCell.addClass("time")
-        $(".status.#{metric}").next("tr").append(timeCell)
+        dateCell = $(".status.#{metric} .date")
+        timeCell = $(".status.#{metric}").next("tr").children(".time")
 
+        if timeCell.exists()
+          dateCell.text(response.date)
+          timeCell.text(response.time)
+        else
+          dateCell.text(response.date)
+          dateCell.removeAttr("rowspan")
+          timeCell = $("<td>#{response.time}</td>")
+          timeCell.addClass("time")
+          $(".status.#{metric}").next("tr").append(timeCell)
 
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)
     initInterface()
     updateInterface()
+    statusLoop(id)()
