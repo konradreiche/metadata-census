@@ -32,12 +32,14 @@ module Metrics
           misspelled = []
           words = mistakes = 0
 
-          words(text.to_s).each do |word|
-            all_words = words += 1
-            next if word.length < 7
+          self.class.words(text.to_s).each do |word|
+            words += 1
+            all_words += 1
+            next if /\d/.match(word)
 
-            unless speller.correct?(word)
-              all_mistakes = mistakes += 1
+            if not speller.correct?(word)
+              mistakes += 1
+              all_mistakes += 1
               misspelled << word
             end
           end
@@ -64,12 +66,7 @@ module Metrics
 
     def aspell(language)
       codes = { english: 'en', german: 'de', spanish: 'es' }
-      aspell = FFI::Aspell::Speller.new(codes[language])
-      aspell
-    end
-
-    def words(text)
-      text.split /\W+/
+      FFI::Aspell::Speller.new(codes[language])
     end
 
   end
