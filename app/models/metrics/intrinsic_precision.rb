@@ -3,8 +3,11 @@ module Metrics
   class IntrinsicPrecision < Metric
 
     def initialize
-      @babel = WhatLanguage.new(:all)
+      @babel = WhatLanguage.new(:german, :english)
       @fields = { :text => [[:notes], [:resources, :description]] }
+
+      @directory = Dir['data/spelling/*']
+      @misspelling = Hash.new
     end
 
     def self.description
@@ -13,42 +16,33 @@ module Metrics
     end
 
     def compute(record)
-      analysis = []
-      all_words = all_mistakes = 0
+
       language = language(record)
+      load_misspelling(language) if @misspelling[language].nil?
+      analysis = []
 
       @fields[:text].each do |accessor|
         value = self.class.value(record, accessor)
 
         Array(value).each_with_index do |text, i|
-          next if skip?(text)
+          score = 1.0
 
-          misspelled = []
-          words = mistakes = 0
+          misspelled = @misspelling[language].keys.select do |misspelling|
+            text.include?(misspelling)
+          end.uniq
 
-          self.class.words(text.to_s).each do |word|
-            words += 1
-            all_words += 1
-            next if /\d/.match(word)
-
-            if not speller.correct?(word)
-              mistakes += 1
-              all_mistakes += 1
-              misspelled << word
-            end
-          end
-
-          path  = value.is_a?(Array) ? accessor + [i + 1] : accessor
-          score = 1.0 - mistakes.fdiv(words)
-
-          analysis << { field: path, score: score,
-                        misspelled: misspelled.uniq }
+          path = value.is_a?(Array) ? accessor + [i + 1] : accessor
+          score = 0.0 unless misspelled.empty?
+          analysis << { field: path, score: score, misspelled: misspelled }
         end
       end
 
-      score = 1.0 - all_mistakes.fdiv(all_words)
-      
-      return score, analysis
+      if analysis.any? { |a| a[:score] == 0.0 }
+        return 0.0, analysis
+      else
+        return 1.0, analysis
+      end
+
     end
 
     def language(record)
@@ -59,6 +53,12 @@ module Metrics
       @fields[:text].inject(Array.new) do |values, accessor|
         values << self.class.value(record, accessor)
       end.join(' ')
+    end
+
+    private
+    def load_misspelling(language)
+      yaml = File.read("data/spelling/#{language}.yml")
+      @misspelling[language] = YAML.load(yaml)
     end
 
   end
