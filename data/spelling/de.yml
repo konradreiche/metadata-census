@@ -1,0 +1,1233 @@
+---
+a propos: &1
+- apropos
+apropo: *1
+ABC:
+- Abc
+abgespaced:
+- abgespacet
+abnippeln:
+- abnibbeln
+Absorbtion:
+- Absorption
+abwägig:
+- abwegig
+achsial:
+- axial
+Addresse:
+- Adresse
+adequat:
+- adäquat
+AGBs:
+- AGB
+Agendas:
+- Agenden
+agressiv:
+- aggressiv
+Akkupunktur:
+- Akupunktur
+Akkustik:
+- Akustik
+aklimatisieren:
+- akklimatisieren
+aktzeptabel:
+- akzeptabel
+Albatross:
+- Albatros
+Algorythmus: &2
+- Algorithmus
+Algorhythmus: *2
+Allierte:
+- Alliierte
+alterwürdig:
+- altehrwürdig
+am Besten:
+- am besten
+am meißten:
+- am meisten
+am Nächsten:
+- am nächsten
+Amalgan:
+- Amalgam
+Amaturenbrett:
+- Armaturenbrett
+an Hand:
+- anhand
+anders herum:
+- andersherum
+aneinander vorbei reden:
+- aneinander vorbeireden
+annährend:
+- annähernd
+antialkoholisch:
+- alkoholfrei
+Antibiotikas:
+- Antibiotika
+Apartheit:
+- Apartheid
+Apell:
+- Appell
+Appartment: &3
+- Apartment
+- Appartement
+Apartement: *3
+Aquise:
+- Akquise
+Aquisition:
+- Akquisition
+Argentur:
+- Agentur
+armortisieren:
+- amortisieren
+Artzt:
+- Arzt
+assozial:
+- asozial
+asymetrisch:
+- asymmetrisch
+Athmosphäre:
+- Atmosphäre
+Atrappe:
+- Attrappe
+Attachement:
+- Attachment
+aufgrunddessen:
+- aufgrund dessen
+aufrecht erhalten:
+- aufrechterhalten
+Aufständige:
+- Aufständische
+aufzäunen:
+- aufzäumen
+aus dem ff:
+- aus dem Effeff
+ausser:
+- außer
+auswändig:
+- auswendig
+authentifizieren:
+- authentisieren
+authistisch:
+- autistisch
+authorisieren:
+- autorisieren
+baff erstaunt:
+- bass erstaunt
+barfuss: &4
+- barfuß
+- barfüßig
+barfüssig: *4
+Batallion:
+- Bataillon
+Bedrouille:
+- Bredouille
+bei Leibe nicht:
+- beileibe nicht
+Belzebub:
+- Beelzebub
+Beredtsamkeit:
+- Beredsamkeit
+bereuhen:
+- bereuen
+bescheid wissen: &5
+- Bescheid wissen
+bescheidwissen: *5
+Besenreißer: &6
+- Besenreiser
+Besenreisser: *6
+best bewertet:
+- bestbewertet
+bestmöglichst:
+- bestmöglich
+Billiard:
+- Billard
+bischen:
+- bisschen
+Bisquit:
+- Biskuit
+Blinis:
+- Blini
+blos:
+- bloß
+blutdurstig:
+- blutdürstig
+Blutgerinsel:
+- Blutgerinnsel
+Board:
+- Bord
+Böhe:
+- Bö
+- Böe
+bombadieren:
+- bombardieren
+Boxhorn:
+- Bockshorn
+Brandwein:
+- Branntwein
+Bretzel:
+- Brezel
+Briese:
+- Brise
+brilliant:
+- brillant
+Burgverließ:
+- Burgverlies
+Café:
+- Kaffee
+Caféteria:
+- Cafeteria
+Camenbert:
+- Camembert
+campieren:
+- kampieren
+Cappucino: &7
+- Cappuccino
+Capuccino: *7
+Chemiekalie:
+- Chemikalie
+cosmopolitisch:
+- kosmopolitisch
+Crème:
+- Creme
+Dalie:
+- Dahlie
+Dammwild:
+- Damwild
+darüberhinaus:
+- darüber hinaus
+das Groß:
+- das Gros
+deligieren:
+- delegieren
+demletzt:
+- letztens
+demzufolge:
+- dem zufolge
+der selbe:
+- derselbe
+Dessou:
+- Dessous
+desweiteren:
+- des Weiteren
+detailiert:
+- detailliert
+Diabetis:
+- Diabetes
+diesen Jahres:
+- dieses Jahres
+diesesmal:
+- dieses Mal
+Dilletant:
+- Dilettant
+Diphterie:
+- Diphtherie
+Diphtong:
+- Diphthong
+Dipl. Ing.:
+- Dipl.-Ing.
+Dipp:
+- Dip
+Disaster:
+- Desaster
+disaströs:
+- desaströs
+ditto:
+- dito
+Doktorant:
+- Doktorand
+drittes Rad am Wagen:
+- fünftes Rad am Wagen
+durchgewunken:
+- durchgewinkt
+dutzen:
+- duzen
+E-Mailadresse:
+- E-Mail-Adresse
+eben dieser:
+- ebendieser
+ebend:
+- eben
+ebent:
+- eben
+Eifelturm:
+- Eiffelturm
+eigendlich:
+- eigentlich
+einander gegenseitig:
+- einander
+Einfallspinsel:
+- Einfaltspinsel
+eingeschalten:
+- eingeschaltet
+einzigste:
+- einzige
+eleminieren:
+- eliminieren
+Elephant:
+- Elefant
+Elexier:
+- Elixier
+Elipse:
+- Ellipse
+Emmission:
+- Emission
+entgegen bringen:
+- entgegenbringen
+Entgeld:
+- Entgelt
+entgültig:
+- endgültig
+Epedemie:
+- Epidemie
+Epikuräer:
+- Epikureer
+erfolgsversprechend:
+- erfolgversprechend
+Ergebniss:
+- Ergebnis
+ernstnehmen:
+- ernst nehmen
+erstmalig:
+- erstmals
+erwiedern:
+- erwidern
+essengehen:
+- essen gehen
+et. al.:
+- et al.
+Ethymologie:
+- Etymologie
+ewig Gestrige:
+- Ewiggestrige
+Extase:
+- Ekstase
+Exterior:
+- Exterieur
+FAQs:
+- FAQ
+Fassette:
+- Facette
+Fast Foot: &8
+- Fast Food
+- Fastfood
+Fastfoot: *8
+Faul:
+- Foul
+Fauxpax:
+- Fauxpas
+Fiesematenten:
+- Fisimatenten
+Firnament:
+- Firmament
+fithalten:
+- fit halten
+Flachbrettscanner:
+- Flachbettscanner
+Flagschiff:
+- Flaggschiff
+Flies: &9
+- Vlies
+Fließ: *9
+Flopp:
+- Flop
+Focus:
+- Fokus
+Förderation:
+- Föderation
+Fond:
+- Font
+fröhnen:
+- frönen
+Frohn[dienst]:
+- Fron[dienst]
+frugal:
+- opulent
+- üppig
+Funier:
+- Furnier
+Fussball:
+- Fußball
+Gaderobe:
+- Garderobe
+Gallerie:
+- Galerie
+Gallionsfigur:
+- Galionsfigur
+gallopieren:
+- galoppieren
+gang und gebe:
+- gang und gäbe
+garnicht:
+- gar nicht
+Gebahren:
+- Gebaren
+Gedächnis:
+- Gedächtnis
+Gedöhns:
+- Gedöns
+gefeiht:
+- gefeit
+gefühlsdusselig:
+- gefühlsduselig
+gegebenfalls:
+- gegebenenfalls
+gegooglet:
+- gegoogelt
+Geisel:
+- Geißel
+Geisel der Menschheit:
+- Geißel der Menschheit
+Gekko:
+- Gecko
+Gelantine:
+- Gelatine
+gemanaged:
+- gemanagt
+gemoppt:
+- gemobbt
+gerade aus:
+- geradeaus
+gerade heraus:
+- geradeheraus
+gerademal:
+- gerade mal
+Geradewohl:
+- Geratewohl
+Gereatrie:
+- Geriatrie
+Geschäftsgebahren:
+- Geschäftsgebaren
+gewertschätzt:
+- wertgeschätzt
+gewunken:
+- gewinkt
+gothisch:
+- gotisch
+Gradwanderung:
+- Gratwanderung
+Graffitis:
+- Graffiti
+Gries:
+- Grieß
+gröhlen:
+- grölen
+Gruss: &10
+- Gruß
+- grüßen
+grüssen: *10
+Guacomole:
+- Guacamole
+Guerrilla:
+- Guerilla
+gütig:
+- gütlich
+Gulli:
+- Gully
+Gullideckel:
+- Gullydeckel
+Hacken:
+- Haken
+Häckchen:
+- Häkchen
+hälst:
+- hältst
+hässlig:
+- hässlich
+hahnebüchen:
+- hanebüchen
+handzuhaben:
+- zu handhaben
+harmonisieren:
+- harmonieren
+Hasadeur:
+- Hasardeur
+Hautauschlag:
+- Hautausschlag
+Hecktik: &11
+- Hektik
+Hecktick: *11
+Herzinfakt:
+- Herzinfarkt
+herzlich Willkommen:
+- herzlich willkommen
+Hobbies:
+- Hobbys
+hoffendlich:
+- hoffentlich
+Hollunder:
+- Holunder
+Hompage:
+- Homepage
+Hotelerie:
+- Hotellerie
+Hühne:
+- Hüne
+Hürden umschiffen:
+- Hürden überspringen
+Hypothenuse:
+- Hypotenuse
+Hyroglyphen:
+- Hieroglyphen
+ich weis:
+- ich weiß
+ihr seit:
+- ihr seid
+im Betrieb sein:
+- in Betrieb sein
+Imbus:
+- Inbus
+Imission:
+- Immission
+immernoch:
+- immer noch
+Impressario:
+- Impresario
+in wie fern:
+- inwiefern
+in wie weit:
+- inwieweit
+in Nullkommanix:
+- im Nullkommanix
+in punkto:
+- in puncto
+Industriealisierung:
+- Industrialisierung
+infiszieren:
+- infizieren
+infolge dessen: &12
+- infolgedessen
+in Folge dessen: *12
+Informand:
+- Informant
+Ingredenzien:
+- Ingredienzien
+- Ingredienzen
+Initialien:
+- Initialen
+injezieren:
+- injizieren
+inklusiv:
+- inklusive
+inne haben:
+- innehaben
+insbesonders:
+- insbesondere
+instandhalten:
+- instand halten
+intelektuell:
+- intellektuell
+Interior:
+- Interieur
+Internas:
+- Interna
+Interresse:
+- Interesse
+Intriegen:
+- Intrigen
+Jacket:
+- Jackett
+Jahrhunderte alt:
+- jahrhundertealt
+Jahrhunderte lang:
+- jahrhundertelang
+jeder Zeit:
+- jederzeit
+Jedermann:
+- jedermann
+Jojo:
+- Jo-Jo
+Kaffe:
+- Kaffee
+Kanacke:
+- Kanake
+Kandarre:
+- Kandare
+Kardamon:
+- Kardamom
+karikativ:
+- karitativ
+Karrikatur:
+- Karikatur
+Karussel:
+- Karussell
+Katheder:
+- Katheter
+Kenntniss:
+- Kenntnis
+Kernspint:
+- Kernspin
+klar machen:
+- klarmachen
+Klippen überspringen:
+- Klippen umschiffen
+knappsen:
+- knapsen
+knieen:
+- knien
+Kokusnuss:
+- Kokosnuss
+kollossal:
+- kolossal
+Kommerzabend:
+- Kommersabend
+Kommittee: &13
+- Komitee
+Kommitee: *13
+Kommolitone: &14
+- Kommilitone
+Komolitone: *14
+Komilitone: *14
+Kompanten:
+- Kompasse
+Konfirmant:
+- Konfirmand
+Konkurenz:
+- Konkurrenz
+Konsenz:
+- Konsens
+konterkarikieren:
+- konterkarieren
+Kontigent:
+- Kontingent
+Korifee: &15
+- Koryphäe
+Choryphäe: *15
+korregieren:
+- korrigieren
+Kraft meines Amtes:
+- kraft meines Amtes
+krakelen:
+- krakeelen
+Kreissaal:
+- Kreißsaal
+Kreißsäge:
+- Kreissäge
+Kreti und Pleti:
+- Krethi und Plethi
+Kücken:
+- Küken
+kummulieren:
+- kumulieren
+Kurztripp:
+- Kurztrip
+Labtop:
+- Laptop
+lädtst:
+- lädst
+Lapalie:
+- Lappalie
+Lebenselexier:
+- Lebenselixier
+Leib:
+- Laib
+Leidfaden:
+- Leitfaden
+Lexikas:
+- Lexika
+Liäson:
+- Liaison
+Lilliputaner:
+- Liliputaner
+Lippizaner:
+- Lipizzaner
+Litfasssäule:
+- Litfaßsäule
+lizensieren:
+- lizenzieren
+Lohrbeeren:
+- Lorbeeren
+Looser:
+- Loser
+Lotus:
+- Lotos
+Lybien:
+- Libyen
+Mafiosis:
+- Mafiosi
+Makkaronis:
+- Makkaroni
+malen:
+- mahlen
+maniriert:
+- manieriert
+Mannometer:
+- Manometer
+Margarite:
+- Margerite
+Maschiene:
+- Maschine
+Masseuse:
+- Masseurin
+Matraze:
+- Matratze
+Mayonaise:
+- Mayonnaise
+Medallion:
+- Medaillon
+mediteran:
+- mediterran
+meines Wissens nach:
+- meines Wissens
+meist gelesen:
+- meistgelesen
+Mélange-à-trois:
+- Ménage-à-trois
+Menue:
+- Menü
+- Menu
+Miesere:
+- Misere
+Mietze:
+- Mieze
+Millenium:
+- Millennium
+Mine:
+- Miene
+Miniskus:
+- Meniskus
+misantrophisch:
+- misanthropisch
+mittlerweise: &16
+- mittlerweile
+mittlerweilen: *16
+Mitzwanziger:
+- Mittzwanziger
+mockieren:
+- mokieren
+Morgende:
+- Morgen
+morgentlich:
+- morgendlich
+Mozarella:
+- Mozzarella
+Mummpitz:
+- Mumpitz
+Mund-zu-Mund-Propaganda:
+- Mundpropaganda
+nach Außen:
+- nach außen
+nachtschlafene Zeit:
+- nachtschlafende Zeit
+nachwievor:
+- nach wie vor
+nähmlich:
+- nämlich
+namenhaft:
+- namhaft
+narzistisch:
+- narzisstisch
+naseweiß:
+- naseweis
+nerfen:
+- nerven
+Nervösität:
+- Nervosität
+Nettiquette:
+- Netiquette
+nichts desto trotz:
+- nichtsdestotrotz
+niegelnagelneu:
+- nigelnagelneu
+Nirvana:
+- Nirwana
+nöhlen:
+- nölen
+Non plus ultra:
+- Nonplusultra
+nurmehr:
+- nur mehr
+Obulus:
+- Obolus
+Oeuvre:
+- Œuvre
+ohne einander:
+- ohneeinander
+Orginal:
+- Original
+Pabst:
+- Papst
+Packet:
+- Paket
+Pantomine:
+- Pantomime
+Pappenstil:
+- Pappenstiel
+Paradontose:
+- Parodontose
+- Paradentose
+Parafin:
+- Paraffin
+paralell:
+- parallel
+Pariah:
+- Paria
+Pavillion:
+- Pavillon
+Pepp:
+- Pep
+Pepperoni:
+- Peperoni
+per Definition:
+- per definitionem
+periphär:
+- peripher
+persöhnlich:
+- persönlich
+personbezogen:
+- personenbezogen
+philantrophisch:
+- philanthropisch
+Pieke:
+- Pike
+pieken: &17
+- piken
+- piksen
+pieksen: *17
+Pilgerer:
+- Pilger
+Pinwand:
+- Pinnwand
+pisacken:
+- piesacken
+Pizzaria:
+- Pizzeria
+Portrait:
+- Porträt
+Präsens:
+- Präsenz
+Praktikas:
+- Praktika
+prankt:
+- prangt
+Preferenz:
+- Präferenz
+Preis-Leistungsverhältnis:
+- Preis-Leistungs-Verhältnis
+Preis geben:
+- preisgeben
+Probant: &18
+- Proband
+- Probanden
+Probanten: *18
+Progrom:
+- Pogrom
+projezieren:
+- projizieren
+Prophezeihung:
+- Prophezeiung
+Psychatrie:
+- Psychiatrie
+puncto:
+- punkto
+Pupertät:
+- Pubertät
+quängeln:
+- quengeln
+Quarkkeulchen:
+- Quarkkäulchen
+Quartz:
+- Quarz
+Quartzuhr:
+- Quarzuhr
+quiecken:
+- quieken
+Quize: &19
+- Quiz
+Quizzes: *19
+räsonnieren:
+- räsonieren
+Rafinesse:
+- Raffinesse
+Rechtschreibereform: &20
+- Rechtschreibreform
+Rechtsschreibreform: *20
+redseelig:
+- redselig
+Reeling:
+- Reling
+Referenz:
+- Reverenz
+Reflektion:
+- Reflexion
+Rendevous:
+- Rendezvous
+rennomiert:
+- renommiert
+Renntier:
+- Rentier
+Reperatur:
+- Reparatur
+repetativ:
+- repetitiv
+Resourcen:
+- Ressourcen
+Resumee: &21
+- Resümee
+Resümé: *21
+rethorisch:
+- rhetorisch
+revangieren:
+- revanchieren
+Rezession:
+- Rezension
+Rhytmus: &22
+- Rhythmus
+Rythmus: *22
+rot sehen:
+- rotsehen
+Rückrat: &23
+- Rückgrat
+Rückrad: *23
+Rückgrad: *23
+sähen:
+- säen
+Sargophag:
+- Sarkophag
+Scampis:
+- Scampi
+Schanier:
+- Scharnier
+scharfes ß:
+- scharfes S
+scheinbar:
+- anscheinend
+Schelllackplatte:
+- Schellackplatte
+schickanieren:
+- schikanieren
+schlacksig:
+- schlaksig
+Schlammassel:
+- Schlamassel
+Schlawittchen:
+- Schlafittchen
+Schmand:
+- Schmant
+Schmincke:
+- Schminke
+Schmuh:
+- Schmu
+Schnautze voll:
+- Schnauze voll
+schnellstmöglichst:
+- schnellstmöglich
+Schnippsel:
+- Schnipsel
+Schock schwere Not:
+- Schockschwerenot
+schönes Neues Jahr:
+- schönes neues Jahr
+schonmal:
+- schon mal
+schrob:
+- schrieb
+Schuld sein:
+- schuld sein
+seelig:
+- selig
+Seiteneffekt:
+- Nebenwirkung
+Sekreteriat:
+- Sekretariat
+Selbstreflektion:
+- Selbstreflexion
+seperat:
+- separat
+Seriösität:
+- Seriosität
+sexier:
+- sexyer
+sieben Sachen:
+- Siebensachen
+sietzen:
+- siezen
+Silouette:
+- Silhouette
+skuril: &24
+- skurril
+skurill: *24
+sobald:
+- so bald
+Spaghettis:
+- Spaghetti
+Sparerips:
+- Spareribs
+Spirenzien:
+- Sperenzien
+Sponsering:
+- Sponsoring
+sponsorn:
+- sponsern
+Standart:
+- Standard
+Staniolpapier:
+- Stanniolpapier
+Stati:
+- Status
+staubgesaugt:
+- gestaubsaugt
+Steakholder:
+- Stakeholder
+Stehgreif:
+- Stegreif
+Stehle:
+- Stele
+stiebitzen:
+- stibitzen
+Stil:
+- Stiel
+still stehen:
+- stillstehen
+Stopschild:
+- Stoppschild
+Strapatzen:
+- Strapazen
+Strasse:
+- Straße
+Streu:
+- Spreu
+substrahieren:
+- subtrahieren
+subsummieren:
+- subsumieren
+Sunnyboy:
+- Sonnyboy
+Sylvester:
+- Silvester
+symetrisch:
+- symmetrisch
+symphatisch:
+- sympathisch
+Syphon:
+- Siphon
+Tartar:
+- Tatar
+Tatoo:
+- Tattoo
+Terasse:
+- Terrasse
+Terrabyte:
+- Terabyte
+Testoteron:
+- Testosteron
+Teufelskreislauf:
+- Teufelskreis
+Threat:
+- Thread
+tiptop:
+- tipptopp
+tollerant:
+- tolerant
+totlangweilig:
+- todlangweilig
+Transskription:
+- Transkription
+Triologie:
+- Trilogie
+Tripp:
+- Trip
+Tryptichon:
+- Triptychon
+Tunier:
+- Turnier
+Turbolenzen:
+- Turbulenzen
+tweeten:
+- twittern
+über die Strenge schlagen:
+- über die Stränge schlagen
+übersäht:
+- übersät
+übrigends:
+- übrigens
+um Himmels Willen:
+- um Himmels willen
+umhin können:
+- umhinkönnen
+umhin kommen:
+- umhinkommen
+uminös:
+- ominös
+Unbillen:
+- Unbilden
+unentgeldlich:
+- unentgeltlich
+unentlich:
+- unendlich
+unverholen:
+- unverhohlen
+Unwegbarkeiten:
+- Unwägbarkeiten
+unwiderbringlich:
+- unwiederbringlich
+unwiederruflich:
+- unwiderruflich
+Ursupator:
+- Usurpator
+veganisch:
+- vegan
+Velour:
+- Velours
+verfehmt:
+- verfemt
+verhehrend:
+- verheerend
+verhuntzen:
+- verhunzen
+verkraulen:
+- vergraulen
+Verließ:
+- Verlies
+verpöhnt:
+- verpönt
+versehendlich:
+- versehentlich
+Verwandschaft:
+- Verwandtschaft
+Visas:
+- Visa
+- Visen
+voluptös:
+- voluptuös
+von 9–11 Uhr:
+- von 9 bis 11 Uhr
+von Nöten:
+- vonnöten
+von Privat:
+- von privat
+von Vornherein:
+- von vornherein
+vorallem:
+- vor allem
+Vorort:
+- vor Ort
+Vorraussetzung:
+- Voraussetzung
+vorweg nehmen:
+- vorwegnehmen
+Wachholder:
+- Wacholder
+währe:
+- wäre
+wage:
+- vage
+ward:
+- wart
+Warnbarke:
+- Warnbake
+Webblog:
+- Weblog
+Webseite:
+- Website
+Wehrmutstropfen: &25
+- Wermutstropfen
+Wehmutstropfen: *25
+Wehrwolf:
+- Werwolf
+Weise:
+- -weise
+weißmachen:
+- weismachen
+weiter wissen:
+- weiterwissen
+Wickinger:
+- Wikinger
+wider besseren Wissens:
+- wider besseres Wissen
+widerum:
+- wiederum
+wiederlich:
+- widerlich
+wiederrum:
+- wiederum
+Wiedersacher:
+- Widersacher
+wiederspiegeln:
+- widerspiegeln
+Wiederspruch:
+- Widerspruch
+Wiederstand:
+- Widerstand
+Wies’n:
+- Wiesn
+Windböhe:
+- Windbö
+- Windböe
+Wirrwar:
+- Wirrwarr
+Wochenendtripp:
+- Wochenendtrip
+wohlgesonnen:
+- wohlgesinnt
+wohlmöglich:
+- womöglich
+wohlweißlich:
+- wohlweislich
+Wunder nehmen:
+- wundernehmen
+Xantippe:
+- Xanthippe
+Ying und Yang:
+- Yin und Yang
+Yuccapalme:
+- Yucca
+Yukkapalme:
+- Yucca
+Zappelphillip:
+- Zappelphilipp
+zartbeseitet:
+- zartbesaitet
+Zeit seines Lebens:
+- zeit seines Lebens
+Zellulite:
+- Zellulitis
+Zenith:
+- Zenit
+Zeugniss:
+- Zeugnis
+ziehmen:
+- ziemen
+ziehmlich:
+- ziemlich
+Zombiefizierung:
+- Zombifizierung
+zu Gange sein:
+- zugange sein
+zu Gute:
+- zugute
+zu Hauf:
+- zuhauf
+zubuche:
+- zu Buche
+Zucchinis:
+- Zucchini
+zuende:
+- zu Ende
+zuförderst:
+- zuvörderst
+zuguterletzt: &26
+- zu guter Letzt
+zu guter letzt: *26
+zumindestens:
+- zumindest
+zur Zeit:
+- zurzeit
+zurecht:
+- zu Recht
+zurecht kommen:
+- zurechtkommen
+zurfolge:
+- zur Folge
+- zufolge
+zusammen arbeiten:
+- zusammenarbeiten
+zusammen kommen:
+- zusammenkommen
+zusehens:
+- zusehends
+zuvörderst:
+- zuvorderst
+Zwergfell:
+- Zwerchfell
+Zykluses:
+- Zyklus
