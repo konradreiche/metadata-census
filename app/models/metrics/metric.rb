@@ -13,6 +13,12 @@ module Metrics
       ""
     end
 
+    def self.words(text)
+      text.scan(/\S+/).map do |word|
+        word.delete %{,.;"!:'?()}
+      end
+    end
+
     ## Skip null fields and fields with whitespace strings
     #
     # Checks +value+ whether it is a null-valued field. A string is also null

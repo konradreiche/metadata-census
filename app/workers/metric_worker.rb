@@ -32,6 +32,8 @@ class MetricWorker
   def update_snapshot(metric, scores)
     snapshot = @repository.snapshots.last
     score = Hash.new
+
+    scores = scores.reject(&:nan?)
     scores.sort!
 
     score[:minimum] = scores.first
