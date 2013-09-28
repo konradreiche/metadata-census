@@ -35,7 +35,9 @@ module Metrics
 
           path = value.is_a?(Array) ? accessor + [i + 1] : accessor
           score = 0.0 unless misspelled.empty?
-          analysis << { field: path, score: score, misspelled: misspelled }
+
+          analysis << { field: path, score: score, language: language,
+                        misspelled: misspelled }
         end
       end
 
