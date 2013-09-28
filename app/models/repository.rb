@@ -2,7 +2,7 @@ class Repository
   include Mongoid::Document
   include Mongoid::Extensions::Hash::IndifferentAccess
 
-  validates_presence_of :id, :name, :url, :type, :latitude, :longitude
+  validates_presence_of :id, :name, :url, :type, :language, :latitude, :longitude
 
   has_many :snapshots, :order => :date.asc
 
@@ -11,6 +11,8 @@ class Repository
 
   field :type
   field :url
+
+  field :language
 
   field :latitude
   field :longitude

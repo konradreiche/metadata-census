@@ -6,6 +6,7 @@ repositories:
       url:  https://www.govdata.de/ckan/api
       type: CKAN
       location: Berlin, Germany
+      language: German
       dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
  
     - id: data.gov.uk
@@ -13,6 +14,7 @@ repositories:
       url: http://data.gov.uk/api
       type: CKAN
       location: London, UK
+      language: English
       dump: http://data.gov.uk/data/dumps/data.gov.uk-ckan-meta-data-latest.json.zip
 
     - id: publicdata.eu
@@ -20,6 +22,7 @@ repositories:
       url: http://publicdata.eu/api
       type: CKAN
       location: Brussels, Belgium
+      language: English
       rows: 100000
 
     - id: catalogodatos.gub.uy
@@ -27,6 +30,7 @@ repositories:
       url: https://catalogodatos.gub.uy/api
       type: CKAN
       location: Montevideo, Uruguay
+      language: Spanish
       rows: 100000
 
     - id: data.qld.gov.au
@@ -34,6 +38,7 @@ repositories:
       url: https://data.qld.gov.au/api
       type: CKAN
       location: Queensland, Australia
+      language: English
       rows: 100000
 
     - id: catalog.data.gov
@@ -41,6 +46,7 @@ repositories:
       url: http://catalog.data.gov/api
       type: CKAN
       location: Washington, DC, USA
+      language: English
       rows: 100000
 
     - id: opendata.admin.ch
@@ -48,3 +54,4 @@ repositories:
       url: http://opendata.admin.ch/api
       type: CKAN
       location: Bern, Switzerland
+      language: German
