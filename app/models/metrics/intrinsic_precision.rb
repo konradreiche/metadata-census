@@ -2,7 +2,9 @@ module Metrics
 
   class IntrinsicPrecision < Metric
 
-    def initialize
+    def initialize(language)
+      @language = language.to_s.downcase.to_sym
+
       @babel = WhatLanguage.new(:german, :english)
       @fields = { :text => [[:notes], [:resources, :description]] }
 
@@ -46,7 +48,8 @@ module Metrics
     end
 
     def language(record)
-      @babel.language(corpus(record))
+      detection = @babel.language(corpus(record))
+      detection ||= @language
     end
 
     def corpus(record)
