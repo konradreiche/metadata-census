@@ -16,6 +16,8 @@ MetadataCensus::Application.routes.draw do
 
     resources :repositories do
 
+      resources :metrics, only: [:show]
+
       resource :metadata, only: [] do
 
         member do

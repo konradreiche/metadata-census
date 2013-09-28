@@ -15,7 +15,8 @@ module RepositoriesHelper
 
   def create_metric_analysis_button(metric)
     icon = content_tag(:span, nil, class: 'glyphicon glyphicon-list-alt')
-    content_tag(:a, icon, class: 'btn btn-default', href: metric_url(metric))
+    path = repository_metric_path(repository_id: @repository, id: metric)
+    link_to icon, path, class: 'btn btn-default'
   end
 
   def create_metric_analysis_link(metric)

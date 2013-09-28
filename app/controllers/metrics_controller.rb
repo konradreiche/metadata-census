@@ -13,8 +13,8 @@ class MetricsController < ApplicationController
   end
 
   def show
-    load_repositories(:repository)
-    load_metrics(:metric)
+    load_repositories(:repository_id)
+    load_metrics(:id)
     load_records()
 
     analyze()
@@ -69,19 +69,16 @@ class MetricsController < ApplicationController
   # specific partial or a generic partial is returned as fallback.
   #
   def select_partial
-    dir = "app/views/metrics/partials/_"
-
-    lookup_path = Metrics.from_sym(@metric).ancestors
-    lookup_path = lookup_path.drop_while do |ancestor| 
-      path = dir + ancestor.to_sym.to_s + '.html.erb'
-      not File.exists?(path) &&  ancestor != Metrics::Metric
+    partials = "app/views/metrics/partials"
+    ancestors = Metrics.from_sym(@metric).ancestors
+    ancestors = ancestors.select { |cls| cls < Metrics::Metric }
+    
+    ancestors.map { |cls| cls.to_s.underscore }.each do |candidate|
+      file = "#{partials}/_#{candidate}.html.erb"
+      return "#{partials}/#{candidate}" if File.exists?(file)
     end
 
-    if lookup_path.first == Metrics::Metric || lookup_path.empty?
-      "metrics/partials/generic"
-    else
-      "metrics/partials/#{lookup_path.first.to_sym.to_s.underscore}"
-    end
+    "metrics/partials/generic"
   end
 
 end
