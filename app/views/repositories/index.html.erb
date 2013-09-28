@@ -11,7 +11,7 @@
     <tbody>
       <% @repositories.each do |repository| %>
         <tr>
-          <td><%= content_tag(:a, repository.name, href: "/repository/#{repository.name}") %></td>
+          <td><%= link_to repository.name, repository %></td>
           <td><%= repository.type %></td>
           <td><%= count(repository) %></td>
           <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>

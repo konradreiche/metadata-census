@@ -18,19 +18,20 @@
 
 .repositories.leaderboard.table th,
 .repositories.leaderboard.table td {
-  overflow: hidden;
   text-align: center;
+  overflow: hidden;
   vertical-align: middle;
 }
 
 .repositories.leaderboard.table > thead tr th:first-child,
-.repositories.leaderboard.table > thead tr th:first-child {
+.repositories.leaderboard.table > tbody tr td:first-child {
   width: 5%
 }
 
 .repositories.leaderboard.table > thead tr th:nth-child(2),
-.repositories.leaderboard.table > thead tr th:nth-child(2) {
-  width: 15%
+.repositories.leaderboard.table > tbody tr td:nth-child(2) {
+  width: 15%;
+  text-align: left;
 }
 
 .repositories.leaderboard.table > thead tr th:nth-child(3),

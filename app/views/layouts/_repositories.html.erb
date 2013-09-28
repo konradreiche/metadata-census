@@ -5,10 +5,10 @@
   <%= content_tag(:li, (link_to "Index", repositories_path),
                   :class => is_active?('index')) %>
 
-  <%= content_tag(:li, (link_to "Leaderboard", repositories_leaderboard_path),
+  <%= content_tag(:li, (link_to "Leaderboard", leaderboard_repositories_path),
                   :class => is_active?('leaderboard')) %>
 
-  <%= content_tag(:li, (link_to "Map", repositories_map_path),
+  <%= content_tag(:li, (link_to "Map", map_repositories_path),
                   :class => is_active?('map')) %>
 
   <%= content_tag(:li, (link_to "Timeline", '#'),

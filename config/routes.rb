@@ -7,26 +7,15 @@ MetadataCensus::Application.routes.draw do
 
   id_regex = /[0-z\.\-]+/
 
-  get 'repository/:repository', to: 'repositories#show', 
-    constraints: { repository: id_regex }
+  constraints({ id: id_regex, repository_id: id_regex }) do
 
-  get 'repository/:repository/metric/:metric', to: 'metrics#show',
-    constraints: { repository: id_regex }
+    resource :repositories do
+      get 'leaderboard'
+      get 'map'
+    end
 
-  get 'repositories', to: 'repositories#index'
+    resources :repositories do
 
-  get 'repository/:repository/score', to: 'repositories#score',
-    constraints: { repository: id_regex }
-
-  get 'repository/:repository/scores', to: 'repositories#scores',
-    constraints: { repository: id_regex }
-
-  post 'repository/:repository/metric/:metric/compute', to: 'metrics#compute',
-    constraints: { repository: id_regex }
-
-  constraints({ repository_id: id_regex }) do
-
-    resources :repositories, only: [] do
       resource :metadata, only: [] do
 
         member do
@@ -62,15 +51,10 @@ MetadataCensus::Application.routes.draw do
 
   end
 
-  get 'repositories/leaderboard'
-
   root :to => 'static_pages#home'
 
   get '/metrics', to: 'metrics#overview'
   get '/metrics/status', to: 'metrics#status'
-
-  get '/repositories/map', to: 'repositories#map'
-  get '/metadata', to: 'metadata#select'
 
   mount Sidekiq::Web, at: '/sidekiq'
 

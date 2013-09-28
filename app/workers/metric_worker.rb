@@ -26,7 +26,6 @@ class MetricWorker
       at(i + 1, @metadata.length)
     end
 
-    require 'pry'; binding.pry
     update_snapshot(metric, scores)
   end
 
