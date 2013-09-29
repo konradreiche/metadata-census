@@ -89,7 +89,7 @@ $ ->
       data.push({ group: key, score: value })
 
     margin =
-      top: 40
+      top: 0
       right: 20
       bottom: 30
       left: 40
