@@ -14,6 +14,9 @@ module Metrics
 
     def self.description
       description = <<-TEXT.strip_heredoc
+      The intrinsic precision measures measures common spelling mistakes. Only
+      fields containing continious text, like notes or resource description are
+      tested for the spelling mistakes.
       TEXT
     end
 

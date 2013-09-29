@@ -22,12 +22,14 @@ class MetricsController < ApplicationController
   # specific partial or a generic partial is returned as fallback.
   #
   def select_partial
-    partials = "app/views/metrics/partials"
+    partials = "metrics/partials"
+    directory = "app/views/" + partials
+
     ancestors = Metrics.from_sym(@metric).ancestors
     ancestors = ancestors.select { |cls| cls < Metrics::Metric }
-    
-    ancestors.map { |cls| cls.to_s.underscore }.each do |candidate|
-      file = "#{partials}/_#{candidate}.html.erb"
+ 
+    ancestors.map { |cls| cls.to_s.demodulize.underscore }.each do |candidate|
+      file = "#{directory}/_#{candidate}.html.erb"
       return "#{partials}/#{candidate}" if File.exists?(file)
     end
 
