@@ -15,7 +15,8 @@ module AnalysisManager
 
     @analysis = analyzer.analyze(@repository, @metric)
     gon.analysis = @analysis
-  rescue NameError
+  rescue NameError => e
+    Rails.logger.error e
     analyzer = Analyzer::Generic
     @analysis = analyzer.analyze(@repository, @metric)
     gon.analysis = @analysis
