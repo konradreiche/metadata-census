@@ -10,7 +10,7 @@ module AnalysisManager
 
   private
   def analyze
-    specific = @metric.to_s.camelcase
+    specific = @metric.to_s.underscore.camelcase
     analyzer = "Analyzer::#{specific}".constantize
 
     @analysis = analyzer.analyze(@repository, @metric)
