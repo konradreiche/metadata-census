@@ -53,10 +53,12 @@ module RepositoriesHelper
 
   ## Creates the repository selector for the breadcrumb navigation.
   #
-  def repository_selector(link_method)
+  def repository_selector(path, parameter)
     locals = { entities: @repositories,
                link_text: @repository.name,
-               link_method: link_method }
+               path: path,
+               parameter: parameter }
+
 
     content = render(partial: 'shared/dropdown_menu', locals: locals)
     content_tag(:li, content, class: 'repository selector')

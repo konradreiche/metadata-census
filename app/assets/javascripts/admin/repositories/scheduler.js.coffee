@@ -164,6 +164,7 @@ $ ->
           timeCell.addClass("time")
           $(".status.#{metric}").next("tr").append(timeCell)
 
+
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)
     initInterface()
