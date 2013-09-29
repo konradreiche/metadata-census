@@ -15,7 +15,7 @@ module Metrics
 
     def self.words(text)
       text.scan(/\S+/).map do |word|
-        word.delete %{,.;"!:'?()}
+        word.split(/(\p{Letter}.*\p{Letter})/)[1]
       end
     end
 

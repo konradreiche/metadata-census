@@ -33,7 +33,7 @@ module Metrics
           score = 1.0
 
           misspelled = @misspelling[language].keys.select do |misspelling|
-            Metric.words(text).any? { |word| word.include?(misspelling) }
+            Metric.words(text).any? { |word| word == misspelling }
           end.uniq
 
           path = value.is_a?(Array) ? accessor + [i + 1] : accessor
