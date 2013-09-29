@@ -75,12 +75,10 @@
                   <% item = item.with_indifferent_access %>
                   <tr>
                     <th><%= item[:field].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                    <th><%= item[:misspelled] %></th>
+                    <th><%= item[:misspelled].length %></th>
                   </tr>
                   <tr>
-                    <%= value = html_escape Metrics::Metric.value(@documents[i].record, item[:field]) %>
-                    <%= item[:misspelled].each { |w| value = value.gsub(/#{w}/, content_tag(:span, w, class: 'misspelled')) unless value.nil? } %>
-                    <%= content_tag(:td, value.nil? ? value : value.html_safe, colspan: '2')%>
+                    <%= content_tag(:td, highlight_misspellings(item, i), colspan: '2')%>
                   </tr>
                 <% end %>
               </tbody>

@@ -41,4 +41,16 @@ module MetricsHelper
     field.titleize()
   end
 
+  def highlight_misspellings(analysis, i)
+    accessor = analysis[:field]
+    value = html_escape(Metrics::Metric.value(@documents[i].record, accessor))
+
+    analysis[:misspelled].each do |misspelling|
+      span = content_tag(:span, misspelling, class: 'misspelled')
+      value = value.gsub(misspelling, span)
+    end
+
+    value.html_safe unless value.nil?
+  end
+
 end
