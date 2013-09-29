@@ -21,7 +21,7 @@
       <tbody>
         <% @metrics.each do |metric| %>
           <tr class="status <%= metric %>">
-            <td rowspan="2"><%= content_tag(:a, metric.to_s.titlecase, href: "/repository/#{@repository.id}/metric/#{metric}") %></td>
+            <td rowspan="2"><%= link_to metric.to_s.titlecase, repository_metric_path(repository_id: @repository, id: metric)  %></td>
             <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :analyze) %></div></td>
             <td class="admin control status" rowspan="2">
               <%= content_tag(:span, 'Queued', class: "label label-warning", id: metric) %>
