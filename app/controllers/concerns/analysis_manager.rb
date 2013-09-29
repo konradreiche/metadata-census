@@ -1,5 +1,8 @@
-module Analyses
+module AnalysisManager
   extend ActiveSupport::Concern
+
+  include RepositoryManager
+  include MetricManager
 
   included do
     before_filter :analyze

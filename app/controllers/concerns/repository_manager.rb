@@ -1,4 +1,4 @@
-module Repositories
+module RepositoryManager
   extend ActiveSupport::Concern
 
   included do

@@ -1,4 +1,4 @@
-module Metrics
+module MetricManager
   extend ActiveSupport::Concern
 
   included do
@@ -6,7 +6,7 @@ module Metrics
   end
 
   private
-  def metrics
+  def metric
     @metric = (params[:metric_id] || params[:id]).to_sym
     gon.metric = @metric
   end

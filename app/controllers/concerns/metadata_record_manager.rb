@@ -1,8 +1,8 @@
-module MetadataRecords
+module MetadataRecordManager
   extend ActiveSupport::Concern
 
-  include Repositories
-  include Metrics
+  include RepositoryManager
+  include MetricManager
 
   included do
     before_filter :records

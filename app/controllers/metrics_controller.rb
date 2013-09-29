@@ -1,8 +1,8 @@
 require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
-  include MetadataRecords
-  include Analyses
+  include MetadataRecordManager
+  include AnalysisManager
 
   helper_method :metric_score, :record, :select_partial
 
@@ -10,8 +10,6 @@ class MetricsController < ApplicationController
   end
 
   def show
-    analyze()
-
     score = @repository.snapshots.last.send(@metric)
     @score = Metrics::normalize(@metric, score[:average])
     gon.score = @score
