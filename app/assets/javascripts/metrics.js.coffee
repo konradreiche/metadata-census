@@ -194,7 +194,7 @@ $ ->
           text.wrap($("<a>", attributes))
     , 500)
 
-  if getPath(2) == 'metric'
+  if getPath(2) == 'metrics'
     sm = new ScoreMeter(".metric.score-meter", gon.score)
     initRecordSearch(i) for i in [0..1]
     initPieChart(gon.analysis.details)

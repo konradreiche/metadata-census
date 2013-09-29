@@ -7,8 +7,12 @@ module MetricManager
 
   private
   def metric
-    @metric = (params[:metric_id] || params[:id]).to_sym
-    gon.metric = @metric
+    id = params[:metric_id] || params[:id]
+
+    unless id.nil?
+      @metric = id.to_sym
+      gon.metric = @metric
+    end
   end
 
   def metrics

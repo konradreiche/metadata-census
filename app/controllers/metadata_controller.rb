@@ -1,11 +1,5 @@
 class MetadataController < ApplicationController
-  include Concerns::Repository
-
-  before_filter :init
-
-  def init
-    load_repositories(:repository_id)
-  end
+  include RepositoryManager
 
   def search
     query = params[:term]
