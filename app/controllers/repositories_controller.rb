@@ -1,20 +1,10 @@
 class RepositoriesController < ApplicationController
-  include Concerns::Repository
-  include Concerns::Metric
+  include Repositories
+  include Metrics
 
-  before_filter :init, except: [:index]
   helper_method :metric_score
 
-  ## 
-  # Load additional resources
-  #
-  def init
-    load_repositories(:repository)
-    load_metrics()
-  end
-
   def index
-    load_all_repositories()
   end
   
   def show

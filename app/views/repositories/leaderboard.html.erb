@@ -4,7 +4,7 @@
       <th>Rank</th>
       <th>Repository</th>
       <th>Score</th>
-      <% Metrics.list.each do |metric| %>
+      <% Metrics.all.each do |metric| %>
         <th><%= metric.to_s.titlecase %></th>
       <% end %>
     </thead>
@@ -14,7 +14,7 @@
           <td><%= i + 1 %></td>
           <td><%= link_to repository.name, repository %></td>
           <td><%= '%.2f' % repository.score %></td>
-          <% Metrics.list.each do |metric| %>
+          <% Metrics.all.each do |metric| %>
             <% result = repository.snapshots.last.maybe(metric) %>
             <% score = if result.nil? then nil else result[:average] end %>
             <td><%= if score.nil? then '?' else '%.2f' % score end %></td>

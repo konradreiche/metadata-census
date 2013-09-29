@@ -9,9 +9,11 @@ MetadataCensus::Application.routes.draw do
 
   constraints({ id: id_regex, repository_id: id_regex }) do
 
-    resource :repositories do
-      get 'leaderboard'
-      get 'map'
+    resource :repository, only: [] do
+      member do
+        get 'leaderboard'
+        get 'map'
+      end
     end
 
     resources :repositories do

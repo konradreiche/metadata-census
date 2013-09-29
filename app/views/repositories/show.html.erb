@@ -19,7 +19,7 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal" role="form">
-          <% Metrics.list.each do |metric| %>
+          <% Metrics.all.each do |metric| %>
             <div class="form-group">
               <%= content_tag(:label, metric.to_s.titlecase, for: metric, class: 'col-md-4 control-label') %>
               <div class="col-md-8">
@@ -48,7 +48,7 @@
         </tr>
       </thead>
       <tbody>
-        <% Metrics.list.each do |metric| %>
+        <% Metrics.all.each do |metric| %>
           <tr>
             <td><%= metric.to_s.titlecase %></td>
             <td><input type="range"></td>

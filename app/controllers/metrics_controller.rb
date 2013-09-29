@@ -13,12 +13,11 @@ class MetricsController < ApplicationController
   end
 
   def show
-    load_repositories(:repository_id)
-    load_metrics(:id)
+    load_repositories()
+    load_metrics()
     load_records()
 
     analyze()
-    gon.analysis = @analysis
 
     score = @repository.snapshots.last.send(@metric)
     @score = Metrics::normalize(@metric, score[:average])

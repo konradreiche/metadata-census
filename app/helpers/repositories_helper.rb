@@ -42,7 +42,7 @@ module RepositoriesHelper
               action: 'show',
               metric: @metric.to_s }
     if current_page?(route)
-      locals = { entities: Metrics.list,
+      locals = { entities: Metrics.all,
                  link_text: @metric.to_s.titlecase,
                  link_method: :create_metric_analysis_link }
 

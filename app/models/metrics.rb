@@ -1,6 +1,6 @@
 module Metrics
 
-  def self.list
+  def self.all
     initialize if Rails.env.development?
     cls = Metrics::Metric
     cls.metrics

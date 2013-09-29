@@ -8,7 +8,7 @@ class MetadataRecord
 
   field :record, type: Hash
 
-  Metrics::list.each do |metric|
+  Metrics.all.each do |metric|
     field metric, type: Hash
   end
 
