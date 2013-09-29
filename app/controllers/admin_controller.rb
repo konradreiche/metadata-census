@@ -1,9 +1,8 @@
 class AdminController < ApplicationController
-  include Concerns::Repository
+  include RepositoryManager
 
   def scheduler
-    load_repositories()
-    redirect_to controller: "admin/repositories", action: "scheduler", repository_id: @repository
+    redirect_to controller: "admin/repositories", action: "scheduler", repository_id: @repositories.first
   end
 
 end

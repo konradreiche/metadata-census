@@ -2,10 +2,9 @@ require 'yajl'
 require 'yajl/gzip'
 
 class Admin::RepositoriesController < ApplicationController
-  include Concerns::Repository
-  include Concerns::Metric
+  include RepositoryManager
+  include MetricManager
 
-  before_filter :init, :only => [:scheduler, :status]
   helper_method :repository_count
 
   def create
@@ -106,11 +105,6 @@ class Admin::RepositoriesController < ApplicationController
     repository_hash.delete_if do |attribute, value|
       not Repository.fields.include?(attribute)
     end
-  end
-
-  def init
-    load_repositories(:repository_id)
-    load_metrics()
   end
     
 end

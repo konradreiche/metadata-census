@@ -1,10 +1,8 @@
 require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class Admin::MetricsController < ApplicationController
-  include Concerns::Repository
-  include Concerns::Metric
-
-  before_filter :init
+  include RepositoryManager
+  include MetricManager
 
   def schedule
     worker = MetricWorker.worker_class(@metric)
@@ -34,12 +32,5 @@ class Admin::MetricsController < ApplicationController
 
     render json: result
   end
-
-  private
-  def init
-    load_repositories(:repository_id)
-    load_metrics(:metric_id)
-  end
-
 
 end

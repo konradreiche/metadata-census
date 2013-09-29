@@ -3,13 +3,7 @@ require 'yajl'
 require 'yajl/gzip'
 
 class Admin::SnapshotsController < ApplicationController
-  include Concerns::Repository
-
-  before_filter :init
-
-  def init
-    load_repositories(:repository_id)
-  end
+  include RepositoryManager
 
   def create
     file = params[:file]
