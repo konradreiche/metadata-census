@@ -1,15 +1,11 @@
 require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
-  include Repositories
-  include Metrics
   include MetadataRecords
-  include Analysis
+  include Analyses
 
   helper_method :metric_score, :record, :select_partial
 
-  @@jobs = Hash.new { |hash, key| hash[key] = Hash.new }
-  
   def overview
   end
 
@@ -19,29 +15,6 @@ class MetricsController < ApplicationController
     score = @repository.snapshots.last.send(@metric)
     @score = Metrics::normalize(@metric, score[:average])
     gon.score = @score
-  end
-
-  def status
-    status = Hash.new { |hash, key| hash[key] = Hash.new }
-    @@jobs.each do |repository, metrics|
-      metrics.each  do |metric, id|
-        status[repository][metric] = Sidekiq::Status::get_all(id)
-        percent = Sidekiq::Status::pct_complete(id)
-        status[repository][metric]['percent'] = percent.finite? ? percent : 0.0
-      end
-    end
-    render :json => status
-  end
-
-  def compute
-    load_repositories(:repository)
-    load_metrics(:metric)
-
-    worker = MetricWorker.worker_class(@metric)
-    id = worker.send(:perform_async, @repository.name, @metric)
-    @@jobs[@repository.name][@metric] = id
-
-    render :nothing => true
   end
 
   ##

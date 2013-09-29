@@ -1,6 +1,9 @@
 module MetadataRecords
   extend ActiveSupport::Concern
 
+  include Repositories
+  include Metrics
+
   included do
     before_filter :records
   end
