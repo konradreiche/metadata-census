@@ -1,4 +1,4 @@
-module Analysis
+module Analyzer
   class WeightedCompleteness < Completeness
 
     def self.analyze(repository, metric)

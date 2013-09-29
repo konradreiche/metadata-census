@@ -53,4 +53,25 @@ module MetricsHelper
     value.html_safe unless value.nil?
   end
 
+  def repository_metric_repository_menu
+    locals = { display: @repository.name,
+               entities: @repositories,
+               :parameter => :repository_id,
+               :path => :repository_metric_path }
+
+    partial = render partial: 'shared/dropdown_menu', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
+  end
+
+  def repository_metric_metric_menu
+    locals = { display: @metric.to_s.titleize,
+               entities: Metrics.all.map { |m| Metrics.from_sym(m) },
+               :parameter => :id,
+               :path => :repository_metric_path }
+
+    partial = render partial: 'shared/dropdown_menu', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
+  end
+  
+
 end

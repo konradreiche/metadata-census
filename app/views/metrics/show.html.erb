@@ -1,7 +1,9 @@
 <h1>Metric Report</h1>
 <h2><%= @metric.to_s.titlecase %></h2>
-<%= render partial: 'shared/repository_breadcrumb', locals: { :path => :repository_metric_path,
-                                                              parameter: { repository_id: @repository } } %>
+<%= render layout: 'shared/repository_breadcrumb' do %>
+  <%= repository_metric_repository_menu %>
+  <%= repository_metric_metric_menu %>
+<% end %>
 <div class="row dashboard">
   <div class="col-md-2 col-md-offset-1">
     <div class="metric score-meter"></div>

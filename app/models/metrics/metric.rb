@@ -1,12 +1,18 @@
 module Metrics
   class Metric
 
-    def name
-      self.class.to_sym
+    @stripper = Regexp.compile /(\p{Letter}.*\p{Letter})/
+
+    def self.name
+      self.to_s.demodulize.titleize
+    end
+
+    def self.id
+      self.to_sym
     end
     
     def self.to_sym
-      self.name.demodulize.underscore.dasherize.to_sym
+      self.to_s.demodulize.underscore.dasherize.to_sym
     end
 
     def self.description
@@ -15,7 +21,7 @@ module Metrics
 
     def self.words(text)
       text.scan(/\S+/).map do |word|
-        word.split(/(\p{Letter}.*\p{Letter})/)[1]
+        word.split(@stripper)[1]
       end
     end
 

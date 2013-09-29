@@ -51,19 +51,6 @@ module RepositoriesHelper
     end
   end
 
-  ## Creates the repository selector for the breadcrumb navigation.
-  #
-  def repository_selector(path, parameter)
-    locals = { entities: @repositories,
-               link_text: @repository.name,
-               path: path,
-               parameter: parameter }
-
-
-    content = render(partial: 'shared/dropdown_menu', locals: locals)
-    content_tag(:li, content, class: 'repository selector')
-  end
-
   def repository_analysis_link(repository)
     href = "/repository/#{repository.name}"
     content_tag(:a, repository.name, href: href)
@@ -83,6 +70,16 @@ module RepositoriesHelper
       end
     end
     record_identifier
+  end
+
+  def repository_menu
+    locals = { display: @repository.name,
+               entities: @repositories,
+               :parameter => :id,
+               :path => :repository_path }
+
+    partial = render partial: 'shared/dropdown_menu', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
   end
 
 end
