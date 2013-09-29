@@ -8,14 +8,16 @@ module RepositoryManager
   def repository
     id = params[:repository_id] || params[:id]
 
-    unless id.nil?
+    if id.nil?
+      @repository = Repository.all.first
+    else
       @repository = Repository.find(id)
-      gon.repository = @repository
     end
+      gon.repository = @repository
   end
 
   def repositories
-    @repositories = Repository.all
+    @repositories = Repository.all.to_a
     gon.repositories = @repositories
   end
 
