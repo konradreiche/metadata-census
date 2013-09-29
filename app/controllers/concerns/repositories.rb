@@ -9,13 +9,13 @@ module Repositories
     id = params[:repository_id] || params[:id]
 
     unless id.nil?
-      @repository = ::Repository.find(id)
+      @repository = Repository.find(id)
       gon.repository = @repository
     end
   end
 
   def repositories
-    @repositories = ::Repository.all
+    @repositories = Repository.all
     gon.repositories = @repositories
   end
 

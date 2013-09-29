@@ -1,8 +1,9 @@
 require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
-  include Concerns::Repository
-  include Concerns::Metric 
+  include Repositories
+  include Metrics
+  include MetadataRecords
   include Analysis
 
   helper_method :metric_score, :record, :select_partial
@@ -13,10 +14,6 @@ class MetricsController < ApplicationController
   end
 
   def show
-    load_repositories()
-    load_metrics()
-    load_records()
-
     analyze()
 
     score = @repository.snapshots.last.send(@metric)
@@ -45,20 +42,6 @@ class MetricsController < ApplicationController
     @@jobs[@repository.name][@metric] = id
 
     render :nothing => true
-  end
-
-  ##
-  # Loads the metadata records in order to populate the metric view.
-  #
-  def load_records
-    if params[:documents].nil?
-      snapshot = @repository.latest_snapshot
-      @documents = [snapshot.best_record(@metric),
-                    snapshot.worst_record(@metric)]
-    else
-      @documents = params[:documents].map { |id| MetadataRecord.find(id) }
-    end
-    gon.documents = @documents
   end
 
   ##

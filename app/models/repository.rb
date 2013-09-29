@@ -58,10 +58,6 @@ class Repository
     sum / metrics.length
   end
 
-  def latest_snapshot
-    snapshots.sort.last
-  end
-
   def <=>(other)
     self.score <=> other.score
   end
