@@ -20,7 +20,7 @@ class Admin::MetricsController < ApplicationController
 
   def last_updated
     snapshot = @repository.snapshots.last
-    date = snapshot.send(@metric).to_h[:last_updated]
+    date = snapshot.send(@metric).maybe[:last_updated]
 
     if date.nil?
       result = { date: 'N/A', time: 'N/A' }

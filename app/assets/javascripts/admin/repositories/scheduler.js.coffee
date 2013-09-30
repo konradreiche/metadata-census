@@ -140,30 +140,35 @@ $ ->
     return true
 
   ###
+  The callback function for the last_updated AJAX request.
+  ###
+  setDateTime = (metric) ->
+    return (response) =>
+
+      if response.date == 'N/A' or response.time == 'N/A'
+        return
+
+      dateCell = $(".status.#{metric} .date")
+      timeCell = $(".status.#{metric}").next("tr").children(".time")
+
+      if timeCell.exists()
+        dateCell.text(response.date)
+        timeCell.text(response.time)
+      else
+        dateCell.text(response.date)
+        dateCell.removeAttr("rowspan")
+        timeCell = $("<td>#{response.time}</td>")
+        timeCell.addClass("time")
+        $(".status.#{metric}").next("tr").append(timeCell)
+
+  ###
   Fetches and dispalys the last updated date and time of the metric.
   ###
   updateDateTime = (metric) ->
 
     for metric in gon.metrics
       url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
-      $.getJSON url, (response) ->
-
-        if response.date == 'N/A' or response.time == 'N/A'
-          return
-
-        dateCell = $(".status.#{metric} .date")
-        timeCell = $(".status.#{metric}").next("tr").children(".time")
-
-        if timeCell.exists()
-          dateCell.text(response.date)
-          timeCell.text(response.time)
-        else
-          dateCell.text(response.date)
-          dateCell.removeAttr("rowspan")
-          timeCell = $("<td>#{response.time}</td>")
-          timeCell.addClass("time")
-          $(".status.#{metric}").next("tr").append(timeCell)
-
+      $.getJSON url, setDateTime(metric)
 
   id = gon.repository.id
   if root.isPath("/admin/repositories/:repository_id/scheduler", id)

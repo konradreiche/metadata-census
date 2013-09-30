@@ -75,7 +75,7 @@
                   <% item = item.with_indifferent_access %>
                   <tr>
                     <th><%= item[:field].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                    <th><%= item[:misspelled].length %></th>
+                    <th>Misspellings: <%= item[:misspelled].length %></th>
                   </tr>
                   <tr>
                     <%= content_tag(:td, highlight_misspellings(item, i), colspan: '2')%>
