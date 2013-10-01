@@ -16,7 +16,6 @@ module Metrics
     end
 
     def self.description
-      ""
     end
 
     def self.words(text)

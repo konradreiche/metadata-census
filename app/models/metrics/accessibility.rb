@@ -80,6 +80,14 @@ module Metrics
     def self.normalize?
       true
     end
+    
+    def self.description
+      <<-TEXT.strip_heredoc
+      The accessibility metric measures the metadata records in mean of
+      cognitive accessibility. In order to measure the accessibility different
+      reading indices are used.
+      TEXT
+    end
 
   end
 end

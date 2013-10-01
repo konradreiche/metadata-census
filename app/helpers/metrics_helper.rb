@@ -72,6 +72,14 @@ module MetricsHelper
     partial = render partial: 'shared/dropdown_menu', locals: locals
     content_tag(:li, partial, class: 'repository selector')
   end
-  
+
+  def description
+    description = Metrics.from_sym(@metric).description
+
+    text = "[Missing Description]"
+    text = "&ldquo;#{description}&rdquo;" unless description.nil?
+    
+    content_tag(:p, text.html_safe, class: 'description')
+  end
 
 end
