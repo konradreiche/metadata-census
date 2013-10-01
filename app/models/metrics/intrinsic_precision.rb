@@ -32,8 +32,9 @@ module Metrics
         Array(value).each_with_index do |text, i|
           score = 1.0
 
-          misspelled = @misspelling[language].keys.select do |misspelling|
-            Metric.words(text).any? { |word| word == misspelling }
+          misspelled = Metric.words(text).inject([]) do |misspellings, word|
+            misspellings << word if @misspelling[language].key?(word)
+            misspellings
           end.uniq
 
           path = value.is_a?(Array) ? accessor + [i + 1] : accessor

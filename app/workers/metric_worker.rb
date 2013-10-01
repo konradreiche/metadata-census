@@ -12,7 +12,7 @@ class MetricWorker
     store :stage => :compute
     logger.info('Compute metadata scores')
 
-    @metadata.each_with_index do |document, i|
+    @metadata.no_timeout.each_with_index do |document, i|
       document[metric] = Hash.new if document[metric].nil?
 
       record = document.record
@@ -26,6 +26,7 @@ class MetricWorker
       at(i + 1, @metadata.length)
     end
 
+    Sidekiq.info("Finished. Update snapshot")
     update_snapshot(metric, scores)
   end
 
