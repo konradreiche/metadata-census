@@ -26,7 +26,6 @@ class MetricWorker
       at(i + 1, @metadata.length)
     end
 
-    Sidekiq.info("Finished. Update snapshot")
     update_snapshot(metric, scores)
   end
 
