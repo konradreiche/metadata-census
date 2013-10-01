@@ -12,7 +12,7 @@ class MetricWorker
     store :stage => :compute
     logger.info('Compute metadata scores')
 
-    @metadata.no_timeout.each_with_index do |document, i|
+    @metadata.each_with_index do |document, i|
       document[metric] = Hash.new if document[metric].nil?
 
       record = document.record
@@ -24,6 +24,8 @@ class MetricWorker
 
       scores << score
       at(i + 1, @metadata.length)
+
+      logger.info("At #{i + 1} of #{@metadata.length}")
     end
 
     update_snapshot(metric, scores)
