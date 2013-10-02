@@ -19,11 +19,18 @@ module Metrics
         dataset[:resources].to_a.each do |resource|
           @total += 1
           url = URI.unescape(resource[:url])
+
           id = dataset[:id]
+          raise KeyError, 'Record ID must not be null' if id.nil?
+
           enqueue_request(id, url)
         end
         @worker.at(i, @total) unless @worker.nil?
       end
+    end
+
+    def run
+      @dispatcher.run
     end
 
     def compute(record)
@@ -47,7 +54,7 @@ module Metrics
       end
     end
 
-    def enqueue_request(id, url, cto=120, method=:head, try=1)
+    def enqueue_request(id, url, cto=3, method=:head, try=1)
 
       config = { headers: { 'User-Agent' => 'curl/7.29.0' },
                  ssl_verifypeer: false,
@@ -56,22 +63,26 @@ module Metrics
                  connecttimeout: cto,
                  method: method,
                  nosignal: true,
-                 timeout: 180 }
+                 timeout: 5 }
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         response_value = response_value(response)
-        if response.timed_out? && try <= 3
-          @requests -= 1
-          enqueue_request(id, url, cto + 60, method, try + 1)
-        elsif client_error?(response_value, method)
-          @requests -= 1
-          enqueue_request(id, url, cto, :get, try)
-        else
-          @resource_availability[id][url] = response_value
-          @worker.at(@processed + 1, @requests) unless @worker.nil?
-          @processed += 1
-        end
+        #if response.timed_out? && try <= 3
+        #  @requests -= 1
+        #  enqueue_request(id, url, cto + 60, method, try + 1)
+        #  Sidekiq.logger.info("Time out on #{url}")
+        #elsif client_error?(response_value, method)
+        #  @requests -= 1
+        #  enqueue_request(id, url, cto, :get, try)
+        #  Sidekiq.logger.info("Client error on #{url}")
+        #else
+        @resource_availability[id][url] = response_value
+        @worker.at(@processed + 1, @requests) unless @worker.nil?
+        Sidekiq.logger.info("#{@processed + 1} of #{@requests}")
+        @processed += 1
+        Sidekiq.logger.info(@dispatcher.queued_requests) if @dispatcher.queued_requests.length < 4
+        #end
       end
       @dispatcher.queue(request)
       @requests += 1

@@ -10,10 +10,12 @@ class LinkCheckerMetricWorker <  MetricWorker
     store stage: :analyze
     logger.info('Analyzing metadata')
 
-    @metadata = @metadata.only(:id, :"record.resources.url").to_a
+    @metadata = @metadata.only("record.id", "record.resources.url").to_a
 
     records = @metadata.map { |document| document.record }
     @metric = Metrics::LinkChecker.new(records, self)
+    @metric.run()
+
     super
   end
 
