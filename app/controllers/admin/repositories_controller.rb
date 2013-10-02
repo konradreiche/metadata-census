@@ -13,12 +13,12 @@ class Admin::RepositoriesController < ApplicationController
 
     repositories = catalog[:repositories].each do |repository|
       attributes = attribute_hash(repository).with_indifferent_access
-      repository = Repository.find(repository[:id])
+      repository = Repository.where(id: repository[:id])
 
-      if repository.nil?
+      if not repository.exists?
         repository = Repository.create!(attributes)
       else
-        repository.update_attributes!(attributes)
+        repository.first.update_attributes!(attributes)
       end
     end
 

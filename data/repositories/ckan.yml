@@ -1,3 +1,4 @@
+---
 name: CKAN Repositories
 
 repositories:
@@ -23,7 +24,7 @@ repositories:
       type: CKAN
       location: Brussels, Belgium
       language: English
-      rows: 100000
+      rows: 250
 
     - id: catalogodatos.gub.uy
       name: catalogodatos.gub.uy
@@ -31,7 +32,7 @@ repositories:
       type: CKAN
       location: Montevideo, Uruguay
       language: Spanish
-      rows: 100000
+      rows: 1000
 
     - id: data.qld.gov.au
       name: data.qld.gov.au
@@ -39,7 +40,7 @@ repositories:
       type: CKAN
       location: Queensland, Australia
       language: English
-      rows: 100000
+      rows: 1000
 
     - id: catalog.data.gov
       name: catalog.data.gov
@@ -47,11 +48,20 @@ repositories:
       type: CKAN
       location: Washington, DC, USA
       language: English
-      rows: 100000
+      rows: 1000
+      disabled: true
 
     - id: opendata.admin.ch
       name: opendata.admin.ch
       url: http://opendata.admin.ch/api
       type: CKAN
       location: Bern, Switzerland
-      language: German
+      rows: 1000
+
+    - id: data.gc.ca
+      name: data.gc.ca
+      url: http://data.gc.ca/data/en/api
+      type: CKAN
+      location: Ottawa, Canada
+      language: English
+      rows: 1000
