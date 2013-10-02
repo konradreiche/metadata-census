@@ -14,8 +14,8 @@ Bundler.require(:default, Rails.env)
 module MetadataCensus
   class Application < Rails::Application
 
-    Mongoid.logger.level = Logger::DEBUG
-    Moped.logger.level = Logger::DEBUG
+    Mongoid.logger.level = Logger::INFO
+    Moped.logger.level = Logger::INFO
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
