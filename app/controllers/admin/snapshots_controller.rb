@@ -17,12 +17,11 @@ class Admin::SnapshotsController < ApplicationController
           attributes = filter_header(parsed)
           snapshot = Snapshot.create!(attributes)
         when Array
-          parsed.each do |metadata|
+          records = parsed.map do |metadata|
             id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
-            attributes = { id: id, record: metadata }
-            metadata = MetadataRecord.create!(attributes)
-            snapshot.metadata_records << metadata
+            attributes = { id: id, record: metadata, snaphot_id: snapshot.id }
           end
+          MetadataRecord.collection.insert(records)
         else
           raise TypeError, "Unknown type #{parsed.class}"
         end
@@ -43,11 +42,13 @@ class Admin::SnapshotsController < ApplicationController
     gz = Zlib::GzipReader.new(file)
     parser = Yajl::Parser.new
     parser.on_parse_complete = Proc.new { |obj| yield(obj) }
-    parser << gz.read
+    while not gz.eof?
+      parser << gz.readchar
+    end
   end
 
   def filter_header(header)
-    fields = Snapshot.fields.keys.map(&:to_sym)
+    fields = Snapshot.fields.keys
     header.keys.inject({}) do |filtered, key|
       filtered[key] = header[key] if fields.include?(key)
       filtered
