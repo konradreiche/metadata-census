@@ -34,6 +34,11 @@ class Admin::SnapshotsController < ApplicationController
     render nothing: true
   end
 
+  def destroy
+    @snapshot.delete
+    render nothing: true
+  end
+
   def parse_metadata(file)
     gz = Zlib::GzipReader.new(file)
     parser = Yajl::Parser.new(symbolize_keys: true)

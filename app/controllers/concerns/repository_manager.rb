@@ -18,7 +18,8 @@ module RepositoryManager
   end
 
   def snapshot
-    
+    id = params[:snapshot_id] || params[:id]
+    @snapshot = Snapshot.where(id: id).first
   end
 
   def repositories

@@ -6,7 +6,7 @@ class Snapshot
 
   validates_presence_of :date
 
-  has_many :metadata_records
+  has_many :metadata_records, :dependent => :destroy
 
   field :date, type: Date
 
