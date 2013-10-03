@@ -61,7 +61,8 @@ module Metrics
                  connecttimeout: 60,
                  method: method,
                  nosignal: true,
-                 timeout: 240 }
+                 timeout: 240,
+                 verbose: true }
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|

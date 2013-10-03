@@ -131,6 +131,8 @@ describe Metrics::Accessibility do
     expect(score).to be(86.71000000000001)
 
     score, analysis = accessibility.compute({ :notes => text })
+
+    expect(analysis).to eq([{ score: score, field: [:notes] }])
     expect(score).to be(86.71000000000001)
 
   end
