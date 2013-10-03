@@ -19,7 +19,7 @@ class Admin::SnapshotsController < ApplicationController
         when Array
           records = parsed.map do |metadata|
             id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
-            attributes = { id: id, record: metadata, snaphot_id: snapshot.id }
+            attributes = { id: id, record: metadata, snapshot_id: snapshot.id }
           end
           MetadataRecord.collection.insert(records)
         else
@@ -34,6 +34,7 @@ class Admin::SnapshotsController < ApplicationController
   end
 
   def destroy
+    require 'pry'; binding.pry
     @snapshot.delete
     render nothing: true
   end
@@ -43,7 +44,7 @@ class Admin::SnapshotsController < ApplicationController
     parser = Yajl::Parser.new
     parser.on_parse_complete = Proc.new { |obj| yield(obj) }
     while not gz.eof?
-      parser << gz.readchar
+      parser << gz.readline
     end
   end
 

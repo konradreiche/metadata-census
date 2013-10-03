@@ -9,6 +9,6 @@ class Job
   field :repository
   field :metric
 
-  field :_id, default: -> { Digest::MD5.hexdigest("#{repository} #{metric}") }
+  field :_id, type: String, overwrite: true, default: -> { Digest::MD5.hexdigest("#{repository} #{metric}") }
 
 end

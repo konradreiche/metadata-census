@@ -170,8 +170,9 @@ $ ->
       url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
       $.getJSON url, setDateTime(metric)
 
-  id = gon.repository.id
-  if root.isPath("/admin/repositories/:repository_id/scheduler", id)
-    initInterface()
-    updateInterface()
-    statusLoop(id)()
+  if gon?
+    id = gon.repository.id
+    if root.isPath("/admin/repositories/:repository_id/scheduler", id)
+      initInterface()
+      updateInterface()
+      statusLoop(id)()
