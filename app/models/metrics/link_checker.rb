@@ -52,12 +52,11 @@ module Metrics
       end
     end
 
-    def enqueue_request(id, url, method=:head)
+    def enqueue_request(id, url, method=:head, redirect=0)
 
       config = { headers: { 'User-Agent' => 'curl/7.29.0' },
                  ssl_verifypeer: false,
                  ssl_verifyhost: 2,  # disable host verification
-                 followlocation: true,
                  connecttimeout: 60,
                  method: method,
                  nosignal: true,
@@ -67,9 +66,13 @@ module Metrics
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         response_value = response_value(response)
-        if client_error?(response_value, method)
+        if redirect?(response.code) and redirect < 10
           @requests -= 1
-          enqueue_request(id, url, :get)
+          follow = response.headers[:location]
+          enqueue_request(id, follow, method, redirect + 1)
+        elsif client_error?(response_value, method)
+          @requests -= 1
+          enqueue_request(id, url, :get, redirect)
         else
           @resource_availability[id][url] = response_value
           @worker.at(@processed + 1, @requests) unless @worker.nil?
@@ -91,6 +94,10 @@ module Metrics
     def client_error?(response, method)
       method == :head && response.is_a?(Fixnum) &&
         response >= 400 && response < 500 
+    end
+
+    def redirect?(response_code)
+      response_code == 301 || response_code == 302
     end
 
     def response_value(response)

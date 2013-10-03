@@ -24,4 +24,14 @@ module AdminHelper::RepositoriesHelper
     content_tag(:li, partial, class: 'repository selector')
   end
 
+  def admin_repository_scheduler_snapshots
+    locals = { display: @repository.name,
+               entities: @repositories,
+               :parameter => :repository_id,
+               :path => :admin_repository_scheduler_path }
+
+    partial = render partial: 'shared/dropdown_menu', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
+  end
+
 end
