@@ -65,7 +65,7 @@ module Metrics
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
-        response_value = response_value(response)
+        response_value = response_value(response, redirect)
         if redirect?(response.code) and redirect < 10
           @requests -= 1
           follow = response.headers[:location]
@@ -100,8 +100,10 @@ module Metrics
       response_code == 301 || response_code == 302
     end
 
-    def response_value(response)
-      if response.success?
+    def response_value(response, redirect)
+      if rediect == 10
+        'Redirect Loop'
+      elsif response.success?
         response.code
       elsif response.timed_out?
         'Timed out'
