@@ -6,35 +6,27 @@ module Metrics
   class Accessibility < Metric
 
     def initialize(language)
+      @fields = { text: [[:notes], [:resources, :description]] }
       @sentence_tokenizer = TactfulTokenizer::Model.new
-      @word_hyphenizer = Text::Hyphen.new(:language => language, :left => 0,
-                                          :right => 0)
+
+      options = { language: language, left: 0, right: 0 }
+      @word_hyphenizer = Text::Hyphen.new(options)
     end
 
-    def compute(data)
-      scores = []
+    def compute(record)
+      scores, analysis = [], []
 
-      if not data[:notes].nil? and not skip?(data[:notes])
-        scores << flesch_reading_ease(data[:notes])
+      @fields[:text].each do |accessor|
+        text = self.class.value(record, accessor)
+        next if skip?(text)
+
+        score = flesch_reading_ease(text)
+        analysis << { field: accessor, score: score }
+        scores << score
       end
 
-      unless data[:resources].nil?
-        data[:resources].each do |resource|
-          if not resource[:description].nil? and not skip?(resource[:description])
-            scores << flesch_reading_ease(resource[:description])
-          end
-        end
-      end
-
-      return score(scores)
-    end
-
-    def score(scores)
-      if scores.empty?
-        0.0
-      else
-        scores.reduce(:+) /scores.size
-      end
+      return 0.0, analysis if scores.empty?
+      return scores.reduce(:+).fdiv(scores.length), analysis
     end
 
     def self.split_to_words(text)

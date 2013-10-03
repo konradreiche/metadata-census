@@ -31,7 +31,7 @@ module Metrics
 
     def compute(data)
       scores = []
-      @analysis = []
+      analysis = []
 
       @fields.each do |type, fields|
         fields.each do  |accessors|
@@ -40,19 +40,19 @@ module Metrics
             value.each_with_index do |item, i|
               next if skip?(item)
               score = richness_of_information(item, type, accessors)
-              @analysis << { field: accessors + [i], score: score }
+              analysis << { field: accessors + [i], score: score }
               scores << score
             end
           else
             next if skip?(value)
             score = richness_of_information(value, type, accessors)
-            @analysis << { field: accessors, score: score }
+            analysis << { field: accessors, score: score }
             scores << score
           end
         end
       end
 
-      return score(scores), @analysis
+      return score(scores), analysis
     end
 
     def score(scores)
@@ -137,10 +137,6 @@ module Metrics
 
     def self.normalize?
       true
-    end
-
-    def analysis
-      @analysis
     end
 
   end

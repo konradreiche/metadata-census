@@ -105,6 +105,7 @@ module Metrics
 
     def determine_mime_types(resource)
       format = resource[:format]
+
       unless format.nil?
         format = format.downcase.split(';').first
         if @@mime_dictionary.has_key?(format)
@@ -113,14 +114,13 @@ module Metrics
       end
 
       format = resource[:mimetype]
-      unless format.nil?
-        return [format]
-      end
-      []
+      return [format] unless format.nil?
+      return []
     end
 
     def enqueue_request(id, url, formats)
-      config = {:method => :head, :timeout => 20, :connecttimeout => 10, :nosignal => true}
+      config = {:method => :head, :timeout => 240, :connecttimeout => 60, :nosignal => true}
+
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         content_type = response.headers['Content-Type']
@@ -132,8 +132,11 @@ module Metrics
       @requests += 1
     end
 
-    def analysis
-      @report
+    def self.description
+      <<-TEXT.strip_heredoc
+      The accuracy metric measures the semantic distance between the metadata
+      record and the actual resource.
+      TEXT
     end
 
   end
