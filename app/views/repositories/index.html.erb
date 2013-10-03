@@ -6,57 +6,60 @@
   <li><a href="#map" data-toggle="pill">Map</a></li>
   <li><a href="#timeline" data-toggle="pill">Timeline</a></li>
 </ul>
-<div class="dashboard row">
-  <div class="col-md-12 pill-content">
-    <div id="index"></div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Datasets</th>
-            <th>URL</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @repositories.each do |repository| %>
+<div class="dashboard">
+  <div class="row">
+    <div class="col-md-12 pill-content">
+      <div id="index" class="pill-pane active">
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td><%= link_to repository.name, repository %></td>
-              <td><%= repository.type %></td>
-              <td><%= count(repository) %></td>
-              <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Datasets</th>
+              <th>URL</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <div id="leaderboard"></div>
-      <table class="repositories leaderboard table table-striped">
-        <thead>
-          <th>Rank</th>
-          <th>Repository</th>
-          <th>Score</th>
-          <% Metrics.all.each do |metric| %>
-            <th><%= metric.to_s.titlecase %></th>
-          <% end %>
-        </thead>
-        <tbody>
-          <% @repositories.sort.reverse.each_with_index do |repository, i| %>
-            <tr>
-              <td><%= i + 1 %></td>
-              <td><%= link_to repository.name, repository %></td>
-              <td><%= '%.2f' % repository.score %></td>
-              <% Metrics.all.each do |metric| %>
-                <% result = repository.snapshots.last.maybe(metric) %>
-                <% score = if result.nil? then nil else result[:average] end %>
-                <td><%= if score.nil? then '?' else '%.2f' % score end %></td>
+          </thead>
+          <tbody>
+            <% @repositories.each do |repository| %>
+              <tr>
+                <td><%= link_to repository.name, repository %></td>
+                <td><%= repository.type %></td>
+                <td><%= count(repository) %></td>
+                <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div id="leaderboard" class="pill-pane">
+        <table class="repositories leaderboard table table-striped">
+          <thead>
+            <th>Rank</th>
+            <th>Repository</th>
+            <th>Score</th>
+            <% Metrics.all.each do |metric| %>
+              <th><%= metric.to_s.titlecase %></th>
+            <% end %>
+          </thead>
+          <tbody>
+            <% @repositories.sort.reverse.each_with_index do |repository, i| %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td><%= link_to repository.name, repository %></td>
+                <td><%= '%.2f' % repository.score %></td>
+                <% Metrics.all.each do |metric| %>
+                  <% result = repository.snapshots.last.maybe(metric) %>
+                  <% score = if result.nil? then nil else result[:average] end %>
+                  <td><%= if score.nil? then '?' else '%.2f' % score end %></td>
+                  <% end %>
+                  <td></td>
+                </tr>
               <% end %>
-              <td></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <div id="map" class="repositories map"></div>
-    <div id="timeline"></div>
+            </tbody>
+          </table>
+        </div>
+        <div id="map" class="pill-pane repositories map"></div>
+        <div id="timeline" class="pill-pane"></div>
+      </div>
+    </div>
   </div>
-</div>
-<%= render 'layouts/repositories' %>
