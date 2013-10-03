@@ -52,29 +52,27 @@ module Metrics
       end
     end
 
-    def enqueue_request(id, url, method=:head, redirect=0)
+    def enqueue_request(id, url, method=:head)
 
       config = { headers: { 'User-Agent' => 'curl/7.29.0' },
                  ssl_verifypeer: false,
                  ssl_verifyhost: 2,  # disable host verification
                  connecttimeout: 60,
+                 maxredirs: 50,
+                 followlocation: true,
                  method: method,
                  nosignal: true,
-                 timeout: 240,
-                 verbose: true }
+                 timeout: 240 }
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
-        response_value = response_value(response, redirect)
-        if redirect?(response.code) and redirect < 10
+        response_message = response_message(response)
+
+        if client_error?(response_message, method)
           @requests -= 1
-          follow = response.headers[:location]
-          enqueue_request(id, follow, method, redirect + 1)
-        elsif client_error?(response_value, method)
-          @requests -= 1
-          enqueue_request(id, url, :get, redirect)
+          enqueue_request(id, url, :get)
         else
-          @resource_availability[id][url] = response_value
+          @resource_availability[id][url] = response_message
           @worker.at(@processed + 1, @requests) unless @worker.nil?
           @processed += 1
         end
@@ -96,13 +94,9 @@ module Metrics
         response >= 400 && response < 500 
     end
 
-    def redirect?(response_code)
-      response_code == 301 || response_code == 302
-    end
-
-    def response_value(response, redirect)
-      if rediect == 10
-        'Redirect Loop'
+    def response_message(response)
+      if response.return_code == :too_many_redirects
+        'Too many redirects'
       elsif response.success?
         response.code
       elsif response.timed_out?
