@@ -18,7 +18,7 @@ class Admin::SnapshotsController < ApplicationController
           snapshot = Snapshot.create!(attributes)
         when Array
           parsed.each do |metadata|
-            id = Digest::MD5.hexdigest(metadata[:id] + snapshot.id)
+            id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
             attributes = { id: id, record: metadata }
             metadata = MetadataRecord.create!(attributes)
             snapshot.metadata_records << metadata
@@ -41,7 +41,7 @@ class Admin::SnapshotsController < ApplicationController
 
   def parse_metadata(file)
     gz = Zlib::GzipReader.new(file)
-    parser = Yajl::Parser.new(symbolize_keys: true)
+    parser = Yajl::Parser.new
     parser.on_parse_complete = Proc.new { |obj| yield(obj) }
     parser << gz.read
   end

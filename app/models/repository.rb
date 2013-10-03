@@ -37,13 +37,12 @@ class Repository
     worst_records(metric).first
   end
 
-  def sort_metric_scores(metric, sorting_order, many=10)
-  end
-
   def score(weighting={})
     metrics = Metrics.all
+
     sum = metrics.inject(0.0) do |sum, metric|
       score = snapshots.last.maybe(metric)
+
       unless score.nil?
         score = score.with_indifferent_access
         value = score[:average]
@@ -53,6 +52,7 @@ class Repository
       else
         value = 0.0
       end
+
       sum + (value * weighting.fetch(metric, 1.0))
     end
     sum / metrics.length
