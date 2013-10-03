@@ -24,7 +24,6 @@ class MetricWorker
 
       scores << score
       at(i + 1, @metadata.length)
-      Sidekiq.logger.info("#{i + 1} of #{@metadata.length}")
     end
 
     update_snapshot(metric, scores)
