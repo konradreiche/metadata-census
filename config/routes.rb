@@ -40,10 +40,13 @@ MetadataCensus::Application.routes.draw do
     constraints({ repository_id: id_regex }) do
       resources :repositories do
 
-        resources :snapshots
-
         get 'scheduler'
         get 'status'
+
+        resources :snapshots do
+          get 'scheduler'
+          get 'status'
+        end
 
         resources :metrics, only: [] do
           get  'last_updated'

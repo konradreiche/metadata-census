@@ -2,7 +2,7 @@ module RepositoryManager
   extend ActiveSupport::Concern
 
   included do
-    before_filter :repository, :repositories
+    before_filter :repository, :snapshot, :repositories
   end
 
   def repository
@@ -13,7 +13,12 @@ module RepositoryManager
     else
       @repository = Repository.find(id)
     end
-      gon.repository = @repository
+
+    gon.repository = @repository
+  end
+
+  def snapshot
+    
   end
 
   def repositories
