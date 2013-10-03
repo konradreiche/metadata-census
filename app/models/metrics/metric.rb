@@ -21,7 +21,13 @@ module Metrics
     def self.words(text)
       text.scan(/\S+/).map do |word|
         word.split(@stripper)[1]
-      end
+      end.compact
+    end
+
+    def words(text)
+      text.scan(/\S+/).map do |word|
+        word.split(/(\p{Letter}.*\p{Letter})/)[1]
+      end.compact
     end
 
     ## Skip null fields and fields with whitespace strings

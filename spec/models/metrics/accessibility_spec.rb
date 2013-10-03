@@ -7,22 +7,16 @@ describe Metrics::Accessibility do
     
     text = "Estimates of average farm rent prices by farm type."
     expectations = ['Estimates', 'of', 'average', 'farm', 'rent', 'prices',
-                    'by', 'farm', 'type.']
-    
-    words = Metrics::Accessibility.split_to_words(text)
+                    'by', 'farm', 'type']
+ 
+    words = Metrics::Metric.new.words(text)
     words.should match_array expectations
-    count = Metrics::Accessibility.words(text)
-    expect(count).to be(9)
 
-    words = Metrics::Accessibility.split_to_words("")
+    words = Metrics::Metric.new.words("")
     words.should match_array []
-    count = Metrics::Accessibility.words("")
-    expect(count).to be(0)   
 
-    words = Metrics::Accessibility.split_to_words("Estimates")
+    words = Metrics::Metric.new.words("Estimates")
     words.should match_array ['Estimates']
-    count = Metrics::Accessibility.words("Estimates")
-    expect(count).to be(1)   
 
   end
 
@@ -61,17 +55,17 @@ describe Metrics::Accessibility do
                 "ceased to exist or surrendered and a certificate of "\
                 "completion has been issued."
 
-    sentences = accessibility.split_into_sentences(text)
+    sentences = accessibility.split_sentences(text)
     sentences.should match_array [sentence1, sentence2, sentence3]
     count = accessibility.sentences(text)
     expect(count).to be(3)
 
-    sentences = accessibility.split_into_sentences("")
+    sentences = accessibility.split_sentences("")
     sentences.should match_array []
     count = accessibility.sentences("")
     expect(count).to be(0)
 
-    sentences = accessibility.split_into_sentences("The Historic Landfill")
+    sentences = accessibility.split_sentences("The Historic Landfill")
     sentences.should match_array ["The Historic Landfill"]
     count = accessibility.sentences("The Historic Landfill")
     expect(count).to be(1)
@@ -116,28 +110,28 @@ describe Metrics::Accessibility do
            "sites where there is no PPC permit or waste management "\
            "licence currently in force."
 
-    words = Metrics::Accessibility.words(text).to_f
-    expect(words).to be(72.0)
+    words = Metrics::Metric.new.words(text)
+    expect(words.length).to be(71)
 
     sentences = accessibility.sentences(text).to_f
     expect(sentences).to be(2.0)
 
-    syllables = Metrics::Accessibility.split_to_words(text).map do |word|
+    syllables = Metrics::Metric.new.words(text).map do |word|
       accessibility.syllables(word)
     end.sum.to_f
-    expect(syllables).to be(135.0)
+    expect(syllables).to be(133.0)
 
-    average_sentence_length = words / sentences
-    average_syllables_per_word = syllables / words
+    average_sentence_length = words.length / sentences
+    average_syllables_per_word = syllables / words.length
 
-    expect(average_sentence_length).to be(36.0)
-    expect(average_syllables_per_word).to be(1.875)
+    expect(average_sentence_length).to be(35.5)
+    expect(average_syllables_per_word).to be(1.8732394366197183)
 
     score = accessibility.flesch_reading_ease(text)
-    expect(score).to be(11.670000000000016)
+    expect(score).to be(86.71000000000001)
 
     score, analysis = accessibility.compute({ :notes => text })
-    expect(score).to be(11.670000000000016)
+    expect(score).to be(86.71000000000001)
 
   end
 
