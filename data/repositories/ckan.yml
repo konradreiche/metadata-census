@@ -2,66 +2,59 @@
 name: CKAN Repositories
 
 repositories:
-    - id: GovData.de
-      name: GovData.de
-      url:  https://www.govdata.de/ckan/api
+    - url:  https://www.govdata.de/ckan/api
       type: CKAN
+      name: Das Datenportal für Deutschland
       location: Berlin, Germany
-      language: German
+      languages: [German, English]
       dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
  
-    - id: data.gov.uk
-      name: data.gov.uk
-      url: http://data.gov.uk/api
+    - url: http://data.gov.uk/api
       type: CKAN
+      name: data.gov.uk
       location: London, UK
-      language: English
+      languages: [English]
       dump: http://data.gov.uk/data/dumps/data.gov.uk-ckan-meta-data-latest.json.zip
 
-    - id: publicdata.eu
-      name: publicdata.eu
-      url: http://publicdata.eu/api
+    - url: http://publicdata.eu/api
       type: CKAN
+      name: PublicData.eu
       location: Brussels, Belgium
-      language: English
+      languages: [English, German, French]
       rows: 250
 
-    - id: catalogodatos.gub.uy
-      name: catalogodatos.gub.uy
-      url: https://catalogodatos.gub.uy/api
+    - url: https://catalogodatos.gub.uy/api
       type: CKAN
+      name: Catálogo de Datos Abiertos de Uruguay
       location: Montevideo, Uruguay
-      language: Spanish
+      languagess: [Spanish]
       rows: 1000
 
-    - id: data.qld.gov.au
-      name: data.qld.gov.au
-      url: https://data.qld.gov.au/api
+    - url: https://data.qld.gov.au/api
+      name: Queensland Government Data
       type: CKAN
       location: Queensland, Australia
-      language: English
+      languages: [English]
       rows: 1000
 
-    - id: catalog.data.gov
-      name: catalog.data.gov
-      url: http://catalog.data.gov/api
+    - url: http://catalog.data.gov/api
       type: CKAN
+      name: catalog.data.gov
       location: Washington, DC, USA
-      language: English
+      languages: [English]
       rows: 1000
       disabled: true
 
-    - id: opendata.admin.ch
-      name: opendata.admin.ch
-      url: http://opendata.admin.ch/api
+    - url: http://opendata.admin.ch/api
       type: CKAN
+      name: Offene Behördendaten der Schweiz
       location: Bern, Switzerland
+      languages: [German]
       rows: 1000
 
-    - id: data.gc.ca
-      name: data.gc.ca
-      url: http://data.gc.ca/data/en/api
+    - url: http://data.gc.ca/data/en/api
       type: CKAN
+      name: data.gc.ca
       location: Ottawa, Canada
-      language: English
+      languages: [English, French]
       rows: 100
