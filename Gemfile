@@ -18,6 +18,7 @@ group :development, :test do
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
   gem 'quiet_assets'
+  gem 'ruby-prof'
 end
 
 group :test do

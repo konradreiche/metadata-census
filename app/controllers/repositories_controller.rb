@@ -5,6 +5,31 @@ class RepositoriesController < ApplicationController
   helper_method :metric_score
 
   def index
+
+    @numbers = Hash.new { |repository, numbers| repository[numbers] = {} }
+
+    Repository.all.each do |repository|
+
+      snapshot = repository.snapshots.last
+      next if snapshot.nil?
+
+      metadata = snapshot.metadata_records.only("record.resources")
+      count = metadata.count
+
+      numbers = metadata.map { |doc| doc["record"]["resources"].size }.sort
+
+      metadata.min("record.resources")
+      metadata.avg("record.resources")
+      metadata.max("record.resources")
+      metadata.sum("record.resources")
+
+      @numbers[repository.id][:records] = count
+
+      @numbers[repository.id][:minimum] = numbers.min
+      @numbers[repository.id][:average] = numbers.reduce(:+).fdiv(count)
+      @numbers[repository.id][:mean] = numbers[count / 2]
+      @numbers[repository.id][:maximum] = numbers.max
+    end
   end
   
   def show

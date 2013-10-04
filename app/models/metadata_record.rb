@@ -13,5 +13,7 @@ class MetadataRecord
   end
 
   belongs_to :snapshot
+  
+  index({ "record.resources" => 1 })
 
 end
