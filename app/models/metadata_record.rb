@@ -5,15 +5,12 @@ class MetadataRecord
   include Mongoid::Extensions::Hash::IndifferentAccess
 
   validates_presence_of :record
+  belongs_to :snapshot
 
   field :record, type: Hash
 
   Metrics.all.each do |metric|
     field metric, type: Hash
   end
-
-  belongs_to :snapshot
-  
-  index({ "record.resources" => 1 })
 
 end

@@ -2,17 +2,12 @@ require 'digest'
 
 class Snapshot
   include Mongoid::Document
-  include Mongoid::Extensions::Hash::IndifferentAccess
 
   validates_presence_of :date
-
   has_many :metadata_records, :dependent => :destroy
+  embedded_in :repository
 
   field :date, type: Date
-
-  field :repository
-
-  field :_id, type: String, overwrite: true, default: -> { Digest::MD5.hexdigest("#{repository.id}#{date}") }
 
   index({ date: 1 })
 
@@ -20,8 +15,6 @@ class Snapshot
     field metric, type: Hash
   end
 
-  belongs_to :repository
- 
   def best_records(metric)
     field = :"#{metric}.score"
     metadata_records.all.sort(field => -1).limit(10)

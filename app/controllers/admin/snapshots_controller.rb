@@ -15,11 +15,20 @@ class Admin::SnapshotsController < ApplicationController
         case parsed
         when Hash
           attributes = filter_header(parsed)
-          snapshot = Snapshot.create!(attributes)
+          repository = Repository.find(parsed['repository'])
+          snapshot = repository.snapshots.where(date: attributes['date'])
+
+          if not snapshot.exists?
+            snapshot = repository.snapshots.create!(attributes)
+          else
+            snapshot = snapshot.first
+            snapshot.update_attributes!(attributes)
+          end
+
         when Array
           records = parsed.map do |metadata|
             id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
-            attributes = { id: id, record: metadata, snapshot_id: snapshot.id }
+            attributes = { _id: id, record: metadata, snapshot_id: snapshot.id }
           end
           MetadataRecord.collection.insert(records)
         else

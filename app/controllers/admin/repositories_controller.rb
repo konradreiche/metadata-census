@@ -99,12 +99,18 @@ class Admin::RepositoriesController < ApplicationController
   def attribute_hash(repository_hash)
     city = repository_hash[:location]
     location = Geocoder.search(city).first
+    domain = domain(repository_hash[:url])
 
+    repository_hash[:domain] = domain
     repository_hash[:latitude] = location.latitude
     repository_hash[:longitude] = location.longitude
     repository_hash.delete_if do |attribute, value|
       not Repository.fields.include?(attribute)
     end
+  end
+
+  def domain(url)
+    url.split(/(http:|https:)/).last[2..-1].split('/')[0].sub('www.', '')
   end
     
 end

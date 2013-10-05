@@ -27,7 +27,7 @@ repositories:
       type: CKAN
       name: Catálogo de Datos Abiertos de Uruguay
       location: Montevideo, Uruguay
-      languagess: [Spanish]
+      languages: [Spanish]
       rows: 1000
 
     - url: https://data.qld.gov.au/api
