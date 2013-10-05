@@ -10,11 +10,14 @@ class RepositoriesController < ApplicationController
       snapshot = repository.snapshots.last
       next if snapshot.nil? || snapshot.metadata_records.length == 0
 
-      criteria = MetadataRecord.where(snapshot: snapshot)
-      @numbers[repository][:min] = criteria.min("statistics.resources")
-      @numbers[repository][:avg] = criteria.avg("statistics.resources")
-      @numbers[repository][:max] = criteria.max("statistics.resources")
-      @numbers[repository][:sum] = criteria.sum("statistics.resources")
+      field = 'statistics.resources'
+      criteria = MetadataRecord.where(snapshot: snapshot).asc(field)
+
+      @numbers[repository][:min] = criteria.min(field)
+      @numbers[repository][:avg] = criteria.avg(field)
+      @numbers[repository][:med] = criteria[criteria.length / 2][field]
+      @numbers[repository][:max] = criteria.max(field)
+      @numbers[repository][:sum] = criteria.sum(field)
     end
   end
   

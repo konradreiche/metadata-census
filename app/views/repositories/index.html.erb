@@ -23,7 +23,7 @@
           <tbody>
             <% @repositories.each do |repository| %>
               <tr>
-                <td><%= link_to repository.domain, repository %></td>
+                <td><%= link_to repository.name, repository %></td>
                 <td><%= repository.type %></td>
                 <td><%= count(repository) %></td>
                 <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
@@ -68,6 +68,7 @@
                 <th>Repository</th>
                 <th>Minimum</th>
                 <th>Average</th>
+                <th>Median</th>
                 <th>Maximum</th>
                 <th>Sum</th>
               </tr>
@@ -75,9 +76,10 @@
             <tbody>
               <% @numbers.each do |repository, metrics| %>
                 <tr>
-                  <td><%= repository.domain %></td>
+                  <td><%= repository.name %></td>
                   <td><%= metrics[:min] %></td>
                   <td><%= metrics[:avg].round %></td>
+                  <td><%= metrics[:med] %></td>
                   <td><%= metrics[:max] %></td>
                   <td><%= number_with_delimiter metrics[:sum] %></td>
                 </tr>

@@ -12,8 +12,8 @@ class Admin::RepositoriesController < ApplicationController
     catalog = YAML.load_file(file).with_indifferent_access
 
     repositories = catalog[:repositories].each do |repository|
-      attributes = attribute_hash(repository).with_indifferent_access
-      repository = Repository.where(id: repository[:id])
+      attributes = attribute_hash(repository)
+      repository = Repository.where(_id: attributes[:_id])
 
       if not repository.exists?
         repository = Repository.create!(attributes)
@@ -99,18 +99,16 @@ class Admin::RepositoriesController < ApplicationController
   def attribute_hash(repository_hash)
     city = repository_hash[:location]
     location = Geocoder.search(city).first
-    domain = domain(repository_hash[:url])
+    id = repository_hash.delete('id')
 
-    repository_hash[:domain] = domain
+    raise TypeError, 'Repository identifier must not be null' if id.nil?
+
+    repository_hash[:_id] = id
     repository_hash[:latitude] = location.latitude
     repository_hash[:longitude] = location.longitude
     repository_hash.delete_if do |attribute, value|
       not Repository.fields.include?(attribute)
     end
-  end
-
-  def domain(url)
-    url.split(/(http:|https:)/).last[2..-1].split('/')[0].sub('www.', '')
   end
     
 end

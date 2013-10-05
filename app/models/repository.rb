@@ -2,20 +2,17 @@ class Repository
   include Mongoid::Document
   include Mongoid::Extensions::Hash::IndifferentAccess
 
-  validates_presence_of :url, :type, :name, :domain, :languages
+  validates_presence_of :url, :type, :name, :languages
   embeds_many :snapshots, :order => :date.asc
 
   field :url
   field :type
 
   field :name
-  field :domain
   field :languages
 
   field :latitude
   field :longitude
-
-  field :_id, type: String, overwrite: true, default: -> { domain }
 
   ##
   # Returns a list of records sorted in descending by the score with respect to
