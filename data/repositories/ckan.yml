@@ -4,7 +4,7 @@ name: CKAN Repositories
 repositories:
     - url:  https://www.govdata.de/ckan/api
       type: CKAN
-      name: Das Datenportal für Deutschland
+      name: GovData.de
       location: Berlin, Germany
       languages: [German, English]
       dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
@@ -25,14 +25,14 @@ repositories:
 
     - url: https://catalogodatos.gub.uy/api
       type: CKAN
-      name: Catálogo de Datos Abiertos de Uruguay
+      name: catalogodatos.gub.uy
       location: Montevideo, Uruguay
       languages: [Spanish]
       rows: 1000
 
     - url: https://data.qld.gov.au/api
-      name: Queensland Government Data
       type: CKAN
+      name: data.qld.gov.au
       location: Queensland, Australia
       languages: [English]
       rows: 1000
@@ -47,7 +47,7 @@ repositories:
 
     - url: http://opendata.admin.ch/api
       type: CKAN
-      name: Offene Behördendaten der Schweiz
+      name: opendata.admin.ch
       location: Bern, Switzerland
       languages: [German]
       rows: 1000
