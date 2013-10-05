@@ -11,7 +11,7 @@ module RepositoryManager
     if id.nil?
       @repository = Repository.all.first
     else
-      @repository = Repository.find(id)
+      @repository = Repository.find(id.downcase)
     end
 
     gon.repository = @repository

@@ -15,7 +15,7 @@ class Admin::SnapshotsController < ApplicationController
         case parsed
         when Hash
           attributes = filter_header(parsed)
-          repository = Repository.find(parsed['repository'])
+          repository = Repository.find(parsed['repository'].downcase)
           snapshot = repository.snapshots.where(date: attributes['date'])
 
           if not snapshot.exists?
@@ -28,7 +28,9 @@ class Admin::SnapshotsController < ApplicationController
         when Array
           records = parsed.map do |metadata|
             id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
-            attributes = { _id: id, record: metadata, snapshot_id: snapshot.id }
+            attributes = { _id: id, record: metadata,
+                           snapshot_id: snapshot.id,
+                           statistics: { resources: metadata['resources'].length } }
           end
           MetadataRecord.collection.insert(records)
         else

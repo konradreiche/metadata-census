@@ -5,6 +5,7 @@
   <li><a href="#leaderboard" data-toggle="pill">Leaderboard</a></li>
   <li><a href="#map" data-toggle="pill">Map</a></li>
   <li><a href="#timeline" data-toggle="pill">Timeline</a></li>
+  <li><a href="#numbers" data-toggle="pill">Numbers</a></li>
 </ul>
 <div class="dashboard">
   <div class="row">
@@ -22,7 +23,7 @@
           <tbody>
             <% @repositories.each do |repository| %>
               <tr>
-                <td><%= link_to repository.name, repository %></td>
+                <td><%= link_to repository.domain, repository %></td>
                 <td><%= repository.type %></td>
                 <td><%= count(repository) %></td>
                 <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
@@ -60,6 +61,30 @@
         </div>
         <div id="map" class="pill-pane repositories map"></div>
         <div id="timeline" class="pill-pane"></div>
+        <div id="numbers" class="pill-pane">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Repository</th>
+                <th>Minimum</th>
+                <th>Average</th>
+                <th>Maximum</th>
+                <th>Sum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @numbers.each do |repository, metrics| %>
+                <tr>
+                  <td><%= repository.domain %></td>
+                  <td><%= metrics[:min] %></td>
+                  <td><%= metrics[:avg].round %></td>
+                  <td><%= metrics[:max] %></td>
+                  <td><%= number_with_delimiter metrics[:sum] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
