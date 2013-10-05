@@ -32,7 +32,9 @@ class Admin::SnapshotsController < ApplicationController
                            snapshot_id: snapshot.id,
                            statistics: { resources: metadata['resources'].length } }
           end
-          MetadataRecord.collection.insert(records)
+          records.each_slice(4000).each do |records|
+            MetadataRecord.collection.insert(records)
+          end
         else
           raise TypeError, "Unknown type #{parsed.class}"
         end

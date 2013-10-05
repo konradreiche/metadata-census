@@ -8,7 +8,7 @@ class RepositoriesController < ApplicationController
     @numbers = Hash.new { |repository, metric| repository[metric] = Hash.new }
     Repository.all.each do |repository|
       snapshot = repository.snapshots.last
-      next if snapshot.nil?
+      next if snapshot.nil? || snapshot.metadata_records.length == 0
 
       criteria = MetadataRecord.where(snapshot: snapshot)
       @numbers[repository][:min] = criteria.min("statistics.resources")
