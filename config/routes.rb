@@ -29,6 +29,11 @@ MetadataCensus::Application.routes.draw do
     get 'scheduler'  # redirected to resourcful path
 
     constraints({ repository_id: id_regex }) do
+
+      resource :repositories, only: [] do
+        post 'compile'
+      end
+
       resources :repositories do
 
         get 'scheduler'

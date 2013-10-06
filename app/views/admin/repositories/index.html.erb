@@ -9,6 +9,7 @@
     <div class="col-md-12">
       <h3><span class="glyphicon glyphicon-align-left"></span> Overview</h3>
       <p class="dashboard-description">List of all imported repositories and their associated snapshots.</p>
+      <%= button_to 'Compile Statistics', method: :post, action: 'compile' %>
       <ul>
       <% Repository.all.each do |repository| %>
         <li><%= repository.name %> (<a class="admin repositories delete repository href="#" data-target="<%= repository.id %>">Delete</a>)

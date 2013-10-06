@@ -10,7 +10,7 @@ module Analyzer
       documents = snapshot.metadata_records
       documents.each_with_object(Hash.new(0)) do |document, languages|
         detection = detect(document, :CKAN)
-        languages[detection[:name]] += 1 if detection[:reliable]
+        languages[detection[:name].titlecase] += 1 if detection[:reliable]
         languages[detection['Unreliable']] += 1 if not detection[:reliable]
       end
     end

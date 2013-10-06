@@ -30,7 +30,19 @@ class Admin::RepositoriesController < ApplicationController
     @metadata_archives = metadata_archives()
   end
 
-  ##
+  def compile
+   controller = Admin::SnapshotsController.new
+   Repository.all.each do |repository|
+     repository.snapshots.each do |snapshot|
+       logger.info("Compiling #{repository.name}")
+       controller.compile_statistics(snapshot)
+     end
+   end
+ 
+   render nothing: true
+ end
+
+ ##
   # Returns a list of available YAML files containing repositories to import.
   #
   def repository_files
