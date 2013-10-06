@@ -1,42 +1,44 @@
 <h1>Administration</h1>
 <h2>Import</h2>
-<div class="row">
-  <div class="dashboard-6 dashboard-left col-md-6">
-    <h3><span class="glyphicon glyphicon-hdd"></span> Repositories</h3>
-    <p class="dashboard-description">Select a file to import repositories.</p>
-    <ul class="list-group">
-      <% @repository_files.each do |file, yaml| %>
-        <li class="list-group-item">
-          <span class="badge"><%= repository_count(yaml) %></span>
-          <%= yaml[:name] %> <%= import_link(file)  %>
-          <span class="admin repositories label label-info pull-right">Importing...</span>
-          <span class="admin repositories label label-success pull-right">Done</span>
-          <span class="admin repositories label label-danger pull-right">Error</span>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="dashboard-6 dashboard-right col-md-6">
-    <h3><span class="glyphicon glyphicon-compressed"></span> Snapshots</h3>
-    <p class="dashboard-description">Select a file to import metadata for a repository. </p>
-    <ul class="list-group">
-      <% @metadata_archives.each do |repository, snapshots| %>
-        <li class="list-group-item">
-         <h4><%= repository %></h4> 
-          <ol class="list-group" >
-            <% snapshots.sort { |a, b| b[:date] <=> a[:date] }.each do |snapshot| %>
-              <li class="list-group-item">
-                <span class="badge"><%= number_with_delimiter(snapshot[:count]) %></span>
-                <%= snapshot[:date] %>
-                <%= import_metadata_link(snapshot[:repository], snapshot[:file]) %>
-                <span class="admin repositories label label-info pull-right">Importing...</span>
-                <span class="admin repositories label label-success pull-right">Done</span>
-                <span class="admin repositories label label-danger pull-right">Error</span>
-              </li>
-            <% end %>
-          </ol>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+<ul class="dashboard nav nav-pills">
+  <li class="active"><a href="new">Import</a></li>
+  <%= content_tag(:li, link_to('Overview', admin_repositories_path)) %>
+</ul>
+<div class="dashboard-6 dashboard-left col-md-6">
+  <h3><span class="glyphicon glyphicon-hdd"></span> Repositories</h3>
+  <p class="dashboard-description">Select a file to import repositories.</p>
+  <ul class="list-group">
+    <% @repository_files.each do |file, yaml| %>
+      <li class="list-group-item">
+        <span class="badge"><%= repository_count(yaml) %></span>
+        <%= yaml[:name] %> <%= import_link(file)  %>
+        <span class="admin repositories label label-info pull-right">Importing...</span>
+        <span class="admin repositories label label-success pull-right">Done</span>
+        <span class="admin repositories label label-danger pull-right">Error</span>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<div class="dashboard-6 dashboard-right col-md-6">
+  <h3><span class="glyphicon glyphicon-compressed"></span> Snapshots</h3>
+  <p class="dashboard-description">Select a file to import metadata for a repository. </p>
+  <ul class="list-group">
+    <% @metadata_archives.each do |repository, snapshots| %>
+      <li class="list-group-item">
+       <h4><%= repository %></h4> 
+        <ol class="list-group" >
+          <% snapshots.sort { |a, b| b[:date] <=> a[:date] }.each do |snapshot| %>
+            <li class="list-group-item">
+              <span class="badge"><%= number_with_delimiter(snapshot[:count]) %></span>
+              <%= snapshot[:date] %>
+              <%= import_metadata_link(snapshot[:repository], snapshot[:file]) %>
+              <span class="admin repositories label label-info pull-right">Importing...</span>
+              <span class="admin repositories label label-success pull-right">Done</span>
+              <span class="admin repositories label label-danger pull-right">Error</span>
+            </li>
+          <% end %>
+        </ol>
+      </li>
+    <% end %>
+  </ul>
 </div>

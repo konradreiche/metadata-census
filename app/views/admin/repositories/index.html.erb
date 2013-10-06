@@ -1,0 +1,25 @@
+<h1>Repositories</h1>
+<h2>Index</h2>
+<ul class="dashboard nav nav-pills">
+  <li><a href="repositories/new">Import</a></li>
+  <li class="active"><a href="">Overview</a></li>
+</ul>
+<div class="dashboard">
+  <div class="row">
+    <div class="col-md-12">
+      <h3><span class="glyphicon glyphicon-align-left"></span> Overview</h3>
+      <p class="dashboard-description">List of all imported repositories and their associated snapshots.</p>
+      <ul>
+      <% Repository.all.each do |repository| %>
+        <li><%= repository.name %> (<a class="admin repositories delete repository href="#" data-target="<%= repository.id %>">Delete</a>)
+        <% repository.snapshots.each do |snapshot| %>
+          <ul>
+            <li><%= snapshot.date %> (<a class="admin repositories delete snapshot" href="#" data-target="<%= snapshot.date %>">Delete</a>)</li>
+          </ul>
+        <% end %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
