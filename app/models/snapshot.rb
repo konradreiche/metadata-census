@@ -1,5 +1,3 @@
-require 'digest'
-
 class Snapshot
   include Mongoid::Document
 
@@ -8,8 +6,7 @@ class Snapshot
   embedded_in :repository
 
   field :date, type: Date
-
-  index({ date: 1 })
+  field :statistics, type: Hash
 
   Metrics.all.each do |metric|
     field metric, type: Hash

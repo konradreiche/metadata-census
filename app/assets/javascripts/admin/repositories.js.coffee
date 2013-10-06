@@ -55,7 +55,6 @@ $ ->
           errorLabel.fadeIn().fadeOut "fast", () =>
             anchor.show()
 
-
   if root.isPath("/admin/repositories/new")
     initLabels()
     initImportLinks()

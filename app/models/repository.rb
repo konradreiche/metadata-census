@@ -14,6 +14,8 @@ class Repository
   field :latitude
   field :longitude
 
+  index({ 'snapshots.date' => 1 })
+
   ##
   # Returns a list of records sorted in descending by the score with respect to
   # the given metric.

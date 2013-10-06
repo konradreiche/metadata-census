@@ -77,11 +77,11 @@
               <% @numbers.each do |repository, metrics| %>
                 <tr>
                   <td><%= repository.name %></td>
-                  <td><%= metrics[:min] %></td>
-                  <td><%= metrics[:avg].round %></td>
-                  <td><%= metrics[:med] %></td>
-                  <td><%= metrics[:max] %></td>
-                  <td><%= number_with_delimiter metrics[:sum] %></td>
+                  <td><%= metrics['min'] %></td>
+                  <td><%= metrics['avg'].round %></td>
+                  <td><%= metrics['med'] %></td>
+                  <td><%= metrics['max'] %></td>
+                  <td><%= number_with_delimiter metrics['sum'] %></td>
                 </tr>
               <% end %>
             </tbody>
