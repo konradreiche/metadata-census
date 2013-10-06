@@ -9,10 +9,11 @@ class RepositoriesController < ApplicationController
 
     Repository.all.each do |repository|
       snapshot = repository.snapshots.last
-      next if snapshot.nil? or snapshot.statistics.nil?
-
-      @numbers[repository] = snapshot.statistics
+      if not snapshot.nil? and not snapshot.statistics.nil?
+        @numbers[repository] = snapshot.statistics
+      end
     end
+
   end
   
   def show

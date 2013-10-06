@@ -36,6 +36,7 @@ class Admin::RepositoriesController < ApplicationController
      repository.snapshots.each do |snapshot|
        logger.info("Compiling #{repository.name}")
        controller.compile_statistics(snapshot)
+       snapshot.save!
      end
    end
  

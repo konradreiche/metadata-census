@@ -70,22 +70,26 @@ class Admin::SnapshotsController < ApplicationController
   end
 
   def compile_statistics(snapshot)
+    snapshot.statistics = Hash.new { |hash, key| hash[key] = Hash.new }
+    logger.info('Compile resources')
     compile_resource_numbers(snapshot)
+    logger.info('Compile languages')
     compile_languages(snapshot)
   end
 
   def compile_resource_numbers(snapshot)
     field = 'statistics.resources'
     criteria = MetadataRecord.where(snapshot: snapshot).asc(field)
-    snapshot.statistics = Hash.new
+
+    statistics = snapshot.statistics
     count = criteria.length
 
-    snapshot.statistics[:min] = criteria.min(field)
-    snapshot.statistics[:avg] = criteria.avg(field)
-    snapshot.statistics[:max] = criteria.max(field)
+    statistics[:resources][:min] = criteria.min(field)
+    statistics[:resources][:avg] = criteria.avg(field)
+    statistics[:resources][:max] = criteria.max(field)
 
-    snapshot.statistics[:sum] = criteria.sum(field)
-    snapshot.statistics[:med] = criteria[count / 2][field]
+    statistics[:resources][:sum] = criteria.sum(field)
+    statistics[:resources][:med] = criteria[count / 2][field]
   end
 
   def compile_languages(snapshot)
