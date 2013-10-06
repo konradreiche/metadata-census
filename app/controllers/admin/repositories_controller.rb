@@ -32,11 +32,22 @@ class Admin::RepositoriesController < ApplicationController
 
   def compile
    controller = Admin::SnapshotsController.new
-   Repository.all.each do |repository|
-     repository.snapshots.each do |snapshot|
-       logger.info("Compiling #{repository.name}")
-       controller.compile_statistics(snapshot)
-       snapshot.save!
+
+   if params[:target] == 'languages'
+     Repository.all.each do |repository|
+       repository.snapshots.each do |snapshot|
+         logger.info("Compiling #{repository.name}")
+         controller.compile_languages(snapshot)
+         snapshot.save!
+       end
+     end
+   else
+     Repository.all.each do |repository|
+       repository.snapshots.each do |snapshot|
+         logger.info("Compiling #{repository.name}")
+         controller.compile_statistics(snapshot)
+         snapshot.save!
+       end
      end
    end
  
