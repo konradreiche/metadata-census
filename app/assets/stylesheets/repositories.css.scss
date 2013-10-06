@@ -48,3 +48,20 @@
 .repository.metric.table th {
   text-align: center;
 }
+
+// Language table on the numbers tab
+#language-table {
+  width: 100%;
+  overflow: auto;
+}
+
+.repositories.languages.table > thead tr th:first-child,
+.repositories.languages.table > tbody tr td:first-child {
+  width: 11em;
+}
+
+.repositories.languages > thead tr th:nth-child(n+2),
+.repositories.languages > tbody tr td:nth-child(n+2) {
+  text-align: left;
+  width: 4em;
+}

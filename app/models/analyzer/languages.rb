@@ -2,6 +2,8 @@ module Analyzer
 
   class Languages
 
+    UT = 'TG_UNKNOWN_LANGUAGE'
+
     def initialize
       @fields = YAML.load(File.read('data/schema/fields.yml'))
     end
@@ -10,8 +12,13 @@ module Analyzer
       documents = snapshot.metadata_records
       documents.each_with_object(Hash.new(0)) do |document, languages|
         detection = detect(document, :CKAN)
-        languages[detection[:name].titlecase] += 1 if detection[:reliable]
-        languages[detection['Unreliable']] += 1 if not detection[:reliable]
+
+        if detection[:reliable]
+          detection[:name] = 'Unknown' if detection[:name] == UT
+          languages[detection[:name].titlecase] += 1
+        else
+          languages['Unreliable'] += 1 if not detection[:reliable]
+        end
       end
     end
 

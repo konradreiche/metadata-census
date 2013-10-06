@@ -82,4 +82,15 @@ module RepositoriesHelper
     content_tag(:li, partial, class: 'repository selector')
   end
 
+  def iso639(language)
+    return 'DUT' if language == 'Dutch'
+    return 'SPA' if language == 'Spanish'
+    ISO_639.find_by_english_name(language).alpha3.upcase
+  end
+
+  def language_frequency(frequency)
+    return '-' if frequency.nil?
+    '%.2f' % (frequency * 100)
+  end
+
 end

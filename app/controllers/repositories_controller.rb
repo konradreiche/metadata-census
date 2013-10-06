@@ -6,14 +6,22 @@ class RepositoriesController < ApplicationController
 
   def index
     @numbers = Hash.new
+    @languages = Set.new
 
     Repository.all.each do |repository|
       snapshot = repository.snapshots.last
-      if not snapshot.nil? and not snapshot.statistics.nil?
-        @numbers[repository] = snapshot.statistics
-      end
+      next if snapshot.nil? or snapshot.statistics.nil?
+
+      @numbers[repository] = snapshot.statistics
+
+      languages = @numbers[repository]['languages']
+      @languages = @languages + languages.keys
+
+      total = languages.values.sum
+      languages.update(languages) { |language, count| count.fdiv(total) }
     end
 
+    @languages.delete('Unknown').delete('Unreliable')
   end
   
   def show
