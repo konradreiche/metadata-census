@@ -38,8 +38,9 @@ class Admin::SnapshotsController < ApplicationController
         else
           raise TypeError, "Unknown type #{parsed.class}"
         end
-
       end
+
+      compile_statistics(snapshot)
       snapshot.save!
     end
 
@@ -47,7 +48,6 @@ class Admin::SnapshotsController < ApplicationController
   end
 
   def destroy
-    require 'pry'; binding.pry
     @snapshot.delete
     render nothing: true
   end
@@ -67,6 +67,30 @@ class Admin::SnapshotsController < ApplicationController
       filtered[key] = header[key] if fields.include?(key)
       filtered
     end
+  end
+
+  def compile_statistics(snapshot)
+    compile_resource_numbers(snapshot)
+    compile_languages(snapshot)
+  end
+
+  def compile_resource_numbers(snapshot)
+    field = 'statistics.resources'
+    criteria = MetadataRecord.where(snapshot: snapshot).asc(field)
+    snapshot.statistics = Hash.new
+    count = criteria.length
+
+    snapshot.statistics[:min] = criteria.min(field)
+    snapshot.statistics[:avg] = criteria.avg(field)
+    snapshot.statistics[:max] = criteria.max(field)
+
+    snapshot.statistics[:sum] = criteria.sum(field)
+    snapshot.statistics[:med] = criteria[count / 2][field]
+  end
+
+  def compile_languages(snapshot)
+    analyzer = Analyzer::Languages.new
+    snapshot.statistics[:languages] = analyzer.analyze(snapshot)
   end
 
 end

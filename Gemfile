@@ -51,7 +51,8 @@ gem 'json'
 gem 'typhoeus'
 gem 'text-hyphen'
 gem 'tactful_tokenizer'
-gem 'whatlanguage', :git => 'git://github.com/platzhirsch/whatlanguage.git', :branch => 'feature/language-selection'
+gem 'whatlanguage', :git => 'git://github.com/peterc/whatlanguage.git'
+gem 'cld'
 
 # Sidekiq
 gem 'sidekiq', '>= 2.13.0'

@@ -9,11 +9,10 @@ GIT
       tzinfo (~> 0.3.37)
 
 GIT
-  remote: git://github.com/platzhirsch/whatlanguage.git
-  revision: 6c4421608a3bbf20684d3e50286e58a1d1b0bf33
-  branch: feature/language-selection
+  remote: git://github.com/peterc/whatlanguage.git
+  revision: fd49f99c5ded981dd8a0751f4ff2ea930d327804
   specs:
-    whatlanguage (1.0.4)
+    whatlanguage (1.0.5)
 
 GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
@@ -74,6 +73,8 @@ GEM
       timers (~> 1.1.0)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
+    cld (0.7.0)
+      ffi
     coderay (1.0.9)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -250,6 +251,7 @@ DEPENDENCIES
   bootstrap-sass!
   bson_ext
   capybara (= 2.0.0)
+  cld
   coffee-rails (~> 4.0.0)
   d3_rails
   geocoder
