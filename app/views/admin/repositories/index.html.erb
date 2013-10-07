@@ -11,6 +11,7 @@
       <p class="dashboard-description">List of all imported repositories and their associated snapshots.</p>
       <%= button_to 'Compile Statistics', { method: :post, action: 'compile' }, { class: 'btn btn-warning' } %>
       <%= button_to 'Compile Languages', { method: :post, action: 'compile', target: 'languages' }, { class: 'btn btn-warning'}  %>
+      <%= button_to 'Compile Times', { method: :post, action: 'compile', target: 'times' }, { class: 'btn btn-warning'}  %>
       <ul>
       <% Repository.all.each do |repository| %>
         <li><%= repository.name %> (<a class="admin repositories delete repository href="#" data-target="<%= repository.id %>">Delete</a>)

@@ -97,4 +97,16 @@ class Admin::SnapshotsController < ApplicationController
     snapshot.statistics[:languages] = analyzer.analyze(snapshot)
   end
 
+  def compile_times(snapshot)
+    times = { creates: Hash.new(0), updates: Hash.new(0) }
+    snapshot.metadata_records.each do |document|
+      created = Date.parse(document.record['metadata_created']).to_s
+      modified = Date.parse(document.record['metadata_modified']).to_s
+
+      times[:creates][created] += 1
+      times[:updates][modified] += 1
+    end
+    snapshot.statistics[:times] = times
+  end
+
 end

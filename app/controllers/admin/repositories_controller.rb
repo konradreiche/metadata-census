@@ -41,6 +41,14 @@ class Admin::RepositoriesController < ApplicationController
          snapshot.save!
        end
      end
+   elsif params[:target] == 'times'
+     Repository.all.each do |repository|
+       repository.snapshots.each do |snapshot|
+         logger.info("Compiling #{repository.name}")
+         controller.compile_times(snapshot)
+         snapshot.save!
+       end
+     end
    else
      Repository.all.each do |repository|
        repository.snapshots.each do |snapshot|
