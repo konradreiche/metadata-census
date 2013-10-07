@@ -2,14 +2,12 @@ class Repository
   include Mongoid::Document
   include Mongoid::Extensions::Hash::IndifferentAccess
 
-  validates_presence_of :url, :type, :name, :languages
+  validates_presence_of :url, :type, :name
   embeds_many :snapshots, :order => :date.asc
 
   field :url
   field :type
-
   field :name
-  field :languages
 
   field :latitude
   field :longitude

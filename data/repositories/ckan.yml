@@ -7,7 +7,6 @@ repositories:
       type: CKAN
       name: GovData.de
       location: Berlin, Germany
-      languages: [German, English]
       dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
  
     - id: data.gov.uk
@@ -15,7 +14,6 @@ repositories:
       type: CKAN
       name: data.gov.uk
       location: London, UK
-      languages: [English]
       dump: http://data.gov.uk/data/dumps/data.gov.uk-ckan-meta-data-latest.json.zip
 
     - id: publicdata.eu
@@ -23,7 +21,6 @@ repositories:
       type: CKAN
       name: PublicData.eu
       location: Brussels, Belgium
-      languages: [English, German, French]
       rows: 250
 
     - id: catalogodatos.gub.uy
@@ -31,7 +28,6 @@ repositories:
       type: CKAN
       name: catalogodatos.gub.uy
       location: Montevideo, Uruguay
-      languages: [Spanish]
       rows: 1000
 
     - id: data.qld.gov.au
@@ -39,7 +35,6 @@ repositories:
       type: CKAN
       name: data.qld.gov.au
       location: Queensland, Australia
-      languages: [English]
       rows: 1000
 
     - id: catalog.data.gov
@@ -47,7 +42,6 @@ repositories:
       type: CKAN
       name: catalog.data.gov
       location: Washington, DC, USA
-      languages: [English]
       rows: 1000
       disabled: true
 
@@ -56,7 +50,6 @@ repositories:
       type: CKAN
       name: opendata.admin.ch
       location: Bern, Switzerland
-      languages: [German]
       rows: 1000
 
     - id: data.gc.ca
@@ -64,5 +57,57 @@ repositories:
       type: CKAN
       name: data.gc.ca
       location: Ottawa, Canada
-      languages: [English, French]
       rows: 100
+
+    - id: data.gv.at
+      url: http://www.data.gv.at/katalog/api
+      type: CKAN
+      name: data.gv.at
+      location: Vienna, Austria
+      legacy: true
+      disabled: true
+
+    - id: africaopendata.org
+      url: http://africaopendata.org/api
+      type: CKAN
+      name: africaopendata.org
+      location: Africa
+      rows: 1000
+
+    - id: data.gov.sk
+      url: http://data.gov.sk/api
+      type: CKAN
+      name: data.gov.sk
+      location: Bratislava, Slovakia
+      legacy: true
+      disabled: true
+
+    - id: datos.codeandomexico.org
+      url: http://datos.codeandomexico.org/api
+      type: CKAN
+      name: datos.codeandomexico.org
+      location: Mexico City, Mexico
+      rows: 1000
+
+    - id: data.sa.gov.au
+      url: http://data.sa.gov.au/api
+      type: CKAN
+      name: data.sa.gov.au
+      location: South Australia, Australia
+      rows: 1000
+
+    - id: dados.gov.br
+      url: http://dados.gov.br/api
+      type: CKAN
+      name: dados.gov.br
+      location: Brasília, Brazil
+      legacy: true
+      disabled: true
+
+    - id: data.openpolice.ru
+      url: http://data.openpolice.ru
+      type: CKAN
+      name: data.openpolice.ru
+      location: Moscow, Russia
+      legacy: true
+      disabled: true
