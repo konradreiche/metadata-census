@@ -1,0 +1,15 @@
+<h1>Statistics</h1>
+<h2><%= @repository.name %></h2>
+<div class="dashboard">
+  <h3><span class="glyphicon glyphicon-calendar"></span> Creation and Update Times</h3>
+  <pre>
+    <% @times['creates'].each do |date, count| %>
+     <%= date + ',' + count.to_s  %>
+    <% end %>
+  </pre>
+  <pre>
+    <% @times['updates'].each do |date, count| %>
+     <%= date + ',' + count.to_s  %>
+    <% end %>
+  </pre>
+</div>

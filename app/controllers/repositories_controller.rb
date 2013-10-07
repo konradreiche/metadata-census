@@ -65,4 +65,9 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def statistics
+    snapshot = @repository.snapshots.last
+    @times = snapshot.statistics['times']
+  end
+
 end

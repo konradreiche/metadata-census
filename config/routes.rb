@@ -10,6 +10,9 @@ MetadataCensus::Application.routes.draw do
   constraints({ id: id_regex, repository_id: id_regex }) do
 
     resources :repositories do
+
+      member { get 'statistics' }
+
       resources :metrics, only: [:show]
       resource :metadata, only: [] do
 
