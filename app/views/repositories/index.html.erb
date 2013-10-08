@@ -45,7 +45,7 @@
           <tbody>
             <% @repositories.sort.reverse.each_with_index do |repository, i| %>
               <tr>
-                <td><%= i + 1 %></td>
+                <td><%= @ranking[i] %></td>
                 <td><%= link_to repository.name, repository %></td>
                 <td><%= '%.2f' % repository.score %></td>
                 <% Metrics.all.each do |metric| %>
