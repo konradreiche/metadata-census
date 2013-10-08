@@ -60,8 +60,8 @@ module RepositoriesHelper
     record_identifier = Hash.new
     record_numbers = (0..1).to_a
     record_numbers.delete(i)
-    record_numbers.each do |i|
-      parameter = "record#{i + 1}".to_sym
+    record_numbers.each do |j|
+      parameter = "record#{j + 1}".to_sym
       if params[parameter].nil?
         record = instance_variable_get("@#{parameter}")
         record_identifier[parameter] = record[:id]
@@ -91,6 +91,12 @@ module RepositoriesHelper
   def language_frequency(frequency)
     return '-' if frequency.nil?
     '%.2f' % (frequency * 100)
+  end
+
+  def score_cell(score)
+    classes = { 0..35 => 'bad', 36..79 => 'medium', 80..100 => 'good' }
+    cls = classes.find { |r, _| r === score }.last
+    content_tag(:td, '%.2f' % score, class: cls)
   end
 
 end

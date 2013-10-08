@@ -16,6 +16,11 @@
   position: relative;
 }
 
+/* Leaderboard table */
+#leaderboard {
+  overflow: auto;
+}
+
 .repositories.leaderboard.table th,
 .repositories.leaderboard.table td {
   text-align: center;
@@ -25,18 +30,18 @@
 
 .repositories.leaderboard.table > thead tr th:first-child,
 .repositories.leaderboard.table > tbody tr td:first-child {
-  width: 5%
+  width: 5em;
 }
 
 .repositories.leaderboard.table > thead tr th:nth-child(2),
 .repositories.leaderboard.table > tbody tr td:nth-child(2) {
-  width: 15%;
+  width: 13em;
   text-align: left;
 }
 
-.repositories.leaderboard.table > thead tr th:nth-child(3),
-.repositories.leaderboard.table > thead tr th:nth-child(3) {
-  width: 5%
+.repositories.leaderboard.table > thead tr th:nth-child(n+3),
+.repositories.leaderboard.table > thead tr th:nth-child(n+3) {
+  width: 7em;
 }
 
 // Table repositories#show

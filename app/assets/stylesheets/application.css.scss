@@ -12,7 +12,7 @@
  *= require bootstrap-rowlink.min
  *= require_tree .
  */
-@import "bootstrap";
+@import "bootstrap.css";
 
 .table {
   table-layout: fixed;
@@ -202,4 +202,16 @@ footer ul li {
 // input and buttons in a button group, remove if this does not happen anymore
 .form-control {
   height: auto;
+}
+
+.bad {
+  color: #d2322d;
+}
+
+.medium {
+  color: #ed9c28;
+}
+
+.good {
+  color: #47a447;
 }
