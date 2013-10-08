@@ -16,6 +16,7 @@
             <tr>
               <th>Name</th>
               <th>Type</th>
+              <th>Snapshots</th>
               <th>Datasets</th>
               <th>URL</th>
             </tr>
@@ -25,6 +26,7 @@
               <tr>
                 <td><%= link_to repository.name, repository %></td>
                 <td><%= repository.type %></td>
+                <td><%= repository.snapshots.length %></td>
                 <td><%= count(repository) %></td>
                 <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
               </tr>
