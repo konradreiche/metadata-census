@@ -98,13 +98,14 @@ class Admin::SnapshotsController < ApplicationController
   end
 
   def compile_times(snapshot)
-    times = { creates: Hash.new(0), updates: Hash.new(0) }
+    times = Hash.new { |hash, date| hash[date] = [0, 0] }
+
     snapshot.metadata_records.each do |document|
       created = Date.parse(document.record['metadata_created']).to_s
       modified = Date.parse(document.record['metadata_modified']).to_s
 
-      times[:creates][created] += 1
-      times[:updates][modified] += 1
+      times[created] = [times[created][0] + 1, times[created][1]]
+      times[modified] = [times[modified][0], times[modified][1] + 1]
     end
     snapshot.statistics[:times] = times
   end

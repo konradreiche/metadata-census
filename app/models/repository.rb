@@ -59,4 +59,9 @@ class Repository
     self.score <=> other.score
   end
 
+  def self.ranking(repositories)
+    sorted = a.sort.uniq.reverse
+    a.map{|e| sorted.index(e) + 1}
+  end
+
 end
