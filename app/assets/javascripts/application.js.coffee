@@ -21,6 +21,7 @@
 root = exports ? this
 
 $.fn.exists = () -> this.length > 0
+
 RegExp.escape = (string) -> string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
 # Function to retrieve identifier from a MongoDB document
@@ -29,22 +30,24 @@ root.id = (document) -> document["_id"]["$oid"]
 # Regular expression for repository identifier
 root.regExps = { repository_id: "[0-z\.]+" }
 
+root.metricId = null
+
 if gon? and gon.repository?
   root.repositoryId = gon.repository._id
 
 if gon? and gon.snapshot?
   root.snapshotId = gon.snapshot._id
 
-# Retrieves parts of the current location path name in order to deliver the
-# current context for JavaScript. This is used as a condition to decide which
-# code to execute
-root.getPath = (index) ->
-  split = window.location.pathname.split("/")
-  paths = [split[1], split[3]]
-  return paths[index - 1]
+if gon? and gon.metric?
+  root.metricId = gon.metric
 
 # This function exists for reasons of readability
 root.isPath = (path)  ->
+
+  path = path.replace(":repository_id", repositoryId)
+  path = path.replace(":snapshot_id", snapshotId)
+  path = path.replace(":metric_id", metricId)
+
   window.location.pathname == path
 
 class ScoreMeter

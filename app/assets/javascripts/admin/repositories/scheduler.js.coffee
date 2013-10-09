@@ -32,8 +32,7 @@ $ ->
   Updates the interface according to the job information.
   ###
   updateInterface = () ->
-    id = gon.repository.id
-    $.getJSON("/admin/repositories/#{id}/status", updateElements)
+    $.getJSON("/admin/repositories/#{repositoryId}/snapshots/#{snapshotId}/status", updateElements)
 
   ###
   Updates all the interface element according to the response.
@@ -170,9 +169,7 @@ $ ->
       url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
       $.getJSON url, setDateTime(metric)
 
-  if gon?
-    id = gon.repository.id
-    if root.isPath("/admin/repositories/:repository_id/scheduler", id)
-      initInterface()
-      updateInterface()
-      statusLoop(id)()
+  if root.isPath("/admin/repositories/:repository_id/snapshots/:snapshot_id/scheduler")
+    initInterface()
+    updateInterface()
+    statusLoop(repositoryId)()

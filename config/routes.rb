@@ -40,9 +40,6 @@ MetadataCensus::Application.routes.draw do
 
       resources :repositories, only: [:create, :new, :index] do
 
-        get 'scheduler'
-        get 'status'
-
         resources :snapshots, only: [:new, :create] do
           get 'scheduler'
           get 'status'

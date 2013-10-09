@@ -29,8 +29,9 @@ $ ->
       marker = L.marker([latitude, longitude]).addTo map
       marker.bindPopup repository['name']
 
-  if getPath(1) == 'repositories'
+  if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
     sm = new ScoreMeter(".repository.score-meter", gon.score)
     registerListener(sm)
-  else if getPath(2) == 'metric'
+
+  if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metric/:metric_id")
     sm = new ScoreMeter(".metric.score-meter", gon.score)
