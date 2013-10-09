@@ -18,8 +18,8 @@ class MetricWorker
       record = document.record
       score, analysis = @metric.compute(record, *args)
 
-      document.send(metric)[:score] = score
-      document.send(metric)[:analysis] = analysis
+      document.send(metric)['score'] = score
+      document.send(metric)['analysis'] = analysis
       document.save!
 
       scores << score
@@ -36,13 +36,13 @@ class MetricWorker
     scores = scores.reject(&:nan?)
     scores.sort!
 
-    score[:minimum] = scores.first
-    score[:maximum] = scores.last
-    score[:average] = scores.inject(:+) / scores.length
-    score[:median] = scores[scores.length / 2]
+    score['minimum'] = scores.first
+    score['maximum'] = scores.last
+    score['average'] = scores.inject(:+) / scores.length
+    score['median'] = scores[scores.length / 2]
 
     snapshot[metric] = score
-    snapshot[metric][:last_updated] = DateTime.now.to_s
+    snapshot[metric]['last_updated'] = DateTime.now.to_s
     snapshot.save!
   end
 

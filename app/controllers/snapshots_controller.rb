@@ -61,7 +61,7 @@ class SnapshotsController < ApplicationController
     snapshot = @repository.snapshots.last
     value = snapshot.maybe(metric)
     unless value.nil?
-      value = value[:average]
+      value = value['average']
       value = Metrics::normalize(metric, [value]).first
       '%.2f%' % (value  * 100)
     else
