@@ -29,6 +29,12 @@ root.id = (document) -> document["_id"]["$oid"]
 # Regular expression for repository identifier
 root.regExps = { repository_id: "[0-z\.]+" }
 
+if gon? and gon.repository?
+  root.repositoryId = gon.repository._id
+
+if gon? and gon.snapshot?
+  root.snapshotId = gon.snapshot._id
+
 # Retrieves parts of the current location path name in order to deliver the
 # current context for JavaScript. This is used as a condition to decide which
 # code to execute
@@ -38,11 +44,8 @@ root.getPath = (index) ->
   return paths[index - 1]
 
 # This function exists for reasons of readability
-root.isPath = (path, id)  ->
-  paths = path.split(":repository_id")
-  paths = paths.map (path) -> RegExp.escape(path)
-  regExp = root.regExps.repository_id
-  new RegExp(paths.join(regExp)).test(window.location.pathname)
+root.isPath = (path)  ->
+  window.location.pathname == path
 
 class ScoreMeter
 

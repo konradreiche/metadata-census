@@ -26,10 +26,10 @@
             <td><%= metric.to_s.titlecase %></td>
             <td>
               <div class="row weight-component">
-                <div class="span12"><span class="weight">1x</span></div>
+                <div class="span12"><span class="weight">1&times;</span></div>
               </div>
               <div class="row weight-component">
-                <div class="col-md-12"><input class="weight-slider" min="0" max="10" step="1" value="1" type="range"></div>
+                <div class="col-md-12"><input class="weight-slider" min="0" max="10" step="1" value="1" type="range" data-metric="<%= metric %>"></div>
               </div>
             </td>
             <td><%= metric_score(metric) %></td>
