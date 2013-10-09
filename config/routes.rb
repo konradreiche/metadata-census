@@ -9,6 +9,10 @@ MetadataCensus::Application.routes.draw do
 
   constraints({ id: id_regex, repository_id: id_regex }) do
 
+    resource :repositories do
+      post 'weighting'
+    end
+
     resources :repositories, only: [:show, :index] do
 
       resources :snapshots, only: [:show] do

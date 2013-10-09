@@ -6,6 +6,7 @@ $ ->
   #
   ##
   initWeightSlider = (sm) ->
+
     $(".weight-slider").on "change", (event) ->
       value = $(this).val()
       $(this).parents("td").find("span").html("#{value}&times;")
@@ -16,12 +17,16 @@ $ ->
   ##
   weightScores = (scoreMeter) ->
 
+    weightings = {}
+
     scores = []
     weights = []
 
     $(".weight-slider").each () ->
       weight = parseInt $(this).val()
       metric = $(this).data("metric")
+
+      weightings[metric] = weight
 
       if gon.snapshot[metric]?
         scores.push(gon.snapshot[metric]["average"] * weight)
@@ -33,6 +38,8 @@ $ ->
     score = scores.reduce (t, s) -> t + s
     max = weights.reduce (t, s) -> t + s
     scoreMeter.update(score / max)
+
+    $.post "/repositories/weighting", { weightings: weightings }
  
 
   if isPath("/repositories/#{repositoryId}/snapshots/#{snapshotId}")

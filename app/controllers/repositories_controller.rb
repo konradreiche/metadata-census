@@ -51,15 +51,6 @@ class RepositoriesController < ApplicationController
     render json: result
   end
 
-  def leaderboard
-    @repositories.to_a.sort! { |x, y| x.score <=> y.score }
-  end
-
-  def map
-    @repositories = Repository.all
-    gon.repositories = @repositories.map { |r| r.attributes }
-  end
-
   def metric_score(metric, weighting=1.0)
     snapshot = @repository.snapshots.last
     value = snapshot.maybe(metric)
@@ -75,6 +66,11 @@ class RepositoriesController < ApplicationController
   def statistics
     snapshot = @repository.snapshots.last
     @times = snapshot.statistics['times']
+  end
+
+  def weighting
+    session[:weightings] = params[:weightings]
+    render nothing: true
   end
 
 end
