@@ -108,7 +108,7 @@ $ ->
     button = $(event.target)
     metric = button.data("metric")
 
-    url = "/admin/repositories/#{id}/metrics/#{metric}/schedule"
+    url = "/admin/repositories/#{repositoryId}/snapshots/#{snapshotId}/metrics/#{metric}/schedule"
     resetStatus(metric)
     $.post url, statusLoop()
 

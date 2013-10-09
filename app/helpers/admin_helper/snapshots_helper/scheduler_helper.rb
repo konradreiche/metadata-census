@@ -1,4 +1,4 @@
-module AdminHelper::RepositoriesHelper::SchedulerHelper
+module AdminHelper::SnapshotsHelper::SchedulerHelper
 
   def last_updated_date(metric)
     snapshot = @repository.snapshots.last
@@ -29,6 +29,16 @@ module AdminHelper::RepositoriesHelper::SchedulerHelper
 
     data = { metric: metric }
     tag(:button, class: classes.join(' '), data: data)
+  end
+
+  def scheduler_snapshot_picker
+    locals = { display: @snapshot.date,
+               entities: @repository.snapshots,
+               :parameter => :snapshot_id,
+               :path => :admin_repository_snapshot_scheduler_path }
+
+    partial = render partial: 'shared/dropdown_menu', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
   end
 
 end
