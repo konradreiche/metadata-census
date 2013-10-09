@@ -110,20 +110,20 @@ $ ->
 
     url = "/admin/repositories/#{id}/metrics/#{metric}/schedule"
     resetStatus(metric)
-    $.post url, statusLoop(id)
+    $.post url, statusLoop()
 
   ###
   Starts the status loop.
   ###
-  statusLoop = (id) ->
+  statusLoop = () ->
 
     return () =>
 
-      $.getJSON "/admin/repositories/#{id}/status", (response) ->
+      $.getJSON "/admin/repositories/#{repositoryId}/snapshots/#{snapshotId}/status", (response) ->
         updateElements(response)
 
         if not finished(response)
-          setTimeout(statusLoop(id), 500)
+          setTimeout(statusLoop(), 500)
         else
           updateElements(response)
           updateDateTime()
@@ -166,10 +166,10 @@ $ ->
   updateDateTime = (metric) ->
 
     for metric in gon.metrics
-      url = "/admin/repositories/#{id}/metrics/#{metric}/last_updated"
+      url = "/admin/repositories/#{repositoryId}/snapshots/#{snapshotId}/metrics/#{metric}/last_updated"
       $.getJSON url, setDateTime(metric)
 
   if root.isPath("/admin/repositories/:repository_id/snapshots/:snapshot_id/scheduler")
     initInterface()
     updateInterface()
-    statusLoop(repositoryId)()
+    statusLoop()()

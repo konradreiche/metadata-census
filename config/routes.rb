@@ -43,11 +43,12 @@ MetadataCensus::Application.routes.draw do
         resources :snapshots, only: [:new, :create] do
           get 'scheduler'
           get 'status'
-        end
 
-        resources :metrics, only: [] do
-          get  'last_updated'
-          post 'schedule'
+            resources :metrics, only: [] do
+              get  'last_updated'
+              post 'schedule'
+            end
+
         end
 
       end

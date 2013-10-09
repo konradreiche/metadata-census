@@ -4,12 +4,13 @@ require 'yajl/gzip'
 
 class Admin::SnapshotsController < ApplicationController
   include RepositoryManager
+  include MetricManager
 
   def create
-    file = params[:file]
+    path = params[:file]
     snapshot = nil
 
-    File.open(file) do |file|
+    File.open(path) do |file|
       parse_metadata(file) do |parsed|
 
         case parsed
@@ -32,8 +33,8 @@ class Admin::SnapshotsController < ApplicationController
                            snapshot_id: snapshot.id,
                            statistics: { resources: metadata['resources'].length } }
           end
-          records.each_slice(4000).each do |records|
-            MetadataRecord.collection.insert(records)
+          records.each_slice(4000).each do |chunk|
+            MetadataRecord.collection.insert(chunk)
           end
         else
           raise TypeError, "Unknown type #{parsed.class}"
@@ -109,5 +110,20 @@ class Admin::SnapshotsController < ApplicationController
     end
     snapshot.statistics[:times] = times
   end
+
+  def status
+    repository = @repository.id
+    jobs = Job.where(repository: repository)
+  
+    result = jobs.to_a.inject({}) do |status, job|
+      status[job.metric] = Sidekiq::Status::get_all(job.sidekiq_id)
+      percent = Sidekiq::Status::pct_complete(job.sidekiq_id)
+      status[job.metric][:percent] = percent.finite? ? percent : 0.0
+      status
+    end
+
+    render json: result
+  end
+
 
 end
