@@ -11,15 +11,18 @@ module RepositoryManager
     if id.nil?
       @repository = Repository.all.first
     else
-      @repository = Repository.find(id.downcase)
+      @repository = Repository.find(id)
     end
 
     gon.repository = @repository
   end
 
   def snapshot
-    id = params[:snapshot_id] || params[:id]
-    @snapshot = Snapshot.where(id: id).first
+    date = params[:snapshot_id] || params[:id]
+
+    if not params[:repository_id].nil? and not date.nil?
+      @snapshot = @repository.snapshots.where(date: date).first
+    end
   end
 
   def repositories

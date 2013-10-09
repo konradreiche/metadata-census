@@ -8,6 +8,8 @@ class Snapshot
   field :date, type: Date
   field :statistics, type: Hash
 
+  field :_id, type: String, overwrite: true, default: -> { date }
+
   Metrics.all.each do |metric|
     field metric, type: Hash
   end
@@ -35,6 +37,10 @@ class Snapshot
 
   def <=>(other)
     self.date <=> other.date
+  end
+
+  def to_s
+    date.to_s
   end
 
 end

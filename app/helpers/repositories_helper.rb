@@ -13,12 +13,6 @@ module RepositoriesHelper
     "active" if params[:action] == page_name
   end
 
-  def create_metric_analysis_button(metric)
-    icon = content_tag(:span, nil, class: 'glyphicon glyphicon-list-alt')
-    path = repository_metric_path(repository_id: @repository, id: metric)
-    link_to icon, path, class: 'btn btn-default'
-  end
-
   def create_metric_analysis_link(metric)
     content_tag(:a, metric.to_s.titlecase, href: metric_url(metric))
   end
@@ -70,16 +64,6 @@ module RepositoriesHelper
       end
     end
     record_identifier
-  end
-
-  def repository_menu
-    locals = { display: @repository.name,
-               entities: @repositories,
-               :parameter => :id,
-               :path => :repository_path }
-
-    partial = render partial: 'shared/dropdown_menu', locals: locals
-    content_tag(:li, partial, class: 'repository selector')
   end
 
   def iso639(language)

@@ -9,21 +9,22 @@ MetadataCensus::Application.routes.draw do
 
   constraints({ id: id_regex, repository_id: id_regex }) do
 
-    resources :repositories do
+    resources :repositories, only: [:show, :index] do
 
-      member { get 'statistics' }
+      resources :snapshots, only: [:show] do
 
-      resources :metrics, only: [:show]
-      resource :metadata, only: [] do
+        member { get 'statistics' }
 
-        member do
-         get 'normalize'
-         get 'search'
+        resources :metrics, only: [:show]
+        resource :metadata, only: [] do
+
+          member do
+            get 'normalize'
+            get 'search'
+          end
         end
-
       end
     end
-
   end
 
   # /admin
@@ -37,12 +38,12 @@ MetadataCensus::Application.routes.draw do
         post 'compile'
       end
 
-      resources :repositories do
+      resources :repositories, only: [:create, :new, :index] do
 
         get 'scheduler'
         get 'status'
 
-        resources :snapshots do
+        resources :snapshots, only: [:new, :create] do
           get 'scheduler'
           get 'status'
         end

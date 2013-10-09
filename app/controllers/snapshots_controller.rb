@@ -1,4 +1,4 @@
-class RepositoriesController < ApplicationController
+class SnapshotsController < ApplicationController
   include RepositoryManager
   include MetricManager
 
@@ -29,11 +29,8 @@ class RepositoriesController < ApplicationController
   end
   
   def show
-    options = { controller: 'snapshots', action: 'show' }
-    options[:repository_id] = @repository.id
-    options[:id] = @repository.snapshots.last.date
-
-    redirect_to options
+    @score = @repository.score
+    gon.score = @score
   end
 
   def score
