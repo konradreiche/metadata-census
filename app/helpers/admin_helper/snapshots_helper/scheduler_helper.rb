@@ -1,7 +1,7 @@
 module AdminHelper::SnapshotsHelper::SchedulerHelper
 
   def last_updated_date(metric)
-    snapshot = @repository.snapshots.last
+    snapshot = @snapshot
     metric = snapshot.maybe(metric)
 
     if not metric.nil? and not metric[:last_updated].nil?
@@ -13,7 +13,7 @@ module AdminHelper::SnapshotsHelper::SchedulerHelper
   end
 
   def last_updated_time(metric)
-    snapshot = @repository.snapshots.last
+    snapshot = @snapshot
     metric = snapshot.maybe(metric)
 
     if not metric.nil? and not metric[:last_updated].nil?

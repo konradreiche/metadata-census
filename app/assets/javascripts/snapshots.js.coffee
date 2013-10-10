@@ -9,7 +9,7 @@ $ ->
 
     $(".weight-slider").on "change", (event) ->
       value = $(this).val()
-      $(this).parents("td").find("span").html("#{value}&times;")
+      $(this).parents("td").find("span").text(value)
       weightScores(sm)
 
   ##

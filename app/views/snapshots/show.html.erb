@@ -26,17 +26,17 @@
       <tbody>
         <% Metrics.all.each do |metric| %>
           <tr>
-            <td><%= metric.to_s.titlecase %></td>
+            <td><%= link_to metric.to_s.titlecase, repository_snapshot_metric_path(@repository, @snapshot, metric) %></td>
             <td>
               <div class="row weight-label">
-                <div class="span12"><span class="weight"><%= weight(metric) %>&times;</span></div>
+                <div class="col-md-12"><span class="weight"><%= weight(metric) %></span></div>
               </div>
               <div class="row weight-component">
                 <div class="col-md-12"><%= weighting_slider(metric) %></div>
               </div>
             </td>
             <td><%= metric_score(metric) %></td>
-            <td><%= create_metric_analysis_button(metric) %></td>
+            <td><%= last_updated(metric) %></td>
           </tr>
         <% end %>
       </tbody>

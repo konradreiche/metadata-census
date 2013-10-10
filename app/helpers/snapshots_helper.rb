@@ -10,6 +10,26 @@ module SnapshotsHelper
     link_to icon, path, class: 'btn btn-default'
   end
 
+  def last_updated(metric)
+    metric = @snapshot.maybe(metric)
+
+    if not metric.nil? and not metric['last_updated'].nil?
+      last_updated = DateTime.parse(metric['last_updated'])
+
+      date = last_updated.strftime('%a %b %e %Y')
+      date_column = content_tag(:div, date, class: 'col-md-12')
+
+      time = last_updated.strftime('%T')
+      time_column = content_tag(:div, time, class: 'col-md-12')
+
+      rowAbove = content_tag(:div, date_column, class: 'row')
+      rowBelow = content_tag(:div, time_column, class: 'row')
+      rowAbove << rowBelow 
+    else
+      'N/A'
+    end
+  end
+
   def weight(metric)
     metric = metric.to_s
 
