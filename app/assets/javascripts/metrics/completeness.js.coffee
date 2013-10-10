@@ -14,7 +14,7 @@ $ ->
     width = 960 - margin.left - margin.right
     height = 500 - margin.top - margin.bottom
 
-    color = d3.scale.category20c()
+    color = d3.scale.category10()
 
     treemap = d3.layout.treemap()
       .size([width, height])

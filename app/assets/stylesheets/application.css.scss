@@ -126,7 +126,7 @@
 h2 {
   font-size: 1.7em;
   letter-spacing: -1px;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
   text-align: center;
   font-weight: normal;
   color: #999;
@@ -252,4 +252,13 @@ footer ul li {
 
 .gap {
   margin-bottom: 1em;
+}
+
+.error-page {
+  padding: 2.5em;
+  text-align: center;
+}
+
+.error-page > h3 {
+  margin: 0em;
 }

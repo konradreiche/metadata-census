@@ -3,9 +3,10 @@ module Analyzer
   class Generic
 
     def self.analyze(snapshot, metric)
+      return if snapshot[metric].nil?
+
       scores = group_scores_by(snapshot, metric, %s(record.groups))
       details = group_details(snapshot, metric)
-
       return { scores: scores, details: details }
     end
 

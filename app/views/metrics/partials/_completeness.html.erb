@@ -56,8 +56,10 @@
   <div class="row">
     <div class="dashboard col-md-12">
       <h3 class="statistic-heading">Completed Fields</h3>
-      <input class="treemap-switch" type="radio" name="mode" value="size" checked> Size</input>
-      <input class="treemap-switch" type="radio" name="mode" value="count" checked> Count</input>
+      <div class="row">
+        <div class="col-md-6"><div class="pull-right"><input class="treemap-switch" type="radio" name="mode" value="count"> Structure</input></div></div>
+        <div class="col-md-6"><input class="treemap-switch" type="radio" name="mode" value="size" checked> Completed</input></div>
+      </div>
       <div id="treemap"></div>
     </div>
   </div>
