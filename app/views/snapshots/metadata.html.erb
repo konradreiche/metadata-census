@@ -1,0 +1,7 @@
+<h1>Metadata Distribution <%= params[:distribution] + '%' %></h1>
+<h2><%= @repository.id %> (<%= @snapshot.id %>)</h2>
+<div class="dashboard">
+  <% @distribution.to_a.each do |record| %>
+    <p><%= record[:id] %></p>
+  <% end %>
+</div>

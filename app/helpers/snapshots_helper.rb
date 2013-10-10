@@ -33,7 +33,7 @@ module SnapshotsHelper
   def weight(metric)
     metric = metric.to_s
 
-    if session[:weightings][metric].nil?
+    if session[:weightings].nil?
       1
     else
       session[:weightings][metric]

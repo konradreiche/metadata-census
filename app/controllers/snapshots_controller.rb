@@ -77,4 +77,10 @@ class SnapshotsController < ApplicationController
     @times = snapshot.statistics['times']
   end
 
+  def metadata
+    distribution = params[:distribution].to_i
+    analyzer = Analyzer::QualityDistribution.new
+    @distribution = analyzer.records(@snapshot, distribution)
+  end
+
 end
