@@ -32,6 +32,7 @@
 
 .progress-meter text {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
 }
 
 .dashboard {
@@ -51,13 +52,39 @@
   border-color: #ddd;
   border-radius: 5px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 
   display: flex;
   min-height: 60vh;
   flex-direction: column;
 }
+
+.dashboard-3 {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-color: #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  min-height: 25vh;
+  flex-direction: column;
+}
+
+.dashboard-9 {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-color: #ddd;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  min-height: 25vh;
+  flex-direction: column;
+}
+
 @media (min-width: 992px) {
 
 .dashboard-left {
@@ -68,8 +95,16 @@
   float: right;
 }
 
+  .dashboard-9 {
+    width: 74.33%;
+  }
+
   .dashboard-6 {
     width: 49%;
+  }
+
+  .dashboard-3 {
+    width: 24.66%
   }
 }
 

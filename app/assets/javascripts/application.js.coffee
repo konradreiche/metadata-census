@@ -55,15 +55,15 @@ class ScoreMeter
   TWO_PI: 2 * Math.PI
   ARC: d3.svg.arc()
     .startAngle(0)
-    .innerRadius(35)
-    .outerRadius(45)
+    .innerRadius(50)
+    .outerRadius(65)
 
   COLOR: d3.scale.linear()
     .domain([0.0, 0.5, 1.0])
     .range(["#FF181E", "#FFBF00", "#82CA9D"])
 
-  WIDTH: 120
-  HEIGHT: 120
+  WIDTH: 150
+  HEIGHT: 150
 
   constructor: (selector, score) ->
 
