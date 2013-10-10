@@ -2,9 +2,9 @@ module Analyzer
 
   class Generic
 
-    def self.analyze(repository, metric)
-      scores = group_scores_by(repository, metric, %s(record.groups))
-      details = group_details(repository, metric)
+    def self.analyze(snapshot, metric)
+      scores = group_scores_by(snapshot, metric, %s(record.groups))
+      details = group_details(snapshot, metric)
 
       return { scores: scores, details: details }
     end
@@ -14,8 +14,7 @@ module Analyzer
     #
     # The group is determined through an accessor path.
     #
-    def self.group_scores_by(repository, metric, group)
-      snapshot = repository.snapshots.last
+    def self.group_scores_by(snapshot, metric, group)
       metadata = snapshot.metadata_records.only(metric, group)
       groups = Hash.new { |hash, key| hash[key] = [] }
 
@@ -41,8 +40,7 @@ module Analyzer
     # other value would contain somewhat counting information. If there are more
     # than two additional keys, the first one is chosen.
     #
-    def self.group_details(repository, metric)
-      snapshot = repository.snapshots.last
+    def self.group_details(snapshot, metric)
       metadata = snapshot.metadata_records.only(metric)
       details = Hash.new(0)
 

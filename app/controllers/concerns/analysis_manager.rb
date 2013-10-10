@@ -13,7 +13,7 @@ module AnalysisManager
     specific = @metric.to_s.underscore.camelcase
     analyzer = "Analyzer::#{specific}".constantize
 
-    @analysis = analyzer.analyze(@repository, @metric)
+    @analysis = analyzer.analyze(@snapshot, @metric)
     gon.analysis = @analysis
   rescue NameError => e
     Rails.logger.error e

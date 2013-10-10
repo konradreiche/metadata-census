@@ -45,5 +45,4 @@ $ ->
         .call(position)
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/completeness")
-    root = { "name": "Wurzel", "children": [{"name": "Ast1", "children": [{"name": "wat", "size": 5000}, {"name": "watXX", "size": 25}] }, {"name": "Faust", "size": 1000 }] }
-    initTreemap("#treemap", root)
+    initTreemap("#treemap", gon.analysis.treemap)
