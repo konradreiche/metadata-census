@@ -7,7 +7,7 @@ class RepositoriesController < ApplicationController
   def index
     scores = @repositories.map { |repository| repository.score }
     filtered = scores.sort.uniq.reverse
-    @ranking = scores.map { |score| filtered.index(score) + 1 }
+    @ranking = scores.map { |score| filtered.index(score) + 1 }.reverse
 
     @numbers = Hash.new
     @languages = Set.new

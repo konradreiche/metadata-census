@@ -30,7 +30,7 @@ root.id = (document) -> document["_id"]["$oid"]
 # Regular expression for repository identifier
 root.regExps = { repository_id: "[0-z\.]+" }
 
-root.metricId = null
+root.repositoryId = root.snapshotId = root.metricId = null
 
 if gon? and gon.repository?
   root.repositoryId = gon.repository._id
