@@ -13,6 +13,9 @@ class MetricsController < ApplicationController
     score = @repository.snapshots.last.send(@metric)
     @score = Metrics::normalize(@metric, score['average'])
     gon.score = @score
+
+    analyzer = Analyzer::QualityDistribution.new
+    gon.distribution = analyzer.distribution(@snapshot, @metric)
   end
 
   ##

@@ -90,11 +90,11 @@ $ ->
 
     margin =
       top: 0
-      right: 20
+      right: 0
       bottom: 30
       left: 40
 
-    width = 500 - margin.left - margin.right
+    width = 1000 - margin.left - margin.right
     height = 500 - margin.top - margin.bottom
 
     xAxisOffset = 25
@@ -196,6 +196,8 @@ $ ->
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_id")
     sm = new ScoreMeter(".metric.score-meter", gon.score)
+    hg = new Histogram("#quality-distribution", gon.distribution)
+
     initRecordSearch(i) for i in [0..1]
     initPieChart(gon.analysis.details)
     initBarChart(gon.analysis.scores)
