@@ -33,7 +33,7 @@ describe Metrics::Completeness do
                                 'pages'     => { 'type' => 'integer' }}}
 
     metric = Metrics::Completeness.new(schema)
-    score = metric.compute(data)
+    score, _ = metric.compute(data)
     
     expect(metric.fields).to be(6)
     expect(metric.fields_completed).to be(4)
@@ -71,10 +71,10 @@ describe Metrics::Completeness do
                                 'hash'        => ''}]}
 
     metric = Metrics::Completeness.new(schema)
-    score1 = metric.compute(record1)
+    score1, _ = metric.compute(record1)
 
     metric = Metrics::Completeness.new(schema)
-    score2 = metric.compute(record2)
+    score2, _ = metric.compute(record2)
 
     expect(score1).to be < 1.0
     expect(score2).to be < 1.0
@@ -102,16 +102,42 @@ describe Metrics::Completeness do
 
 
     metric = Metrics::Completeness.new(schema)
-    score1 = metric.compute(record1)
+    score1, _ = metric.compute(record1)
 
     metric = Metrics::Completeness.new(schema)
-    score2 = metric.compute(record2)
+    score2, _ = metric.compute(record2)
 
     metric = Metrics::Completeness.new(schema)
-    score3 = metric.compute(record3)
+    score3, _ = metric.compute(record3)
 
     expect(score1).to be > score3
     expect(score2).to be   score3
+  end
+
+  it "tracks the count of completed fields" do
+
+    record = { 'title'     => 'Farm Rents',
+               'author'    => 'Department for Environment and Food',
+               'resources' => [{ 'description' => '2007',
+                                 'format'      => '',
+                                 'hash'        => '' }]}
+
+    metric = Metrics::Completeness.new(schema)
+    _, analysis = metric.compute(record)
+
+    expect(analysis).to eq({ 'title' => 1,
+                             'author' => 1,
+                             'resources.description' => 1 })
+  end
+
+  it "merges analysis hashes" do
+
+    analysis1 = { 'title' => 1, 'tags' => 1 }
+    analysis2 = { 'tags' => 2, 'maintainer' => 1 }
+
+    Metrics::Completeness.merge_analysis(analysis1, analysis2)
+    expect(analysis1).to eq({ 'title' => 1, 'maintainer' => 1, 'tags' => 3 })
 
   end
+
 end

@@ -39,7 +39,7 @@ class Snapshot
     self.date <=> other.date
   end
 
-  def to_s
+  def display_name
     date.to_s
   end
 

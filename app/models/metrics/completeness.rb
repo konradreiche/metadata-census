@@ -1,11 +1,12 @@
 module Metrics
 
   class Completeness < Metric
-    attr_reader :fields, :fields_completed
+    attr_reader :fields, :fields_completed, :analysis
 
     def initialize(schema)
       @schema = schema
       @fields = count_fields(schema)
+      @analysis = Hash.new(0)
     end
 
     def self.description
@@ -14,24 +15,28 @@ module Metrics
     end
 
     def compute(data)
-      @fields_completed = count_completed_fields(data, @schema)
-      @fields_completed / @fields.to_f
+      analysis = Hash.new(0)
+      @fields_completed = count_completed_fields(data, @schema, analysis)
+      self.class.merge_analysis(@analysis, analysis)
+
+      score = @fields_completed / @fields.to_f
+      return score, analysis
     end
 
-    def count_completed_fields(data, schema, stack=[])
+    def count_completed_fields(data, schema, analysis, stack=[])
       completed = 0
       schema.each do |attribute_name, attribute|
         case attribute_name
         when 'properties'
-          completed += count_in_properties(data, schema, stack)
+          completed += count_in_properties(data, schema, analysis, stack)
         when 'items'
-          completed += count_in_items(data, schema, stack)
+          completed += count_in_items(data, schema, analysis, stack)
         end
       end
       completed
     end
 
-    def count_in_properties(data, schema, fragments)
+    def count_in_properties(data, schema, analysis, fragments)
 
       completed = 0
 
@@ -43,11 +48,15 @@ module Metrics
             default = property_schema['default']
             data[property] = (default.is_a?(Hash) ? default.clone : default)
           end
+
           if data.has_key?(property_name)
             if ['object', 'array'].include? property_schema['type'].downcase
-              completed += count_completed_fields(data[property_name], property_schema, fragments)
+              completed += count_completed_fields(data[property_name], property_schema, analysis, fragments + [property_name])
             else
-              completed += 1 if completed? data[property_name]
+              if completed?(data[property_name])
+                completed += 1
+                analysis[(fragments + [property_name]).join(".")] += 1
+              end
             end
           end
         end
@@ -55,21 +64,29 @@ module Metrics
       completed
     end
 
-    def count_in_items(data, schema, fragments)
+    def count_in_items(data, schema, analysis, fragments)
       average = 0
+
       if data.is_a?(Array)
+
         if schema.is_a?(Hash) and not data.empty?
           sum = data.map do |item|
-            count_completed_fields(item, schema['items'], fragments)
+            count_completed_fields(item, schema['items'], analysis, fragments)
           end.inject(:+)
+
           average = sum / data.length.to_f
+
         elsif schema.is_a?(Array) and not data.empty?  # tuple validation
+
           sum = schema['items'].map.with_index do |item_schema, i|
-            count_completed_fields(data[i], item_schema, fragments)
-          end.inject(:+)
-          average = sum / data.length.to_f
+            count_completed_fields(data[i], item_schema, analysis, fragments)
+          end.reduce(:+)
+
+          average = sum.fdiv(data.length)
+
         end
       end
+
       average
     end
 
@@ -83,6 +100,14 @@ module Metrics
       else
         raise TypeError, "Unrecognized type"
       end
+    end
+
+    def self.merge_analysis(analysis1, analysis2)
+      analysis2.each do |key, value|
+        analysis1[key] = 0 unless analysis1.key?(key)
+        analysis1[key] = analysis1[key] + value
+      end
+      analysis1
     end
 
     private

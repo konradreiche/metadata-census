@@ -113,6 +113,8 @@ $ ->
       .scale(y)
       .orient("left")
 
+    yAxis.tickFormat("")
+
     tip = d3.tip()
       .attr("class", "d3-tip")
       .offset([-10, 0])
@@ -140,9 +142,6 @@ $ ->
       .attr("dy", ".5em")
       .style("text-anchor", "end")
       .text("Groups")
-
-    d3.selectAll(".tick text")
-      .attr("class", "y-axis-label")
 
     svg.append("g")
       .attr("class", "x axis")

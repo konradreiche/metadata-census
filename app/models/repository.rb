@@ -64,7 +64,7 @@ class Repository
     a.map{|e| sorted.index(e) + 1}
   end
 
-  def to_s
+  def display_name
     id
   end
 

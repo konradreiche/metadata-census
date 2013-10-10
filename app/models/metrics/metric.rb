@@ -1,7 +1,7 @@
 module Metrics
   class Metric
 
-    @stripper = Regexp.compile /(\p{Letter}.*\p{Letter})/
+    @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
 
     def self.name
       self.to_s.demodulize.titleize
@@ -13,6 +13,10 @@ module Metrics
     
     def self.to_sym
       self.to_s.demodulize.underscore.dasherize.to_sym
+    end
+
+    def self.display_name
+      self.name
     end
 
     def self.description
@@ -28,6 +32,9 @@ module Metrics
       text.scan(/\S+/).map do |word|
         word.split(/(\p{Letter}.*\p{Letter})/)[1]
       end.compact
+    end
+
+    def analysis
     end
 
     ## Skip null fields and fields with whitespace strings

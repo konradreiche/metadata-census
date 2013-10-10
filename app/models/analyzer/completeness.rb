@@ -4,9 +4,8 @@ module Analyzer
 
     def self.analyze(repository, metric)
       scores = Generic.group_scores_by(repository, metric, %s(record.groups))
-      Rails.logger.info scores.sort
-
       schema_file = File.read('data/schema/ckan.json')
+
       schema = JSON.parse(schema_file).with_indifferent_access
       properties = fields(schema)
 

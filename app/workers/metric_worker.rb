@@ -28,12 +28,14 @@ class MetricWorker
       at(i + 1, @metadata.length)
     end
 
+    require 'pry'; binding.pry
     update_snapshot(metric, scores)
   end
 
   def update_snapshot(metric, scores)
     snapshot = @repository.snapshots.last
     score = Hash.new
+    analysis = @metric.analysis
 
     scores = scores.reject(&:nan?)
     scores.sort!
@@ -45,6 +47,7 @@ class MetricWorker
 
     snapshot[metric] = score
     snapshot[metric]['last_updated'] = DateTime.now.to_s
+    snapshot[metric]['analysis'] = analysis
     snapshot.save!
   end
 
