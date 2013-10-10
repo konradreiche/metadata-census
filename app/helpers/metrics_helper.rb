@@ -7,11 +7,11 @@ module MetricsHelper
   # link. The +new+ document is used for the menu item text and the link.
   #
   def record_selector_entry(current, new)
-    normalized = Metrics.normalize(@metric, new.send(@metric)[:score])
+    normalized = Metrics.normalize(@metric, new.send(@metric)['score'])
     score = "%6.2f%" % (normalized * 100)
     score = score.gsub(' ', '&nbsp;')
 
-    text = "#{score} &#8212; #{new.record[:name]}".html_safe
+    text = "#{score} &#8212; #{new.record['name']}".html_safe
     href = record_selector_entry_link(current, new)
 
     anchor = content_tag(:a, text, role: 'menuitem', tabindex: '-1', href: href)
@@ -57,7 +57,7 @@ module MetricsHelper
     locals = { display: @repository.name,
                entities: @repositories,
                :parameter => :repository_id,
-               :path => :repository_metric_path }
+               :path => :repository_snapshot_metric_path }
 
     partial = render partial: 'shared/dropdown_menu', locals: locals
     content_tag(:li, partial, class: 'repository selector')
@@ -67,7 +67,7 @@ module MetricsHelper
     locals = { display: @metric.to_s.titleize,
                entities: Metrics.all.map { |m| Metrics.from_sym(m) },
                :parameter => :id,
-               :path => :repository_metric_path }
+               :path => :repository_snapshot_metric_path }
 
     partial = render partial: 'shared/dropdown_menu', locals: locals
     content_tag(:li, partial, class: 'repository selector')

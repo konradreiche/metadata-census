@@ -11,7 +11,7 @@ class MetricsController < ApplicationController
 
   def show
     score = @repository.snapshots.last.send(@metric)
-    @score = Metrics::normalize(@metric, score[:average])
+    @score = Metrics::normalize(@metric, score['average'])
     gon.score = @score
   end
 
