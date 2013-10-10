@@ -20,6 +20,8 @@ class MetricWorker
 
       document.send(metric)['score'] = score
       document.send(metric)['analysis'] = analysis
+
+      document['score'] = document.calculate_score
       document.save!
 
       scores << score
