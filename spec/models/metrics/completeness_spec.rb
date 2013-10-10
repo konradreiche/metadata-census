@@ -119,7 +119,6 @@ describe Metrics::Completeness do
     record = { 'title'     => 'Farm Rents',
                'author'    => 'Department for Environment and Food',
                'resources' => [{ 'description' => '2007',
-                                 'format'      => '',
                                  'hash'        => '' }]}
 
     metric = Metrics::Completeness.new(schema)
@@ -127,17 +126,9 @@ describe Metrics::Completeness do
 
     expect(analysis).to eq({ 'title' => 1,
                              'author' => 1,
-                             'resources.description' => 1 })
-  end
-
-  it "merges analysis hashes" do
-
-    analysis1 = { 'title' => 1, 'tags' => 1 }
-    analysis2 = { 'tags' => 2, 'maintainer' => 1 }
-
-    Metrics::Completeness.merge_analysis(analysis1, analysis2)
-    expect(analysis1).to eq({ 'title' => 1, 'maintainer' => 1, 'tags' => 3 })
-
+                             'resources' => { 'description' => 1,
+                                              'format' => 0 ,
+                                              'hash' => 0} })
   end
 
 end

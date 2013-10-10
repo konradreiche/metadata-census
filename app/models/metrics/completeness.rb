@@ -6,7 +6,7 @@ module Metrics
     def initialize(schema)
       @schema = schema
       @fields = count_fields(schema)
-      @analysis = Hash.new(0)
+      @analysis = Hash.new { |h,k| h[k] = Hash.new(&h.default_proc) }
     end
 
     def self.description
@@ -15,9 +15,8 @@ module Metrics
     end
 
     def compute(data)
-      analysis = Hash.new(0)
+      analysis = Hash.new { |h,k| h[k] = Hash.new(&h.default_proc) }
       @fields_completed = count_completed_fields(data, @schema, analysis)
-      self.class.merge_analysis(@analysis, analysis)
 
       score = @fields_completed / @fields.to_f
       return score, analysis
@@ -53,12 +52,25 @@ module Metrics
             if ['object', 'array'].include? property_schema['type'].downcase
               completed += count_completed_fields(data[property_name], property_schema, analysis, fragments + [property_name])
             else
+
+              analysis_field = fragments.inject(analysis) { |h, k| h[k] }
+              global_analysis_field = fragments.inject(@analysis) { |h, k| h[k] }
+
+              analysis_field[property_name] = 0 if analysis_field[property_name] == {}
+              global_analysis_field[property_name] = 0 if global_analysis_field[property_name] == {}
+
               if completed?(data[property_name])
                 completed += 1
-                analysis[(fragments + [property_name]).join(".")] += 1
+                analysis_field[property_name] += 1
+                global_analysis_field[property_name] += 1
               end
+
             end
+          else
+            fragments.inject(analysis) { |h, k| h[k] }[property_name] = 0
+            fragments.inject(@analysis) { |h, k| h[k] }[property_name] = 0
           end
+
         end
       end
       completed
@@ -100,14 +112,6 @@ module Metrics
       else
         raise TypeError, "Unrecognized type"
       end
-    end
-
-    def self.merge_analysis(analysis1, analysis2)
-      analysis2.each do |key, value|
-        analysis1[key] = 0 unless analysis1.key?(key)
-        analysis1[key] = analysis1[key] + value
-      end
-      analysis1
     end
 
     private

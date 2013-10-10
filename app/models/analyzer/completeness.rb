@@ -12,6 +12,9 @@ module Analyzer
       return { scores: scores, properties: properties }
     end
 
+    def self.treemap(snapshot)
+    end
+
     private
     def self.fields(schema)
       schema[:properties].map do |k, v|
