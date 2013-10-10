@@ -80,6 +80,8 @@ $ ->
       .attr("x", 1)
       .attr("width", x(data[0].dx) - 1)
       .attr("height", (d) -> height - y(d.y))
+      .on "click", (d, i) ->
+        window.location = "#{snapshotId}/metadata?distribution=#{d.x - d.x % 10}"
 
     bar.append("text")
       .attr("class", "histogram-bar-label")
