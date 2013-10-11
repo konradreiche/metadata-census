@@ -1,0 +1,27 @@
+<div id="analysis" class="pill-pane active">
+  <div class="dashboard row">
+    <div class="col-md-12">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>License</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @snapshot.send(@metric)['analysis'].each do |license, count| %>
+          <tr>
+            <td><%= license %></td>
+            <td><%= count %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+<div id="statistics" class="pill-pane">
+</div>
+

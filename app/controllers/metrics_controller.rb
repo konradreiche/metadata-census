@@ -10,7 +10,7 @@ class MetricsController < ApplicationController
   end
 
   def show
-    score = @repository.snapshots.last.send(@metric)
+    score = @snapshot.send(@metric)
     return render 'errors/no_results' if score.nil?
 
     @score = Metrics::normalize(@metric, score['average'])

@@ -63,6 +63,16 @@ module MetricsHelper
     content_tag(:li, partial, class: 'repository selector')
   end
 
+  def repository_metric_snapshot_menu
+    locals = { display: @snapshot.date,
+               entities: @repository.snapshots,
+               :parameter => :snapshot_id,
+               :path => :repository_snapshot_metric_path }
+
+    partial = render partial: 'shared/dropdown_menu', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
+  end
+
   def repository_metric_metric_menu
     locals = { display: @metric.to_s.titleize,
                entities: Metrics.all.map { |m| Metrics.from_sym(m) },
