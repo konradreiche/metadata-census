@@ -68,10 +68,10 @@ module Metrics
       @resource_mime_types = Hash.new { |h, k| h[k] = Hash.new }
 
       metadata.each_with_index do |dataset, i|
-        dataset[:resources].each do |resource|
+        dataset['resources'].each do |resource|
           formats = determine_mime_types(resource)
-          url = URI.encode(resource[:url])
-          id = dataset[:id]
+          url = URI.encode(resource['url'])
+          id = dataset['id']
           enqueue_request(id, url, formats) unless formats.nil?
         end
         @worker.at(i + i, @total) unless @worker.nil?
@@ -84,14 +84,14 @@ module Metrics
       # blocking call
       @dispatcher.run
 
-      id = record[:id]
+      id = record['id']
       types = @resource_mime_types[id]
 
       validated = 0
-      resources = record[:resources].length
+      resources = record['resources'].length
 
-      record[:resources].each do |resource|
-        url = resource[:url]
+      record['resources'].each do |resource|
+        url = resource['url']
         mime = types[url]
         formats = determine_mime_types(resource)
         validated += 1 if formats.include?(mime)
@@ -104,7 +104,7 @@ module Metrics
     end
 
     def determine_mime_types(resource)
-      format = resource[:format]
+      format = resource['format']
 
       unless format.nil?
         format = format.downcase.split(';').first
@@ -113,7 +113,7 @@ module Metrics
         end
       end
 
-      format = resource[:mimetype]
+      format = resource['mimetype']
       return [format] unless format.nil?
       return []
     end

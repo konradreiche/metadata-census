@@ -4,7 +4,7 @@ module Metrics
 
     def initialize
       @babel = WhatLanguage.new(:german, :english)
-      @fields = { :text => [[:notes], [:resources, :description]] }
+      @fields = { :text => [['notes'], ['resources', 'description']] }
 
       @directory = Dir['data/spelling/*']
       @misspelling = Hash.new

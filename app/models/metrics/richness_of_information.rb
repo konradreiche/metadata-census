@@ -6,8 +6,8 @@ module Metrics
       :categorical_frequency
 
     def initialize(metadata, worker=nil)
-      @fields = {:category => [[:tags]],
-                 :text => [[:notes], [:resources, :description]]}
+      @fields = {:category => [['tags']],
+                 :text => [['notes'], ['resources', 'description']]}
 
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
@@ -16,7 +16,7 @@ module Metrics
       metadata.each_with_index do |record, i|
         @fields.each do |type, fields|
           fields.each do |accessors|
-            index_fields(record, accessors.dup, [record[:id]], type)
+            index_fields(record, accessors.dup, [record['id']], type)
           end
         end
         worker.at(i + 1, metadata.length) unless worker.nil?
