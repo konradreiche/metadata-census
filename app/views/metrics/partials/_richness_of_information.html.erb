@@ -12,6 +12,49 @@
 <div id="statistics" class="pill-pane">
   <div class="row">
     <div class="col-md-12 dashboard">
+      <h3 class="heading-only">Number of Documents: <%= @analysis['document_numbers'] %></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="dashboard-6 dashboard-left">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Categorical Word</th>
+            <th>Number of Occurences</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @analysis['categorical_frequency'].values.first.each do |word, count| %>
+            <tr>
+              <td><%= word %></td>
+              <td><%= count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="dashboard-6 dashboard-right">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Word from Continous Text</th>
+            <th>Number of Occurences</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @analysis['document_frequency'].each do |word, count| %>
+            <tr>
+              <td><%= word %></td>
+              <td><%= count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 dashboard">
       <div id="bar-chart"></div>
     </div>
   </div>

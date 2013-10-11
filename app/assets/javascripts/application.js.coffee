@@ -111,4 +111,6 @@ $('.dropdown-toggle').dropdown()
 $ ->
 
   $(".nav-pills li a").on "click", (event) ->
-    window.location.hash = "#{$(this).attr("href")}".replace("#", "")
+    window.location.hash = "#{$(this).attr("data-target")}".replace("#", "")
+
+  $(".nav-pills li a[data-target='#{window.location.hash}'").tab("show")

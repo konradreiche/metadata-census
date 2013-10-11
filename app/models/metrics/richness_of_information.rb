@@ -13,10 +13,6 @@ module Metrics
       @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
       @document_numbers = 0.0
 
-      @analysis = { document_frequency: @document_frequency,
-                    categorical_frequency: @categorical_frequency,
-                    document_numbers: @document_numbers }
-
       metadata.each_with_index do |record, i|
         @fields.each do |type, fields|
           fields.each do |accessors|
@@ -25,6 +21,14 @@ module Metrics
         end
         worker.at(i + 1, metadata.length) unless worker.nil?
       end
+
+      df = @document_frequency.each_with_object({}) do |(k,v),h|
+        h[k] = v.length
+      end
+
+      @analysis = { document_frequency: df,
+                    categorical_frequency: @categorical_frequency,
+                    document_numbers: @document_numbers }
     end
 
     def self.description
