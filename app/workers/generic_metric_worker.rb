@@ -1,8 +1,10 @@
 class GenericMetricWorker < MetricWorker
 
-  def perform(repository, metric, *args)
+  def perform(repository, snapshot, metric, *args)
     @repository ||= Repository.find(repository)
-    @metadata ||= @repository.snapshots.last.metadata_records
+    @snapshot ||= @repository.snapshots.where(date: snapshot).first
+
+    @metadata ||= @snapshot.metadata_records
     @metric ||= Metrics.from_sym(metric).new
     super
   end

@@ -7,7 +7,7 @@ class MetricWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
 
-  def perform(repository, metric, *args)
+  def perform(repository, snapshot, metric, *args)
     scores = []
     store :stage => :compute
     logger.info('Compute metadata scores')
@@ -32,7 +32,7 @@ class MetricWorker
   end
 
   def update_snapshot(metric, scores)
-    snapshot = @repository.snapshots.last
+    snapshot = @snapshot
     score = Hash.new
     analysis = @metric.analysis
 
@@ -47,6 +47,7 @@ class MetricWorker
     snapshot[metric] = score
     snapshot[metric]['last_updated'] = DateTime.now.to_s
     snapshot[metric]['analysis'] = analysis
+
     snapshot.save!
   end
 

@@ -2,21 +2,25 @@ module Metrics
 
   class Licenses < Metric
 
+    attr_reader :analysis
+
     def initialize(path=nil)
       path = 'app/assets/resources/licenses.json' if path.nil?
-      @licenses = JSON.parse(File.read(path)).with_indifferent_access
+      @licenses = JSON.parse(File.read(path))
+      @analysis = Hash.new(0)
     end
 
     def license_open?(id)
       return false if @licenses[id].nil?
-      @licenses[id][:is_okd_compliant] || @licenses[id][:is_osi_compliant]
+      @licenses[id]['is_okd_compliant'] || @licenses[id]['is_osi_compliant']
     end
 
     def compute(record)
-      license = record[:license_id]
-      @report = license
-      return 1.0, @report if license_open?(license)
-      return 0.0, @report
+      license = record['license_id'].gsub('.', "\uff0e")
+      @analysis[license] += 1
+
+      return 1.0, license if license_open?(license)
+      return 0.0, license
     end
 
   end
