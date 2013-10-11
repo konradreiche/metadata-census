@@ -11,7 +11,7 @@ class Snapshot
   field :_id, type: String, overwrite: true, default: -> { date }
 
   Metrics.all.each do |metric|
-    field metric, type: Hash, default: Hash.new
+    field metric, type: Hash
   end
 
   def best_records(metric)

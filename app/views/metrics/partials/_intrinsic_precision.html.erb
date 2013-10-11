@@ -2,7 +2,7 @@
   <div class="row">
     <% 2.times do |i| %>
       <div class="dashboard-6 <%= i == 0 ? "dashboard-left" : "dashboard-right" %> col-md-6 without-heading">
-        <div class="row">
+        <div class="row gap">
           <div class="col-md-12">
             <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -57,11 +57,11 @@
             <table class="metric record-info table table-bordered">
               <tr>
                 <th>ID</th>
-                <td><%= @documents[i].record[:id] %></td>
+                <td><%= @documents[i].record['id'] %></td>
               </tr>
               <tr>
                 <th>Name</th>
-                <td><%= @documents[i].record[:name] %></td>
+                <td><%= @documents[i].record['name'] %></td>
               </tr>
             </table>
           </div>
@@ -70,12 +70,12 @@
           <div class="col-md-12">
             <table class="metric table table-bordered table-striped">
               <tbody>
-                <% analysis = @documents[i].send(@metric)[:analysis] %>
+                <% analysis = @documents[i].send(@metric)['analysis'] %>
                 <% analysis.each do |item| %>
                   <% item = item.with_indifferent_access %>
                   <tr>
-                    <th><%= item[:field].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                    <th>Misspellings: <%= item[:misspelled].length %></th>
+                    <th><%= item['field'].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
+                    <th>Misspellings: <%= item['misspelled'].length %></th>
                   </tr>
                   <tr>
                     <%= content_tag(:td, highlight_misspellings(item, i), colspan: '2')%>
@@ -111,7 +111,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @analysis[:misspellings].each do |misspelling, count| %>
+          <% @analysis['misspellings'].each do |misspelling, count| %>
             <tr>
               <td><%= misspelling %></td>
               <td><%= count %></td>

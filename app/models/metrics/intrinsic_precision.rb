@@ -2,9 +2,7 @@ module Metrics
 
   class IntrinsicPrecision < Metric
 
-    def initialize(language)
-      @language = language.to_s.downcase.to_sym
-
+    def initialize
       @babel = WhatLanguage.new(:german, :english)
       @fields = { :text => [[:notes], [:resources, :description]] }
 
@@ -13,7 +11,7 @@ module Metrics
     end
 
     def self.description
-      description = <<-TEXT.strip_heredoc
+      <<-TEXT.strip_heredoc
       The intrinsic precision measures measures common spelling mistakes. Only
       fields containing continious text, like notes or resource description are
       tested for the spelling mistakes.
@@ -33,7 +31,7 @@ module Metrics
           score = 1.0
 
           misspelled = Metric.words(text).inject([]) do |misspellings, word|
-            misspellings << word if @misspelling[language].key?(word)
+            misspellings << word if @misspelling[language].to_h.key?(word)
             misspellings
           end.uniq
 
@@ -54,8 +52,7 @@ module Metrics
     end
 
     def language(record)
-      detection = @babel.language(corpus(record))
-      detection ||= @language
+      @babel.language(corpus(record))
     end
 
     def corpus(record)
@@ -66,7 +63,10 @@ module Metrics
 
     private
     def load_misspelling(language)
-      yaml = File.read("data/spelling/#{language}.yml")
+      path = "data/spelling/#{language}.yml"
+      return if language.nil? or not File.exists?(path)
+
+      yaml = File.read(path)
       @misspelling[language] = YAML.load(yaml)
     end
 

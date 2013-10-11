@@ -6,18 +6,18 @@ module Analyzer
       alias_method :__analyze__, :analyze
     end
     
-    def self.analyze(repository, metric)
-      analyses = __analyze__(repository, metric)
-      analyses[:misspellings] = misspellings(repository, metric)
+    def self.analyze(snapshot, metric)
+      analyses = __analyze__(snapshot, metric)
+      analyses['misspellings'] = misspellings(snapshot, metric)
       analyses
     end
 
-    def self.misspellings(repository, metric)
-      metadata = repository.snapshots.last.metadata_records.only(metric)
+    def self.misspellings(snapshot, metric)
+      metadata = snapshot.metadata_records.only(metric)
       metadata.to_a.inject(Hash.new(0)) do |statistic, document|
 
-        document.send(metric)[:analysis].each do |analysis|
-          analysis[:misspelled].each { |word| statistic[word] += 1 }
+        document.send(metric)['analysis'].each do |analysis|
+          analysis['misspelled'].each { |word| statistic[word] += 1 }
         end
         statistic
 
