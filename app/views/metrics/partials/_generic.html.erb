@@ -70,15 +70,15 @@
           <div class="col-md-12">
             <table class="metric table table-bordered table-striped">
               <tbody>
-                <% analysis = @documents[i].send(@metric)[:analysis] %>
+                <% analysis = @documents[i].send(@metric)['analysis'] %>
                 <% analysis.each do |item| %>
                   <% item = item.with_indifferent_access %>
                   <tr>
-                    <th><%= item[:field].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                    <th><%= "%.2f%" % (Metrics.normalize(@metric, item[:score]) * 100) %></th>
+                    <th><%= item['field'].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
+                    <th><%= "%.2f%" % (Metrics.normalize(@metric, item['score']) * 100) %></th>
                   </tr>
                   <tr>
-                    <%= content_tag(:td, Metrics::Metric.value(@documents[i].record, item[:field]), colspan: '2')%>
+                    <%= content_tag(:td, Metrics::Metric.value(@documents[i].record, item['field']), colspan: '2')%>
                   </tr>
                 <% end %>
               </tbody>

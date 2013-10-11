@@ -2,6 +2,7 @@
 <h2><%= @metric.to_s.titlecase %></h2>
 <%= render layout: 'shared/repository_breadcrumb' do %>
   <%= repository_metric_repository_menu %>
+  <%= repository_metric_snapshot_menu %>
   <%= repository_metric_metric_menu %>
 <% end %>
 <div class="row">

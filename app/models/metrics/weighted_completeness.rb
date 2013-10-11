@@ -17,7 +17,7 @@ module Metrics
       end
     end
 
-    def count_in_properties(data, schema, stack)
+    def count_in_properties(data, schema, analysis, stack)
       completed = 0
       if data.is_a?(Hash)
         schema['properties'].each do |property_name, property_schema|
@@ -30,7 +30,7 @@ module Metrics
           if data.has_key?(property_name)
             stack << property_name
             if ['object', 'array'].include? property_schema['type'].downcase
-              completed += count_completed_fields(data[property_name], property_schema, stack)
+              completed += count_completed_fields(data[property_name], property_schema, analysis, stack)
             else
               completed += weight(stack) if completed? data[property_name]
             end

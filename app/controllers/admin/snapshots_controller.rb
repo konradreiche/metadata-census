@@ -113,7 +113,7 @@ class Admin::SnapshotsController < ApplicationController
 
   def status
     repository = @repository.id
-    jobs = Job.where(repository: repository)
+    jobs = Job.where(repository: repository, snapshot: @snapshot.date.to_s)
   
     result = jobs.to_a.inject({}) do |status, job|
       status[job.metric] = Sidekiq::Status::get_all(job.sidekiq_id)

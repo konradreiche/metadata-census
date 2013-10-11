@@ -6,13 +6,15 @@ class Admin::MetricsController < ApplicationController
 
   def schedule
     worker = MetricWorker.worker_class(@metric)
-    job = Job.where(repository: @repository.id, metric: @metric)
-    id = worker.send(:perform_async, @repository.id, @metric)
+    snapshot_date = @snapshot.date.to_s
+ 
+    job = Job.where(repository: @repository.id, snapshot: snapshot_date, metric: @metric)
+    id = worker.send(:perform_async, @repository.id, @snapshot.date, @metric)
 
     if job.exists?
       job.first.update_attributes!(sidekiq_id: id)
     else
-      Job.create!(sidekiq_id: id, repository: @repository.id, metric: @metric)
+      Job.create!(sidekiq_id: id, repository: @repository.id, snapshot: snapshot_date, metric: @metric)
     end
 
     render nothing: true

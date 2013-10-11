@@ -1,6 +1,6 @@
 class WeightedCompletenessMetricWorker < GenericMetricWorker
 
-  def perform(repository, metric)
+  def perform(repository, snapshot, metric)
     @repository ||= Repository.find(repository)
     schema = JSON.parse(File.read('public/ckan-schema.json'))
 
