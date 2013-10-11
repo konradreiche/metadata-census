@@ -1,20 +1,6 @@
-<div id="analysis" class="tab-pane active">
+<div id="analysis" class="pill-pane active">
   <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <input id="link-checker-filter" class="form-control" type="text">
-      <!--
-        <div class="input-group">
-          <div class="input-group-btn">
-            <button class="btn btn-default">Working</button>
-            <button class="btn btn-default">All</button>
-            <button class="btn btn-default" disabled="disabled">Broken</button>
-          </div>
-        </div>
-      -->
-    </div>
-  </div> 
-  <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 dashboard">
       <table class="link-checker-table table">
         <thead>
           <th>ID</th>
@@ -22,13 +8,12 @@
           <th>Response</th>
         </thead>
         <tbody>
-          <% @analysis.responses.each do |id, responses| %>
-            <% responses.each_with_index do |(url, response), i| %>
-              <% next if successful?(response) %>
+          <% @analysis.each do |id, responses| %>
+            <% responses.each_with_index do |(url, status), i| %>
               <tr>
-                <td><%= id %></td>
+                <%= content_tag(:td, id, rowspan: responses.length) if i == 0 %>
                 <td><%= content_tag(:a, url, href: url) %></td>
-                <%= response_td(response) %>
+                <%= response_td(status) %>
               </tr>
             <% end %>
           <% end %>
@@ -37,10 +22,31 @@
     </div>
   </div>
 </div>
-<div id="statistics" class="tab-pane">
+<div id="statistics" class="pill-pane">
   <div class="row">
-    <div class="col-md-12">
-      <div class="metric link-checker pie-chart"></div>
+    <div class="col-md-12 dashboard">
+      <h3><span class="glyphicon glyphicon-stats"></span> Responses</h3>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @snapshot[@metric]['analysis'].to_a.each do |status, count| %>
+                <tr>
+                  <td><%= status %></td>
+                  <td><%= count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

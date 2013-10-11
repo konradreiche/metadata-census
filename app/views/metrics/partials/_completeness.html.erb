@@ -1,5 +1,12 @@
 <div id="analysis" class="pill-pane active">
-  <%= render partial: 'shared/record_selector' %>
+   <div class="row">
+    <% 2.times do |i| %>
+      <% side = ["dashboard-left", "dashboard-right"][i] %>
+      <%= content_tag(:div, class: "dashboard-6 #{side} col-md-6 without-heading") do %>
+        <%= render partial: 'shared/metadata_record_selector', locals: { i: i } %>
+      <% end %>
+    <% end %>
+  </div>
   <div class="dashboard row">
     <div class="col-md-12">
       <h3><span class="glyphicon glyphicon-eye-open"></span> Record Comparison</h3>

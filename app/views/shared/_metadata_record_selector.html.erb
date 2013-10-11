@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-      <% @repository.snapshots.last.best_records(@metric).each do |document| %>
+      <% @snapshot.best_records(@metric).each do |document| %>
         <%= record_selector_entry(@documents[i], document) %>
       <% end %>
     </ul>

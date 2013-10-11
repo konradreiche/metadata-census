@@ -5,7 +5,8 @@ $ ->
   ##
   # Sets up the pie chart for the statistics tab
   #
-  initPieChart = (analysis) ->
+  initPieChart = (analysis, selector) ->
+
 
     data = []
     for key, value of analysis
@@ -83,6 +84,8 @@ $ ->
   Draws the bar chart to display the score distribution grouped by groups.
   ###
   initBarChart = (scores, selector) ->
+
+    return unless $(selector).exists()
 
     data = []
     for key, value of scores
@@ -198,5 +201,5 @@ $ ->
     hg = new Histogram("#quality-distribution", gon.distribution)
 
     initRecordSearch(i) for i in [0..1]
-    initPieChart(gon.analysis.details)
+    initPieChart(gon.analysis.details, "#pie-chart")
     initBarChart(gon.analysis.scores, "#bar-chart")

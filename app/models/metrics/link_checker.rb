@@ -5,11 +5,15 @@ module Metrics
 
   class LinkChecker < Metric
 
+    attr_reader :analysis
+
     def initialize(metadata, worker=nil)
       @worker = worker
       @processed = 0
+
       @requests = 0
       @total = metadata.length
+      @analysis = Hash.new(0)
 
       @dispatcher = Typhoeus::Hydra.hydra
       @resource_availability = Hash.new { |h, k| h[k] = Hash.new }
@@ -31,17 +35,18 @@ module Metrics
     end
 
     def compute(record)
+      
       # blocking call
       @dispatcher.run
 
       id = record['id']
       responses = @resource_availability[id].values
 
-      @report = @resource_availability[id]
-      score = responses.select { |r| success?(r) }.size / responses.size.to_f
+      analysis = @resource_availability[id].to_a
+      score = responses.select { |r| success?(r) }.size.fdiv(responses.size)
 
-      return 0.0, @report unless score.finite?
-      return score, @report
+      return 0.0, analysis unless score.finite?
+      return score, analysis
     end
 
     def success?(response_code)
@@ -73,6 +78,8 @@ module Metrics
           enqueue_request(id, url, :get)
         else
           @resource_availability[id][url] = response_message
+          @analysis[response_message] += 1
+
           @worker.at(@processed + 1, @requests) unless @worker.nil?
           @processed += 1
         end
