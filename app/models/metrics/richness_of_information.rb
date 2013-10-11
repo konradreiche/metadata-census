@@ -3,7 +3,7 @@ module Metrics
   class RichnessOfInformation < Metric
 
     attr_reader :document_numbers, :document_frequency,
-      :categorical_frequency
+      :categorical_frequency, :analysis
 
     def initialize(metadata, worker=nil)
       @fields = {:category => [['tags']],
@@ -12,6 +12,10 @@ module Metrics
       @document_frequency = Hash.new { |h,k| h[k] = [] }
       @categorical_frequency = Hash.new { |h,k| h[k] = Hash.new(0) }
       @document_numbers = 0.0
+
+      @analysis = { document_frequency: @document_frequency,
+                    categorical_frequency: @categorical_frequency,
+                    document_numbers: @document_numbers }
 
       metadata.each_with_index do |record, i|
         @fields.each do |type, fields|

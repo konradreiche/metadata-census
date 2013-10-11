@@ -1,0 +1,13 @@
+<div id="analysis" class="pill-pane active">
+  <div class="row">
+    <% 2.times do |i| %>
+      <% side = ["dashboard-left", "dashboard-right"][i] %>
+      <%= content_tag(:div, class: "dashboard-6 #{side} col-md-6 without-heading") do %>
+        <%= render partial: 'shared/metadata_record_selector', locals: { i: i } %>
+        <%= render partial: 'shared/metadata_record_content', locals: { i: i } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<div id="statistics" class="pill-pane">
+</div>

@@ -15,9 +15,9 @@ module Metrics
       @resource_availability = Hash.new { |h, k| h[k] = Hash.new }
 
       metadata.each_with_index do |dataset, i|
-        dataset[:resources].to_a.each do |resource|
-          url = URI.unescape(resource[:url])
-          id = dataset[:id]
+        dataset['resources'].to_a.each do |resource|
+          url = URI.unescape(resource['url'])
+          id = dataset['id']
 
           raise KeyError, 'Record ID must not be null' if id.nil?
           enqueue_request(id, url)
@@ -34,7 +34,7 @@ module Metrics
       # blocking call
       @dispatcher.run
 
-      id = record[:id]
+      id = record['id']
       responses = @resource_availability[id].values
 
       @report = @resource_availability[id]

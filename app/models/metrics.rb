@@ -26,9 +26,10 @@ module Metrics
 
     repositories.each do |repository|
       score = repository.snapshots.last.maybe(metric)
+
       unless score.nil?
-        scores << score[:minimum]
-        scores << score[:maximum]
+        scores << score['minimum']
+        scores << score['maximum']
       end
     end
 

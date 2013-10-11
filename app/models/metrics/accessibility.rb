@@ -6,7 +6,7 @@ module Metrics
   class Accessibility < Metric
 
     def initialize(language)
-      @fields = { text: [[:notes], [:resources, :description]] }
+      @fields = { text: [['notes'], ['resources', 'description']] }
       @sentence_tokenizer = TactfulTokenizer::Model.new
 
       options = { language: language, left: 0, right: 0 }
