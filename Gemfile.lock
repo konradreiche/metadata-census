@@ -9,12 +9,6 @@ GIT
       tzinfo (~> 0.3.37)
 
 GIT
-  remote: git://github.com/peterc/whatlanguage.git
-  revision: fd49f99c5ded981dd8a0751f4ff2ea930d327804
-  specs:
-    whatlanguage (1.0.5)
-
-GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
   revision: 0e88056ac5d58fb0bbd23d3fe929eac01712d964
   branch: 3
@@ -105,9 +99,6 @@ GEM
     i18n (0.6.5)
     interception (0.3)
     iso-639 (0.1.0)
-    jquery-rails (3.0.4)
-      railties (>= 3.0, < 5.0)
-      thor (>= 0.14, < 2.0)
     json (1.8.0)
     leaflet-rails (0.6.2)
     mail (2.5.4)
@@ -258,7 +249,6 @@ DEPENDENCIES
   geocoder
   gon
   iso-639
-  jquery-rails
   json
   leaflet-rails
   mongoid!
@@ -281,5 +271,4 @@ DEPENDENCIES
   tire
   typhoeus
   uglifier (>= 1.3.0)
-  whatlanguage!
   yajl-ruby

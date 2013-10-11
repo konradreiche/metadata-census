@@ -33,8 +33,6 @@ gem 'coffee-rails', '~> 4.0.0'
 #
 gem 'uglifier', '>= 1.3.0'
 
-gem 'jquery-rails'
-
 gem 'tire'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
@@ -52,7 +50,6 @@ gem 'json'
 gem 'typhoeus'
 gem 'text-hyphen'
 gem 'tactful_tokenizer'
-gem 'whatlanguage', :git => 'git://github.com/peterc/whatlanguage.git'
 gem 'cld'
 
 # Sidekiq
