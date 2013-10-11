@@ -82,7 +82,7 @@ $ ->
   ###
   Draws the bar chart to display the score distribution grouped by groups.
   ###
-  initBarChart = (scores) ->
+  initBarChart = (scores, selector) ->
 
     data = []
     for key, value of scores
@@ -121,7 +121,7 @@ $ ->
       .html (d) ->
         "<strong>Group: </strong> <span class=\"group-tip\">#{d.group}</span>"
 
-    svg = d3.select("#bar-chart").append("svg")
+    svg = d3.select(selector).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -199,4 +199,4 @@ $ ->
 
     initRecordSearch(i) for i in [0..1]
     initPieChart(gon.analysis.details)
-    initBarChart(gon.analysis.scores)
+    initBarChart(gon.analysis.scores, "#bar-chart")

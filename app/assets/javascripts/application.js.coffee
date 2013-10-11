@@ -108,3 +108,14 @@ root.ScoreMeter = ScoreMeter
 # Activate repository breadcrumb dropdown if available
 $('.dropdown-toggle').dropdown()
 
+$ ->
+  # Update window location on tab clicks
+  initLocationExtender = () ->
+    $("nav-pills li a").on "click", (event) ->
+      event.preventDefault()
+      $(this).tab("show")
+
+    $('a[data-toggle="pill"').on "shown.bs.tab", (event) ->
+      window.location.hash = "#{$(this).attr("href")}".replace("#", "")
+
+  initLocationExtender()

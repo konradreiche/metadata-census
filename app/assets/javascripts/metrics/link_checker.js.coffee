@@ -10,13 +10,6 @@ $ ->
       legend = ("## - #{renderCode(code)}" for code, count of gon.analysis)
       generate_pie_chart(values, legend)
 
-  # Activate one of the tabs
-  activateTab = () ->
-    activeTab = $("[href=#{window.location.hash.replace("/", "")}]")
-    activeTab and activeTab.tab('show')
-    divPieChart = $(".metric.link-checker.pie-chart")
-    activatePieChart()
-
   # Filter for the result table
   tableFilter = () ->
     $("#link-checker-filter").on "input", (event) ->
@@ -63,10 +56,3 @@ $ ->
           this.label[1].attr({ "font-weight": 400 })
 
     )
-
-  activateTab()
-
-  $('a[data-toggle="tab"').on "shown.bs.tab", (event) ->
-    event.preventDefault()
-    window.location.hash = "#{$(this).attr("href")}".replace("#", "")
-    activatePieChart()
