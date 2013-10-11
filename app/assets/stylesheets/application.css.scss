@@ -267,3 +267,7 @@ h3.heading-only {
   margin: 0em;
   text-align: center;
 }
+
+a[data-target] {
+  cursor: pointer;
+}
