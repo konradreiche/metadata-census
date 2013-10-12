@@ -107,6 +107,8 @@ module Metrics
         false
       elsif value.is_a? Numeric
         true
+      elsif value.is_a? Boolean
+        true
       elsif value.respond_to?(:empty?)
         not value.empty?
       else

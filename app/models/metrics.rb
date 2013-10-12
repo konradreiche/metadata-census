@@ -54,7 +54,8 @@ module Metrics
   end
 
   def self.blank?(value)
-    value.nil? || value.empty? || (value.is_a?(String) && value !~ /[^[:space:]]/)
+    value.nil? || value.is_a?(Boolean) || value.is_a?(Fixnum) ||
+      value.empty? || (value.is_a?(String) && value !~ /[^[:space:]]/)
   end
 
 end

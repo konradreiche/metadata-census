@@ -8,7 +8,7 @@ class AdminController < ApplicationController
     path = { controller: "admin/snapshots",
              action: "scheduler",
              repository_id: repository.id,
-             snapshot_id: snapshot.id }
+             snapshot_id: snapshot.date }
 
     redirect_to path
   end

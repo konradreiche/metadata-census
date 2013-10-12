@@ -36,7 +36,7 @@ if gon? and gon.repository?
   root.repositoryId = gon.repository._id
 
 if gon? and gon.snapshot?
-  root.snapshotId = gon.snapshot._id
+  root.snapshotId = gon.snapshot.date
 
 if gon? and gon.metric?
   root.metricId = gon.metric
