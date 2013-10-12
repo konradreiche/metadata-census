@@ -125,15 +125,15 @@ describe Metrics::Accessibility do
     average_syllables_per_word = syllables / words.length
 
     expect(average_sentence_length).to be(35.5)
-    expect(average_syllables_per_word).to be(1.8732394366197183)
+    expect(average_syllables_per_word.round(2)).to be(1.87)
 
     score = accessibility.flesch_reading_ease(text)
-    expect(score).to be(86.71000000000001)
+    expect(score.round(2)).to be(86.71)
 
-    score, analysis = accessibility.compute({ :notes => text })
+    score, analysis = accessibility.compute({ 'notes' => text })
 
-    expect(analysis).to eq([{ score: score, field: [:notes] }])
-    expect(score).to be(86.71000000000001)
+    expect(analysis).to eq([{ score: score, field: ['notes'] }])
+    expect(score.round(2)).to be(86.71)
 
   end
 

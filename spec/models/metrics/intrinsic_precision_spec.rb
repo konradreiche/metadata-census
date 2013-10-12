@@ -19,7 +19,7 @@ describe Metrics::IntrinsicPrecision do
   end
 
   it "detect common spelling mistakes" do
-    record = { 'notes' => "Die Addresse des Hauses lautet" }
+    record = { 'notes' => "Die Addresse seiner Wohnung lautet" }
 
     metric = Metrics::IntrinsicPrecision.new
     score, analysis = metric.compute(record)

@@ -3,9 +3,7 @@ module Metrics
   class IntrinsicPrecision < Metric
 
     def initialize
-      @babel = WhatLanguage.new(:german, :english)
       @fields = { :text => [['notes'], ['resources', 'description']] }
-
       @directory = Dir['data/spelling/*']
       @misspelling = Hash.new
     end
@@ -52,7 +50,10 @@ module Metrics
     end
 
     def language(record)
-      @babel.language(corpus(record))
+      detection = CLD.detect_language(corpus(record))
+      return detection if detection.nil?
+
+      detection[:name].to_s.downcase.to_sym
     end
 
     def corpus(record)
