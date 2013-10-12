@@ -1,0 +1,56 @@
+<div id="analysis" class="pill-pane active">
+  <div class="row">
+    <div class="col-md-12 dashboard">
+      <table class="accuracy-table table table-bordered">
+        <thead>
+          <th>ID</th>
+          <th>URL</th>
+          <th>Format</th>
+          <th>Actual MIME</th>
+          <th>Expected MIME</th>
+        </thead>
+        <tbody>
+          <% @analysis.select { |_, a| a['formats'].all? { |fa| not fa['valid'] } }.each do |id, analysis| %>
+            <% analysis['formats'].each_with_index.each do |format_analysis, i| %>
+              <tr>
+                <%= content_tag(:td, id, rowspan: analysis['formats'].length) if i == 0 %>
+                <td><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
+                <td><%= format_analysis['format'] %></td>
+                <%= actual_mime_type(format_analysis) %>
+                <td><%= format_analysis['expected_mime_types'].join(", ") %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="statistics" class="pill-pane">
+  <div class="row">
+    <div class="col-md-12 dashboard">
+      <h3><span class="glyphicon glyphicon-stats"></span> Responses</h3>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Format</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @snapshot[@metric]['analysis'].to_a.each do |format, count| %>
+                <tr>
+                  <td><%= format %></td>
+                  <td><%= count %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

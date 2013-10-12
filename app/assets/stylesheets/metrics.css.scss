@@ -109,3 +109,22 @@
 .repositories.metric.completeness.table > tbody tr > td.incomplete {
   background-color: #f2dede;
 }
+
+.accuracy-table tbody tr td:first-child {
+  vertical-align: middle;
+}
+
+.accuracy-table tbody tr td:nth-child(-n+2) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.successful {
+  background-color: #dff0d8;
+}
+
+.unsuccessful {
+  background-color: #f2dede;
+}
+

@@ -17,7 +17,7 @@ module Metrics
       'pdf'   => ['application/pdf', 'application/x-pdf', 'application/x-bzpdf',
                   'application/x-gzpdf'],
       'txt'   => ['text/plain'],
-      'zip'   => ['application/zip'],
+      'zip'   => ['application/zip', 'application/x-zip-compressed'],
       'axd'   => ['application/x-axd'],
       'shp'   => ['application/octet-stream'],
       'wms'   => ['application/vnd.ogc.wms_xml', 'text/xml', 'text/html',
@@ -61,9 +61,11 @@ module Metrics
     def initialize(metadata, worker=nil)
       @worker = worker
       @processed = 0
+
       @requests = 0
       @total = metadata.length
 
+      @analysis = Hash.new(0)
       @dispatcher = Typhoeus::Hydra.hydra
       @resource_mime_types = Hash.new { |h, k| h[k] = Hash.new }
 
@@ -89,18 +91,29 @@ module Metrics
 
       validated = 0
       resources = record['resources'].length
+      analysis = { formats: [], sizes: [] }
 
       record['resources'].each do |resource|
         url = resource['url']
-        mime = types[url]
-        formats = determine_mime_types(resource)
-        validated += 1 if formats.include?(mime)
+        format = resource['format']
+        
+        actual_mime_type = types[url]
+        expected_mime_types = determine_mime_types(resource)
+
+        valid = expected_mime_types.include?(actual_mime_type) 
+        validated += 1 if valid
+
+        analysis[:formats] << { url: url,
+                                format: format,
+                                actual_mime_type: actual_mime_type,
+                                expected_mime_types: expected_mime_types,
+                                valid: valid }
       end
 
       score = validated.fdiv(resources)
       score = 0.0 if resources == 0
 
-      return score, types
+      return score, analysis
     end
 
     def determine_mime_types(resource)
@@ -119,12 +132,25 @@ module Metrics
     end
 
     def enqueue_request(id, url, formats)
-      config = {:method => :head, :timeout => 240, :connecttimeout => 60, :nosignal => true}
+      config = { headers: { 'User-Agent' => 'curl/7.29.0' },
+                 ssl_verifypeer: false,
+                 ssl_verifyhost: 2,  # disable host verification
+                 connecttimeout: 60,
+                 maxredirs: 50,
+                 followlocation: true,
+                 method: :head,
+                 nosignal: true,
+                 timeout: 240 }
+
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         content_type = response.headers['Content-Type']
+        content_type = 'Error' unless response.success?
+
         @resource_mime_types[id][url] = content_type
+        @analysis[content_type] += 1
+
         @worker.at(@processed + 1, @requests)
         @processed += 1
       end
