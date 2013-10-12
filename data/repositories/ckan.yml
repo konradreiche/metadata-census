@@ -65,7 +65,6 @@ repositories:
       name: data.gv.at
       location: Vienna, Austria
       legacy: true
-      disabled: true
 
     - id: africaopendata.org
       url: http://africaopendata.org/api
@@ -80,7 +79,6 @@ repositories:
       name: data.gov.sk
       location: Bratislava, Slovakia
       legacy: true
-      disabled: true
 
     - id: datos.codeandomexico.org
       url: http://datos.codeandomexico.org/api
@@ -102,7 +100,6 @@ repositories:
       name: dados.gov.br
       location: Brasília, Brazil
       legacy: true
-      disabled: true
 
     - id: data.openpolice.ru
       url: http://data.openpolice.ru
@@ -110,4 +107,3 @@ repositories:
       name: data.openpolice.ru
       location: Moscow, Russia
       legacy: true
-      disabled: true
