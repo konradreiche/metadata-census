@@ -3,6 +3,8 @@ require 'typhoeus'
 module Metrics
 
   class Accuracy < Metric
+
+    attr_reader :analysis
     
     @@mime_dictionary = { 
       'csv'   => ['text/csv', 'text/x-comma-separated-values', 'text/comma-separated-values'],
@@ -67,7 +69,9 @@ module Metrics
 
       @analysis = Hash.new(0)
       @dispatcher = Typhoeus::Hydra.hydra
+
       @resource_mime_types = Hash.new { |h, k| h[k] = Hash.new }
+      @resource_sizes = Hash.new { |h, k| h[k] = Hash.new }
 
       metadata.each_with_index do |dataset, i|
         dataset['resources'].each do |resource|
@@ -89,30 +93,45 @@ module Metrics
       id = record['id']
       types = @resource_mime_types[id]
 
-      validated = 0
-      resources = record['resources'].length
-      analysis = { formats: [], sizes: [] }
+      max = record['resources'].length
+      scores = []
+      analysis = []
 
       record['resources'].each do |resource|
         url = resource['url']
         format = resource['format']
-        
+
+        actual_size = @resource_sizes[id][url].to_s
+        expected_size = resource['size'].to_s
+
+        if not actual_size.empty? and not expected_size.empty?
+          max += 1
+          act, exp = actual_size.to_f, expected_size.to_f
+          scores << act / (act - exp).abs
+        end
+
         actual_mime_type = types[url]
         expected_mime_types = determine_mime_types(resource)
 
         valid = expected_mime_types.include?(actual_mime_type) 
-        validated += 1 if valid
+        scores << 1.0 if valid
 
-        analysis[:formats] << { url: url,
-                                format: format,
-                                actual_mime_type: actual_mime_type,
-                                expected_mime_types: expected_mime_types,
-                                valid: valid }
+        analysis << { url: url,
+                      format: format,
+                      actual_mime_type: actual_mime_type,
+                      expected_mime_types: expected_mime_types,
+                      format_valid: valid,
+                      actual_size: actual_size,
+                      expected_size: expected_size }
       end
 
-      score = validated.fdiv(resources)
-      score = 0.0 if resources == 0
+      if max == 0 or scores.empty?
+        score = 0.0
+      else
+        score = scores.reduce(:+).fdiv(max)
+      end
 
+      @analysis = @analysis.to_a if @analysis.is_a?(Hash)
       return score, analysis
     end
 
@@ -146,9 +165,11 @@ module Metrics
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
         content_type = response.headers['Content-Type']
+        content_size = response.headers['Content-Length']
         content_type = 'Error' unless response.success?
 
         @resource_mime_types[id][url] = content_type
+        @resource_sizes[id][url] = content_size
         @analysis[content_type] += 1
 
         @worker.at(@processed + 1, @requests)

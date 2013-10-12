@@ -1,6 +1,7 @@
 <div id="analysis" class="pill-pane active">
   <div class="row">
     <div class="col-md-12 dashboard">
+      <h3>Format MIME Type Accuracy</h3>
       <table class="accuracy-table table table-bordered">
         <thead>
           <th>ID</th>
@@ -10,14 +11,39 @@
           <th>Expected MIME</th>
         </thead>
         <tbody>
-          <% @analysis.select { |_, a| a['formats'].all? { |fa| not fa['valid'] } }.each do |id, analysis| %>
-            <% analysis['formats'].each_with_index.each do |format_analysis, i| %>
+          <% @analysis.select { |_, a| a.all? { |fa| not fa['format_valid'] } }.each do |id, analysis| %>
+            <% analysis.each_with_index.each do |format_analysis, i| %>
               <tr>
-                <%= content_tag(:td, id, rowspan: analysis['formats'].length) if i == 0 %>
+                <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
                 <td><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
                 <td><%= format_analysis['format'] %></td>
                 <%= actual_mime_type(format_analysis) %>
                 <td><%= format_analysis['expected_mime_types'].join(", ") %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 dashboard">
+      <h3>Size Accuracy</h3>
+      <table class="accuracy-table table table-bordered">
+        <thead>
+          <th>ID</th>
+          <th>URL</th>
+          <th>Expected Size</th>
+          <th>Actual Size</th>
+        </thead>
+        <tbody>
+          <% @analysis.select { |a| not a[1]['expected_size'].to_s.empty? }.each do |id, analysis| %>
+            <% analysis.each_with_index.each do |format_analysis, i| %>
+              <tr>
+                <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
+                <td><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
+                <td><%= format_analysis['expected_size'] %></td>
+                <td><%= format_analysis['actual_size'] %></td>
               </tr>
             <% end %>
           <% end %>
