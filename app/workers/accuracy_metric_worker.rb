@@ -5,7 +5,7 @@ class AccuracyMetricWorker < GenericMetricWorker
     logger.info('Loading metadata')
 
     @repository ||= Repository.find(repository)
-    @snapshot ||= @repository.snapshots.where(_id: snapshot).first
+    @snapshot ||= @repository.snapshots.where(date: snapshot).first
 
     @metadata ||= @snapshot.metadata_records
 

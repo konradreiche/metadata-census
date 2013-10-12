@@ -34,7 +34,7 @@ class Admin::SnapshotsController < ApplicationController
                            statistics: { resources: metadata['resources'].length } }
           end
           records.each_slice(4000).each do |chunk|
-            MetadataRecord.collection.insert(chunk)
+            MetadataRecord.collection.insert(chunk, safe: true)
           end
         else
           raise TypeError, "Unknown type #{parsed.class}"

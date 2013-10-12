@@ -2,7 +2,7 @@ class AccessibilityMetricWorker < GenericMetricWorker
 
   def perform(repository, snapshot, metric)
     @repository ||= Repository.find(repository)
-    @snapshot ||= @repository.snapshots.where(_id: snapshot).first
+    @snapshot ||= @repository.snapshots.where(date: snapshot).first
 
     @metadata ||= @snapshot.metadata_records
     @metadata = @metadata.only("record.notes", "record.resources.description")

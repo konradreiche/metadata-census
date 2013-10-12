@@ -76,13 +76,13 @@ class Admin::RepositoriesController < ApplicationController
   # Returns a list of available metadata archives.
   #
   def metadata_archives
-    options = { symbolize_keys: true }
     archives = Dir.glob('data/archives/**/*').select { |f| File.file?(f) }
 
-    result = Hash.new { |hash, key| hash[key] = [] }
-    archives.inject(result) do |result, archive|
+    init = Hash.new { |hash, key| hash[key] = [] }
+    archives.inject(init) do |result, archive|
       header = parse_header(archive)
       header[:file] = archive
+      header[:repository] = header[:repository].downcase
       result[header[:repository]] << header
       result
     end
