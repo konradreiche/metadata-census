@@ -2,6 +2,8 @@ module Metrics
 
   def self.all
     initialize if Rails.env.development?
+    initialize_once if Rails.env.production?
+
     cls = Metrics::Metric
     cls.metrics
   end
@@ -15,6 +17,11 @@ module Metrics
     directory = self.to_s.downcase
     path = Rails.root.join("app/models/#{directory}/*.rb")
     Dir[path].each { |metric_file| load metric_file }
+  end
+
+  def self.initialize_once
+    initialize unless defined? @initialized
+    @initialized ||= true
   end
 
   def self.normalize(metric, values)
@@ -47,10 +54,6 @@ module Metrics
 
   def self.url(metric)
     metric.to_s.gsub('_', '-')
-  end
-
-  def self.internal(metric)
-    metric.to_s.gsub('-', '_')
   end
 
   def self.blank?(value)

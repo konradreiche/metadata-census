@@ -19,11 +19,11 @@ class Repository
   # the given metric.
   #
   def best_records(metric)
-    records = sort_metric_scores(metric, 'desc').map { |entry| entry.to_hash }
+    sort_metric_scores(metric, 'desc').map { |entry| entry.to_hash }
   end
 
   def worst_records(metric)
-    records = sort_metric_scores(metric, 'asc').map { |entry| entry.to_hash }
+    sort_metric_scores(metric, 'asc').map { |entry| entry.to_hash }
   end
 
   def best_record(metric)
@@ -61,7 +61,7 @@ class Repository
 
   def self.ranking(repositories)
     sorted = a.sort.uniq.reverse
-    a.map{|e| sorted.index(e) + 1}
+    a.map {|e| sorted.index(e) + 1}
   end
 
   def display_name
