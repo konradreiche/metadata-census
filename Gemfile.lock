@@ -8,14 +8,6 @@ GIT
       origin (~> 1.0)
       tzinfo (~> 0.3.37)
 
-GIT
-  remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
-  revision: 0e88056ac5d58fb0bbd23d3fe929eac01712d964
-  branch: 3
-  specs:
-    bootstrap-sass (3.0.0.0)
-      sass (~> 3.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -240,7 +232,6 @@ PLATFORMS
 
 DEPENDENCIES
   andand
-  bootstrap-sass!
   bson_ext
   capybara (= 2.0.0)
   cld

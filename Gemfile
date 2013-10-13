@@ -6,7 +6,6 @@ gem 'd3_rails'
 
 gem 'leaflet-rails'
 gem 'gon'
-gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.git', :branch => '3'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

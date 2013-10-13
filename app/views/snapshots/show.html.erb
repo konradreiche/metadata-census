@@ -26,7 +26,7 @@
       <tbody>
         <% Metrics.all.each do |metric| %>
           <tr>
-            <td><%= link_to metric.to_s.titlecase, repository_snapshot_metric_path(@repository, @snapshot, metric) %></td>
+            <td><%= link_to metric.to_s.titlecase, repository_snapshot_metric_path(@repository, @snapshot.date, metric) %></td>
             <td>
               <div class="row weight-label">
                 <div class="col-md-12"><span class="weight"><%= weight(metric) %></span></div>
