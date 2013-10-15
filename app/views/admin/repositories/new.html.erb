@@ -27,11 +27,11 @@
       <li class="list-group-item">
        <h4><%= repository %></h4> 
         <ol class="list-group" >
-          <% snapshots.sort { |a, b| b[:date] <=> a[:date] }.each do |snapshot| %>
+          <% snapshots.sort { |a, b| b['date'] <=> a['date'] }.each do |snapshot| %>
             <li class="list-group-item">
-              <span class="badge"><%= number_with_delimiter(snapshot[:count]) %></span>
-              <%= snapshot[:date] %>
-              <%= import_metadata_link(snapshot[:repository], snapshot[:file]) %>
+              <span class="badge"><%= number_with_delimiter(snapshot['count']) %></span>
+              <%= snapshot['date'] %>
+              <%= import_metadata_link(snapshot['repository'], snapshot['file']) %>
               <span class="admin repositories label label-info pull-right">Importing...</span>
               <span class="admin repositories label label-success pull-right">Done</span>
               <span class="admin repositories label label-danger pull-right">Error</span>

@@ -10,7 +10,7 @@ class Snapshot
 
   Metrics.all.each do |metric|
     field metric, type: Hash
-  end
+ end
 
   def best_records(metric)
     field = :"#{metric}.score"

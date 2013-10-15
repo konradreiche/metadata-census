@@ -14,7 +14,7 @@ class MetadataRecord
   end
 
   index({ 'snapshot_id' => 1 })
-  index({ 'statistics.resources' => 1 })
+  index({ 'snapshot_id' => 1, 'statistics.resources' => 1 })
 
   ##
   # 

@@ -76,14 +76,14 @@ class Admin::RepositoriesController < ApplicationController
   # Returns a list of available metadata archives.
   #
   def metadata_archives
-    archives = Dir.glob('data/archives/**/*').select { |f| File.file?(f) }
+    archives = Dir.glob('data/archives/**/*.gz').select { |f| File.file?(f) }
 
     init = Hash.new { |hash, key| hash[key] = [] }
     archives.inject(init) do |result, archive|
       header = parse_header(archive)
-      header[:file] = archive
-      header[:repository] = header[:repository].downcase
-      result[header[:repository]] << header
+      header['file'] = archive
+      header['repository'] = header['repository'].downcase
+      result[header['repository']] << header
       result
     end
   end
@@ -93,12 +93,16 @@ class Admin::RepositoriesController < ApplicationController
   #
   def parse_header(file)
     reader = Yajl::Gzip::StreamReader.new(File.new(file, 'r'))
-    parser = Yajl::Parser.new(symbolize_keys: true)
+    parser = Yajl::Parser.new
 
     parser.on_parse_complete = Proc.new { |obj| return obj }
     loop { parser << reader.readchar }
   rescue Zlib::GzipFile::Error
     logger.error("Invalid file format: unexpected end of file for #{file}")
+    reader = File.new(file, 'r')
+    parser = Yajl::Parser.new
+    parser.on_parse_complete = Proc.new { |obj| return obj }
+    loop { parser << reader.readchar }
   end
 
   def scheduler
@@ -115,6 +119,8 @@ class Admin::RepositoriesController < ApplicationController
   # +Repository+ object.
   #
   def attribute_hash(repository_hash)
+    Geocoder.configure(:timeout => 180)
+
     city = repository_hash[:location]
     location = Geocoder.search(city).first
     id = repository_hash.delete('id')

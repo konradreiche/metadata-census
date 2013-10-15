@@ -69,6 +69,8 @@ module RepositoriesHelper
   def iso639(language)
     return 'DUT' if language == 'Dutch'
     return 'SPA' if language == 'Spanish'
+    return 'SPA' if language == 'Catalan'
+
     ISO_639.find_by_english_name(language).alpha3.upcase
   end
 

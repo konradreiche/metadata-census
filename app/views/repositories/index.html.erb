@@ -77,8 +77,10 @@
               </tr>
             </thead>
             <tbody>
-              <% @numbers.each do |repository, statistics| %>
+              <% @numbers.sort_by { |r, s| - s['resources']['sum'] }.each do |entity| %>
                 <tr>
+                  <% repository = entity[0]  %>
+                  <% statistics = entity[1]  %>
                   <td><%= repository.name %></td>
                   <td><%= statistics['resources']['min'] %></td>
                   <td><%= statistics['resources']['avg'].round %></td>
