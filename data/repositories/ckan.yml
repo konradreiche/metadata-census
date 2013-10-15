@@ -102,7 +102,7 @@ repositories:
       legacy: true
 
     - id: data.openpolice.ru
-      url: http://data.openpolice.ru
+      url: http://data.openpolice.ru/api
       type: CKAN
       name: data.openpolice.ru
       location: Moscow, Russia
