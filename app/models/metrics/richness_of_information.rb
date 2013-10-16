@@ -76,7 +76,7 @@ module Metrics
       when :category
         count = @categorical_frequency[category][value]
         total = categorical_frequency[category].values.reduce(:+).to_f
-        - Math.log(count / total)
+        1.0 - Math.log(count) / Math.log(total)
       when :text
         tf_idf(value)
       end
@@ -85,9 +85,11 @@ module Metrics
     def tf_idf(text)
       tf_idfs = []
       term_frequency = self.class.term_frequency(text)
+      euclidean_length = Math.sqrt term_frequency.values.map { |tf| tf * tf }.sum
+
       term_frequency.each do |word, tf| 
         idf = Math.log(@document_numbers / @document_frequency[word].length)
-        tf_idfs << tf * idf
+        tf_idfs << tf.fdiv(euclidean_length) * idf
       end
       tf_idfs.inject(:+) / term_frequency.length
     end

@@ -13,7 +13,7 @@ class MetricsController < ApplicationController
     score = @snapshot.send(@metric)
     return render 'errors/no_results' if score.nil?
 
-    @score = Metrics::normalize(@metric, score['average'])
+    @score = score['average']
     gon.score = @score
 
     analyzer = Analyzer::QualityDistribution.new

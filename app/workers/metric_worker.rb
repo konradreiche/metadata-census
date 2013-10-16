@@ -28,6 +28,15 @@ class MetricWorker
       at(i + 1, @metadata.length)
     end
 
+    if Metrics.from_sym(metric).normalize?
+      @metadata.each_with_index do |document, i|
+        document.send(metric)['score'] = Metrics.normalize(scores, [document[metric]['score']]).first
+        document['score'] = document.calculate_score
+        document.save!
+      end
+      scores = Metrics.normalize(scores, scores)
+    end
+
     update_snapshot(metric, scores)
   end
 

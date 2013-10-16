@@ -7,8 +7,7 @@ module MetricsHelper
   # link. The +new+ document is used for the menu item text and the link.
   #
   def record_selector_entry(current, new)
-    normalized = Metrics.normalize(@metric, new.send(@metric)['score'])
-    score = "%6.2f%" % (normalized * 100)
+    score = "%6.2f%" % (new[@metric]['score'] * 100)
     score = score.gsub(' ', '&nbsp;')
 
     text = "#{score} &#8212; #{new.record['name']}".html_safe

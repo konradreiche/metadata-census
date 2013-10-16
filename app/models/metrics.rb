@@ -24,27 +24,11 @@ module Metrics
     @initialized ||= true
   end
 
-  def self.normalize(metric, values)
-    metric = metric.to_sym
-    return values unless self.from_sym(metric).normalize?
-  
-    scores = Array(values)
-    repositories = Repository.all
+  def self.normalize(data, values)
+    max = data.max
+    min = data.min
 
-    repositories.each do |repository|
-      score = repository.snapshots.last.maybe(metric)
-
-      unless score.nil?
-        scores << score['minimum']
-        scores << score['maximum']
-      end
-    end
-
-    min = scores.min
-    max = scores.max
     range = max - min
-
-    return (values - min) / range unless values.is_a?(Array)
     values.map { |value| (value - min) / range }
   end
 
