@@ -70,13 +70,14 @@ module Metrics
       asl = words.length / sentences
       # average number of syllables per word
       asw = syllables / words.length
-      206.835 - (1.015 * asl) - (84.6 * asw)
+
+      flesch = 206.835 - (1.015 * asl) - (84.6 * asw)
+      flesch = [0, flesch].max
+      flesch = [100, flesch].min
+      
+      return flesch / 100.0
     end
 
-    def self.normalize?
-      true
-    end
-    
     def self.description
       <<-TEXT.strip_heredoc
       The accessibility metric measures the metadata records in mean of

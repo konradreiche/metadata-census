@@ -91,7 +91,7 @@ module Metrics
         idf = Math.log(@document_numbers / @document_frequency[word].length)
         tf_idfs << tf.fdiv(euclidean_length) * idf
       end
-      tf_idfs.inject(:+) / term_frequency.length
+      Math.log(tf_idfs.inject(:+) / term_frequency.length)
     end
 
     def self.term_frequency(text)
