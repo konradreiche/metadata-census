@@ -66,6 +66,8 @@ module Metrics
       words = words(text)
       syllables = words.map { |word| syllables(word) }.reduce(:+)
 
+      return 0.0 if syllables.nil?
+
       # average sentence length
       asl = words.length / sentences
       # average number of syllables per word

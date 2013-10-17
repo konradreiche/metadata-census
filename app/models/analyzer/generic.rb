@@ -27,7 +27,8 @@ module Analyzer
 
       groups.each do |group, documents|
         groups[group] = documents.inject(0.0) do |score, document|
-          score + document[metric]["score"]
+          val = document[metric].maybe["score"]
+          score + (val.nil? ? 0.0 : val)
         end / documents.length
       end
       groups

@@ -41,15 +41,11 @@ class Repository
       score = snapshots.last.maybe(metric)
 
       unless score.nil?
-        score = score.with_indifferent_access
-        value = score[:average]
-        if Metrics.from_sym(metric).normalize?
-          value = Metrics::normalize(metric, [value]).first
-        end
+        value = score['average']
       else
         value = 0.0
       end
-
+ 
       sum + (value * weighting.fetch(metric, 1.0))
     end
     sum / metrics.length

@@ -9,7 +9,7 @@ module Analyzer
 
     def distribution(snapshot, metric)
       metadata = snapshot.metadata_records.without(:record)
-      metadata.map { |document| document[metric]['score'] * 100 }
+      metadata.map { |document| document[metric].maybe['score'].to_f * 100 }
     end
 
     def records(snapshot, distribution)

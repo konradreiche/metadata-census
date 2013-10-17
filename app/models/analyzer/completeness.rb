@@ -9,7 +9,7 @@ module Analyzer
       schema = JSON.parse(schema_file).with_indifferent_access
       properties = fields(schema)
 
-      return { scores: scores, properties: properties, treemap: treemap(snapshot) }
+      return { scores: scores, properties: properties, treemap: treemap(snapshot), treemap_raw: snapshot.completeness['analysis'] }
     end
 
     def self.treemap(snapshot)

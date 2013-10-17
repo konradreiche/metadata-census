@@ -62,6 +62,16 @@
   </div>
   <div class="row">
     <div class="dashboard col-md-12">
+      <h3 class="statistic-heading">Commpleted Fields Raw</h3>
+      <ol>
+      <% @analysis[:treemap_raw].each do |key, value| %>
+        <li><%= key %> -------- <%= value %></li>
+      <% end %>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="dashboard col-md-12">
       <h3 class="statistic-heading">Completed Fields</h3>
       <div class="row">
         <div class="col-md-6"><div class="pull-right"><input class="treemap-switch" type="radio" name="mode" value="count"> Structure</input></div></div>

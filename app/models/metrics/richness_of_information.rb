@@ -91,6 +91,7 @@ module Metrics
         idf = Math.log(@document_numbers / @document_frequency[word].length)
         tf_idfs << tf.fdiv(euclidean_length) * idf
       end
+      tf_idfs = tf_idfs.delete_if { |n| not n.finite? }
       Math.log(tf_idfs.inject(:+) / term_frequency.length)
     end
 
@@ -106,6 +107,8 @@ module Metrics
     private
     def index_text(text, id)
       unless text.nil?
+        text = text.gsub(".","")
+        text = text.gsub("$","")
         @document_numbers += 1
         text.downcase.split(/\W+/).each do |word|
           unless @document_frequency[word].include?(id)
@@ -117,6 +120,8 @@ module Metrics
 
     def index_category(category, value)
       unless value.nil?
+        value = value.gsub(".","")
+        value = value.gsub("$","")
         @categorical_frequency[category][value] += 1
       end
     end

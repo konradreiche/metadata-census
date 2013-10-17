@@ -49,10 +49,10 @@
               <tr>
                 <td><%= @ranking[i] %></td>
                 <td><%= link_to repository.name, repository %></td>
-                <%= score_cell(repository.score) %>
+                <%= score_cell(repository, repository.score) %>
                 <% Metrics.all.each do |metric| %>
                   <% result = repository.snapshots.last.maybe(metric) %>
-                  <% score = if result.nil? then nil else result[:average] end %>
+                  <% score = if result.nil? then nil else result['average'] end %>
                   <td><%= if score.nil? then '?' else '%.2f' % score end %></td>
                   <% end %>
                   <td></td>

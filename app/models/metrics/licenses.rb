@@ -5,7 +5,7 @@ module Metrics
     attr_reader :analysis
 
     def initialize(path=nil)
-      path = 'app/assets/resources/licenses.json' if path.nil?
+      path = 'data/licenses.json' if path.nil?
       @licenses = JSON.parse(File.read(path))
       @analysis = Hash.new(0)
     end

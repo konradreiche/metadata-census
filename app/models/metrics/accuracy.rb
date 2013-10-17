@@ -4,6 +4,13 @@ module Metrics
 
   class Accuracy < Metric
 
+    @@encoding_options = {
+       :invalid           => :replace,  # Replace invalid byte sequences
+       :undef             => :replace,  # Replace anything not defined in ASCII
+       :replace           => '',        # Use a blank for those replacements
+       :universal_newline => true       # Always break lines with \n
+     }
+
     attr_reader :analysis
     
     @@mime_dictionary = { 
@@ -93,7 +100,7 @@ module Metrics
       id = record['id']
       types = @resource_mime_types[id]
 
-      max = record['resources'].length
+      max = 0 # record['resources'].length
       scores = []
       analysis = []
 
@@ -104,11 +111,16 @@ module Metrics
         actual_size = @resource_sizes[id][url].to_s
         expected_size = resource['size'].to_s
 
-        if not actual_size.empty? and not expected_size.empty?
-          max += 1
-          act, exp = actual_size.to_f, expected_size.to_f
-          scores << act / (act - exp).abs
-        end
+       # if not actual_size.empty? and not expected_size.empty?
+       #   max += 1
+       #   act, exp = actual_size.to_f, expected_size.to_f
+
+       #   if (act - exp).abs == 0.0
+       #     scores << 1.0
+       #   else
+       #     scores << act / (act - exp).abs
+       #   end
+       # end
 
         actual_mime_type = types[url]
         expected_mime_types = determine_mime_types(resource)
@@ -139,6 +151,8 @@ module Metrics
       format = resource['format']
 
       unless format.nil?
+
+        format = format.encode Encoding.find('ASCII'), @@encoding_options
         format = format.downcase.split(';').first
         if @@mime_dictionary.has_key?(format)
           return @@mime_dictionary[format]
@@ -168,6 +182,9 @@ module Metrics
         content_size = response.headers['Content-Length']
         content_type = 'Error' unless response.success?
 
+        unless content_type.nil?
+          content_type = content_type.encode Encoding.find('ASCII'), @@encoding_options
+        end
         @resource_mime_types[id][url] = content_type
         @resource_sizes[id][url] = content_size
         @analysis[content_type] += 1
