@@ -128,12 +128,12 @@ describe Metrics::Accessibility do
     expect(average_syllables_per_word.round(2)).to be(1.87)
 
     score = accessibility.flesch_reading_ease(text)
-    expect(score.round(2)).to be(86.71)
+    expect(score.round(2)).to be(0.87)
 
     score, analysis = accessibility.compute({ 'notes' => text })
 
     expect(analysis).to eq([{ score: score, field: ['notes'] }])
-    expect(score.round(2)).to be(86.71)
+    expect(score.round(2)).to be(0.87)
 
   end
 
