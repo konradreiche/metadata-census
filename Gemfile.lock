@@ -106,6 +106,7 @@ GEM
     multi_json (1.8.0)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    oj (2.1.6)
     origin (1.1.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
@@ -244,6 +245,7 @@ DEPENDENCIES
   leaflet-rails
   mongoid!
   mongoid-indifferent-access
+  oj
   pry-byebug
   pry-rails
   pry-rescue

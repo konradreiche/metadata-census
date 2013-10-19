@@ -43,6 +43,7 @@ gem 'andand'
 gem 'iso-639'
 gem 'geocoder'
 gem 'yajl-ruby'
+gem 'oj'
 
 # Metrics
 gem 'json'
