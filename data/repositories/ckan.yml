@@ -43,7 +43,6 @@ repositories:
       name: catalog.data.gov
       location: Washington, DC, USA
       rows: 1000
-      disabled: true
 
     - id: opendata.admin.ch
       url: http://opendata.admin.ch/api
