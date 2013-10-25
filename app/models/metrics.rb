@@ -19,11 +19,17 @@ module Metrics
     Dir[path].each { |metric_file| load metric_file }
   end
 
+  ##
+  # Guard method to initialize metric classes just once
+  #
   def self.initialize_once
     initialize unless defined? @initialized
     @initialized ||= true
   end
 
+  ##
+  # Normalizes values based on input data.
+  #
   def self.normalize(data, values)
     max = data.max
     min = data.min
@@ -32,14 +38,17 @@ module Metrics
     values.map { |value| (value - min) / range }
   end
 
+  ##
+  # Creates a metric class object based on its symbol representation.
+  #
   def self.from_sym(symbol)
     "#{self.name}::#{symbol.to_s.underscore.camelcase}".constantize
   end
 
-  def self.url(metric)
-    metric.to_s.gsub('_', '-')
-  end
 
+  ##
+  # Tests if a value is blank according to the rule set of metric computations.
+  #
   def self.blank?(value)
     value.nil? || value.is_a?(Boolean) || value.is_a?(Fixnum) ||
       value.empty? || (value.is_a?(String) && value !~ /[^[:space:]]/)
