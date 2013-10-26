@@ -1,8 +1,14 @@
+# A snapshot is a collection of metadata recordsa associated with one
+# repository.
+# 
+# @author Konrad Reiche
+#
 class Snapshot
   include Mongoid::Document
 
   validates_presence_of :date
   has_many :metadata_records, :dependent => :destroy
+
   embedded_in :repository
 
   field :date, type: Date
@@ -10,7 +16,7 @@ class Snapshot
 
   Metrics.all.each do |metric|
     field metric, type: Hash
- end
+  end
 
   def best_records(metric)
     field = :"#{metric}.score"
