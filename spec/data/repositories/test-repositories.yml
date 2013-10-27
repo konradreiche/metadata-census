@@ -1,0 +1,9 @@
+---
+name: Test Repositories
+
+repositories:
+    - id: example.com
+      url: http://www.example.com
+      type: CKAN
+      name: Example Repository
+      location: Berlin, Germany
