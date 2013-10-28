@@ -3,7 +3,9 @@ class AdminController < ApplicationController
 
   def scheduler
     repository = Repository.where(:snapshots.exists => true).first
-    snapshot = repository.snapshots.last
+    snapshot = repository.maybe.snapshots.maybe.last
+
+    return render 'errors/no_snapshots' if snapshot.nil?
 
     path = { controller: "admin/snapshots",
              action: "scheduler",
