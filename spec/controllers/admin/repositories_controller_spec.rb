@@ -22,7 +22,7 @@ describe Admin::RepositoriesController do
       expect(response).to have_text(' ')
     end
 
-    it "creates one new repository" do
+    it "creates a new repository" do
       expect do
         post "create", file: "spec/data/repositories/test-repositories.yml"
       end.to change(Repository, :count).by(1)

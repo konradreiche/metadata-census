@@ -1,7 +1,7 @@
 module Metrics
 
   def self.all
-    initialize if Rails.env.development?
+    initialize if Rails.env.development? or Rails.env.test?
     initialize_once if Rails.env.production?
 
     cls = Metrics::Metric
