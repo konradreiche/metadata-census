@@ -17,7 +17,21 @@ describe Admin::RepositoriesController do
   end
 
   describe "POST create" do
-    it "stores the repositories in the database" do
+    it "renders nothing" do
+      post "create", file: "spec/data/repositories/test-repositories.yml"
+      expect(response).to have_text(' ')
+    end
+
+    it "creates one new repository" do
+      expect do
+        post "create", file: "spec/data/repositories/test-repositories.yml"
+      end.to change(Repository, :count).by(1)
+    end
+
+    it "creates the test repository" do
+      post "create", file: "spec/data/repositories/test-repositories.yml"
+      repository = Repository.all.first
+      expect(repository.id).to eq("example.com")
     end
   end
 

@@ -18,6 +18,8 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'quiet_assets'
   gem 'ruby-prof'
+
+  gem 'database_cleaner'
 end
 
 group :test do
