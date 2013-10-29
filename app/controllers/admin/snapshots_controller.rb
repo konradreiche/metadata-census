@@ -1,6 +1,5 @@
 require 'digest'
-require 'yajl'
-require 'yajl/gzip'
+require 'oj'
 
 class Admin::SnapshotsController < ApplicationController
   include RepositoryManager
@@ -54,11 +53,7 @@ class Admin::SnapshotsController < ApplicationController
 
   def parse_metadata(file)
     gz = Zlib::GzipReader.new(file)
-    parser = Yajl::Parser.new
-    parser.on_parse_complete = Proc.new { |obj| yield(obj) }
-    while not gz.eof?
-      parser << gz.readline
-    end
+    gz.each_line { |line| yield Oj.load(line) }
   end
 
   def filter_header(header)

@@ -5,7 +5,7 @@ describe Admin::SnapshotsController do
   describe "POST create" do
 
     let(:repository) { FactoryGirl.create(:repository) }
-    let(:file) { "spec/data/archives/example.com/2013-10-29-example.com.raw.json.gz" }
+    let(:file) { "spec/data/archives/example.com/2013-10-29-example.com.jl.gz" }
 
     subject { post "create", repository_id: repository.id, file: file }
 
