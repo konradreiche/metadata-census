@@ -28,6 +28,19 @@ describe Admin::SnapshotsController do
       snapshot = repository.reload.snapshots.first
       expect(snapshot.metadata_records.count).to be(1)
     end
+
+    it "compiles statistics about the metadata record" do
+      statistics = { "languages" => { "Unknown" => 1 },
+                     "resources" => { "min" => 0,
+                                      "avg" => 0.0,
+                                      "max" => 0,
+                                      "sum" => 0,
+                                      "med" => 0 } }
+
+      post "create", repository_id: repository.id, file: file
+      snapshot = repository.reload.snapshots.first
+      expect(snapshot.statistics).to eq(statistics)
+    end
   end
 
 end
