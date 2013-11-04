@@ -1,108 +1,138 @@
 ---
 name: CKAN Repositories
-
 repositories:
-    - id: govdata.de
-      url:  https://www.govdata.de/ckan/api
-      type: CKAN
-      name: GovData.de
-      location: Berlin, Germany
-      dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
- 
-    - id: data.gov.uk
-      url: http://data.gov.uk/api
-      type: CKAN
-      name: data.gov.uk
-      location: London, UK
-      dump: http://data.gov.uk/data/dumps/data.gov.uk-ckan-meta-data-latest.json.zip
+- id: govdata.de
+  url: https://www.govdata.de/ckan/api
+  type: CKAN
+  name: GovData.de
+  location: Berlin, Germany
+  dump: https://www.govdata.de/ckan/dump/govdata.de-daily.json.gz
+  latitude: 52.519171
+  longitude: 13.4060912
 
-    - id: publicdata.eu
-      url: http://publicdata.eu/api
-      type: CKAN
-      name: PublicData.eu
-      location: Brussels, Belgium
-      rows: 250
+- id: data.gov.uk
+  url: http://data.gov.uk/api
+  type: CKAN
+  name: data.gov.uk
+  location: London, UK
+  dump: http://data.gov.uk/data/dumps/data.gov.uk-ckan-meta-data-latest.json.zip
+  latitude: 51.51121389999999
+  longitude: -0.1198244
 
-    - id: catalogodatos.gub.uy
-      url: https://catalogodatos.gub.uy/api
-      type: CKAN
-      name: catalogodatos.gub.uy
-      location: Montevideo, Uruguay
-      rows: 1000
+- id: publicdata.eu
+  url: http://publicdata.eu/api
+  type: CKAN
+  name: PublicData.eu
+  location: Brussels, Belgium
+  rows: 250
+  latitude: 50.8503396
+  longitude: 4.3517103
 
-    - id: data.qld.gov.au
-      url: https://data.qld.gov.au/api
-      type: CKAN
-      name: data.qld.gov.au
-      location: Queensland, Australia
-      rows: 1000
+- id: catalogodatos.gub.uy
+  url: https://catalogodatos.gub.uy/api
+  type: CKAN
+  name: catalogodatos.gub.uy
+  location: Montevideo, Uruguay
+  rows: 1000
+  latitude: -34.8836111
+  longitude: -56.1819444
 
-    - id: catalog.data.gov
-      url: http://catalog.data.gov/api
-      type: CKAN
-      name: catalog.data.gov
-      location: Washington, DC, USA
-      rows: 1000
+- id: data.qld.gov.au
+  url: https://data.qld.gov.au/api
+  type: CKAN
+  name: data.qld.gov.au
+  location: Queensland, Australia
+  rows: 1000
+  latitude: -20.9175738
+  longitude: 142.7027956
 
-    - id: opendata.admin.ch
-      url: http://opendata.admin.ch/api
-      type: CKAN
-      name: opendata.admin.ch
-      location: Bern, Switzerland
-      rows: 1000
+- id: catalog.data.gov
+  url: http://catalog.data.gov/api
+  type: CKAN
+  name: catalog.data.gov
+  location: Washington, DC, USA
+  rows: 1000
+  latitude: 38.90723089999999
+  longitude: -77.0364641
 
-    - id: data.gc.ca
-      url: http://data.gc.ca/data/en/api
-      type: CKAN
-      name: data.gc.ca
-      location: Ottawa, Canada
-      rows: 100
+- id: opendata.admin.ch
+  url: http://opendata.admin.ch/api
+  type: CKAN
+  name: opendata.admin.ch
+  location: Bern, Switzerland
+  rows: 1000
+  latitude: 46.9479222
+  longitude: 7.444608499999999
 
-    - id: data.gv.at
-      url: http://www.data.gv.at/katalog/api
-      type: CKAN
-      name: data.gv.at
-      location: Vienna, Austria
-      legacy: true
+- id: data.gc.ca
+  url: http://data.gc.ca/data/en/api
+  type: CKAN
+  name: data.gc.ca
+  location: Ottawa, Canada
+  rows: 100
+  latitude: 45.4215296
+  longitude: -75.69719309999999
 
-    - id: africaopendata.org
-      url: http://africaopendata.org/api
-      type: CKAN
-      name: africaopendata.org
-      location: Africa
-      rows: 1000
+- id: data.gv.at
+  url: http://www.data.gv.at/katalog/api
+  type: CKAN
+  name: data.gv.at
+  location: Vienna, Austria
+  legacy: true
+  latitude: 48.2081743
+  longitude: 16.3738189
 
-    - id: data.gov.sk
-      url: http://data.gov.sk/api
-      type: CKAN
-      name: data.gov.sk
-      location: Bratislava, Slovakia
-      legacy: true
+- id: africaopendata.org
+  url: http://africaopendata.org/api
+  type: CKAN
+  name: africaopendata.org
+  location: Africa
+  rows: 1000
+  latitude: -8.783195
+  longitude: 34.508523
 
-    - id: datos.codeandomexico.org
-      url: http://datos.codeandomexico.org/api
-      type: CKAN
-      name: datos.codeandomexico.org
-      location: Mexico City, Mexico
-      rows: 1000
+- id: data.gov.sk
+  url: http://data.gov.sk/api
+  type: CKAN
+  name: data.gov.sk
+  location: Bratislava, Slovakia
+  legacy: true
+  latitude: 48.1458923
+  longitude: 17.1071373
 
-    - id: data.sa.gov.au
-      url: http://data.sa.gov.au/api
-      type: CKAN
-      name: data.sa.gov.au
-      location: South Australia, Australia
-      rows: 1000
+- id: datos.codeandomexico.org
+  url: http://datos.codeandomexico.org/api
+  type: CKAN
+  name: datos.codeandomexico.org
+  location: Mexico City, Mexico
+  rows: 1000
+  latitude: 19.4326077
+  longitude: -99.133208
 
-    - id: dados.gov.br
-      url: http://dados.gov.br/api
-      type: CKAN
-      name: dados.gov.br
-      location: Brasília, Brazil
-      legacy: true
+- id: data.sa.gov.au
+  url: http://data.sa.gov.au/api
+  type: CKAN
+  name: data.sa.gov.au
+  location: South Australia, Australia
+  rows: 1000
+  latitude: -30.0002315
+  longitude: 136.2091547
 
-    - id: data.openpolice.ru
-      url: http://data.openpolice.ru/api
-      type: CKAN
-      name: data.openpolice.ru
-      location: Moscow, Russia
-      legacy: true
+- id: dados.gov.br
+  url: http://dados.gov.br/api
+  type: CKAN
+  name: dados.gov.br
+  location: Brasília, Brazil
+  legacy: true
+  latitude: -15.7801482
+  longitude: -47.9291698
+
+- id: data.openpolice.ru
+  url: http://data.openpolice.ru/api
+  type: CKAN
+  name: data.openpolice.ru
+  location: Moscow, Russia
+  legacy: true
+  latitude: 55.755826
+  longitude: 37.6173
+

@@ -119,17 +119,10 @@ class Admin::RepositoriesController < ApplicationController
   # +Repository+ object.
   #
   def attribute_hash(repository_hash)
-    Geocoder.configure(:timeout => 180)
-
-    city = repository_hash['location']
-    location = Geocoder.search(city).first
     id = repository_hash.delete('id')
-
     raise TypeError, 'Repository identifier must not be null' if id.nil?
 
     repository_hash['_id'] = id
-    repository_hash['latitude'] = location.latitude
-    repository_hash['longitude'] = location.longitude
     repository_hash.delete_if do |attribute, value|
       not Repository.fields.include?(attribute)
     end

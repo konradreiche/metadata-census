@@ -44,7 +44,6 @@ gem "mongoid-indifferent-access", require: "mongoid_indifferent_access"
 gem 'andand'
 
 gem 'iso-639'
-gem 'geocoder'
 gem 'yajl-ruby'
 gem 'oj'
 

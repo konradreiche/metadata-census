@@ -88,7 +88,6 @@ GEM
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     ffi (1.9.0)
-    geocoder (1.1.8)
     gon (4.1.1)
       actionpack (>= 2.3.0)
       json
@@ -246,7 +245,6 @@ DEPENDENCIES
   d3_rails
   database_cleaner
   factory_girl_rails (~> 4.0)
-  geocoder
   gon
   iso-639
   json
