@@ -11,7 +11,7 @@ class Admin::RepositoriesController < ApplicationController
     file = params[:file]
     catalog = YAML.load_file(file).with_indifferent_access
 
-    repositories = catalog[:repositories].each do |repository|
+    catalog[:repositories].each do |repository|
       attributes = attribute_hash(repository)
       repository = Repository.where(_id: attributes['_id'])
 
@@ -31,38 +31,38 @@ class Admin::RepositoriesController < ApplicationController
   end
 
   def compile
-   controller = Admin::SnapshotsController.new
+    controller = Admin::SnapshotsController.new
 
-   if params[:target] == 'languages'
-     Repository.all.each do |repository|
-       repository.snapshots.each do |snapshot|
-         logger.info("Compiling #{repository.name}")
-         controller.compile_languages(snapshot)
-         snapshot.save!
-       end
-     end
-   elsif params[:target] == 'times'
-     Repository.all.each do |repository|
-       repository.snapshots.each do |snapshot|
-         logger.info("Compiling #{repository.name}")
-         controller.compile_times(snapshot)
-         snapshot.save!
-       end
-     end
-   else
-     Repository.all.each do |repository|
-       repository.snapshots.each do |snapshot|
-         logger.info("Compiling #{repository.name}")
-         controller.compile_statistics(snapshot)
-         snapshot.save!
-       end
-     end
-   end
- 
-   render nothing: true
- end
+    if params[:target] == 'languages'
+      Repository.all.each do |repository|
+        repository.snapshots.each do |snapshot|
+          logger.info("Compiling #{repository.name}")
+          controller.compile_languages(snapshot)
+          snapshot.save!
+        end
+      end
+    elsif params[:target] == 'times'
+      Repository.all.each do |repository|
+        repository.snapshots.each do |snapshot|
+          logger.info("Compiling #{repository.name}")
+          controller.compile_times(snapshot)
+          snapshot.save!
+        end
+      end
+    else
+      Repository.all.each do |repository|
+        repository.snapshots.each do |snapshot|
+          logger.info("Compiling #{repository.name}")
+          controller.compile_statistics(snapshot)
+          snapshot.save!
+        end
+      end
+    end
 
- ##
+    render nothing: true
+  end
+
+  ##
   # Returns a list of available YAML files containing repositories to import.
   #
   def repository_files
@@ -96,7 +96,7 @@ class Admin::RepositoriesController < ApplicationController
     parser = Yajl::Parser.new
 
     parser.on_parse_complete = Proc.new { |obj| return obj }
-    loop { parser << reader.readchar }
+    parser << reader.readline
   rescue Zlib::GzipFile::Error
     logger.error("Invalid file format: unexpected end of file for #{file}")
     reader = File.new(file, 'r')
