@@ -29,4 +29,4 @@ pickle-email-*.html
 .project
 
 # JSON metadata archives
-data/archives/*
+data/archives

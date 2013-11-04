@@ -27,7 +27,6 @@ class Snapshot
     field = :"#{metric}.score"
     metadata_records.all.sort(field => -1).limit(10)
   end
-  
 
   def best_record(metric)
     field = :"#{metric}.score"
@@ -37,6 +36,12 @@ class Snapshot
   def worst_record(metric)
     field = :"#{metric}.score"
     metadata_records.all.sort(field => 1).last
+  end
+
+  def score
+    metrics = Metrics.all
+    scores = metrics.map { |m| self.send(m).maybe['average'] }.compact
+    scores.sum.fdiv(scores.length)
   end
 
   def <=>(other)

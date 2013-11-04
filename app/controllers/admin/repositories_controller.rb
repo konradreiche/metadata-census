@@ -106,6 +106,7 @@ class Admin::RepositoriesController < ApplicationController
   end
 
   def scheduler
+    require 'pry'; binding.pry
   end
 
   def repository_count(yaml)

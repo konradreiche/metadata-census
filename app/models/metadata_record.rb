@@ -20,8 +20,8 @@ class MetadataRecord
   # 
   #
   def calculate_score
-    scores = Metrics.all.map { |m| (send(m).nil?) ? 0.0 : send(m)['score'] }
-    scores.reduce(:+) / scores.length
+    scores = Metrics.all.map { |m| send(m).maybe['score'] }.compact
+    scores.sum.fdiv(scores.length)
   end
 
 end
