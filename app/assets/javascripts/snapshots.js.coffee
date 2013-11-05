@@ -7,6 +7,7 @@ $ ->
   ##
   initWeightSlider = (sm) ->
 
+    weightScores(sm)
     $(".weight-slider").on "change", (event) ->
       value = $(this).val()
       $(this).parents("td").find("span").text(value)
@@ -37,7 +38,9 @@ $ ->
 
     score = scores.reduce (t, s) -> t + s
     max = weights.reduce (t, s) -> t + s
-    scoreMeter.update(score / max)
+
+    result = if max == 0 then 0.0 else score / max
+    scoreMeter.update(result)
 
     $.post "/repositories/weighting", { weightings: weightings }
 

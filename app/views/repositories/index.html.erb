@@ -53,7 +53,7 @@
                 <% Metrics.all.each do |metric| %>
                   <% result = repository.snapshots.last.maybe(metric) %>
                   <% score = if result.nil? then nil else result['average'] end %>
-                  <td><%= if score.nil? then '?' else '%.2f' % score end %></td>
+                  <td><%= if score.nil? then '-' else '%.2f' % score end %></td>
                   <% end %>
                   <td></td>
                 </tr>
