@@ -41,4 +41,21 @@ module AdminHelper::SnapshotsHelper::SchedulerHelper
     content_tag(:li, partial, class: 'repository selector')
   end
 
+  def scheduler_repository_picker
+    locals = { display: @repository.name, urls: {} }
+
+    @repositories.each do |repository|
+      next if repository.snapshots.empty?
+      snapshot = repository.snapshots.where(date: @snapshot.date).first
+      snapshot = repository.snapshots.first if snapshot.nil?
+
+      parameter = { repository_id: repository.id, snapshot_id: snapshot.date }
+      url = admin_repository_snapshot_scheduler_path(parameter)
+      locals[:urls][repository.name] = url
+    end
+
+    partial = render partial: 'shared/entity_picker', locals: locals
+    content_tag(:li, partial, class: 'repository selector')
+  end
+
 end

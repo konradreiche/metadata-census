@@ -1,0 +1,7 @@
+<a data-toggle="dropdown" href="#"><%= display %></a>
+<ul class="dropdown-menu" role="menu">
+  <% urls.each do |label, url| %>
+    <li><%= link_to label, url %></li>
+  <% end %>
+</ul>
+<strong class="caret"></strong>
