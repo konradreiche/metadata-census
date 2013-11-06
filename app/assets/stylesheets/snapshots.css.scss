@@ -32,3 +32,8 @@ rect {
   cursor: pointer;
 }
 
+.repository.snapshot.table td,
+.repository.snapshot.table th {
+  text-align: center;
+  vertical-align: middle;
+}

@@ -4,8 +4,11 @@ MetadataCensus::Application.routes.draw do
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
+  
+  get 'snapshots', to: 'static_pages#snapshots'
+  get 'metrics', to: 'static_pages#metrics'
 
-  id_regex = /[0-z\.\-]+/
+ id_regex = /[0-z\.\-]+/
 
   constraints({ id: id_regex, repository_id: id_regex }) do
 

@@ -4,7 +4,7 @@ module Analyzer
 
     def analyze(snapshot)
       metadata = snapshot.metadata_records.without(:record)
-      metadata.map(&:score).map { |score| score * 100 }
+      metadata.map(&:score).compact.map { |score| score * 100 }
     end
 
     def distribution(snapshot, metric)

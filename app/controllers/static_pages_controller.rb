@@ -1,4 +1,30 @@
 class StaticPagesController < ApplicationController
+
   def home
   end
+
+  def snapshots
+    repository = Repository.where(:snapshots.exists => true).first
+    return render 'errors/no_snapshots' if repository.nil?
+
+    snapshot = repository.snapshots.last
+    parameter = { repository_id: repository.id, id: snapshot.date }
+    redirect_to repository_snapshot_path(parameter)
+  end
+
+  def metrics
+    Repository.all.each do |repository|
+      repository.snapshots.each do |snapshot|
+        Metrics.all.each do |metric|
+          if not snapshot.send(metric).nil?
+            parameters = forge_parameters(repository, snapshot, metric)
+            return redirect_to repository_snapshot_metric_path(parameters)
+          end
+        end
+      end
+    end
+
+    render 'errors/no_metrics'
+  end
+
 end
