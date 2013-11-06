@@ -13,6 +13,10 @@
     <ul class="nav navbar-nav">
       <%= navbar_button('Repositories', repositories_path) %>
       <%= navbar_button('Scheduler', admin_scheduler_path) %>
-      <%= navbar_button('Importer', new_admin_repository_path) %> </ul>
+      <%= navbar_button('Importer', new_admin_repository_path) %>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <%= navbar_button('Login', new_session_path) %>
+    </ul>
   </div>
 </nav>

@@ -34,6 +34,8 @@ MetadataCensus::Application.routes.draw do
     end
   end
 
+  resources :session, only: [:new, :create, :destroy]
+
   # /admin
   namespace :admin do
 
