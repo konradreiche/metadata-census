@@ -26,14 +26,14 @@ class Admin::SnapshotsController < ApplicationController
           end
 
         when Array
-          parsed.map do |metadata|
+          parsed.each do |metadata|
             id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
             attributes = { _id: id, record: metadata,
                            snapshot_id: snapshot.id,
                            statistics: { resources: metadata['resources'].length } }
 
             MetadataRecord.create!(attributes)
-          end.each { |record| snapshot.metadata_records << record }
+          end
         else
           raise TypeError, "Unknown type #{parsed.class}"
         end

@@ -58,8 +58,6 @@ class MetricWorker
     snapshot[metric]['analysis'] = analysis
 
     snapshot.save!
-  rescue Exception => e
-    require 'pry'; binding.pry
   end
 
   def self.symbolize_keys arg
