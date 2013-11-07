@@ -32,12 +32,15 @@ module AdminHelper::SnapshotsHelper::SchedulerHelper
   end
 
   def scheduler_snapshot_picker
-    locals = { display: @snapshot.date,
-               entities: @repository.snapshots,
-               :parameter => :snapshot_id,
-               :path => :admin_repository_snapshot_scheduler_path }
+    locals = { display: @snapshot.date, urls: {} }
 
-    partial = render partial: 'shared/dropdown_menu', locals: locals
+    @repository.snapshots.each do |snapshot|
+      parameters = { snapshot_id: snapshot.date }
+      url = admin_repository_snapshot_scheduler_path(parameters)
+      locals[:urls][snapshot.date] = url
+    end
+
+    partial = render partial: 'shared/entity_picker', locals: locals
     content_tag(:li, partial, class: 'repository selector')
   end
 

@@ -1,5 +1,4 @@
-require 'yajl'
-require 'yajl/gzip'
+require 'oj'
 
 class Admin::RepositoriesController < ApplicationController
   include RepositoryManager
@@ -92,21 +91,9 @@ class Admin::RepositoriesController < ApplicationController
   # Parses the meta-metadata from the archive in a stream-based fashion.
   #
   def parse_header(file)
-    reader = Yajl::Gzip::StreamReader.new(File.new(file, 'r'))
-    parser = Yajl::Parser.new
-
-    parser.on_parse_complete = Proc.new { |obj| return obj }
-    parser << reader.readline
-  rescue Zlib::GzipFile::Error
-    logger.error("Invalid file format: unexpected end of file for #{file}")
-    reader = File.new(file, 'r')
-    parser = Yajl::Parser.new
-    parser.on_parse_complete = Proc.new { |obj| return obj }
-    loop { parser << reader.readchar }
-  end
-
-  def scheduler
-    require 'pry'; binding.pry
+    file = File.new(file, 'r')
+    reader = Zlib::GzipReader.new(file)
+    Oj.load(reader.readline)
   end
 
   def repository_count(yaml)
