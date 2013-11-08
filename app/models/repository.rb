@@ -12,6 +12,7 @@ class Repository
   field :longitude
 
   index({ 'snapshots.date' => 1 })
+  index({ 'snapshot.statistics.resources' => 1 })
 
   ##
   # Returns a list of records sorted in descending by the score with respect to
