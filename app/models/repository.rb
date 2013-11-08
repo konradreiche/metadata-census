@@ -1,6 +1,5 @@
 class Repository
   include Mongoid::Document
-  include Mongoid::Extensions::Hash::IndifferentAccess
 
   validates_presence_of :url, :type, :name
   embeds_many :snapshots, :order => :date.asc

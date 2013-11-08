@@ -14,8 +14,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'pry-rescue'
-  gem 'pry-stack_explorer'
   gem 'quiet_assets'
   gem 'ruby-prof'
 
@@ -38,8 +36,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'tire'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
-
-gem "mongoid-indifferent-access", require: "mongoid_indifferent_access"
 
 gem 'andand'
 
