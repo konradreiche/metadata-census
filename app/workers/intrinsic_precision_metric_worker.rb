@@ -6,7 +6,7 @@ class IntrinsicPrecisionMetricWorker <  MetricWorker
 
     @repository ||= Repository.find(repository)
     @snapshot ||= @repository.snapshots.where(date: snapshot).first
-    @metadata ||= @snapshot.metadata_records
+    @metadata ||= MetadataRecord.where(snapshot: @snapshot)
 
     store stage: :analyze
     logger.info('Analyzing metadata')
