@@ -8,6 +8,7 @@ class Admin::SnapshotsController < ApplicationController
   def create
     path = params[:file]
     snapshot = nil
+    resources = []
 
     File.open(path) do |file|
       parse_metadata(file) do |parsed|
@@ -28,9 +29,11 @@ class Admin::SnapshotsController < ApplicationController
         when Array
           parsed.each do |metadata|
             id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
-            attributes = { _id: id, record: metadata,
-                           snapshot_id: snapshot.id,
-                           statistics: { resources: metadata['resources'].length } }
+
+            resources << metadata['resources'].length
+            attributes = { _id: id,
+                           record: metadata,
+                           snapshot_id: snapshot.id }
 
             MetadataRecord.create!(attributes)
           end
@@ -39,7 +42,7 @@ class Admin::SnapshotsController < ApplicationController
         end
       end
 
-      compile_statistics(snapshot)
+      compile_statistics(snapshot, resources)
       snapshot.save!
     end
 
@@ -64,27 +67,25 @@ class Admin::SnapshotsController < ApplicationController
     end
   end
 
-  def compile_statistics(snapshot)
+  def compile_statistics(snapshot, resources)
     snapshot.statistics = Hash.new { |hash, key| hash[key] = Hash.new }
     logger.info('Compile resources')
-    compile_resource_numbers(snapshot)
+    compile_resource_numbers(snapshot, resources)
     logger.info('Compile languages')
     compile_languages(snapshot)
   end
 
-  def compile_resource_numbers(snapshot)
-    field = 'statistics.resources'
-    criteria = MetadataRecord.where(snapshot: snapshot).asc(field)
-
+  def compile_resource_numbers(snapshot, resources)
     statistics = snapshot.statistics
-    count = criteria.length
+    resources = resources.sort!
+    sum = resources.sum
 
-    statistics[:resources][:min] = criteria.min(field)
-    statistics[:resources][:avg] = criteria.avg(field)
-    statistics[:resources][:max] = criteria.max(field)
+    statistics[:resources][:min] = resources.first
+    statistics[:resources][:avg] = sum.fdiv(resources.length)
+    statistics[:resources][:max] = resources.last
 
-    statistics[:resources][:sum] = criteria.sum(field)
-    statistics[:resources][:med] = criteria[count / 2][field]
+    statistics[:resources][:sum] = sum
+    statistics[:resources][:med] = resources[resources.length / 2]
   end
 
   def compile_languages(snapshot)

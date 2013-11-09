@@ -9,7 +9,7 @@ module Analyzer
     end
 
     def analyze(snapshot)
-      documents = snapshot.metadata_records
+      documents = MetadataRecord.where(snapshot: snapshot)
       documents.each_with_object(Hash.new(0)) do |document, languages|
         detection = detect(document, :CKAN)
 

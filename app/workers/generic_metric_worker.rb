@@ -4,7 +4,7 @@ class GenericMetricWorker < MetricWorker
     @repository ||= Repository.find(repository)
     @snapshot ||= @repository.snapshots.where(date: snapshot).first
 
-    @metadata ||= @snapshot.metadata_records
+    @metadata ||= MetadataRecord.where(snapshot: @snapshot)
     @metric ||= Metrics.from_sym(metric).new
     super
   end
