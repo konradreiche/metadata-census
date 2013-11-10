@@ -14,6 +14,8 @@
 #= require bootstrap
 #= require jquery_ujs
 #= require list.min.js
+#= require leaflet
+#= require leaflet.markercluster-src
 #= require underscore.js
 #= require d3
 #= require d3.tip.js
