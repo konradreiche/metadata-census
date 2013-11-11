@@ -8,16 +8,18 @@ module AnalysisManager
     before_filter :analyze
   end
 
+  ANALYZER_PATH = 'app/models/analyzer'
+
   private
   def analyze
-    specific = @metric.to_s.underscore.camelcase
-    analyzer = "Analyzer::#{specific}".constantize
+    metric = @metric.to_s.underscore
+    file = "#{ANALYZER_PATH}/#{metric}.rb"
 
-    @analysis = analyzer.analyze(@snapshot, @metric)
-    gon.analysis = @analysis
-  rescue NameError => e
-    Rails.logger.error(e)
-    analyzer = Analyzer::Generic
+    if File.exists?(file)
+      analyzer = "Analyzer::#{metric.camelcase}".constantize
+    else
+      analyzer = Analyzer::Generic
+    end
 
     @analysis = analyzer.analyze(@snapshot, @metric)
     gon.analysis = @analysis
