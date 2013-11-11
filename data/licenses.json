@@ -1182,7 +1182,7 @@
     "domain_software": false, 
     "family": "", 
     "id": "uk-ogl", 
-    "is_okd_compliant": false, 
+    "is_okd_compliant": true, 
     "is_osi_compliant": false, 
     "maintainer": "", 
     "status": "active", 
