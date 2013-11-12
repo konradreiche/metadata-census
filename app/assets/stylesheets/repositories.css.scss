@@ -68,3 +68,32 @@
   text-align: right;
   width: 4em;
 }
+
+.leaflet-control-score-interior {
+  width: 27px;
+  height: 27px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  display: block;
+  padding: 3px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+  cursor: auto;
+  text-align: center;
+  background-color: #fff;
+}
+
+.leaflet-control-score-interior > a {
+  color: #000;
+  font-size: 1.3em;
+}
+
+.leaflet-control-score-interior > a:hover {
+  text-decoration: none;
+}
+
+.leaflet-control-score-interior:hover {
+  background-color: #F4F4F4;
+}
