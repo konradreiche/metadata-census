@@ -1,0 +1,49 @@
+.marker-score {
+  border-radius: 25px;
+  text-align: center;
+}
+
+.marker-score > div {
+  border-radius: 20px;
+  margin-left: 5px;
+  margin-top: 5px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
+
+/* Unknown */
+.marker-score-unknown {
+  background-color: rgba(173, 165, 161, 0.69);
+}
+
+.marker-score-unknown > div {
+  background-color: rgba(146, 140, 135, 0.6);
+}
+
+/* Low */
+.marker-score-low {
+  background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-score-low > div {
+  background-color: rgba(241, 128, 23, 0.6);
+}
+
+/* Medium */
+.marker-score-medium {
+  background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-score-medium > div {
+  background-color: rgba(240, 194, 12, 0.8);
+}
+
+/* High */
+.marker-score-high {
+  background-color: rgba(181, 226, 140, 0.6)
+}
+
+.marker-score-high > div {
+  background-color: rgba(110, 204, 57, 0.8)
+}

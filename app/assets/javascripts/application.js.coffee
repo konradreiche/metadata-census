@@ -43,6 +43,22 @@ if gon? and gon.snapshot?
 if gon? and gon.metric?
   root.metricId = gon.metric
 
+# Score calculation
+root.calculateScore = (repository) ->
+
+  scores = []
+  snapshots = repository.snapshots
+  if snapshots
+    snapshot = snapshots.slice(-1)[0]
+    for metric in gon.metrics
+      if snapshot[metric]
+        scores.push(snapshot[metric]["average"])
+
+    if scores.length > 0
+      return (scores.reduce (a,b) -> a + b) / scores.length
+
+  return null
+
 # This function exists for reasons of readability
 root.isPath = (path)  ->
 

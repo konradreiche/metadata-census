@@ -4,6 +4,25 @@ $ ->
 
   $("a[data-target='#map']").on 'shown.bs.tab', (e) ->
 
+    # Custom marker for visualizing the score
+    scoreIcon = (score) ->
+
+      if score == null
+        markerClass = "marker-score-unknown"
+      else if score >= 0.0 <= 0.29
+        markerClass = "marker-score-low"
+      else if score >= 0.3 <= 0.69
+        markerClass = "marker-score-medium"
+      else if score >= 0.7 <= 1.00
+        markerClass = "marker-score-high"
+
+      score = if score then Math.round(score * 100) else "-"
+      
+      L.divIcon({
+        className: "marker-score #{markerClass}"
+        html: "<div><strong>#{score}</strong></div>",
+        iconSize: [50, 50]})
+
     scoreControlCommand = () ->
       alert("Working")
 
@@ -36,9 +55,12 @@ $ ->
     map.addControl(scoreControl)
 
     for repository in gon.repositories
+      score = calculateScore(repository)
+
       latitude = repository['latitude']
       longitude  = repository['longitude']
-      marker = L.marker([latitude, longitude]).addTo map
+
+      marker = L.marker([latitude, longitude], {icon: scoreIcon(score)}).addTo map
       marker.bindPopup repository['name']
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metric/:metric_id")
