@@ -40,6 +40,7 @@ $ ->
       @map.addControl(scoreControl)
 
     initMarkers: () ->
+      @showScores = true
       markers = []
 
       for repository in gon.repositories
@@ -47,16 +48,25 @@ $ ->
         latitude = repository['latitude']
         longitude  = repository['longitude']
 
-        marker = L.marker([latitude, longitude], {icon: @getScoreIcon(score)}).addTo(@map)
+        icon = @getScoreIcon(score)
+        options = { icon: icon, riseOnHover: true }
+
+        marker = L.marker([latitude, longitude], options).addTo(@map)
         marker.bindPopup(repository['name'])
-        markers.push(marker)
+        markers.push([marker, icon])
 
       return markers
 
     toggleMarkerIconsFunc: (markers) ->
       return () ->
-        for marker in markers
-          console.log marker
+        for markerIcon in markers
+          marker = markerIcon[0]
+          icon = markerIcon[1]
+
+          newIcon = if @showScores then icon else new L.Icon.Default()
+          marker.setIcon(newIcon)
+
+        @showScores = not @showScores
 
     getScoreIcon: (score) ->
       if score == null
