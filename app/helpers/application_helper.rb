@@ -5,6 +5,13 @@ module ApplicationHelper
     content_tag(:li, link_to(display, path), class: cls)
   end
 
+  def score_presentation(snapshot, metric)
+    score = snapshot.send(metric).maybe['average']
+    return '-' if score.nil?
+
+    '%.2f' % score
+  end
+
   def repository_menu
     locals = { display: @repository.name,
                entities: @repositories,

@@ -17,6 +17,8 @@ class AvailabilityMetricWorker <  MetricWorker
     @metric = Metrics::Availability.new(records, self)
     
     store :stage => :compute
+    @before = Time.new
+
     @metric.run()
     super
   end

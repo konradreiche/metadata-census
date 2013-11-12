@@ -14,6 +14,11 @@ class AccuracyMetricWorker < GenericMetricWorker
 
     records = @metadata.map { |document| document.record }
     @metric = Metrics::Accuracy.new(records, self)
+
+    store :stage => :compute
+    @before = Time.new
+
+    @metric.run()
     super
   end
 

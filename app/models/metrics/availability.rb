@@ -81,6 +81,8 @@ module Metrics
           @analysis[response_message] += 1
 
           @worker.at(@processed + 1, @requests) unless @worker.nil?
+          @worker.eta(@processed + 1, @requests) unless @worker.nil?
+
           @processed += 1
         end
       end

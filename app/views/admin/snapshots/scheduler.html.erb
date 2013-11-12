@@ -17,6 +17,8 @@
           <th>Metric</th>
           <th>Progress</th>
           <th>Status</th>
+          <th>ETA</th>
+          <th>Score</th>
           <th>Last Updated</th>
           <th>Schedule Job</th>
         </tr>
@@ -33,6 +35,8 @@
               <%= content_tag(:span, 'Error', class: "label label-danger", id: metric) %>
               <%= status(metric) %>
             </td>
+            <td class="scheduler eta <%= metric %>" rowspan="2"></td>
+            <td rowspan="2"><%= score_presentation(@snapshot, metric) %></td>
             <%= last_updated_date(metric) %>
             <td rowspan="2"><%= schedule_job_button(metric) %></td>
           </tr>

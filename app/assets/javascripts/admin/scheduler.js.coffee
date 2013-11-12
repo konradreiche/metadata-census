@@ -42,6 +42,7 @@ $ ->
       updateProgressBar(metric, job.stage, job.percent)
       updateStatusLabel(metric, job.status)
       updateButtons(metric, job.status)
+      updateEta(metric, job.eta)
 
     updateTotalProgressBar(response)
 
@@ -61,7 +62,6 @@ $ ->
   Updates the total progress bar which is an aggregate of all the progress.
   ###
   updateTotalProgressBar = (response) ->
-
     total = 0
     i = 0
 
@@ -90,6 +90,14 @@ $ ->
       button.prop("disabled", true)
     else
       button.prop("disabled", false)
+
+  ###
+  Updates the ETA label if it is given.
+  ###
+  updateEta = (metric, eta) ->
+    tableCell = $(".scheduler.eta.#{metric}")
+    if eta
+      tableCell.text(eta)
 
   ###
   Resets the job status of the given metric back to zero progress.

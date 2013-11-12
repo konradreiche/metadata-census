@@ -91,6 +91,10 @@ module Metrics
       end
     end
 
+    def run
+      @dispatcher.run
+    end
+
     def compute(record)
       @worker.at(@processed, @requests)
 
@@ -189,7 +193,9 @@ module Metrics
         @resource_sizes[id][url] = content_size
         @analysis[content_type] += 1
 
-        @worker.at(@processed + 1, @requests)
+        @worker.at(@processed + 1, @requests) unless @worker.nil?
+        @worker.eta(@processed + 1, @requests) unless @worker.nil?
+
         @processed += 1
       end
       @dispatcher.queue(request)

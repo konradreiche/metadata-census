@@ -1,4 +1,5 @@
 require 'time'
+require 'action_view'
 
 ##
 # Base metric worker which all metric worker have to subclass.
@@ -6,12 +7,14 @@ require 'time'
 class MetricWorker
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
+  include ActionView::Helpers::DateHelper
 
   def perform(repository, snapshot, metric, *args)
     scores = []
     store :stage => :compute
     logger.info('Compute metadata scores')
 
+    @before = Time.now
     @metadata.each_with_index do |document, i|
       document[metric] = Hash.new if document[metric].nil?
 
@@ -25,6 +28,7 @@ class MetricWorker
       document.save!
 
       scores << score
+      eta(i + 1, @metadata.length)
       at(i + 1, @metadata.length)
     end
 
@@ -88,5 +92,15 @@ class MetricWorker
       GenericMetricWorker
     end
   end
+
+  def eta(i, steps)
+    now = Time.now
+    elapsed = now - @before
+    time_per_step = elapsed / i
+
+    estimate = time_per_step * (steps - i)
+    store :eta => distance_of_time_in_words(now, now + estimate)
+  end
+
 
 end
