@@ -1,6 +1,6 @@
 module Metrics
 
-  class Licenses < Metric
+  class Openness < Metric
 
     attr_reader :analysis
 

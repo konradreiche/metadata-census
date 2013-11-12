@@ -3,7 +3,7 @@ require 'uri'
 
 module Metrics
 
-  class LinkChecker < Metric
+  class Availability < Metric
 
     attr_reader :analysis
 

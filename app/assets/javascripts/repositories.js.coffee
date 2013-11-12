@@ -91,4 +91,4 @@ $ ->
     new RepositoryMap("map-canvas")
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metric/:metric_id")
-    sm = new ScoreMeter(".metric.score-meter", gon.score)
+    new ScoreMeter(".metric.score-meter", gon.score)

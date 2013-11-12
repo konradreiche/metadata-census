@@ -1,4 +1,4 @@
-class Analyzer::LinkChecker
+class Analyzer::Availability
 
   def self.analyze(snapshot, metric)
     metadata = MetadataRecord.where(snapshot: snapshot)
