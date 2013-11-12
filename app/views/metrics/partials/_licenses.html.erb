@@ -12,7 +12,7 @@
         <tbody>
         <% @snapshot.send(@metric)['analysis'].each do |license, count| %>
           <tr>
-            <td><%= license %></td>
+            <td><%= license.gsub("\uff0e", '.') %></td>
             <td><%= count %></td>
           </tr>
         <% end %>

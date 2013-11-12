@@ -1,10 +1,8 @@
-@import "leaflet";
-
 .repository.nav {
   margin-bottom: 2em;
 }
 
-#map {
+#map-canvas {
   height: 40em;
 }
 
@@ -17,7 +15,7 @@
 }
 
 /* Leaderboard table */
-#leaderboard {
+.leaderboard.dashboard {
   overflow: auto;
 }
 
