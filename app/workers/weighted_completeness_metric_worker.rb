@@ -2,9 +2,9 @@ class WeightedCompletenessMetricWorker < GenericMetricWorker
 
   def perform(repository, snapshot, metric)
     @repository ||= Repository.find(repository)
-    schema = JSON.parse(File.read('public/ckan-schema.json'))
+    schema = JSON.parse(File.read('data/schema/ckan.json'))
 
-    weights = 'public/ckan-weight.yml'
+    weights = 'data/schema/ckan-weighted.yml'
     @metric = Metrics::WeightedCompleteness.new(schema, weights)
     super
   end

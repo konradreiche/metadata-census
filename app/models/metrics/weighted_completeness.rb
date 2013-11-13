@@ -23,9 +23,9 @@ module Metrics
         schema['properties'].each do |property_name, property_schema|
 
           # set default values in order to accredit the field as completed
-          if property_schema['default'] and not data.has_key?(property) and not property_schema['readonly']
+          if property_schema['default'] and not data.has_key?(property_name) and not property_schema['readonly']
             default = property_schema['default']
-            data[property] = (default.is_a?(Hash) ? default.clone : default)
+            data[property_name] = (default.is_a?(Hash) ? default.clone : default)
           end
           if data.has_key?(property_name)
             stack << property_name

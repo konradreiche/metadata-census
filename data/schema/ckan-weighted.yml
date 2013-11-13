@@ -26,6 +26,7 @@ resources:
       webstore_url: 0
       cache_url: 1
       size: 5
+      created: 1
       last_modified: 0
       cache_last_updated: 0
       webstore_last_updated: 0
@@ -33,3 +34,4 @@ tags: 3
 extras:
     - 2
 groups: 2
+owner_org: 5

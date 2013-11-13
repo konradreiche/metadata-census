@@ -15,7 +15,7 @@ module Metrics
 
     def initialize(metadata, worker=nil)
       @worker = worker
-      @mime = YAML.load('data/metrics/mime.yml')
+      @mime = YAML.load(File.read('data/metrics/mime.yml'))
 
       @processed = 0
       @requests = 0
@@ -102,7 +102,6 @@ module Metrics
       format = resource['format']
 
       unless format.nil?
-
         format = format.encode Encoding.find('ASCII'), @@encoding_options
         format = format.downcase.split(';').first
         if @mime.has_key?(format)
@@ -110,9 +109,7 @@ module Metrics
         end
       end
 
-      format = resource['mimetype']
-      return [format] unless format.nil?
-      return []
+      return nil
     end
 
     def enqueue_request(id, url, formats)
@@ -134,7 +131,8 @@ module Metrics
         content_type = 'Error' unless response.success?
 
         unless content_type.nil?
-          content_type = content_type.encode Encoding.find('ASCII'), @@encoding_options
+          content_type = content_type.encode(Encoding.find('ASCII'), @@encoding_options)
+          content_type = content_type.split(';').first
         end
         @resource_mime_types[id][url] = content_type
         @resource_sizes[id][url] = content_size
