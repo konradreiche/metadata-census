@@ -71,11 +71,11 @@ $ ->
     getScoreIcon: (score) ->
       if score == null
         markerClass = "marker-score-unknown"
-      else if score >= 0.0 <= 0.29
+      else if score >= 0.0 and score <= 0.29
         markerClass = "marker-score-low"
-      else if score >= 0.3 <= 0.69
+      else if score >= 0.3 and score <= 0.69
         markerClass = "marker-score-medium"
-      else if score >= 0.7 <= 1.00
+      else if score >= 0.7 and score <= 1.00
         markerClass = "marker-score-high"
 
       score = if score then Math.round(score * 100) else "-"
