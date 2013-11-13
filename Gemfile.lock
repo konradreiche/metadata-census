@@ -69,6 +69,7 @@ GEM
     coffee-script-source (1.6.3)
     columnize (0.3.6)
     connection_pool (1.1.0)
+    curb (0.8.4)
     d3_rails (3.3.4)
       railties (>= 3.1.0)
     database_cleaner (1.2.0)
@@ -229,6 +230,7 @@ DEPENDENCIES
   capybara (= 2.0.0)
   cld
   coffee-rails (~> 4.0.0)
+  curb
   d3_rails
   database_cleaner
   factory_girl_rails (~> 4.0)

@@ -23,6 +23,7 @@ describe AnalysisManager do
     subject { AnonymousController.new }
 
     before(:all) do
+      AnalysisManager.send(:remove_const, :ANALYZER_PATH)
       AnalysisManager.const_set(:ANALYZER_PATH, 'spec/models/analyzer')
       load 'spec/models/analyzer/test_metric.rb'
     end

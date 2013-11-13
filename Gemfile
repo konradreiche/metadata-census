@@ -41,6 +41,7 @@ gem 'andand'
 
 gem 'iso-639'
 gem 'oj'
+gem 'curb'
 
 # Metrics
 gem 'json'

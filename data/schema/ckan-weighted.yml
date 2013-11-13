@@ -1,0 +1,35 @@
+id: 0
+title: 1
+name: 0
+author: 4
+author_email: 5
+maintainer: 4
+maintainer_email: 5
+license_id: 4
+notes: 5
+url: 5
+version: 1
+state: 0
+type: 2
+resources:
+    - 5
+    - package_id: 0
+      url: 5
+      revision_id: 0
+      description: 3
+      format: 2
+      hash: 1
+      name: 0
+      resource_type: 2
+      mimetype: 5
+      mimetype_inner: 1
+      webstore_url: 0
+      cache_url: 1
+      size: 5
+      last_modified: 0
+      cache_last_updated: 0
+      webstore_last_updated: 0
+tags: 3
+extras:
+    - 2
+groups: 2
