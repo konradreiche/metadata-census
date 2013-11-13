@@ -4,7 +4,7 @@ module Metrics
 
     def initialize
       @fields = { :text => [['notes'], ['resources', 'description']] }
-      @directory = Dir['data/spelling/*']
+      @directory = Dir['data/misspelling/*']
       @misspelling = Hash.new
     end
 
@@ -64,7 +64,7 @@ module Metrics
 
     private
     def load_misspelling(language)
-      path = "data/spelling/#{language}.yml"
+      path = "data/misspelling/#{language}.yml"
       return if language.nil? or not File.exists?(path)
 
       yaml = File.read(path)
