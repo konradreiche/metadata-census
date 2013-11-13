@@ -1,24 +1,23 @@
 {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "CKAN Dataset Schema",
+    "description": "Metadata record from a CKAN repository.",
+    "type": "object",
     "properties": {
+        "id": {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]{2,100}$"
+        },
         "author": {
             "type": "string"
         },
         "author_email": {
-            "type": "string"
-        },
-        "extras": {
-            "type": "object"
-        },
-        "groups": {
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
-        },
-        "id": {
-            "type": "string"
-        },
-        "license_id": {
             "type": "string"
         },
         "maintainer": {
@@ -27,28 +26,38 @@
         "maintainer_email": {
             "type": "string"
         },
-        "name": {
+        "license_id": {
             "type": "string"
         },
         "notes": {
             "type": "string"
         },
-        "owner_org": {
+        "url": {
             "type": "string"
         },
-        "private": {
-            "type": "boolean"
+        "version": {
+            "type": "string",
+            "pattern": "^.${0,100}"
+        },
+        "state": {
+            "type": "string",
+            "default": "active"
+        },
+        "type": {
+            "type": "string"
         },
         "resources": {
+            "type": "array",
             "items": {
+                "type": "object",
                 "properties": {
-                    "cache_last_updated": {
+                    "package_id": {
                         "type": "string"
                     },
-                    "cache_url": {
+                    "url": {
                         "type": "string"
                     },
-                    "created": {
+                    "revision_id": {
                         "type": "string"
                     },
                     "description": {
@@ -60,10 +69,10 @@
                     "hash": {
                         "type": "string"
                     },
-                    "id": {
+                    "name": {
                         "type": "string"
                     },
-                    "last_modified": {
+                    "resource_type": {
                         "type": "string"
                     },
                     "mimetype": {
@@ -72,75 +81,46 @@
                     "mimetype_inner": {
                         "type": "string"
                     },
-                    "name": {
+                    "webstore_url": {
                         "type": "string"
                     },
-                    "package_id": {
-                        "type": "string"
-                    },
-                    "position": {
-                        "type": "string"
-                    },
-                    "resource_group_id": {
-                        "type": "string"
-                    },
-                    "resource_type": {
-                        "type": "string"
-                    },
-                    "revision_id": {
-                        "type": "string"
-                    },
-                    "revision_timestamp": {
+                    "cache_url": {
                         "type": "string"
                     },
                     "size": {
                         "type": "number"
                     },
-                    "state": {
+                    "created": {
                         "type": "string"
                     },
-                    "tracking_summary": {
+                    "last_modified": {
                         "type": "string"
                     },
-                    "url": {
-                        "type": "string"
-                    },
-                    "url_type": {
+                    "cache_last_updated": {
                         "type": "string"
                     },
                     "webstore_last_updated": {
                         "type": "string"
-                    },
-                    "webstore_url": {
-                        "type": "string"
                     }
                 },
-                "type": "object"
-            },
-            "type": "array"
-        },
-        "revision_id": {
-            "type": "string"
-        },
-        "state": {
-            "type": "string"
+                "required": ["package_id", "url"]
+            }
         },
         "tags": {
             "type": "string"
         },
-        "title": {
-            "type": "string"
+        "extras": {
+            "type": "object"
         },
-        "type": {
-            "type": "string"
+        "groups": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         },
-        "url": {
-            "type": "string"
-        },
-        "version": {
+        "owner_org": {
             "type": "string"
         }
     },
-    "title": "CKAN Default Schema",
-    "type": "object"
+    "required": ["id"]
 }
