@@ -2,7 +2,6 @@ require 'typhoeus'
 require 'uri'
 
 module Metrics
-
   class Availability < Metric
 
     attr_reader :analysis
@@ -101,20 +100,6 @@ module Metrics
     def client_error?(response, method)
       method == :head && response.is_a?(Fixnum) &&
         response >= 400 && response < 500 
-    end
-
-    def response_message(response)
-      if response.return_code == :too_many_redirects
-        'Too many redirects'
-      elsif response.success?
-        response.code
-      elsif response.timed_out?
-        'Timed out'
-      elsif response.code == 0
-        'Error: ' + response.return_message
-      else
-        response.code
-      end
     end
 
   end

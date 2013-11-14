@@ -38,9 +38,8 @@ shp:
     - application/octet-stream
 wms: 
     - application/vnd.ogc.wms_xml
+    - application/xml
     - text/xml
-    - text/html
-    - text/plain
 aspx:
     - text/html
 exe: 

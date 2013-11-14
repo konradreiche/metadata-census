@@ -74,7 +74,7 @@ module MetricsHelper
 
   def repository_metric_metric_menu
     locals = { display: @metric.to_s.titleize,
-               entities: Metrics.all.map { |m| Metrics.from_sym(m) },
+               entities: Metrics::Metric.all.map { |m| Metrics.from_sym(m) },
                :parameter => :id,
                :path => :repository_snapshot_metric_path }
 

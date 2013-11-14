@@ -9,7 +9,7 @@ class MetadataRecord
 
   field :statistics, type: Hash
 
-  Metrics.all.each do |metric|
+  Metrics::Metric.all.each do |metric|
     field metric, type: Hash
   end
 
@@ -20,7 +20,7 @@ class MetadataRecord
   # 
   #
   def calculate_score
-    scores = Metrics.all.map { |m| send(m).maybe['score'] }.compact
+    scores = Metrics::Metric.all.map { |m| send(m).maybe['score'] }.compact
     scores.sum.fdiv(scores.length)
   end
 

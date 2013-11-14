@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <% Metrics.all.each do |metric| %>
+        <% Metrics::Metric.all.each do |metric| %>
           <tr class="status <%= metric %>">
             <td rowspan="2"><%= link_to metric.to_s.titlecase, repository_snapshot_metric_path(repository_id: @repository, id: metric)  %></td>
             <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :analyze) %></div></td>

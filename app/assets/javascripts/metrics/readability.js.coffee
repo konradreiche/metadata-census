@@ -1,9 +1,9 @@
 #=require d3
 $ ->
   
-  if gon? and gon.grouped_accessibility?
+  if gon? and gon.grouped_readability?
     data = []
-    for portal, score of gon.grouped_accessibility
+    for portal, score of gon.grouped_readability
       data.push { name: portal, value: score }
 
     m = [30, 10, 10, 100]

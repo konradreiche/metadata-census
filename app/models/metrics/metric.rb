@@ -3,6 +3,14 @@ module Metrics
 
     @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
 
+    def self.all
+      if Rails.env.production?
+        @metrics ||= metrics()
+      else
+        @metrics = metrics()
+      end
+    end
+
     def self.name
       self.to_s.demodulize.titleize
     end
@@ -10,7 +18,7 @@ module Metrics
     def self.id
       self.to_sym
     end
-    
+
     def self.to_sym
       self.to_s.demodulize.underscore.dasherize.to_sym
     end
@@ -50,12 +58,6 @@ module Metrics
       false
     end
 
-    ## List the metrics for dynamically generating the view
-    # 
-    def self.metrics
-      @@metrics
-    end
-
     ## Keeps track of metric subclasses
     #
     # This method is called everytime a subclass of +Metrics::Metric+ is
@@ -86,6 +88,12 @@ module Metrics
       end
     end
 
-  end
+    private
+    def self.metrics
+      Dir['app/models/metrics/*.rb'].map do |file_name|
+        File.basename(file_name, '.rb')
+      end.map(&:to_sym) - [:metric]
+    end
 
+  end
 end

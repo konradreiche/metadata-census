@@ -1,4 +1,4 @@
-class AccessibilityMetricWorker < GenericMetricWorker
+class ReadabilityMetricWorker < GenericMetricWorker
 
   def perform(repository, snapshot, metric)
     @repository ||= Repository.find(repository)
@@ -7,7 +7,7 @@ class AccessibilityMetricWorker < GenericMetricWorker
     @metadata ||= MetadataRecord.where(snapshot: @snapshot)
     @metadata = @metadata.only("record.notes", "record.resources.description")
 
-    @metric = Metrics::Accessibility.new('en_us')
+    @metric = Metrics::Readability.new('en_us')
     super
   end
 

@@ -15,7 +15,7 @@ class StaticPagesController < ApplicationController
   def metrics
     Repository.all.each do |repository|
       repository.snapshots.each do |snapshot|
-        Metrics.all.each do |metric|
+        Metrics::Metric.all.each do |metric|
           if not snapshot.send(metric).nil?
             parameters = forge_parameters(repository, snapshot, metric)
             return redirect_to repository_snapshot_metric_path(parameters)

@@ -35,7 +35,7 @@ class Repository
   end
 
   def score(weighting={})
-    metrics = Metrics.all
+    metrics = Metrics::Metric.all
 
     sum = metrics.inject(0.0) do |sum, metric|
       score = snapshots.last.maybe(metric)

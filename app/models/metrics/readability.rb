@@ -3,7 +3,7 @@ require 'tactful_tokenizer'
 
 module Metrics
 
-  class Accessibility < Metric
+  class Readability < Metric
 
     def initialize(language)
       @fields = { text: [['notes'], ['resources', 'description']] }
@@ -82,9 +82,9 @@ module Metrics
 
     def self.description
       <<-TEXT.strip_heredoc
-      The accessibility metric measures the metadata records in mean of
-      cognitive accessibility. In order to measure the accessibility different
-      reading indices are used.
+      The readability metric measures the metadata records in mean of cognitive
+      accessibility. In order to measure the readability different reading
+      indices are used.
       TEXT
     end
 

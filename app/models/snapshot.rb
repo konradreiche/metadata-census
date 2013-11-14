@@ -14,7 +14,7 @@ class Snapshot
   field :date, type: Date
   field :statistics, type: Hash
 
-  Metrics.all.each do |metric|
+  Metrics::Metric.all.each do |metric|
     field metric, type: Hash
   end
 
@@ -39,7 +39,7 @@ class Snapshot
   end
 
   def score
-    metrics = Metrics.all
+    metrics = Metrics::Metric.all
     scores = metrics.map { |m| self.send(m).maybe['average'] }.compact
     scores.sum.fdiv(scores.length)
   end

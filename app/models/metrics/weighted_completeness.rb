@@ -1,3 +1,5 @@
+require 'metrics/completeness'
+
 module Metrics
 
   class WeightedCompleteness < Completeness

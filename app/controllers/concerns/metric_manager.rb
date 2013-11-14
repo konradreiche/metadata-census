@@ -16,7 +16,7 @@ module MetricManager
   end
 
   def metrics
-    @metrics = Metrics.all
+    @metrics = Metrics::Metric.all
     gon.metrics = @metrics
   end
 

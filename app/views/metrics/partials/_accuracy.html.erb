@@ -6,19 +6,17 @@
         <thead>
           <th>ID</th>
           <th>URL</th>
-          <th>Format</th>
-          <th>Actual MIME</th>
           <th>Expected MIME</th>
+          <th>Actual MIME</th>
         </thead>
         <tbody>
-          <% @analysis.select { |_, a| a.all? { |fa| not fa['format_valid'] } }.each do |id, analysis| %>
-            <% analysis.each_with_index.each do |format_analysis, i| %>
+          <% @analysis.each do |id, analysis| %>
+            <% analysis.each_with_index.each do |resource_analysis, i| %>
               <tr>
                 <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
-                <td><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
-                <td><%= format_analysis['format'] %></td>
-                <%= actual_mime_type(format_analysis) %>
-                <td><%= format_analysis['expected_mime_types'].join(", ") %></td>
+                <td><%= content_tag(:a, resource_analysis['url'], href: resource_analysis['url']) %></td>
+                <td><%= resource_analysis['expected_mime_type'] %></td>
+                <%= actual_mime_type(resource_analysis) %>
               </tr>
             <% end %>
           <% end %>

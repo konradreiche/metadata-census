@@ -1,8 +1,9 @@
 require 'typhoeus'
+require 'util/network'
 
 module Metrics
-
   class Accuracy < Metric
+    include Util::Network
 
     @@encoding_options = {
        :invalid           => :replace,  # Replace invalid byte sequences
@@ -49,7 +50,6 @@ module Metrics
       @dispatcher.run
 
       id = record['id']
-      types = @resource_mime_types[id]
 
       max = 0 # record['resources'].length
       scores = []
@@ -57,7 +57,8 @@ module Metrics
 
       record['resources'].each do |resource|
         url = resource['url']
-        format = resource['format']
+        expected_mime_type = resource['mimetype']
+        next if Metrics.blank?(expected_mime_type)
 
         actual_size = @resource_sizes[id][url].to_s
         expected_size = resource['size'].to_s
@@ -73,22 +74,20 @@ module Metrics
        #   end
        # end
 
-        actual_mime_type = types[url]
-        expected_mime_types = determine_mime_types(resource)
+        actual_mime_type = @resource_mime_types[id][url]
 
-        valid = expected_mime_types.include?(actual_mime_type) 
+        valid = expected_mime_type == actual_mime_type
         scores << 1.0 if valid
 
         analysis << { url: url,
-                      format: format,
                       actual_mime_type: actual_mime_type,
-                      expected_mime_types: expected_mime_types,
+                      expected_mime_type: expected_mime_type,
                       format_valid: valid,
                       actual_size: actual_size,
                       expected_size: expected_size }
       end
 
-      if max == 0 or scores.empty?
+      if scores.empty?
         score = 0.0
       else
         score = scores.reduce(:+).fdiv(max)
@@ -109,7 +108,7 @@ module Metrics
         end
       end
 
-      return nil
+      return []
     end
 
     def enqueue_request(id, url, formats)
@@ -126,14 +125,16 @@ module Metrics
 
       request = Typhoeus::Request.new(url, config)
       request.on_complete do |response|
-        content_type = response.headers['Content-Type']
-        content_size = response.headers['Content-Length']
-        content_type = 'Error' unless response.success?
 
-        unless content_type.nil?
-          content_type = content_type.encode(Encoding.find('ASCII'), @@encoding_options)
-          content_type = content_type.split(';').first
+        if response.success?
+          content_type = response.headers['Content-Type'].split(';').first
+          content_size = response.headers['Content-Length']
+        else
+          content_type = response_message(response)
         end
+
+        # content_type = content_type.encode(Encoding.find('ASCII'), @@encoding_options)
+
         @resource_mime_types[id][url] = content_type
         @resource_sizes[id][url] = content_size
         @analysis[content_type] += 1
