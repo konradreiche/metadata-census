@@ -59,6 +59,7 @@ module Metrics
         url = resource['url']
         expected_mime_type = resource['mimetype']
         next if Metrics.blank?(expected_mime_type)
+        max += 1
 
         actual_size = @resource_sizes[id][url].to_s
         expected_size = resource['size'].to_s
@@ -86,6 +87,7 @@ module Metrics
                       actual_size: actual_size,
                       expected_size: expected_size }
       end
+
 
       if scores.empty?
         score = 0.0

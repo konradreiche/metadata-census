@@ -4,11 +4,7 @@ module Metrics
     @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
 
     def self.all
-      if Rails.env.production?
-        @metrics ||= metrics()
-      else
-        @metrics = metrics()
-      end
+      @@metrics
     end
 
     def self.name
@@ -88,12 +84,12 @@ module Metrics
       end
     end
 
-    private
-    def self.metrics
-      Dir['app/models/metrics/*.rb'].map do |file_name|
-        File.basename(file_name, '.rb')
-      end.map(&:to_sym) - [:metric]
-    end
+#    private
+#    def self.metrics
+#      Dir['app/models/metrics/*.rb'].map do |file_name|
+#        File.basename(file_name, '.rb')
+#      end.map(&:to_sym) - [:metric]
+#    end
 
   end
 end
