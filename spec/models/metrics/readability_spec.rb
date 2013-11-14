@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-describe Metrics::Accessibility do
-
+describe Metrics::Readability do
 
   it "should split a given text into its words" do
     
@@ -22,7 +21,7 @@ describe Metrics::Accessibility do
 
   it "should split a given text into its sentences" do
 
-    accessibility = Metrics::Accessibility.new 'en_us'
+    accessibility = Metrics::Readability.new('en_us')
     
     text = "The Historic Landfill dataset was created to help fulfil our "\
            "statutory responsibility to Local Planning Authorities by "\
@@ -73,7 +72,7 @@ describe Metrics::Accessibility do
 
   it "should hyphenate a word into its syllables" do
 
-    accessibility = Metrics::Accessibility.new 'en_us'
+    accessibility = Metrics::Readability.new('en_us')
 
     syllables = accessibility.hyphenate("representation")
     syllables.should match_array [3, 5, 8, 10]
@@ -98,7 +97,7 @@ describe Metrics::Accessibility do
 
   it "should compute the Flesch Reading Ease" do
 
-    accessibility = Metrics::Accessibility.new 'en_us'
+    accessibility = Metrics::Readability.new('en_us')
 
     text = "The Historic Landfill dataset was created to help fulfil our "\
            "statutory responsibility to Local Planning Authorities by "\
