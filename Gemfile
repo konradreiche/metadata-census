@@ -38,6 +38,7 @@ gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
 
 gem 'andand'
+gem 'require_all'
 
 gem 'iso-639'
 gem 'oj'
