@@ -27,23 +27,21 @@
   <div class="row">
     <div class="col-md-12 dashboard">
       <h3>Size Accuracy</h3>
-      <table class="accuracy-table table table-bordered">
+      <table class="accuracy-size-table table table-bordered">
         <thead>
           <th>ID</th>
           <th>URL</th>
           <th>Expected Size</th>
           <th>Actual Size</th>
-          <th>Difference</th>
         </thead>
         <tbody>
-          <% @analysis.each do |id, analysis| %>
+          <% filter_size_analysis(@analysis).each do |id, analysis| %>
             <% analysis.each_with_index.each do |format_analysis, i| %>
               <tr>
                 <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
                 <td><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
                 <td><%= format_analysis['expected_size'] %></td>
-                <td><%= format_analysis['actual_size'] %></td>
-                <td><%= (format_analysis['actual_size'].to_i - format_analysis['expected_size'].to_i).abs %></td>
+                <%= actual_resource_size(format_analysis)  %>
               </tr>
             <% end %>
           <% end %>
