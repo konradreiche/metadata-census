@@ -30,10 +30,10 @@ module Metrics
 
       metadata.each_with_index do |dataset, i|
         dataset['resources'].each do |resource|
-          formats = determine_mime_types(resource)
-          url = URI.encode(resource['url'])
+          mime = resource['mimetype']
+          url = URI.unescape(resource['url'])
           id = dataset['id']
-          enqueue_request(id, url, formats) unless formats.nil?
+          enqueue_request(id, url) unless mime.nil?
         end
         @worker.at(i + i, @total) unless @worker.nil?
       end
@@ -51,12 +51,12 @@ module Metrics
 
       id = record['id']
 
-      max = 0 # record['resources'].length
+      max = 0
       scores = []
       analysis = []
 
       record['resources'].each do |resource|
-        url = resource['url']
+        url = URI.unescape(resource['url'])
         expected_mime_type = resource['mimetype']
         next if Metrics.blank?(expected_mime_type)
         max += 1
@@ -64,16 +64,18 @@ module Metrics
         actual_size = @resource_sizes[id][url].to_s
         expected_size = resource['size'].to_s
 
-       # if not actual_size.empty? and not expected_size.empty?
-       #   max += 1
-       #   act, exp = actual_size.to_f, expected_size.to_f
+        if not actual_size.empty? and not expected_size.empty?
+          max += 1
+          act, exp = actual_size.to_f, expected_size.to_f
 
-       #   if (act - exp).abs == 0.0
-       #     scores << 1.0
-       #   else
-       #     scores << act / (act - exp).abs
-       #   end
-       # end
+          if (act - exp).abs == 0.0
+            scores << 1.0
+          else
+            score = 1 - act.fdiv((act - exp).abs)
+            score = score < 0.0 ? 0.0 : score
+            scores << score
+          end
+        end
 
         actual_mime_type = @resource_mime_types[id][url]
 
@@ -99,21 +101,7 @@ module Metrics
       return score, analysis
     end
 
-    def determine_mime_types(resource)
-      format = resource['format']
-
-      unless format.nil?
-        format = format.encode Encoding.find('ASCII'), @@encoding_options
-        format = format.downcase.split(';').first
-        if @mime.has_key?(format)
-          return @mime[format]
-        end
-      end
-
-      return []
-    end
-
-    def enqueue_request(id, url, formats)
+    def enqueue_request(id, url)
       config = { headers: { 'User-Agent' => 'curl/7.29.0' },
                  ssl_verifypeer: false,
                  ssl_verifyhost: 2,  # disable host verification
@@ -129,7 +117,7 @@ module Metrics
       request.on_complete do |response|
 
         if response.success?
-          content_type = response.headers['Content-Type'].split(';').first
+          content_type = response.headers['Content-Type'].to_s.split(';').first
           content_size = response.headers['Content-Length']
         else
           content_type = response_message(response)
