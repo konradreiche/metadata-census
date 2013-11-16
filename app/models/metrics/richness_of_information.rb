@@ -74,7 +74,7 @@ module Metrics
     def richness_of_information(value, type, category=nil)
       case type
       when :category
-        count = @categorical_frequency[category][value]
+        count = @categorical_frequency[category][value.to_s]
         total = categorical_frequency[category].values.reduce(:+).to_f
         #1.0 - Math.log(count) / Math.log(total)
         - Math.log(count / total)
@@ -121,7 +121,7 @@ module Metrics
 
     def index_category(category, value)
       unless value.nil?
-        value = value.gsub(".","")
+        value = value.to_s.gsub(".","")
         value = value.gsub("$","")
         @categorical_frequency[category][value] += 1
       end
@@ -131,7 +131,9 @@ module Metrics
       if type == :category
         value = self.class.value(record, accessors)
         if value.is_a?(Array)
-          value.each { |item| index_category(accessors, item)  }
+          value.each { |item| 
+            index_category(accessors, item)  
+          }
         else
           index_category(accessors, value)
         end
