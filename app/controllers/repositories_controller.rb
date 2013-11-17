@@ -1,13 +1,16 @@
 class RepositoriesController < ApplicationController
   include RepositoryManager
   include MetricManager
+  include Comparable
 
   helper_method :metric_score
 
   def index
     scores = @repositories.map { |repository| repository.score }
-    filtered = scores.sort.uniq.reverse
-    @ranking = scores.map { |score| filtered.index(score) + 1 }.reverse
+    filtered = scores.compact.sort.uniq.reverse
+
+    @ranking = filtered.map { |score| filtered.index(score) + 1 }
+    @ranking += ['-'] * (scores.length - filtered.length)
 
     @numbers = Hash.new
     @languages = Set.new

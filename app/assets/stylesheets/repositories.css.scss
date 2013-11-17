@@ -37,6 +37,11 @@
   text-align: left;
 }
 
+.repositories.leaderboard.table > tbody tr td:nth-child(3) {
+  border-right: 1px dotted #bbb;
+}
+
+
 .repositories.leaderboard.table > thead tr th:nth-child(n+3),
 .repositories.leaderboard.table > thead tr th:nth-child(n+3) {
   width: 7em;

@@ -35,24 +35,19 @@ class Repository
   end
 
   def score(weighting={})
+    snapshot = snapshots.last
     metrics = Metrics::Metric.all
+    scores = metrics.map do |metric|
+      score = snapshot.maybe(metric).maybe['average']
+      score = score * weighting.fetch(metric, 1.0) unless score.nil?
+    end.compact
 
-    sum = metrics.inject(0.0) do |sum, metric|
-      score = snapshots.last.maybe(metric)
-
-      unless score.nil?
-        value = score['average']
-      else
-        value = 0.0
-      end
- 
-      sum + (value * weighting.fetch(metric, 1.0))
-    end
-    sum / metrics.length
+    return nil if scores.empty?
+    scores.reduce(:+).fdiv(scores.length)
   end
 
   def <=>(other)
-    self.score <=> other.score
+    self.score.to_f <=> other.score.to_f
   end
 
   def self.ranking(repositories)

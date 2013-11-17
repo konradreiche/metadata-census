@@ -79,8 +79,10 @@ module RepositoriesHelper
     '%.2f' % (frequency * 100)
   end
 
-  def score_cell(repository, score)
-    classes = { 0..35 => 'bad', 36..79 => 'medium', 80..100 => 'good' }
+  def score_cell(score)
+    return content_tag(:td, '-') if score.nil?
+
+    classes = { 0..30 => 'bad', 31..69 => 'medium', 70..100 => 'good' }
     cls = classes.find { |r, _| r === score * 100 }.maybe.last
     content_tag(:td, '%.2f' % score, class: cls)
   end
