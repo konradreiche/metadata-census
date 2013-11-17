@@ -28,7 +28,7 @@ module Metrics
         Array(value).each_with_index do |text, i|
           score = 1.0
 
-          misspelled = Metric.words(text).inject([]) do |misspellings, word|
+          misspelled = Metric.words(text.to_s).inject([]) do |misspellings, word|
             misspellings << word if @misspelling[language].to_h.key?(word)
             misspellings
           end.uniq

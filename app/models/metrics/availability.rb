@@ -1,8 +1,10 @@
 require 'typhoeus'
 require 'uri'
+require 'util/network'
 
 module Metrics
   class Availability < Metric
+    include Util::Network
 
     attr_reader :analysis
 

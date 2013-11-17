@@ -72,6 +72,7 @@ module Metrics
     end
 
     def richness_of_information(value, type, category=nil)
+      value = value.to_s.gsub('$', '').gsub('.', '')
       case type
       when :category
         count = @categorical_frequency[category][value.to_s]
@@ -98,7 +99,7 @@ module Metrics
 
     def self.term_frequency(text)
       term_frequency = Hash.new(0)
-      words = text.downcase.split(/\W+/)
+      words = Metric.words(text.downcase)
       words.each do |word|
         term_frequency[word] += 1
       end
@@ -108,10 +109,10 @@ module Metrics
     private
     def index_text(text, id)
       unless text.nil?
-        text = text.gsub(".","")
-        text = text.gsub("$","")
+        text = text.gsub('$', '')
+        text = text.gsub('.', '')
         @document_numbers += 1
-        text.downcase.split(/\W+/).each do |word|
+        words(text.downcase).each do |word|
           unless @document_frequency[word].include?(id)
             @document_frequency[word] << id
           end
@@ -121,8 +122,7 @@ module Metrics
 
     def index_category(category, value)
       unless value.nil?
-        value = value.to_s.gsub(".","")
-        value = value.gsub("$","")
+        value = value.to_s.gsub('$', '').gsub('.', '')
         @categorical_frequency[category][value] += 1
       end
     end
@@ -131,9 +131,7 @@ module Metrics
       if type == :category
         value = self.class.value(record, accessors)
         if value.is_a?(Array)
-          value.each { |item| 
-            index_category(accessors, item)  
-          }
+          value.each { |item| index_category(accessors, item) }
         else
           index_category(accessors, value)
         end
