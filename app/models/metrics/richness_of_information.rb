@@ -100,6 +100,7 @@ module Metrics
     def self.term_frequency(text)
       term_frequency = Hash.new(0)
       words = Metric.words(text.downcase)
+      words = text.scan(/\S+/) if words.empty?
       words.each do |word|
         term_frequency[word] += 1
       end
@@ -112,7 +113,9 @@ module Metrics
         text = text.gsub('$', '')
         text = text.gsub('.', '')
         @document_numbers += 1
-        words(text.downcase).each do |word|
+        words = words(text.downcase)
+        words = text.scan(/\S+/) if words.empty?
+        words.each do |word|
           unless @document_frequency[word].include?(id)
             @document_frequency[word] << id
           end
