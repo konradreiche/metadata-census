@@ -37,3 +37,12 @@ rect {
   text-align: center;
   vertical-align: middle;
 }
+
+.metadata-table.table > thead tr th:nth-child(3) {
+  overflow: hidden;
+}
+
+.metadata-table.table > thead tr th:nth-child(3),
+.metadata-table.table > tbody tr td:nth-child(3) {
+  width: 5em;
+}

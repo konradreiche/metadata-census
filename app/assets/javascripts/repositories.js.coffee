@@ -55,6 +55,8 @@ $ ->
         marker.bindPopup(repository['name'])
         markers.push([marker, icon])
 
+      @toggleMarkerIconsFunc(markers)()
+
       return markers
 
     toggleMarkerIconsFunc: (markers) ->

@@ -1,7 +1,26 @@
 <h1>Metadata Distribution <%= params[:distribution] + '%' %></h1>
-<h2><%= @repository.id %> (<%= @snapshot.id %>)</h2>
-<div class="dashboard">
-  <% @distribution.to_a.each do |record| %>
-    <p><%= record[:id] %></p>
-  <% end %>
+<h2><%= @repository.id %> (<%= @snapshot.date %>)</h2>
+<div class="row">
+  <div class="col-md-12 dashboard">
+    <table class="metadata-table table table-striped table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Score</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @distribution.to_a.each do |record| %>
+          <tr>
+            <td><%= record[:id] %></td>
+            <td><%= record[:name] %></td>
+            <td><%= record[:score].fdiv(100).round(2) %></td>
+            <td><%= link_to record[:url], record[:url] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
