@@ -16,6 +16,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'quiet_assets'
   gem 'ruby-prof'
+  gem 'newrelic_rpm'
 
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
