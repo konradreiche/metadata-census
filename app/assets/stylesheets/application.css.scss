@@ -90,13 +90,13 @@
 
 @media (min-width: 992px) {
 
-.dashboard-left {
-  float: left;
-}
+  .dashboard-left {
+    float: left;
+  }
 
-.dashboard-right {
-  float: right;
-}
+  .dashboard-right {
+    float: right;
+  }
 
   .dashboard-9 {
     width: 74.33%;
@@ -198,6 +198,8 @@ p {
 /* Footer */
 
 footer {
+  margin-left: 30px;
+  margin-right: 30px;
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
@@ -285,7 +287,7 @@ input[type='range'] {
 }
 
 input[type='range']:focus {
-    outline: 0;
+  outline: 0;
 }
 
 input[type='range']::-webkit-slider-thumb {
@@ -305,4 +307,32 @@ input[type='range']::-webkit-slider-thumb {
   background: -ms-linear-gradient(top,  #ffffff 0%,#e3e3e3 100%);
   background: linear-gradient(to bottom,  #ffffff 0%,#e3e3e3 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e3e3e3',GradientType=0 );
+}
+
+.carousel-background {
+  background-image: url(../images/carousel-background.jpg);
+  background-repeat: no-repeat;
+}
+
+.carousel-row {
+  margin-bottom: 5em;
+  margin-top: 2.5em;
+}
+
+
+.carousel-indicators {
+  bottom: 0px;
+}
+
+.carousel-indicators .active {
+  background-color: #303030;
+}
+
+.carousel-indicators li {
+  border: 1px solid #5F5F5F;
+}
+
+.carousel-caption h3 {
+  color: #303030;
+  margin-bottom: -0.5em;
 }

@@ -1,44 +1,73 @@
-<h1>Measuring the Efficiency of your Repository</h1>
-<h2>Use Metadata Census to collect, analyze and improve your metadata.</h2>
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <div id="carousel-example-generic" class="carousel slide">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-        </ol>
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-          <div class="item active">
-            <img src="/images/placeholder.jpg">
-            <div class="carousel-caption">
-              Visualization
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Metadata Census <%= yield(:title) %></title>
+    <%= include_gon %>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="carousel-background">
+    <%= render 'layouts/header' %>
+    <div class="container">
+      <div class="row carousel-row">
+        <div class="col-md-6 col-md-offset-3">
+          <div id="carousel-example-generic" class="carousel slide">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="item active">
+                <img src="/images/leaderboard.png">
+                <div class="carousel-caption">
+                  <h3>Leaderboard</h3>
+                </div>
+              </div>
+              <div class="item">
+                <img src="/images/map.png">
+                <div class="carousel-caption">
+                  <h3>Across the Globe</h3>
+                </div>
+              </div>
+              <div class="item">
+                <img src="/images/snapshot.png">
+                <div class="carousel-caption">
+                  <h3>Snapshots</h3>
+                </div>
+              </div>
+              <div class="item">
+                <img src="/images/scheduler.png">
+                <div class="carousel-caption">
+                  <h3>Scheduler</h3>
+                </div>
+              </div>
+              <div class="item">
+                <img src="/images/analysis.png">
+                <div class="carousel-caption">
+                  <h3>Analysis</h3>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="item">
-            <img src="/images/placeholder.jpg">
-            <div class="carousel-caption">
-              Visualization
-            </div>
-          </div>
-          <div class="item">
-            <img src="/images/placeholder.jpg">
-            <div class="carousel-caption">
-              Visualization
-            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
           </div>
         </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-          <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-          <span class="icon-next"></span>
-        </a>
       </div>
-  </div>
-</div>
-
+      <h1>Metadata Census</h1>
+      <h2>Measuring the Efficiency of your Repository</h2>
+    </div>
+    <%= render 'layouts/footer' %>
+  </body>
+</html>
