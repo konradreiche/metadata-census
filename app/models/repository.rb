@@ -14,6 +14,12 @@ class Repository
   index({ 'snapshots.date' => 1 })
   index({ 'snapshot.statistics.resources' => 1 })
 
+  @@weighting = {}
+
+  def self.update_weighting(weighting)
+    @@weighting = weighting
+  end
+
   ##
   # Returns a list of records sorted in descending by the score with respect to
   # the given metric.
@@ -34,16 +40,23 @@ class Repository
     worst_records(metric).first
   end
 
-  def score(weighting={})
+  def score
     snapshot = snapshots.last
     metrics = Metrics::Metric.all
     scores = metrics.map do |metric|
       score = snapshot.maybe(metric).maybe['average']
-      score = score * weighting.fetch(metric, 1.0) unless score.nil?
+      score = score * @@weighting.fetch(metric, 1.0) unless score.nil?
     end.compact
 
     return nil if scores.empty?
-    scores.reduce(:+).fdiv(scores.length)
+
+    if @@weighting.empty?
+      max = scores.length
+    else
+      max = @@weighting.values.reduce(:+)
+    end
+
+    scores.reduce(:+).fdiv(max)
   end
 
   def <=>(other)

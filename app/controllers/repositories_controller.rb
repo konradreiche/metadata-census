@@ -72,7 +72,12 @@ class RepositoriesController < ApplicationController
   end
 
   def weighting
-    session[:weightings] = params[:weightings]
+    weighting = params[:weightings]
+    weighting.each { |metric, weight| weighting[metric] = weight.to_i }
+
+    session[:weightings] = weighting
+    Repository.update_weighting(weighting)
+
     render nothing: true
   end
 
