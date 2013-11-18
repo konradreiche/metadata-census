@@ -23,7 +23,6 @@
 .repositories.leaderboard.table td {
   text-align: center;
   overflow: hidden;
-  vertical-align: middle;
 }
 
 .repositories.leaderboard.table > thead tr th:first-child,
@@ -101,4 +100,16 @@
 
 .leaflet-control-score-interior:hover {
   background-color: #F4F4F4;
+}
+
+.repositories.leaderboard.table thead > tr > th:nth-child(n+4) {
+  height: 10em;
+  padding-bottom: 1.5em;
+  overflow: visible;
+  white-space: nowrap;
+  -webkit-transform: rotate(330deg);
+  -moz-transform: rotate(330deg);
+  -ms-transform: rotate(330deg);
+  -o-transform: rotate(330deg);
+  transform: rotate(230deg);
 }
