@@ -21,12 +21,12 @@ module MetricsHelper::AccuracyHelper
     td_class = valid ? 'successful' : 'unsuccessful'
 
     if valid
-      display = actual
+      display = number_with_delimiter actual
     elsif actual.to_s.empty?
       display = analysis['actual_mime_type']
     else
       off = '%.2f%' % ((actual - expected).abs.fdiv(expected) * 100)
-      display = "#{actual} (#{off})"
+      display = "#{number_with_delimiter actual} (#{off})"
     end
     content_tag(:td, display, class: td_class)
   end

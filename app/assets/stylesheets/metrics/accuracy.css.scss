@@ -3,5 +3,10 @@
 .accuracy-size-table tbody tr td:nth-child(3),
 .accuracy-size-table tbody tr td:nth-child(4) {
   text-align: right;
-  width: 7em;
+  width: 9em;
+}
+
+.accuracy-size-table tbody tr td {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
