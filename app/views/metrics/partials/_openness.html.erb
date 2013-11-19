@@ -12,8 +12,8 @@
         <tbody>
         <% @snapshot.send(@metric)['analysis'].each do |license, count| %>
           <tr>
-            <td><%= license.gsub("\uff0e", '.') %></td>
-            <td><%= count %></td>
+            <td class="<%= @analysis.include?(license) ? 'successful' : 'unsuccessful' %>"><%= license.gsub("\uff0e", '.') %></td>
+            <td class="<%= @analysis.include?(license) ? 'successful' : 'unsuccessful' %>"><%= count %></td>
           </tr>
         <% end %>
         </tbody>

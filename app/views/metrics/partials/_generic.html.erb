@@ -3,7 +3,7 @@
     <% 2.times do |i| %>
       <div class="dashboard-6 <%= i == 0 ? "dashboard-left" : "dashboard-right" %> col-md-6 without-heading">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 button-margin-bottom">
             <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               <% @repository.snapshots.last.best_records(@metric).each do |document| %>
@@ -57,11 +57,11 @@
             <table class="metric record-info table table-bordered">
               <tr>
                 <th>ID</th>
-                <td><%= @documents[i].record[:id] %></td>
+                <td><%= @documents[i].record['id'] %></td>
               </tr>
               <tr>
                 <th>Name</th>
-                <td><%= @documents[i].record[:name] %></td>
+                <td><%= @documents[i].record['name'] %></td>
               </tr>
             </table>
           </div>
@@ -70,15 +70,15 @@
           <div class="col-md-12">
             <table class="metric table table-bordered table-striped">
               <tbody>
-                <% analysis = @documents[i].send(@metric)['analysis'] %>
+                <% analysis = @documents[i].send(@metric).maybe['analysis'].to_a %>
                 <% analysis.each do |item| %>
                   <% item = item.with_indifferent_access %>
                   <tr>
                     <th><%= item['field'].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
-                    <th><%= "%.2f%" % (Metrics.normalize(@metric, item['score']) * 100) %></th>
+                    <th><%= item['score'] %></th>
                   </tr>
                   <tr>
-                    <%= content_tag(:td, Metrics::Metric.value(@documents[i].record, item['field']), colspan: '2')%>
+                    <%= content_tag(:td, Metrics::Metric.value(@documents[i].record, item['field']).join(','), colspan: '2')%>
                   </tr>
                 <% end %>
               </tbody>
