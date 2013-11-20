@@ -28,7 +28,7 @@ class Admin::SnapshotsController < ApplicationController
 
         when Array
           parsed.each do |metadata|
-            id = Digest::MD5.hexdigest(metadata["id"] + snapshot.id)
+            id = Digest::MD5.hexdigest(metadata["id"].to_s + snapshot.id)
 
             resources << metadata['resources'].length
             attributes = { _id: id,
