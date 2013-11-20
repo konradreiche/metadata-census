@@ -16,7 +16,8 @@ module ApplicationHelper
     locals = { display: @repository.name,
                entities: @repositories,
                :parameter => :id,
-               :path => :repository_path }
+               :path => :repository_path,
+               :id => :id }
 
     partial = render partial: 'shared/dropdown_menu', locals: locals
     content_tag(:li, partial, class: 'repository selector')
@@ -26,7 +27,8 @@ module ApplicationHelper
     locals = { display: @snapshot.date,
                entities: @repository.snapshots,
                :parameter => :id,
-               :path => :repository_snapshot_path }
+               :path => :repository_snapshot_path,
+               :id => :date }
 
     partial = render partial: 'shared/dropdown_menu', locals: locals
     content_tag(:li, partial, class: 'repository selector')

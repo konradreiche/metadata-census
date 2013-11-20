@@ -61,7 +61,7 @@ class SnapshotsController < ApplicationController
   end
 
   def metric_score(metric, weighting=1.0)
-    snapshot = @repository.snapshots.last
+    snapshot = @snapshot
     value = snapshot.maybe(metric)
     unless value.nil?
       value = value['average']

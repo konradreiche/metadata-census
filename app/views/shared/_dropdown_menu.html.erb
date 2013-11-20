@@ -1,7 +1,7 @@
 <a data-toggle="dropdown" href="#"><%= display %></a>
 <ul class="dropdown-menu" role="menu">
   <% entities.each do |entity| %>
-    <li><%= link_to entity.display_name, self.send(path, { parameter => entity.id }) %></li>
+    <li><%= link_to entity.display_name, self.send(path, { parameter => entity.send(id) }) %></li>
   <% end %>
 </ul>
 <strong class="caret"></strong>
