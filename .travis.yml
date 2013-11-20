@@ -5,6 +5,7 @@ rvm:
 
 services:
   - mongodb
+  - redis-server
 
 before_install:
   - sudo apt-get update
