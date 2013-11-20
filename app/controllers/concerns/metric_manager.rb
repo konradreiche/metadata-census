@@ -16,7 +16,7 @@ module MetricManager
   end
 
   def metrics
-    @metrics = Metrics::Metric.all
+    @metrics = Rails.cache.fetch('metrics') { Metrics::Metric.all }
     gon.metrics = @metrics
   end
 

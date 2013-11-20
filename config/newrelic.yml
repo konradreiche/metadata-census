@@ -3,7 +3,7 @@
 # Ruby, Java, .NET, PHP, and Python applications with deep visibility and low overhead.
 # For more information, visit www.newrelic.com.
 #
-# Generated November 18, 2013
+# Generated November 19, 2013
 #
 # This configuration file is custom generated for Freie Universität Berlin_1
 
@@ -42,7 +42,7 @@ common: &default_settings
   #       - Ajax Service
   #       - All Services
   #
-  app_name: My Application
+  app_name: Metadata Census
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at
@@ -57,7 +57,7 @@ common: &default_settings
   # The newrelic agent generates its own log file to keep its logging
   # information separate from that of your application. Specify its
   # log level here.
-  log_level: info
+  log_level: debug
 
   # Optionally set the path to the log file This is expanded from the
   # root directory (may be relative or absolute, e.g. 'log/' or
@@ -192,7 +192,7 @@ development:
   # 'enabled').
   # NOTE: for initial evaluation purposes, you may want to temporarily
   # turn the agent on in development mode.
-  monitor_mode: false
+  monitor_mode: true
 
   # Rails Only - when running in Developer Mode, the New Relic Agent will
   # present performance information on the last 100 transactions you have
@@ -217,6 +217,7 @@ test:
 production:
   <<: *default_settings
   monitor_mode: true
+  developer_mode: true
 
 # Many applications have a staging environment which behaves
 # identically to production. Support for that environment is provided

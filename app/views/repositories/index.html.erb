@@ -6,7 +6,7 @@
       <li class="active"><a data-target="#index" data-toggle="pill">Index</a></li>
       <li><a data-target="#leaderboard" data-toggle="pill">Leaderboard</a></li>
       <li><a data-target="#map" data-toggle="pill">Map</a></li>
-      <!-- <li><a data-target="#timeline" data-toggle="pill">Timeline</a></li> -->
+      <li><a data-target="#timeline" data-toggle="pill">Timeline</a></li>
       <li><a data-target="#numbers" data-toggle="pill">Numbers</a></li>
     </ul>
   </div>
@@ -31,7 +31,7 @@
                 <td><%= link_to repository.name, repository %></td>
                 <td><%= repository.type %></td>
                 <td><%= repository.snapshots.length %></td>
-                <td><%= count(repository) %></td>
+                <td><%= number_with_delimiter(@repository_stats[repository]['metadata_count']) %></td>
                 <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
               </tr>
             <% end %>
@@ -48,14 +48,14 @@
             <th>Rank</th>
             <th>Repository</th>
             <th><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Score</th>
-            <% Metrics::Metric.all.each do |metric| %>
+            <% @metrics.each do |metric| %>
               <th><%= metric.to_s.titlecase %></th>
             <% end %>
           </thead>
           <tbody>
-            <% @repositories.sort.reverse.each_with_index do |repository, i| %>
+            <% @repositories.each_with_index do |repository, i| %>
               <tr>
-                <td><%= @ranking[i] %></td>
+                <td><%= @repository_ranks[i] %></td>
                 <td><%= link_to repository.name, repository %></td>
                 <%= score_cell(repository.score) %>
                 <% Metrics::Metric.all.each do |metric| %>
