@@ -24,14 +24,6 @@ class RepositoriesController < ApplicationController
 
     @languages.delete('Unknown').delete('Unreliable')
   end
-  
-  def show
-    options = { controller: 'snapshots', action: 'show' }
-    options[:repository_id] = @repository.id
-    options[:id] = @repository.snapshots.last.date
-
-    redirect_to options
-  end
 
   def score
     weighting = Hash.new

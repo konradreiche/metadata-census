@@ -1,0 +1,26 @@
+<h1>Repository</h1>
+<h2><%= @repository.name %></h2>
+<%= render layout: 'shared/repository_breadcrumb' do %>
+  <%= repository_menu %>
+<% end %>
+<div class="dashboard row">
+  <div class="col-md-12">
+    <h3>Snapshots</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Metadata Records</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @snapshots.each do |snapshot| %>
+          <tr>
+            <td><%= snapshot.date %></td>
+            <td><%= snapshot.metadata_records %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
