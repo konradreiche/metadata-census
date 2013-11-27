@@ -2,7 +2,7 @@ module RepositoryManager
   extend ActiveSupport::Concern
 
   included do
-    before_filter :repository, :snapshot, :repositories
+    before_filter :repository, :snapshot, :repositories, :snapshots
   end
 
   def repository
@@ -31,6 +31,12 @@ module RepositoryManager
 
       gon.snapshot = @snapshot
     end
+  end
+
+  def snapshots
+  #  @snapshots = Rails.cache.fetch('snapshots') do
+  #    Aggregators::Snapshots.aggregate(@repositoies)
+  #  end
   end
 
   def repositories
