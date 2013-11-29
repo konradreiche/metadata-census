@@ -5,20 +5,17 @@ describe CompletenessMetricWorker do
 
   describe "#perform" do
     before(:each) do
-      repository = FactoryGirl.create(:repository)
-      snapshot = FactoryGirl.create(:snapshot)
-      metadata = FactoryGirl.create(:metadata_record)
-
-      repository.snapshots << snapshot
-      snapshot.metadata_records << metadata
-
-      repository.save!
-      snapshot.save!
+      traits = [:with_snapshots, :with_metadata]
+      FactoryGirl.create(:repository, *traits)
     end
 
     it "performs a computation" do
-      id = FactoryGirl.build(:repository).id
-      date = FactoryGirl.build(:snapshot).date
+      repository = Repository.all.first
+      snapshot = repository.snapshots.first
+
+      id = repository.id
+      date = snapshot.date
+
       CompletenessMetricWorker.perform_async(id, date, :completeness)
 
       snapshot = Repository.all.first.snapshots.first

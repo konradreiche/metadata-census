@@ -1,37 +1,66 @@
 FactoryGirl.define do
+
+  # Attributes
+  sequence(:id)        { |i| "example-#{i}.com" }
+  sequence(:url)       { |i| "http://www.example-#{i}.com" }
+  sequence(:name)      { |i| "Example Repository #{i}" }
+  sequence(:latitude)  { |i| i }
+  sequence(:longitude) { |i| i }
+  sequence(:date)      { |i| Date.parse('2014-01-01') + i }
+  sequence(:record)    { |i| { 'id' => i.hash.to_s } }
+
+  # Repository Factory
   factory :repository do
     id        'example.com'
     url       'http://www.example.com'
-    type      'CKAN'
     name      'Example Repository'
+    type      'CKAN'
     latitude  0.0
     longitude 0.0
   end
 
+  sequence :repositories do
+    id        'example.com'
+    url       'http://www.example.com'
+    name      'Example Repository'
+    type      'CKAN'
+    latitude  0.0
+    longitude 0.0
+  end
+
+  # Snapshot Factory
   factory :snapshot do
-    date Date.today
-    repository
+    date 
   end
 
+  # Metadata Record Factory
   factory :metadata_record do
-    snapshot
-    record    {{ 'id' => 'd8e8fca2dc-0f896fd7cb-4cb0031ba2' }}
+    record
   end
 
-  sequence :repositories do |i|
-    factory :repository do
-      id        "example-#{i}.com"
-      url       "http://www.example-#{i}.com"
-      type      'CKAN'
-      name      "Example Repository #{i}"
-      latitude  i.to_f
-      longitude i.to_f
+  # Repository Trait
+  trait :with_snapshots do
+    ignore do
+      snapshots_count 3
+    end
+
+    after :create do |repository, evaluator|
+      entity = :snapshot
+      count = evaluator.snapshots_count
+      FactoryGirl.create_list(entity, count, repository: repository)
     end
   end
 
-  sequence :snapshots do
-    factory :snapshot do |i|
-      date Date.new(2013, 1, i)
+  trait :with_metadata do
+    ignore { metadata_count 10 }
+
+    after :create do |repository, evaluator|
+      entity = :metadata_record
+      count = evaluator.metadata_count
+      repository.snapshots.each do |snapshot|
+        FactoryGirl.create_list(entity, count, snapshot: snapshot)
+      end
     end
   end
+
 end
