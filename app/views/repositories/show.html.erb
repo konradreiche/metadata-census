@@ -12,6 +12,12 @@
           <th>Date</th>
           <th>Metadata Records</th>
         </tr>
+        <%= @snapshot_information.to_a.each do |snapshot, information| %>
+          <tr>
+            <td><%= snapshot.date %></td>
+            <td><%= information[:metadata_count] %></td>
+          </tr>
+        <% end %>
       </thead>
       <tbody>
       </tbody>
