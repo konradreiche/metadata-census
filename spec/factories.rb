@@ -19,22 +19,22 @@ FactoryGirl.define do
     longitude 0.0
   end
 
-  sequence :repositories do
-    id        'example.com'
-    url       'http://www.example.com'
-    name      'Example Repository'
-    type      'CKAN'
-    latitude  0.0
-    longitude 0.0
+  factory :repositories, class: Repository do
+    id
+    url
+    name
+    type 'CKAN'
+    latitude
+    longitude
   end
 
   # Snapshot Factory
-  factory :snapshot do
+  factory :snapshots, class: Snapshot do
     date 
   end
 
   # Metadata Record Factory
-  factory :metadata_record do
+  factory :metadata_records, class: MetadataRecord do
     record
   end
 
@@ -45,9 +45,9 @@ FactoryGirl.define do
     end
 
     after :create do |repository, evaluator|
-      entity = :snapshot
+      entities = :snapshots
       count = evaluator.snapshots_count
-      FactoryGirl.create_list(entity, count, repository: repository)
+      FactoryGirl.create_list(entities, count, repository: repository)
     end
   end
 
@@ -55,10 +55,10 @@ FactoryGirl.define do
     ignore { metadata_count 10 }
 
     after :create do |repository, evaluator|
-      entity = :metadata_record
+      entities = :metadata_records
       count = evaluator.metadata_count
       repository.snapshots.each do |snapshot|
-        FactoryGirl.create_list(entity, count, snapshot: snapshot)
+        FactoryGirl.create_list(entities, count, snapshot: snapshot)
       end
     end
   end
