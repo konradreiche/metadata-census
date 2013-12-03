@@ -35,8 +35,8 @@ module RepositoryManager
 
   def snapshots
     @snapshots = Rails.cache.fetch('snapshots') do
-      Aggregator::Snapshot.aggregate(@repositories)
-    end
+      @repository.snapshots.to_a
+    end unless @repository.nil?
   end
 
   def repositories
