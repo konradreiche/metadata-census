@@ -44,6 +44,8 @@ $ ->
 
     $.post "/repositories/weighting", { weightings: weightings }
 
+  # TODO: replace with Histogram class
+  #
   initHistogram = () ->
     values = gon.distribution
     formatCount = d3.format(",.0f")
@@ -67,11 +69,30 @@ $ ->
       .scale(x)
       .orient("bottom")
 
+
+    tip = d3.tip()
+      .attr("class", "d3-tip")
+      .offset([-10, 0])
+      .html (d) -> "
+      <div class='row tip-header'>
+        <div class='col-md-12'>
+          <strong>Score #{d.x}-#{d.x + 5}</strong>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-md-12'>
+          <span class=\"group-tip\">#{d.y}</span>
+        </div>
+      </div>
+        "
+
     svg = d3.select("#quality-distribution").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(#{margin.left},#{margin.top})")
+
+    svg.call(tip)
 
     bar = svg.selectAll(".bar")
       .data(data)
@@ -85,22 +106,16 @@ $ ->
       .attr("height", (d) -> height - y(d.y))
       .on "click", (d, i) ->
         window.location = "#{snapshotId}/metadata?distribution=#{d.x - d.x % 10}"
-
-    bar.append("text")
-      .attr("class", "histogram-bar-label")
-      .attr("dy", ".75em")
-      .attr("y", 6)
-      .attr("x", x(data[0].dx) / 2)
-      .attr("text-anchor", "middle")
-      .text (d) ->
-        unless d.y == 0.0
-          formatCount(d.y)
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
 
     svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0,#{height})")
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
       .call(xAxis)
-    
+
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
     sm = new ScoreMeter(".repository.score-meter", gon.score)
     initWeightSlider(sm)

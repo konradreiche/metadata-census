@@ -59,6 +59,7 @@
 */
 
 .d3-tip {
+  text-align: center;
   line-height: 1;
   font-weight: bold;
   padding: 12px;
@@ -89,6 +90,10 @@
 
 .group-tip {
   color: #FF0000;
+}
+
+.tip-header {
+  margin-bottom: 0.5em;
 }
 
 /* Hide tick labels */
