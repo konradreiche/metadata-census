@@ -71,7 +71,7 @@ $ ->
 
 
     tip = d3.tip()
-      .attr("class", "d3-tip")
+      .attr("class", "d3-tip animate")
       .offset([-10, 0])
       .html (d) -> "
       <div class='row tip-header'>
@@ -91,6 +91,34 @@ $ ->
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(#{margin.left},#{margin.top})")
+
+    filter = svg.append("defs")
+      .append("filter")
+      .attr("id", "drop-shadow")
+      .attr("height", "200%")
+      .attr("width", "200%")
+
+    filter.append("feOffset")
+      .attr("result", "offOut")
+      .attr("in", "SourceGraphic")
+      .attr("dx", 1)
+      .attr("dy", 0)
+
+    filter.append("feColorMatrix")
+      .attr("result", "matrixOut")
+      .attr("in", "offOut")
+      .attr("type", "matrix")
+      .attr("values", "0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0")
+
+    filter.append("feGaussianBlur")
+      .attr("result", "blurOut")
+      .attr("in", "matrixOut")
+      .attr("stdDeviation", 1)
+
+    filter.append("feBlend")
+      .attr("in", "SourceGraphic")
+      .attr("in2", "blurOut")
+      .attr("model", "normal")
 
     svg.call(tip)
 

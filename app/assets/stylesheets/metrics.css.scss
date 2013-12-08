@@ -45,11 +45,18 @@
 }
 
 .bar {
-  fill: orange;
+  fill: #339cff;
+  filter: url(#drop-shadow);
+
+}
+
+.bar > rect {
+  stroke: #000;
+  stroke-opacity: 0.3;
 }
 
 .bar:hover {
-  fill: orangered ;
+  fill: #1e5f9c;
 }
 
 /*
@@ -59,6 +66,7 @@
 */
 
 .d3-tip {
+  box-shadow: 2px 2px 2px #666;
   text-align: center;
   line-height: 1;
   font-weight: bold;
@@ -69,6 +77,40 @@
 }
 
 /* Creates a small triangle extender for the tooltip */
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.d3-tip.animate {
+  animation: fadeIn 0.15s ease-out;
+  -webkit-animation: fadeIn 0.15s ease-out;
+}
+
+
 .d3-tip:after {
   box-sizing: border-box;
   display: inline;
@@ -89,12 +131,13 @@
 }
 
 .group-tip {
-  color: #FF0000;
+  color: #ff00c7;
 }
 
 .tip-header {
   margin-bottom: 0.5em;
 }
+
 
 /* Hide tick labels */
 .bar-chart.y-axis-label { 
