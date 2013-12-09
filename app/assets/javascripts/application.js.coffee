@@ -127,8 +127,12 @@ root.ScoreMeter = ScoreMeter
 $('.dropdown-toggle').dropdown()
 
 $ ->
+
   $(".nav-pills li a[data-target='#{window.location.hash}'").tab("show")
 
   $(".nav-pills li a").on "click", (event) ->
     window.location.hash = "#{$(this).attr("data-target")}".replace("#", "")
+
+  d3.xml "/assets/library.svg", "image/svg+xml", (svg) ->
+    $("body").append(svg.documentElement)
 
