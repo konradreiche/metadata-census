@@ -1,0 +1,90 @@
+.histogram-bar {
+  fill: url(#histogram-gradient);
+  stroke: #5997d0;
+}
+
+.histogram-bar:hover {
+  fill: url(#histogram-gradient-hover);
+  stroke: #3386d4;
+}
+
+.histogram .y.axis path {
+  fill: none;
+}
+
+.histogram .x.axis path,
+.x.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.histogram .y.axis .tick:first-child line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.histogram .y.axis .tick:nth-child(n+2) line {
+  stroke: #ccc;
+}
+
+.histogram .y.axis .tick:first-child text {
+  stroke: none;
+  fill: none;
+}
+
+.histogram .y.axis .tick:nth-child(n+2) text {
+  stroke: none;
+  fill: #ccc;
+}
+
+.d3-tip {
+  box-shadow: 2px 2px 2px #666;
+  text-align: center;
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+@-webkit-keyframes fadeIn {
+  0%   { opacity: 0.0; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes fadeIn {
+  0%   { opacity: 0.0; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1.0; }
+}
+
+.d3-tip.animate {
+  animation: fadeIn 0.15s ease-out;
+  -webkit-animation: fadeIn 0.15s ease-out;
+}
+
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.d3-tip span:first-child {
+  color: #ff0000;
+}
+

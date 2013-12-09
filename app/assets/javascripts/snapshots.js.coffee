@@ -69,6 +69,9 @@ $ ->
       .scale(x)
       .orient("bottom")
 
+    yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left")
 
     tip = d3.tip()
       .attr("class", "d3-tip animate")
@@ -111,7 +114,6 @@ $ ->
 
     gradient = defs.append("linearGradient")
       .attr("id", "gradient-hover")
-      .attr("x1", "0%")
       .attr("x2", "0%")
       .attr("y1", "0%")
       .attr("y2", "100%")
@@ -171,11 +173,27 @@ $ ->
     svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0,#{height})")
-      .on("mouseover", tip.show)
-      .on("mouseout", tip.hide)
       .call(xAxis)
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+
+    svg.selectAll("line")
+      .data(y.ticks(30)).enter()
+      .append("line")
+      .attr("class", "tick-rules")
+      .attr("x1", 0)
+      .attr("x2", width)
+      .attr("y1", (d) -> y(d))
+      .attr("y2", (d) -> y(d))
+
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
     sm = new ScoreMeter(".repository.score-meter", gon.score)
     initWeightSlider(sm)
-    initHistogram()
+    new Histogram("#quality-distribution", gon.distribution, [0, 100])
