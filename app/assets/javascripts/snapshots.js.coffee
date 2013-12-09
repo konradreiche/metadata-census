@@ -92,8 +92,39 @@ $ ->
       .append("g")
       .attr("transform", "translate(#{margin.left},#{margin.top})")
 
-    filter = svg.append("defs")
-      .append("filter")
+    defs = svg.append("defs")
+
+    gradient = defs.append("linearGradient")
+      .attr("id", "gradient")
+      .attr("x1", "0%")
+      .attr("x2", "0%")
+      .attr("y1", "0%")
+      .attr("y2", "100%")
+
+    gradient.append("stop")
+      .attr("offset", "0%")
+      .attr("style", "stop-color:#b1cbe9;stop-opacity:1")
+
+    gradient.append("stop")
+      .attr("offset", "100%")
+      .attr("style", "stop-color:#93b9e4;stop-opacity:1")
+
+    gradient = defs.append("linearGradient")
+      .attr("id", "gradient-hover")
+      .attr("x1", "0%")
+      .attr("x2", "0%")
+      .attr("y1", "0%")
+      .attr("y2", "100%")
+
+    gradient.append("stop")
+      .attr("offset", "0%")
+      .attr("style", "stop-color:#77ade9;stop-opacity:1")
+
+    gradient.append("stop")
+      .attr("offset", "100%")
+      .attr("style", "stop-color:#599ae4;stop-opacity:1")
+
+    filter = defs.append("filter")
       .attr("id", "drop-shadow")
       .attr("height", "200%")
       .attr("width", "200%")
@@ -130,7 +161,7 @@ $ ->
 
     bar.append("rect")
       .attr("x", 1)
-      .attr("width", x(data[0].dx) - 1)
+      .attr("width", x(data[0].dx))
       .attr("height", (d) -> height - y(d.y))
       .on "click", (d, i) ->
         window.location = "#{snapshotId}/metadata?distribution=#{d.x - d.x % 10}"

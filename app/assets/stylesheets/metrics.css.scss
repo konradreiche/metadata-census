@@ -45,18 +45,17 @@
 }
 
 .bar {
-  fill: #339cff;
-  filter: url(#drop-shadow);
-
+  // fill: #339cff;
+  fill: url(#gradient);
 }
 
 .bar > rect {
-  stroke: #000;
-  stroke-opacity: 0.3;
+  stroke: #5997d0;
 }
 
 .bar:hover {
-  fill: #1e5f9c;
+  fill: url(#gradient-hover);
+  stroke: #3386d4;
 }
 
 /*
@@ -131,7 +130,11 @@
 }
 
 .group-tip {
-  color: #ff00c7;
+  color: #ff0000;
+}
+
+.progress-meter > path {
+  filter: url(#drop-shadow);
 }
 
 .tip-header {
