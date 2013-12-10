@@ -12,7 +12,8 @@ class Repository
   field :longitude
 
   index({ 'snapshots.date' => 1 })
-  index({ 'snapshot.statistics.resources' => 1 })
+  index({ 'snapshots.statistics.resources' => 1 })
+  index({ 'snapshots.metadata_records' => 1 })
 
   @@weighting = {}
 

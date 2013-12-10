@@ -45,13 +45,12 @@ module RepositoryManager
         snapshot = repository.snapshots.last
         result[repository] = { 'snapshots' => repository.snapshots.count,
                                'metadata'  => snapshot.metadata_records.count,
-                               'rank'      => ranks[i] }
+                               'rank'      => ranks[i],
+                               'score'     => repository.score }
       end
     end
 
-    gon.repositories = Rails.cache.fetch('repositories') do
-      Repository.all.without(:snapshots).sort.to_a.reverse
-    end
+    gon.jbuilder template: 'app/views/jbuilder/repositories.json.jbuilder'
 
     @numbers = Rails.cache.fetch('numbers') do
       @repositories.each_with_object({}) do |(repository, _), numbers|

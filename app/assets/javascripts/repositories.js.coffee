@@ -44,7 +44,7 @@ $ ->
       markers = []
 
       for repository in gon.repositories
-        score = calculateScore(repository)
+        score = repository['score']
         latitude = repository['latitude']
         longitude  = repository['longitude']
 
