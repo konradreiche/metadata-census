@@ -133,6 +133,6 @@ $ ->
   $(".nav-pills li a").on "click", (event) ->
     window.location.hash = "#{$(this).attr("data-target")}".replace("#", "")
 
-  d3.xml "/assets/library.svg", "image/svg+xml", (svg) ->
+  d3.xml "<%= asset_path "library.svg", digest: true %>" , "image/svg+xml", (svg) ->
     $("body").append(svg.documentElement)
 

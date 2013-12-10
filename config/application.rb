@@ -34,6 +34,9 @@ module MetadataCensus
     Mongoid.logger.level = Logger::INFO
     Moped.logger.level = Logger::INFO
 
+    # Add the svg directory to the asset pipeline
+    config.assets.paths << Rails.root.join('app/assets/svg')
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
