@@ -16,7 +16,6 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'quiet_assets'
   gem 'ruby-prof'
-  gem 'newrelic_rpm'
 
   gem 'factory_girl_rails', '~> 4.0'
   gem 'database_cleaner'
@@ -62,10 +61,11 @@ gem 'slim'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
+gem 'rack-mini-profiler'
