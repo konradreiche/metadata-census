@@ -26,12 +26,12 @@
             </tr>
           </thead>
           <tbody>
-            <% @repositories.each do |repository| %>
+            <% @repositories.each do |repository, meta| %>
               <tr>
                 <td><%= link_to repository.name, repository %></td>
                 <td><%= repository.type %></td>
-                <td><%= repository.snapshots.length %></td>
-                <td><%= number_with_delimiter(@repository_stats[repository]['metadata_count']) %></td>
+                <td><%= meta['snapshots'] %></td>
+                <td><%= number_with_delimiter meta['metadata'] %></td>
                 <td><a href="<%= repository.url %>"><%= repository.url.sub(/^https?\:\/\//, '').sub(/^www./,'') %></a></td>
               </tr>
             <% end %>
@@ -53,9 +53,9 @@
             <% end %>
           </thead>
           <tbody>
-            <% @repositories.each_with_index do |repository, i| %>
+            <% @repositories.each_with_index do |(repository, meta), i| %>
               <tr>
-                <td><%= @repository_ranks[i] %></td>
+                <td><%= meta['rank'] ? meta['rank'] : '-' %></td>
                 <td><%= link_to repository.name, repository %></td>
                 <%= score_cell(repository.score) %>
                 <% Metrics::Metric.all.each do |metric| %>

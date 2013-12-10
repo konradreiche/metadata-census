@@ -13,8 +13,6 @@ module RepositoryManager
     else
       @repository = Repository.find(id)
     end
-
-    gon.repository = @repository
   end
 
   def snapshot
@@ -28,32 +26,35 @@ module RepositoryManager
       else
         @snapshot = @repository.snapshots.last
       end
-
-      gon.snapshot = @snapshot
     end
   end
 
   def snapshots
-    @snapshots = Rails.cache.fetch('snapshots') do
-      @repository.snapshots.to_a
-    end unless @repository.nil?
   end
 
   def repositories
-    @repositories = Rails.cache.fetch('repositories') { Repository.all.sort.to_a.reverse }
-    gon.repositories = @repositories
+    @repositories = Rails.cache.fetch('repositories_with_snapshots') do
+      repositories = Repository.all.to_a.sort
+      scores = repositories.map { |r| r.score }.compact.sort.uniq.reverse
 
-    @repository_ranks = Rails.cache.fetch('repository_ranks') do
-      scores = @repositories.map { |repository| repository.score }
-      filtered = scores.compact.sort.uniq.reverse
+      ranks = scores.map { |score| scores.index(score) + 1 }
+      ranks += [nil] * (repositories.length -  scores.length)
 
-      ranking = filtered.map { |score| filtered.index(score) + 1 }
-      ranking += ['-'] * (scores.length - filtered.length)
-      ranking
+      repositories = repositories.reverse.each_with_object({})
+      repositories.each_with_index do |(repository, result), i|
+        snapshot = repository.snapshots.last
+        result[repository] = { 'snapshots' => repository.snapshots.count,
+                               'metadata'  => snapshot.metadata_records.count,
+                               'rank'      => ranks[i] }
+      end
+    end
+
+    gon.repositories = Rails.cache.fetch('repositories') do
+      Repository.all.without(:snapshots).sort.to_a.reverse
     end
 
     @numbers = Rails.cache.fetch('numbers') do
-      @repositories.each_with_object({}) do |repository, numbers|
+      @repositories.each_with_object({}) do |(repository, _), numbers|
         snapshot = repository.snapshots.last
         next if snapshot.nil?
         numbers[repository] = snapshot.statistics
@@ -61,7 +62,7 @@ module RepositoryManager
     end
 
     @languages = Rails.cache.fetch('languages') do
-      @repositories.each_with_object(Set.new) do |repository, languages|
+      @repositories.each_with_object(Set.new) do |(repository, _), languages|
         snapshot = repository.snapshots.last
         next if snapshot.nil?
         languages_set = @numbers[repository]['languages']
@@ -74,7 +75,7 @@ module RepositoryManager
     end
 
     @repository_stats = Rails.cache.fetch('repository_stats') do
-      @repositories.each_with_object({}) do |repository, stats|
+      @repositories.each_with_object({}) do |(repository, _), stats|
         snapshot = repository.snapshots.last
         stats[repository] = Hash.new
         stats[repository]['metadata_count'] = snapshot ? snapshot.metadata_records.count : 0

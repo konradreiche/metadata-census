@@ -17,8 +17,6 @@ module MetadataRecordManager
     else
       @documents = params[:documents].map { |id| MetadataRecord.find(id) }
     end
-
-    gon.documents = @document
   end
 
 end
