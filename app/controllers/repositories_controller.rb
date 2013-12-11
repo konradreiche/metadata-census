@@ -8,7 +8,9 @@ class RepositoriesController < ApplicationController
   def index
     @languages = Rails.cache.fetch('repository_languages') do
       @repositories.keys.each_with_object(Set.new) do |repository, result|
-        languages = @repositories[repository]['statistics']['languages']
+        statistics = @repositories[repository]['statistics'].to_h
+        languages = statistics['languages'].to_h
+
         languages.update(languages) do |_, count| 
           count.fdiv(languages.values.sum)
         end

@@ -13,7 +13,7 @@ module RepositoryManager
     else
       @repository = Repository.find(id)
     end
-    jbuilder(__method__)
+    jbuilder(__method__) unless @repository.nil?
   end
 
   def snapshot
@@ -28,7 +28,7 @@ module RepositoryManager
         @snapshot = @repository.snapshots.last
       end
     end
-    jbuilder(__method__)
+    jbuilder(__method__) unless @snapshot.nil?
   end
 
   def repositories
@@ -42,11 +42,13 @@ module RepositoryManager
       repositories = repositories.reverse.each_with_object({})
       repositories.each_with_index do |(repository, result), i|
         snapshot = repository.snapshots.last
-        result[repository] = { 'snapshots'  => repository.snapshots.count,
-                               'metadata'   => snapshot.metadata_records.count,
-                               'rank'       => ranks[i],
-                               'score'      => repository.score,
-                               'statistics' => snapshot.statistics }
+        meta = result[repository] = Hash.new
+
+        meta['metadata']   = snapshot.maybe.metadata_records.maybe.count
+        meta['snapshots']  = repository.maybe.snapshots.maybe.count
+        meta['rank']       = ranks[i]
+        meta['score']      = repository.score
+        meta['statistics'] = snapshot.maybe.statistics
       end
     end
 
@@ -63,6 +65,6 @@ module RepositoryManager
 
   private
   def jbuilder(entity)
-    gon.jbuilder template: "app/views/jbuilder/#{entity}.json.jbuilder"
+    gon.jbuilder template: "app/views/jbuilder/#{entity}.json.jbuilder", controller: self
   end
 end
