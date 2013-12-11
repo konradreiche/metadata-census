@@ -3,7 +3,8 @@ module Analyzer
   class QualityDistribution
 
     def analyze(snapshot)
-      metadata = MetadataRecord.where(snapshot: snapshot).without(:record)
+      metadata = MetadataRecord.where(snapshot: snapshot).only(:score)
+      metadata.options[:fields]['_id'] = 0
       metadata.map(&:score).compact.map { |score| score * 100 }
     end
 

@@ -71,6 +71,11 @@ class SnapshotsController < ApplicationController
     end
   end
 
+  def distribution
+    analyzer = Analyzer::QualityDistribution.new
+    render json: analyzer.analyze(@snapshot)
+  end
+
   def statistics
     snapshot = @repository.snapshots.last
     @times = snapshot.statistics['times']

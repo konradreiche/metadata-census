@@ -21,6 +21,7 @@ MetadataCensus::Application.routes.draw do
       resources :snapshots, only: [:show] do
 
         member do 
+          get 'distribution'
           get 'statistics'
           get 'metadata'
         end

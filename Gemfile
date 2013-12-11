@@ -14,6 +14,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'pry-doc'
+  gem 'pry-docmore'
   gem 'quiet_assets'
   gem 'ruby-prof'
 
