@@ -12,13 +12,11 @@
           <th>Date</th>
           <th>Metadata Records</th>
         </tr>
-        <% cache('snapshots') do %>
-          <% @snapshots.each do |snapshot| %>
-            <tr>
-              <td><%= link_to snapshot.date, repository_snapshot_path(@repository, snapshot.date) %></td>
-              <td><%= number_with_delimiter snapshot.metadata_records.count %></td>
-            </tr>
-          <% end %>
+        <% @repository.snapshots.each do |snapshot| %>
+          <tr>
+            <td><%= link_to snapshot.date, repository_snapshot_path(@repository, snapshot.date) %></td>
+            <td><%= number_with_delimiter snapshot.metadata_records.count %></td>
+          </tr>
         <% end %>
       </thead>
       <tbody>

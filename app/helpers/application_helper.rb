@@ -14,7 +14,7 @@ module ApplicationHelper
 
   def repository_menu
     locals = { display: @repository.name,
-               entities: @repositories,
+               entities: @repositories.keys,
                :parameter => :id,
                :path => :repository_path,
                :id => :id }

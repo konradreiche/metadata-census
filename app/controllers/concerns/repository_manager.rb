@@ -2,7 +2,7 @@ module RepositoryManager
   extend ActiveSupport::Concern
 
   included do
-    before_filter :repository, :snapshot, :repositories, :snapshots
+    before_filter :repository, :snapshot, :repositories
   end
 
   def repository
@@ -13,6 +13,7 @@ module RepositoryManager
     else
       @repository = Repository.find(id)
     end
+    jbuilder(__method__)
   end
 
   def snapshot
@@ -27,9 +28,7 @@ module RepositoryManager
         @snapshot = @repository.snapshots.last
       end
     end
-  end
-
-  def snapshots
+    jbuilder(__method__)
   end
 
   def repositories
@@ -51,7 +50,7 @@ module RepositoryManager
       end
     end
 
-    gon.jbuilder template: 'app/views/jbuilder/repositories.json.jbuilder'
+    jbuilder(__method__)
 
     @numbers = Rails.cache.fetch('numbers') do
       @repositories.each_with_object({}) do |(repository, _), numbers|
@@ -60,7 +59,10 @@ module RepositoryManager
         numbers[repository] = snapshot.statistics
       end
     end
-
   end
 
+  private
+  def jbuilder(entity)
+    gon.jbuilder template: "app/views/jbuilder/#{entity}.json.jbuilder"
+  end
 end
