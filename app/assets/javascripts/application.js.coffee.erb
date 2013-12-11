@@ -35,7 +35,7 @@ root.regExps = { repository_id: "[0-z\.]+" }
 root.repositoryId = root.snapshotId = root.metricId = null
 
 if gon? and gon.repository?
-  root.repositoryId = gon.repository._id
+  root.repositoryId = gon.repository.id
 
 if gon? and gon.snapshot?
   root.snapshotId = gon.snapshot.date
@@ -116,7 +116,3 @@ $ ->
 
   $(".nav-pills li a").on "click", (event) ->
     window.location.hash = "#{$(this).attr("data-target")}".replace("#", "")
-
-  d3.xml "<%= asset_path "library.svg", digest: true %>" , "image/svg+xml", (svg) ->
-    $("body").append(svg.documentElement)
-
