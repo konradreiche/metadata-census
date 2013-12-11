@@ -143,11 +143,11 @@
                 </tr>
               </thead>
               <tbody>
-                <% @numbers.each do |repository, statistics| %>
+                <% @repositories.each do |repository, meta| %>
                   <tr>
                     <td><%= repository.name %></td>
                     <% @languages.each do |language| %>
-                      <td><%= language_frequency(statistics['languages'][language]) %></td>
+                      <td><%= language_frequency(meta['statistics']['languages'][language]) %></td>
                     <% end %>
                   </tr>
                 <% end %>

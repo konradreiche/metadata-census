@@ -6,23 +6,15 @@ class RepositoriesController < ApplicationController
   helper_method :metric_score
 
   def index
-    @numbers = Hash.new
-    @languages = Set.new
-
-    Repository.all.each do |repository|
-      snapshot = repository.snapshots.last
-      next if snapshot.nil? or snapshot.statistics.nil?
-
-      @numbers[repository] = snapshot.statistics
-
-      languages = @numbers[repository]['languages']
-      @languages = @languages + languages.keys
-
-      total = languages.values.sum
-      languages.update(languages) { |language, count| count.fdiv(total) }
+    @languages = Rails.cache.fetch('repository_languages') do
+      @repositories.keys.each_with_object(Set.new) do |repository, result|
+        languages = @repositories[repository]['statistics']['languages']
+        languages.update(languages) do |_, count| 
+          count.fdiv(languages.values.sum)
+        end
+        result.merge(languages.keys)
+      end
     end
-
-    @languages.delete('Unknown').delete('Unreliable')
   end
 
   def score

@@ -43,10 +43,11 @@ module RepositoryManager
       repositories = repositories.reverse.each_with_object({})
       repositories.each_with_index do |(repository, result), i|
         snapshot = repository.snapshots.last
-        result[repository] = { 'snapshots' => repository.snapshots.count,
-                               'metadata'  => snapshot.metadata_records.count,
-                               'rank'      => ranks[i],
-                               'score'     => repository.score }
+        result[repository] = { 'snapshots'  => repository.snapshots.count,
+                               'metadata'   => snapshot.metadata_records.count,
+                               'rank'       => ranks[i],
+                               'score'      => repository.score,
+                               'statistics' => snapshot.statistics }
       end
     end
 
@@ -60,26 +61,6 @@ module RepositoryManager
       end
     end
 
-    @languages = Rails.cache.fetch('languages') do
-      @repositories.each_with_object(Set.new) do |(repository, _), languages|
-        snapshot = repository.snapshots.last
-        next if snapshot.nil?
-        languages_set = @numbers[repository]['languages']
-        languages += languages_set.keys
-
-        total = languages_set.values.sum
-        languages_set.update(languages_set) { |language, count| count.fdiv(total) }
-        languages_set
-      end
-    end
-
-    @repository_stats = Rails.cache.fetch('repository_stats') do
-      @repositories.each_with_object({}) do |(repository, _), stats|
-        snapshot = repository.snapshots.last
-        stats[repository] = Hash.new
-        stats[repository]['metadata_count'] = snapshot ? snapshot.metadata_records.count : 0
-      end
-    end
   end
 
 end
