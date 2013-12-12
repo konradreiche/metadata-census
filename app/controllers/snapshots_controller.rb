@@ -28,14 +28,6 @@ class SnapshotsController < ApplicationController
     @languages.delete('Unknown').delete('Unreliable')
   end
   
-  def show
-    @score = @repository.score
-    gon.score = @score
-
-    analyzer = Analyzer::QualityDistribution.new
-    gon.distribution = analyzer.analyze(@snapshot)
-  end
-
   def score
     weighting = Hash.new
     @metrics.each do |metric|

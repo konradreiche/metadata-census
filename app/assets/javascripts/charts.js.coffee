@@ -6,7 +6,7 @@ class Histogram
 
     formatCount = d3.format(",.0f")
 
-    margin = { top: 10, right: 30, bottom: 30, left: 50 }
+    margin = { top: 10, right: 20, bottom: 30, left: 60 }
     width = 835 - margin.left - margin.right
     height = 250 - margin.top - margin.bottom
 
@@ -83,7 +83,7 @@ class Histogram
        </div>
        <div class='row'>
          <div class='col-md-12'>
-           <span>#{d.y}</span>
+           <span>#{numberWithDelimiter(d.y)}</span>
          </div>
        </div>"
 
