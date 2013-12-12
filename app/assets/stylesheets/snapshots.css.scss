@@ -15,6 +15,7 @@
 }
 
 .score-meter {
+  margin-top: 2em;
   text-align: center;
 }
 
@@ -44,4 +45,9 @@ rect {
 .metadata-table.table > thead tr th:nth-child(3),
 .metadata-table.table > tbody tr td:nth-child(3) {
   width: 5em;
+}
+
+.total-score,
+.distribution {
+  height: 25em;
 }

@@ -1,4 +1,40 @@
+#= require spin.min
+
 root = exports ? this
+
+options =
+  lines: 10
+  length: 4
+  width: 5
+  radius: 12
+  corners: 2
+  rotate: 0
+  direction: 1
+  color: '#000'
+  speed: 1.4
+  trail: 60
+  shadow: true
+  hwaccel: false
+  className: 'spinner'
+  zIndex: 2e9
+  top: 'auto'
+  left: 'auto'
+
+spinner = null
+target = null
+
+$ ->
+  target = $(".distribution > .row > .col-md-12 > .spinner")
+  spinner = new Spinner(options).spin(target[0])
+
+
+if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
+  query = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/distribution"
+  $.getJSON query, (distribution) ->
+    $ ->
+      spinner.stop()
+      target.remove()
+      new Histogram("#quality-distribution", distribution, [0, 100])
 
 initWeightSlider = (sm) ->
   weightScores(sm)
@@ -41,9 +77,5 @@ weightScores = (scoreMeter) ->
 $ ->
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
-    query = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/distribution"
-    $.getJSON query, (distribution) ->
-      new Histogram("#quality-distribution", distribution, [0, 100])
-
     sm = new ScoreMeter(".repository.score-meter", gon.snapshot.score)
     initWeightSlider(sm)

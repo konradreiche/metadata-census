@@ -65,7 +65,10 @@ class SnapshotsController < ApplicationController
 
   def distribution
     analyzer = Analyzer::QualityDistribution.new
-    render json: analyzer.analyze(@snapshot)
+    distribution = Rails.cache.fetch(@snapshot) do
+      analyzer.analyze(@snapshot)
+    end
+    render json: distribution
   end
 
   def statistics

@@ -19,6 +19,8 @@
 #= require underscore.js
 #= require d3
 #= require d3.tip.js
+
+#= require_self
 #= require_tree .
 root = exports ? this
 
@@ -72,7 +74,7 @@ class ScoreMeter
     .range(["#FF181E", "#FFBF00", "#82CA9D"])
 
   WIDTH: 150
-  HEIGHT: 264
+  HEIGHT: 150
 
   constructor: (selector, score) ->
 

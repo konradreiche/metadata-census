@@ -1,6 +1,3 @@
-#=require raphael-min
-#=require g.raphael-min
-#=require g.pie-min
 $ ->
 
   activatePieChart = () ->
