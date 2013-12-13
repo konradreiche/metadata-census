@@ -1,6 +1,6 @@
 <h1>Repository Report</h1>
 <h2><%= @repository.name %></h2>
-<%= render layout: 'shared/repository_breadcrumb' do %>
+<%= render layout: 'shared/breadcrumb' do %>
   <% options = { entities: [@repositories.keys, @snapshot], display: @repository } %>
   <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
 
