@@ -1,9 +1,12 @@
-<a data-toggle="dropdown" href="#"><%= display.to_s %></a>
+<% enumerable = entities.map(&:class).index(Array)  %>
+<% page_section = entities.take_while { |e| e.class == display.class or not e.is_a?(Array) } %>
+<% page_section[enumerable] = display %>
+<%= link_to display.to_s, page_section %>
+<a data-toggle="dropdown" href="#"><strong class="caret"></strong></a>
 <ul class="dropdown-menu" role="menu">
-  <% enumerable = entities.map(&:class).index(Array)  %>
+  <% selection = entities.dup %>
   <% entities[enumerable].each do |item| %>
-    <% entities[enumerable] = item %>
-    <li><%= link_to item.to_s, entities %></li>
+    <% selection[enumerable] = item %>
+    <li><%= link_to item.to_s, selection %></li>
   <% end %>
 </ul>
-<strong class="caret"></strong>

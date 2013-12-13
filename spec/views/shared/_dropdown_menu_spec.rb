@@ -8,7 +8,10 @@ describe "shared dropdown menu partial" do
 
     options = { entities: [repositories], display: repository }
     rendered = render partial: 'shared/dropdown_menu', locals: options
-    expect(rendered).to have_selector('a[data-toggle]', repository.to_s)
+
+    path = repository_path(repository)
+    expect(rendered).to have_link(repository.to_s, href: path)
+
     repositories.each do |entity|
       path = repository_path(entity)
       expect(rendered).to have_link(entity.to_s, href: path)
@@ -23,7 +26,9 @@ describe "shared dropdown menu partial" do
     options = { entities: [repositories, snapshot], display: repository }
     rendered = render partial: 'shared/dropdown_menu', locals: options
 
-    expect(rendered).to have_selector('a[data-toggle]', repository.to_s)
+    path = repository_path(repository)
+    expect(rendered).to have_link(repository.to_s, href: path)
+
     repositories.each do |entity|
       path = repository_snapshot_path(entity, snapshot)
       expect(rendered).to have_link(entity.to_s, href: path)
@@ -40,7 +45,9 @@ describe "shared dropdown menu partial" do
     options = { entities: [repository, snapshots], display: snapshot }
     rendered = render partial: 'shared/dropdown_menu', locals: options
 
-    expect(rendered).to have_selector('a[data-toggle]', snapshot.to_s)
+    path = repository_snapshot_path(repository, snapshot)
+    expect(rendered).to have_link(snapshot.to_s, href: path)
+
     snapshots.each do |entity|
       path = repository_snapshot_path(repository, entity)
       expect(rendered).to have_link(entity.to_s, href: path)
