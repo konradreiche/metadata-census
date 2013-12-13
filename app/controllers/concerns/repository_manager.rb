@@ -17,7 +17,7 @@ module RepositoryManager
   end
 
   def snapshot
-    date = params[:snapshot_id] || params[:date]
+    date = params[:snapshot_date] || params[:date]
 
     if not params[:repository_id].nil? and not date.nil?
       @snapshot = @repository.snapshots.where(date: date)

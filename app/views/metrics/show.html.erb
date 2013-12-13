@@ -1,9 +1,14 @@
 <h1>Metric Report</h1>
 <h2><%= @metric.to_s.titlecase %></h2>
 <%= render layout: 'shared/breadcrumb' do %>
-  <%= repository_metric_repository_menu %>
-  <%= repository_metric_snapshot_menu %>
-  <%= repository_metric_metric_menu %>
+  <% options = { entities: [@repositories.keys, @snapshot, @metric], display: @repository } %>
+  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
+
+  <% options = { entities: [@repository, @repository.snapshots, @metric], display: @snapshot } %>
+  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
+
+  <% options = { entities: [@repository, @snapshot, @metrics], display: @metric } %>
+  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
 <% end %>
 <div class="row">
   <div class="dashboard-3 dashboard-left col-md-6">
