@@ -14,7 +14,7 @@ module Metrics
 
     attr_reader :analysis
 
-    def initialize(metadata, worker=nil)
+    def configure(metadata, worker=nil)
       @worker = worker
       @mime = YAML.load(File.read('data/metrics/mime.yml'))
 
@@ -37,6 +37,7 @@ module Metrics
         end
         @worker.at(i + i, @total) unless @worker.nil?
       end
+      super()
     end
 
     def run

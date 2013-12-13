@@ -1,13 +1,13 @@
 module Metrics
-
   class Openness < Metric
 
     attr_reader :analysis
 
-    def initialize(path=nil)
+    def configure(path=nil)
       path = 'data/licenses.json' if path.nil?
       @licenses = JSON.parse(File.read(path))
       @analysis = Hash.new(0)
+      super()
     end
 
     def license_open?(id)

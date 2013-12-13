@@ -1,10 +1,9 @@
 require 'metrics/completeness'
 
 module Metrics
-
   class WeightedCompleteness < Completeness
 
-    def initialize(schema, weight_file)
+    def configure(schema, weight_file)
       @weights = YAML.load_file(weight_file).with_indifferent_access
       super(schema)
     end

@@ -8,20 +8,21 @@ describe Metrics::Readability do
     expectations = ['Estimates', 'of', 'average', 'farm', 'rent', 'prices',
                     'by', 'farm', 'type']
  
-    words = Metrics::Metric.new.words(text)
+    words = Metrics::Metric.instance.words(text)
     words.should match_array expectations
 
-    words = Metrics::Metric.new.words("")
+    words = Metrics::Metric.instance.words("")
     words.should match_array []
 
-    words = Metrics::Metric.new.words("Estimates")
+    words = Metrics::Metric.instance.words("Estimates")
     words.should match_array ['Estimates']
 
   end
 
   it "should split a given text into its sentences" do
 
-    accessibility = Metrics::Readability.new('en_us')
+    accessibility = Metrics::Readability.instance
+    accessibility.configure('en_us')
     
     text = "The Historic Landfill dataset was created to help fulfil our "\
            "statutory responsibility to Local Planning Authorities by "\
@@ -72,7 +73,8 @@ describe Metrics::Readability do
 
   it "should hyphenate a word into its syllables" do
 
-    accessibility = Metrics::Readability.new('en_us')
+    accessibility = Metrics::Readability.instance
+    accessibility.configure('en_us')
 
     syllables = accessibility.hyphenate("representation")
     syllables.should match_array [3, 5, 8, 10]
@@ -97,7 +99,8 @@ describe Metrics::Readability do
 
   it "should compute the Flesch Reading Ease" do
 
-    accessibility = Metrics::Readability.new('en_us')
+    accessibility = Metrics::Readability.instance
+    accessibility.configure('en_us')
 
     text = "The Historic Landfill dataset was created to help fulfil our "\
            "statutory responsibility to Local Planning Authorities by "\
@@ -109,13 +112,13 @@ describe Metrics::Readability do
            "sites where there is no PPC permit or waste management "\
            "licence currently in force."
 
-    words = Metrics::Metric.new.words(text)
+    words = Metrics::Metric.instance.words(text)
     expect(words.length).to be(71)
 
     sentences = accessibility.sentences(text).to_f
     expect(sentences).to be(2.0)
 
-    syllables = Metrics::Metric.new.words(text).map do |word|
+    syllables = Metrics::Metric.instance.words(text).map do |word|
       accessibility.syllables(word)
     end.sum.to_f
     expect(syllables).to be(133.0)

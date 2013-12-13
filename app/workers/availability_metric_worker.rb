@@ -14,7 +14,8 @@ class AvailabilityMetricWorker <  MetricWorker
     @metadata = @metadata.only("record.id", "record.resources.url").to_a
 
     records = @metadata.map { |document| document.record }
-    @metric = Metrics::Availability.new(records, self)
+    @metric = Metrics::Availability.instance
+    @metric.configure(records, self)
     
     store :stage => :compute
     @before = Time.new

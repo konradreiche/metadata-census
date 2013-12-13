@@ -6,7 +6,7 @@ describe Metrics::IntrinsicPrecision do
     record = { 'notes' => "This is an English text.",
                'resources' => { 'description' => "Dataset" } }
 
-    metric = Metrics::IntrinsicPrecision.new
+    metric = Metrics::IntrinsicPrecision.instance
     expect(metric.corpus(record)).to eq("This is an English text. Dataset")
   end
 
@@ -14,14 +14,14 @@ describe Metrics::IntrinsicPrecision do
     record = { 'notes' => "Das ist ein deutscher Text.",
                'resources' => { 'description' => "Datensatz" } }
 
-    metric = Metrics::IntrinsicPrecision.new
+    metric = Metrics::IntrinsicPrecision.instance
     expect(metric.language(record)).to eq(:german)
   end
 
   it "detect common spelling mistakes" do
     record = { 'notes' => "Die Addresse seiner Wohnung lautet" }
 
-    metric = Metrics::IntrinsicPrecision.new
+    metric = Metrics::IntrinsicPrecision.instance
     score, analysis = metric.compute(record)
 
     accessor = ['notes']
@@ -33,7 +33,7 @@ describe Metrics::IntrinsicPrecision do
     record = { 'notes' => 'Die Adresse des Hauses lautet',
                'resources' => { 'description' => 'Turbolenzen' } }
 
-    metric = Metrics::IntrinsicPrecision.new
+    metric = Metrics::IntrinsicPrecision.instance
     score, analysis = metric.compute(record)
 
     expect(score).to be(0.0) 

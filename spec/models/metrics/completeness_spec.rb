@@ -4,7 +4,10 @@ describe Metrics::Completeness do
 
   describe "#completed?" do
 
-    subject { Metrics::Completeness.new(Hash.new) }
+    subject do 
+      metric = Metrics::Completeness.instance
+      metric.configure(Hash.new)
+    end
 
     it { expect(subject.completed?(nil)).to be_false }
     it { expect(subject.completed?([])).to be_false }
@@ -32,7 +35,8 @@ describe Metrics::Completeness do
                                 'language'  => { 'type' => 'string'  },
                                 'pages'     => { 'type' => 'integer' }}}
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     score, _ = metric.compute(data)
     
     expect(metric.fields).to be(6)
@@ -70,10 +74,12 @@ describe Metrics::Completeness do
                                 'format'      => 'PDF',
                                 'hash'        => ''}]}
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     score1, _ = metric.compute(record1)
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     score2, _ = metric.compute(record2)
 
     expect(score1).to be < 1.0
@@ -101,13 +107,16 @@ describe Metrics::Completeness do
                                 'hash'        => ''}]}
 
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     score1, _ = metric.compute(record1)
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     score2, _ = metric.compute(record2)
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     score3, _ = metric.compute(record3)
 
     expect(score1).to be > score3
@@ -121,7 +130,8 @@ describe Metrics::Completeness do
                'resources' => [{ 'description' => '2007',
                                  'hash'        => '' }]}
 
-    metric = Metrics::Completeness.new(schema)
+    metric = Metrics::Completeness.instance
+    metric.configure(schema)
     _, analysis = metric.compute(record)
 
     expect(analysis).to eq({ 'title' => 1,

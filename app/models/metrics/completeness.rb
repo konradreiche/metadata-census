@@ -1,12 +1,14 @@
 module Metrics
 
   class Completeness < Metric
+
     attr_reader :fields, :fields_completed, :analysis
 
-    def initialize(schema)
+    def configure(schema)
       @schema = schema
       @fields = count_fields(schema)
       @analysis = Hash.new { |h,k| h[k] = Hash.new(&h.default_proc) }
+      super()
     end
 
     def self.description

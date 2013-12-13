@@ -1,7 +1,12 @@
 module Metrics
   class Metric
+    include Singleton
 
     @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
+
+    def configure
+      self
+    end
 
     def self.all
       @@metrics
@@ -62,6 +67,7 @@ module Metrics
     def self.inherited(subclass)
       @@metrics ||= []
       @@metrics << subclass.to_sym
+      super
     end
 
     ##

@@ -13,7 +13,8 @@ class AccuracyMetricWorker < GenericMetricWorker
     logger.info 'Analyzing metadata'
 
     records = @metadata.map { |document| document.record }
-    @metric = Metrics::Accuracy.new(records, self)
+    @metric = Metrics::Accuracy.instance
+    @metric.configure(records, self)
 
     store :stage => :compute
     @before = Time.new

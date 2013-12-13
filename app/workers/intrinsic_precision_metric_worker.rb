@@ -11,7 +11,7 @@ class IntrinsicPrecisionMetricWorker <  MetricWorker
     store stage: :analyze
     logger.info('Analyzing metadata')
 
-    @metric = Metrics::IntrinsicPrecision.new
+    @metric = Metrics::IntrinsicPrecision.instance
     super
   end
 

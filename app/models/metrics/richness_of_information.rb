@@ -1,11 +1,10 @@
 module Metrics
-
   class RichnessOfInformation < Metric
 
     attr_reader :document_numbers, :document_frequency,
       :categorical_frequency, :analysis
 
-    def initialize(metadata, worker=nil)
+    def configure(metadata, worker=nil)
       @fields = {:category => [['tags']],
                  :text => [['notes'], ['resources', 'description']]}
 
@@ -29,6 +28,7 @@ module Metrics
       @analysis = { document_frequency: df,
                     categorical_frequency: @categorical_frequency,
                     document_numbers: @document_numbers }
+      super()
     end
 
     def self.description

@@ -2,15 +2,15 @@ require 'text/hyphen'
 require 'tactful_tokenizer'
 
 module Metrics
-
   class Readability < Metric
 
-    def initialize(language)
+    def configure(language)
       @fields = { text: [['notes'], ['resources', 'description']] }
       @sentence_tokenizer = TactfulTokenizer::Model.new
 
       options = { language: language, left: 0, right: 0 }
       @word_hyphenizer = Text::Hyphen.new(options)
+      super()
     end
 
     def compute(record)

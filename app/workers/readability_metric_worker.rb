@@ -7,7 +7,8 @@ class ReadabilityMetricWorker < GenericMetricWorker
     @metadata ||= MetadataRecord.where(snapshot: @snapshot)
     @metadata = @metadata.only("record.notes", "record.resources.description")
 
-    @metric = Metrics::Readability.new('en_us')
+    @metric = Metrics::Readability.instance
+    @metric.configure('en_us')
     super
   end
 

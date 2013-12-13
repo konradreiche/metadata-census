@@ -8,7 +8,7 @@ module Metrics
 
     attr_reader :analysis
 
-    def initialize(metadata, worker=nil)
+    def configure(metadata, worker=nil)
       @worker = worker
       @processed = 0
 
@@ -29,6 +29,7 @@ module Metrics
         end
         @worker.at(i, metadata.length) unless @worker.nil?
       end
+      super()
     end
 
     def run
