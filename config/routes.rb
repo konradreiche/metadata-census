@@ -17,8 +17,7 @@ MetadataCensus::Application.routes.draw do
     end
 
     resources :repositories, only: [:show, :index] do
-
-      resources :snapshots, only: [:show] do
+      resources :snapshots, param: :date, only: [:show] do
 
         member do 
           get 'distribution'

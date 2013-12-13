@@ -1,7 +1,9 @@
-<a data-toggle="dropdown" href="#"><%= display %></a>
+<a data-toggle="dropdown" href="#"><%= display.to_s %></a>
 <ul class="dropdown-menu" role="menu">
-  <% entities.each do |entity| %>
-    <li><%= link_to entity.display_name, self.send(path, { parameter => entity.send(id) }) %></li>
+  <% enumerable = entities.map(&:class).index(Array)  %>
+  <% entities[enumerable].each do |item| %>
+    <% entities[enumerable] = item %>
+    <li><%= link_to item.to_s, entities %></li>
   <% end %>
 </ul>
 <strong class="caret"></strong>

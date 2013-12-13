@@ -1,8 +1,11 @@
 <h1>Repository Report</h1>
 <h2><%= @repository.name %></h2>
 <%= render layout: 'shared/repository_breadcrumb' do %>
-  <%= repository_menu %>
-  <%= snapshot_menu %>
+  <% options = { entities: [@repositories.keys, @snapshot], display: @repository } %>
+  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
+
+  <% options = { entities: [@repository, @repository.snapshots], display: @snapshot } %>
+  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
 <% end %>
 <div class="row">
   <div class="total-score dashboard-3 dashboard-left col-md-6">
