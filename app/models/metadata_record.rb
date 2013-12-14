@@ -10,7 +10,7 @@ class MetadataRecord
   field :statistics, type: Hash
 
   Metrics::Metric.all.each do |metric|
-    field metric, type: Hash
+    field metric.id, type: Hash
   end
 
   index({ 'snapshot_id' => 1 })

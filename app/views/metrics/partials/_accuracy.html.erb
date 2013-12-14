@@ -64,7 +64,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @snapshot[@metric]['analysis'].to_a.each do |format, count| %>
+              <% @snapshot[@metric.id]['analysis'].to_a.each do |format, count| %>
                 <tr>
                   <td><%= format %></td>
                   <td><%= count %></td>

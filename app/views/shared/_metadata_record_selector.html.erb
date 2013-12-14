@@ -61,7 +61,7 @@
       </tr>
       <tr>
         <th>Score</th>
-        <td><%= @documents[i].send(@metric).maybe['score'].to_f %></td>
+        <td><%= @documents[i].send(@metric.id).maybe['score'].to_f %></td>
       </tr>
     </table>
   </div>

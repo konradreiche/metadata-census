@@ -1,5 +1,6 @@
 module Metrics
   class Metric
+    extend ActiveModel::Naming
     include Singleton
 
     @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
@@ -21,7 +22,7 @@ module Metrics
     end
 
     def to_s
-      id
+      id.titleize
     end
 
     def to_proc
@@ -30,6 +31,10 @@ module Metrics
 
     def self.name
       self.to_s.demodulize.titleize
+    end
+
+    def self.model_name
+      ActiveModel::Name.new(Metrics::Metric)
     end
 
     def self.id

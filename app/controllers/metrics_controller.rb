@@ -10,7 +10,7 @@ class MetricsController < ApplicationController
   end
 
   def show
-    score = @snapshot.send(@metric)
+    score = @snapshot.send(@metric.id)
     return render 'errors/no_results' if score.nil?
 
     @score = score['average']

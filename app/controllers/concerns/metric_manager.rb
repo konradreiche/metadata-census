@@ -10,7 +10,7 @@ module MetricManager
     id = params[:metric_id] || params[:id]
 
     unless id.nil?
-      @metric = id.to_sym
+      @metric = Metrics.from_sym(id).instance
       gon.jbuilder 'app/views/jbuilder/metric.json.jbuilder'
     end
   end
