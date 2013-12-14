@@ -77,5 +77,5 @@ weightScores = (scoreMeter) ->
 $ ->
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
-    sm = new ScoreMeter(".repository.score-meter", 0.0)
+    sm = new ScoreMeter(".repository.score-meter", gon.snapshot.score)
     initWeightSlider(sm)

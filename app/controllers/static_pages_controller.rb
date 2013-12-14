@@ -9,7 +9,7 @@ class StaticPagesController < ApplicationController
     return render 'errors/no_snapshots' if repository.nil?
 
     snapshot = repository.snapshots.last
-    parameter = { repository_id: repository.id, id: snapshot.date }
+    parameter = { repository_id: repository.id, date: snapshot.date }
     redirect_to repository_snapshot_path(parameter)
   end
 

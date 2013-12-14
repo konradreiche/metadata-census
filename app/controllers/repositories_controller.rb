@@ -1,6 +1,5 @@
 class RepositoriesController < ApplicationController
   include RepositoryManager
-  include MetricManager
   include Comparable
 
   helper_method :metric_score

@@ -6,6 +6,6 @@ json.snapshot do
     scores = @snapshot.send(metric.id).select do |key, _|
       ['average'].include?(key)
     end
-    json.set!(metric, scores)
+    json.set!(metric.id, scores)
   end
 end
