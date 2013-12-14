@@ -31,12 +31,10 @@ module SnapshotsHelper
   end
 
   def weight(metric)
-    metric = metric.to_s
-
     if session[:weightings].nil?
       1
     else
-      session[:weightings][metric]
+      session[:weightings][metric.id]
     end
   end
 
@@ -48,7 +46,7 @@ module SnapshotsHelper
                 max: 10,
                 step: 1,
                 value: value,
-                data: { metric: metric } }
+                data: { metric: metric.id } }
 
     tag(:input, options)
   end

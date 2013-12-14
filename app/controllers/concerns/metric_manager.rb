@@ -11,13 +11,13 @@ module MetricManager
 
     unless id.nil?
       @metric = id.to_sym
-      gon.metric = @metric
+      gon.jbuilder 'app/views/jbuilder/metric.json.jbuilder'
     end
   end
 
   def metrics
     @metrics = Rails.cache.fetch('metrics') { Metrics::Metric.all }
-    gon.metrics = @metrics
+    gon.jbuilder 'app/views/jbuilder/metrics.json.jbuilder'
   end
 
 end

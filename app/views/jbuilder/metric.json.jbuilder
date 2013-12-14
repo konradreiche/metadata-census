@@ -1,0 +1,1 @@
+json.metric @metric.id

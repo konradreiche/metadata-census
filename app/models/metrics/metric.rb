@@ -4,12 +4,28 @@ module Metrics
 
     @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
 
+    # @return [Metric] self for enabling method chaining
     def configure
       self
     end
 
+    # ActiveRecord fashioned accessor for all available metric objects.
+    #
+    # @return [Array<Metric>]
     def self.all
       @@metrics
+    end
+
+    def id
+      self.class.to_s.demodulize.underscore.dasherize
+    end
+
+    def to_s
+      id
+    end
+
+    def to_proc
+      self.class.to_sym.to_proc
     end
 
     def self.name
@@ -18,6 +34,10 @@ module Metrics
 
     def self.id
       self.to_sym
+    end
+
+    def to_param
+      id
     end
 
     def self.to_sym
@@ -65,9 +85,9 @@ module Metrics
     # created and adds the subclass to the list of metrics.
     #
     def self.inherited(subclass)
-      @@metrics ||= []
-      @@metrics << subclass.to_sym
       super
+      @@metrics ||= []
+      @@metrics << subclass.instance
     end
 
     ##
@@ -89,13 +109,6 @@ module Metrics
         end
       end
     end
-
-#    private
-#    def self.metrics
-#      Dir['app/models/metrics/*.rb'].map do |file_name|
-#        File.basename(file_name, '.rb')
-#      end.map(&:to_sym) - [:metric]
-#    end
 
   end
 end

@@ -15,7 +15,7 @@ class Snapshot
   field :statistics, type: Hash
 
   Metrics::Metric.all.each do |metric|
-    field metric, type: Hash
+    field metric.id, type: Hash
   end
 
   def best_records(metric)
@@ -40,7 +40,7 @@ class Snapshot
 
   def score
     metrics = Metrics::Metric.all
-    scores = metrics.map { |m| self.send(m).maybe['average'] }.compact
+    scores = metrics.map { |m| self.send(m.id).maybe['average'] }.compact
     scores.sum.fdiv(scores.length)
   end
 
