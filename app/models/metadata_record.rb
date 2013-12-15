@@ -21,7 +21,7 @@ class MetadataRecord
   # 
   #
   def calculate_score
-    scores = Metrics::Metric.all.map { |m| send(m).maybe['score'] }.compact
+    scores = Metrics::Metric.all.map { |m| send(m.id).maybe['score'] }.compact
     scores.sum.fdiv(scores.length)
   end
 

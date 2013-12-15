@@ -1,11 +1,11 @@
 module Metrics
   class IntrinsicPrecision < Metric
 
-    def initialize
+    def configure
       @fields = { :text => [['notes'], ['resources', 'description']] }
       @directory = Dir['data/misspelling/*']
       @misspelling = Hash.new
-      super()
+      super
     end
 
     def self.description

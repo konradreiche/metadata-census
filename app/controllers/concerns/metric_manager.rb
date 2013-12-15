@@ -10,14 +10,18 @@ module MetricManager
     id = params[:metric_id] || params[:id]
 
     unless id.nil?
-      @metric = Metrics.from_sym(id).instance
-      gon.jbuilder 'app/views/jbuilder/metric.json.jbuilder'
+      metrics = Metrics::Metric.all
+      index = metrics.map(&:id).index(id)
+      unless index.nil?
+        @metric = metrics[index]
+        jbuilder __method__
+      end
     end
   end
 
   def metrics
     @metrics = Rails.cache.fetch('metrics') { Metrics::Metric.all }
-    gon.jbuilder 'app/views/jbuilder/metrics.json.jbuilder'
+    jbuilder __method__
   end
 
 end
