@@ -14,6 +14,7 @@
  *= require MarkerCluster
  *= require MarkerCluster.Default
  *= require MarkerCluster.Default.ie
+ *= require nas
  *= require_tree .
  *= require_self
  */
@@ -344,5 +345,8 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 .spinner {
-  margin-top: 9em;
+  margin-top: 7em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
 }
