@@ -1,6 +1,7 @@
 require 'sidekiq/testing/inline' if ENV['DEBUG']
 
 class MetricsController < ApplicationController
+  include RepositoryManager
   include MetadataRecordManager
   include AnalysisManager
 
@@ -15,9 +16,14 @@ class MetricsController < ApplicationController
 
     @score = score['average']
     gon.score = @score
+  end
 
+  def distribution
     analyzer = Analyzer::QualityDistribution.new
-    gon.distribution = analyzer.distribution(@snapshot, @metric)
+    distribution = Rails.cache.fetch("#{@snapshot.date}#{@metric.id}") do
+      analyzer.distribution(@snapshot, @metric)
+    end
+    render json: distribution
   end
 
   ##

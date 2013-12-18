@@ -118,6 +118,21 @@ class ScoreMeter
 
 root.ScoreMeter = ScoreMeter
 
+# Load data through AJAX request 
+root.loadData = (query, target, callback) ->
+
+  spinner = null
+
+  $.getJSON query, (result) ->
+    spinner.stop()
+    $(target).remove()
+    callback(result)
+
+  $ ->
+    spinner = new Nas(target)
+    spinner.start()
+
+
 # Activate repository breadcrumb dropdown if available
 $('.dropdown-toggle').dropdown()
 

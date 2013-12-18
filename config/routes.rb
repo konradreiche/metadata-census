@@ -25,7 +25,12 @@ MetadataCensus::Application.routes.draw do
           get 'metadata'
         end
 
-        resources :metrics, only: [:show]
+        resources :metrics, only: [:show] do
+          member do
+            get 'distribution'
+          end
+        end
+
         resource :metadata, only: [] do
 
           member do

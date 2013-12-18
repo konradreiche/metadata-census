@@ -1,68 +1,13 @@
 root = exports ? this
 
-$ ->
 
-  ##
-  # Sets up the pie chart for the statistics tab
-  #
-  initPieChart = (analysis, selector) ->
-
-
-    data = []
-    for key, value of analysis
-      data.push({ key: key, value: value })
-
-    width = 350
-    height = 250
-    radius = Math.min(width, height) / 2
-
-    color = d3.scale.ordinal().range(["#98abc5", "#8a89a6", "#7b6888",
-      "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
-
-    arc = d3.svg.arc()
-      .outerRadius(radius - 10)
-      .innerRadius(0)
-
-    pie = d3.layout.pie()
-      .sort(null)
-      .value((d) -> return d.value)
-
-    svg = d3.select("#pie-chart").append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-
-    g = svg.selectAll(".arc")
-      .data(pie(data))
-      .enter().append("g")
-      .attr("class", "arc")
-
-    g.append("path")
-      .attr("d", arc)
-      .style("fill", (d) -> return color(d.data.key))
-
-    # create legend
-    legend = d3.select("#pie-chart").append("svg")
-      .attr("class", "legend")
-      .attr("width", 100)
-      .attr("height", 225)
-      .selectAll("g")
-      .data(color.domain().slice().reverse())
-      .enter().append("g")
-      .attr("transform", (d, i) -> "translate(0,#{i * 20})")
-
-    legend.append("rect")
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", color)
-
-    legend.append("text")
-      .attr("x", 24)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .text((d) -> d)
+if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_id")
+  query = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/metrics/#{metricId}/distribution"
+  target = ".distribution-dashboard > .row > .col-md-12 > .spinner"
+  loadData query, target, (distribution) ->
+    new Histogram("#quality-distribution", distribution, [0, 100])
     
+$ ->
 
   recordSelectionLink = (current, next) ->
     documents = (root.id(document) for document in gon.documents)
@@ -198,8 +143,5 @@ $ ->
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_id")
     sm = new ScoreMeter(".metric.score-meter", gon.score)
-    hg = new Histogram("#quality-distribution", gon.distribution)
-
     initRecordSearch(i) for i in [0..1]
-    initPieChart(gon.analysis.details, "#pie-chart")
     initBarChart(gon.analysis.scores, "#bar-chart")

@@ -1,19 +1,10 @@
 root = exports ? this
 
-spinner = null
-target = ".distribution > .row > .col-md-12 > .spinner"
-
-$ ->
-  spinner = new Nas(".distribution > .row > .col-md-12 > .spinner")
-  spinner.start()
-
 if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
   query = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/distribution"
-  $.getJSON query, (distribution) ->
-    $ ->
-      spinner.stop()
-      $(target).remove()
-      new Histogram("#quality-distribution", distribution, [0, 100])
+  target = ".distribution-dashboard > .row > .col-md-12 > .spinner"
+  loadData query, target, (distribution) ->
+    new Histogram("#quality-distribution", distribution, [0, 100])
 
 initWeightSlider = (sm) ->
   weightScores(sm)

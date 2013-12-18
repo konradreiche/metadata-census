@@ -22,6 +22,7 @@ module AnalysisManager
     end
 
     @analysis = analyzer.analyze(@snapshot, @metric)
+    gon.analysis = @analysis
   end
 
 end
