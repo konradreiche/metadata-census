@@ -9,12 +9,17 @@ module Analyzer
       schema = JSON.parse(schema_file).with_indifferent_access
       properties = fields(schema)
 
-      return { scores: scores, properties: properties, treemap: treemap(snapshot), treemap_raw: snapshot.completeness['analysis'] }
+      fields_completed = flatten_hash(snapshot.completeness['analysis'])
+      fields_completed = Hash[fields_completed.map { |k, v| [k.join("."), v] }]
+
+      return { scores: scores, properties: properties,
+               treemap: treemap(snapshot),
+               fields_completed: fields_completed }
     end
 
     def self.treemap(snapshot)
       nodes = treemapper(snapshot.completeness['analysis'])
-      result = { 'name' => 'Completeness', 'children' => nodes }
+      return { 'name' => 'Completeness', 'children' => nodes }
     end
 
     def self.treemapper(hash)
@@ -50,6 +55,12 @@ module Analyzer
         end
 
       end.compact
+    end
+
+    # Flattens a hash
+    def self.flatten_hash(hash, key = [])
+      return { key  => hash } unless hash.is_a?(Hash)
+      hash.inject({}) { |h, v| h.merge! flatten_hash(v[-1], key + [v[0]]) }
     end
 
   end

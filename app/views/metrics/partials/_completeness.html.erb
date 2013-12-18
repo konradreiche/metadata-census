@@ -11,7 +11,7 @@
   </div>
   <div class="dashboard row">
     <div class="col-md-12">
-      <h3><span class="glyphicon glyphicon-eye-open"></span> Record Comparison</h3>
+      <h3><span class="dashboard-icon glyphicon glyphicon-eye-open"></span> Record Comparison</h3>
       <h4>Compare both metadata records by their completed fields</h4>
       <table class="repositories metric completeness table table-bordered completeness-table">
         <thead>
@@ -59,28 +59,37 @@
 <div id="statistics" class="pill-pane">
   <div class="row">
     <div class="dashboard col-md-12">
-      <h3 class="statistic-heading">Completeness Score by Groups</h3>
-      <div id="bar-chart"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="dashboard col-md-12">
-      <h3 class="statistic-heading">Commpleted Fields Raw</h3>
-      <ol>
-      <% @analysis[:treemap_raw].each do |key, value| %>
-        <li><%= key %> -------- <%= value %></li>
-      <% end %>
-      </ol>
-    </div>
-  </div>
-  <div class="row">
-    <div class="dashboard col-md-12">
-      <h3 class="statistic-heading">Completed Fields</h3>
+      <h3><span class="fa fa-sitemap"> Completed Fields Visualized</span></h3>
+      <h4>Structure shows the generel record layout. Switch to Completed to see how the fields are actually used.</h4>
       <div class="row">
         <div class="col-md-6"><div class="pull-right"><input class="treemap-switch" type="radio" name="mode" value="count"> Structure</input></div></div>
         <div class="col-md-6"><input class="treemap-switch" type="radio" name="mode" value="size" checked> Completed</input></div>
       </div>
       <div id="treemap"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="dashboard col-md-12">
+      <h3><span class="dashboard-icon glyphicon glyphicon-stats"></span> Completed Fields</h3>
+      <h4>Number of times a field has been completed in this snapshot</h4>
+      <table class="statistic-table table table-striped">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @analysis[:fields_completed].sort_by { |key, value| - value }.each do |item| %>
+            <tr>
+              <td><%= item[0] %></td>
+              <td><%= item[1] %></td>
+            </tr>
+          <% end %>
+          <tr>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

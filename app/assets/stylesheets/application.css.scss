@@ -15,6 +15,7 @@
  *= require MarkerCluster.Default
  *= require MarkerCluster.Default.ie
  *= require nas
+ *= require font-awesome
  *= require_tree .
  *= require_self
  */
@@ -349,4 +350,8 @@ input[type='range']::-webkit-slider-thumb {
   margin-left: auto;
   margin-right: auto;
   width: 50px;
+}
+
+.dashboard-icon {
+  padding-right: 0.25em;
 }

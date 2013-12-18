@@ -144,4 +144,3 @@ $ ->
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_id")
     sm = new ScoreMeter(".metric.score-meter", gon.score)
     initRecordSearch(i) for i in [0..1]
-    initBarChart(gon.analysis.scores, "#bar-chart")

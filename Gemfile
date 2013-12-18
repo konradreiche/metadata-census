@@ -46,6 +46,8 @@ gem 'iso-639'
 gem 'oj'
 gem 'curb'
 
+gem 'font-awesome-sass'
+
 # Metrics
 gem 'json'
 gem 'typhoeus'
