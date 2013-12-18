@@ -1,7 +1,11 @@
 <% enumerable = entities.map(&:class).index(Array)  %>
 <% page_section = entities.take_while { |e| e.class == display.class or not e.is_a?(Array) } %>
 <% page_section[enumerable] = display %>
-<%= link_to display.to_s, page_section %>
+<% if page_section.last == display and entities.last.is_a?(Array) %>
+    <%= display.to_s %>
+<% else %>
+  <%= link_to display.to_s, page_section %>
+<% end %>
 <a data-toggle="dropdown" href="#"><strong class="caret"></strong></a>
 <ul class="dropdown-menu" role="menu">
   <% selection = entities.dup %>

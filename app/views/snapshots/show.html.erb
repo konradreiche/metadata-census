@@ -5,7 +5,7 @@
   <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
 
   <% options = { entities: [@repository, @repository.snapshots], display: @snapshot } %>
-  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options)) %>
+  <%= content_tag(:li, render(partial: 'shared/dropdown_menu', locals: options), class: 'active') %>
 <% end %>
 <div class="row">
   <div class="score-dashboard dashboard-3 dashboard-left col-md-6">
