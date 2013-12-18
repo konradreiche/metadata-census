@@ -33,8 +33,14 @@ module MetricsHelper
   ##
   # Titlize record field names.
   #
-  def titleize(field)
-    defined = { "url" => "URL" }
+  def titleize_ckan_field(field)
+    defined = { 'url' => 'URL',
+                'webstore_url' => 'Webstore URL',
+                'cache_url' => 'Cache URL',
+                'mimetype' => 'MIME Type',
+                'mimetype_inner' => 'MIME Type (Inner)',
+                'owner_org' => 'Owner Organization' }
+
     return defined[field] if defined.key?(field)
 
     field.titleize()

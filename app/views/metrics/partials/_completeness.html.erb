@@ -2,7 +2,9 @@
    <div class="row">
     <% 2.times do |i| %>
       <% side = ["dashboard-left", "dashboard-right"][i] %>
-      <%= content_tag(:div, class: "dashboard-6 #{side} col-md-6 without-heading") do %>
+      <%= content_tag(:div, class: "dashboard-6 #{side} col-md-6") do %>
+        <h3>Record Selection</h3>
+        <h4>Select a metadata record to compare with</h4>
         <%= render partial: 'shared/metadata_record_selector', locals: { i: i } %>
       <% end %>
     <% end %>
@@ -10,13 +12,14 @@
   <div class="dashboard row">
     <div class="col-md-12">
       <h3><span class="glyphicon glyphicon-eye-open"></span> Record Comparison</h3>
+      <h4>Compare both metadata records by their completed fields</h4>
       <table class="repositories metric completeness table table-bordered completeness-table">
         <thead>
           <tr>
             <th>Field</th>
             <th>Subfield</th>
             <% 2.times do |i| %>
-              <th><%= @documents[i].record[:name] %></th>
+              <th><%= "Record #{i + 1}" %></th>
             <% end %>
           </tr>
         </thead>
@@ -30,8 +33,8 @@
                 <% subfields.each_with_index do |subfield, j| %>
                   <% values = (0..1).to_a.map { |j| @documents[j].record[field].maybe[i].maybe[subfield] } %>
                   <tr>
-                    <%= content_tag(:th, titleize(field), rowspan: subfields.length) if j == 0 %>
-                    <th><%= titleize(subfield) %></th>
+                    <%= content_tag(:th, titleize_ckan_field(field), rowspan: subfields.length) if j == 0 %>
+                    <th><%= titleize_ckan_field(subfield) %></th>
                     <% 2.times do |j| %>
                       <%= value(values[j]) %>
                     <% end %>
@@ -40,7 +43,7 @@
               <% end %>
             <% else %>
               <tr>
-                <th><%= titleize(field) %></th>
+                <th><%= titleize_ckan_field(field) %></th>
                 <td></td>
                 <% 2.times do |i| %>
                   <%= value(@documents[i].record[field]) %>
