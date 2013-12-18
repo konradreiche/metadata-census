@@ -62,10 +62,20 @@
       <h3><span class="fa fa-sitemap"> Completed Fields Visualized</span></h3>
       <h4>Structure shows the generel record layout. Switch to Completed to see how the fields are actually used.</h4>
       <div class="row">
-        <div class="col-md-6"><div class="pull-right"><input class="treemap-switch" type="radio" name="mode" value="count"> Structure</input></div></div>
-        <div class="col-md-6"><input class="treemap-switch" type="radio" name="mode" value="size" checked> Completed</input></div>
+        <div class="col-md-12">
+          <div class="treemap-control">
+            <div class="btn-group">
+              <button class="btn btn-default treemap-switch active" type="button" value="structure">Structure</button>
+              <button class="btn btn-default treemap-switch" type="button" value="completed">Completed</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="treemap"></div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="treemap"></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">

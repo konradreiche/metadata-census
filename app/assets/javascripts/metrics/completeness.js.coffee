@@ -10,9 +10,9 @@ $ ->
 
   initTreemap = (selector, root) ->
 
-    margin = { top: 40, right: 10, bottom: 10, left: 10 }
-    width = 960 - margin.left - margin.right
-    height = 500 - margin.top - margin.bottom
+    margin = { top: 25, right: 0, bottom: 0, left: 0 }
+    width = 1140 - margin.left - margin.right
+    height = 750 - margin.top - margin.bottom
 
     color = d3.scale.category10()
 
@@ -29,16 +29,16 @@ $ ->
       .style("top", "#{margin.top}px")
 
     node = div.datum(root).selectAll(".node")
-      .data(treemap.nodes)
+      .data(treemap.value(() -> 1).nodes)
       .enter().append("div")
       .attr("class", "node")
       .call(position)
       .style("background", (d) -> if d.children then color(d.name) else null )
       .text (d) -> if d.children then null else d.name
 
-    d3.selectAll(".treemap-switch").on "change", () ->
-      value = if this.value == "count" then () -> 1 else (d) -> d.size
-
+    d3.selectAll(".treemap-switch").on "click", () ->
+      $(".treemap-switch").toggleClass("active")
+      value = if this.value == "structure" then () -> 1 else (d) -> d.size
       node.data(treemap.value(value).nodes)
         .transition()
         .duration(1500)
