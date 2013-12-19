@@ -10,11 +10,12 @@ $ ->
 
   initTreemap = (selector, root) ->
 
-    margin = { top: 25, right: 0, bottom: 0, left: 0 }
-    width = 1140 - margin.left - margin.right
-    height = 750 - margin.top - margin.bottom
+    margin = { top: 25, right: 15, bottom: 0, left: 5 }
+    width = 1100 - margin.left - margin.right
+    height = 600 - margin.top - margin.bottom
 
-    color = d3.scale.category10()
+    color = d3.scale.ordinal()
+      .range(["#4F98C3", "#8CA252", "#FD8D3C"])
 
     treemap = d3.layout.treemap()
       .size([width, height])
@@ -34,7 +35,7 @@ $ ->
       .attr("class", "node")
       .call(position)
       .style("background", (d) -> if d.children then color(d.name) else null )
-      .text (d) -> if d.children then null else d.name
+      .text (d) -> if d.children then null else "#{d.name}"
 
     d3.selectAll(".treemap-switch").on "click", () ->
       $(".treemap-switch").toggleClass("active")
