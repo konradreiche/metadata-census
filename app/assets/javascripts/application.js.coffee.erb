@@ -122,19 +122,22 @@ root.ScoreMeter = ScoreMeter
 root.loadData = (query, data, target, callback) ->
 
   spinner = null
+  finished = false
 
   $.getJSON query, data, (result) ->
-    spinner.stop()
+    if spinner != null
+      spinner.stop()
     $(target).remove()
     callback(result)
 
   $ ->
-    spinner = new Nas(target)
-    $(target)
-      .css("margin-left", "auto")
-      .css("margin-right", "auto")
-      .css("width", 50)
-    spinner.start()
+    if not finished
+      spinner = new Nas(target)
+      $(target)
+        .css("margin-left", "auto")
+        .css("margin-right", "auto")
+        .css("width", 50)
+      spinner.start()
 
 
 # Activate repository breadcrumb dropdown if available

@@ -4,11 +4,17 @@
     <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
       <% (0..90).step(10).each do |range| %>
-        <%= content_tag(:li, content_tag(:a, "Score #{range} - #{range + 10}", role: 'menuitem', tabindex: '-1', href: "#search-by-score-#{i}", data: {toggle: 'modal', range: "#{range}-#{range + 10}" })) %> 
+        <% anchor_data = { toggle: 'modal', range: "#{range}-#{range + 10}", document: i }  %>
+        <% anchor_attributes = { role: 'menuitem', tabindex: '-1', href: "#search-by-score-#{i}", data: anchor_data } %>
+        <% entry_label = "Score %3.f - %3.f" % [range, range + 10] %>
+        <% entry_label = "Score %4.f - %3.f" % [range, range + 10] if range == 0 %>
+        <% entry_label = entry_label.gsub!(' ', '&nbsp;').html_safe %>
+        <%= content_tag(:li, content_tag(:a, entry_label, anchor_attributes)) %> 
       <% end %>
     </ul>
     <!-- Modal to select a record by a pre-selected score range --!>
-    <div class="modal fade" id="<%= "search-by-score-#{i}" %>" tabindex="-1" role="dialog" aria-labelledby="search-by-score-#i}" aria-hidden="true">
+    <% modal_id = "search-by-score-#{i}" %>
+    <div class="modal fade" id="<%= modal_id %>" tabindex="-1" role="dialog" aria-labelledby="<%= modal_id %>" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -16,7 +22,7 @@
             <h4>Select a metadata record to compare with</h4>
           </div>
           <div class="modal-body">
-            <div id="search-by-score-result">
+            <div id="<%= "search-by-score-results-#{i}" %>" data-document="<%= @documents[i].id %>">
               <div class="spinner"></div>
             </div>
           </div>

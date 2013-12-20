@@ -7,52 +7,61 @@ if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_i
   target = ".distribution-dashboard > .row > .col-md-12 > .spinner"
   loadData query, null, target, (distribution) ->
     new Histogram("#quality-distribution", distribution, [0, 100])
-    
-$ ->
-
-  registerSelectionEntry = () ->
-    $("#search-by-score-0").on "show.bs.modal", (e) ->
-      range = $(e.relatedTarget).data("range").split("-")
-      url = PATH + "/metadata"
-      range = { from: range[0], to: range[1] }
-
-      loadData url, range, "#search-by-score-result > .spinner", (result) ->
-
-        table = """
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Score</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                """
-
-        for document in result
-          table += """
-                       <tr>
-                         <td>#{document.record.name}</td>
-                         <td>#{(document.score * 100).toFixed(2)}</td>
-                       </tr>
-                   """
-
-        table += """
-                   </tbody>
-                 </table>
-                 """
-
-        $("#search-by-score-result").append(table)
-        
-
-  registerSelectionEntry()
 
   recordSelectionLink = (current, next) ->
-    documents = (root.id(document) for document in gon.documents)
+    documents = (document._id for document in gon.documents)
     documents[documents.indexOf(current)] = next
     parameter = ({ name: "documents[]", value: id } for id in documents)
     query = decodeURIComponent($.param(parameter))
     "?#{query}"
+    
+  queryRecordsByScore = (event) ->
+    range = $(event.relatedTarget).data("range").split("-")
+    url = PATH + "/metadata"
+    range = { from: range[0], to: range[1] }
+    i = $(event.relatedTarget).data("document")
+
+    loadData url, range, "#search-by-score-results-#{i} > .spinner", (result) ->
+
+      if result.length == 0
+        $("#search-by-score-results-#{i}").append("<p>Your search did not match any documents</p>")
+        return
+
+      table = """
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+              """
+
+      currentDocument = $("#search-by-score-results-#{i}").data("document")
+      for document in result
+        href = recordSelectionLink(currentDocument, document.id)
+        table += """
+                     <tr class="rowlink">
+                       <td><a href="#{href}">#{document.record.name}</a></td>
+                       <td>#{(document.score * 100).toFixed(2)}</td>
+                     </tr>
+                 """
+
+      table += """
+                 </tbody>
+               </table>
+               """
+
+      $("#search-by-score-results-#{i}").append(table)
+
+  initSearchByScoreModal = (i) ->
+    $("#search-by-score-#{i}").on("show.bs.modal", queryRecordsByScore)
+    $("#search-by-score-#{i}").on "hidden.bs.modal", (event) ->
+      $("#search-by-score-results-#{i} > table").remove()
+      $("#search-by-score-results-#{i} > p").remove()
+
+$ ->
 
   normalize = (score) ->
     ajax =
@@ -182,3 +191,4 @@ $ ->
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_id")
     sm = new ScoreMeter(".metric.score-meter", gon.score)
     initRecordSearch(i) for i in [0..1]
+    initSearchByScoreModal(i) for i in [0..1]

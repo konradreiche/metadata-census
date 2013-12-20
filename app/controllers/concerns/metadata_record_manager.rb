@@ -12,11 +12,14 @@ module MetadataRecordManager
   def records
 
     if params[:documents].nil?
-      ss = @repository.snapshots.last
-      @documents = [ss.best_record(@metric), ss.worst_record(@metric)]
+      @documents = [@snapshot.best_record(@metric.id),
+                    @snapshot.worst_record(@metric.id)]
     else
-      @documents = params[:documents].map { |id| MetadataRecord.find(id) }
+      @documents = params[:documents].map do |id|
+        MetadataRecord.find(id)
+      end
     end
+    gon.documents = @documents
   end
 
 end

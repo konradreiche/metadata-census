@@ -28,7 +28,7 @@ class MetricsController < ApplicationController
 
   # Retrieve metadata records by score range.
   def metadata
-    from, to = params[:from].to_f / 100, params[:to].to_f
+    from, to = params[:from].to_f, params[:to].to_f
     from, to = from / 100, to / 100
 
     analyzer = Analyzer::QualityDistribution
