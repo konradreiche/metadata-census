@@ -13,6 +13,7 @@ class MetadataRecord
     field metric.id, type: Hash
   end
 
+  index({ 'record.title' => 'text' })
   index({ 'snapshot_id' => 1 })
   index({ 'snapshot_id' => 1, 'score' => 1 })
   index({ 'snapshot_id' => 1, 'statistics.resources' => 1 })

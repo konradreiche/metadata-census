@@ -164,9 +164,9 @@ $ ->
 
     $("#record-search-input-#{i}").on "input", _.debounce((event) =>
       inputValue = $(event.target).val()
-      inputValue = if /\S/.test(inputValue) then inputValue else '*'
+      inputValue = if /\S/.test(inputValue) then inputValue else ''
       data = { query: inputValue }
-      url = "/repositories/#{gon.repository.name}/metadata/search"
+      url = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/metadata/search"
 
       list.clear()
       $.getJSON url, data, (result) =>
@@ -174,8 +174,7 @@ $ ->
         for document in result
           name = document.record.name
           score = (document[gon.metric].score).toFixed(2)
-          score = normalize(score).toFixed(2)
-          list.add({ name: name, score: "#{score * 100}%", id: id(document) })
+          list.add({ name: name, score: "#{score * 100}", id: id(document) })
 
         # add row link feature
         $(".list > tr").addClass("rowlink")

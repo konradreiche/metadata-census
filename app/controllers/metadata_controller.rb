@@ -2,11 +2,10 @@ class MetadataController < ApplicationController
   include RepositoryManager
 
   def search
-    query = params[:term]
-    snapshot = @repository.snapshots.last
+    query = params[:query]
     
-    criteria = { :"record.title" => /#{query}.*/ }
-    query = MetadataRecord.where(snapshot: snapshot).any_of(criteria).limit(10)
+    criteria = { 'record.title' => /#{query}.*/ }
+    query = MetadataRecord.where(snapshot: @snapshot).any_of(criteria).limit(10)
     render json: query.all
   end
 
