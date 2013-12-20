@@ -5,8 +5,9 @@ describe AnalysisManager do
   class AnonymousController < ApplicationController
     include AnalysisManager
 
-    def initialize(metric=:test_metric)
-      @metric = metric
+    def initialize(metric='test_metric')
+      @metric = Metrics::Metric.instance
+      @metric.stub(:id).and_return(metric)
       @snapshot = Snapshot.new
     end
 
@@ -37,7 +38,7 @@ describe AnalysisManager do
     end
 
     it "fallbacks to the generic analyzer" do
-      controller = AnonymousController.new(:alternative_metric)
+      controller = AnonymousController.new('alternative_metric')
       controller.send(:analyze)
 
       result = controller.instance_variable_get('@analysis')
