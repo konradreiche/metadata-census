@@ -45,5 +45,6 @@ $ ->
         .duration(1500)
         .call(position)
 
-  if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/completeness")
+  prefix = "/repositories/:repository_id/snapshots/:snapshot_id/metrics"
+  if isPath("#{prefix}/completeness") or isPath("#{prefix}/weighted-completeness")
     initTreemap("#treemap", gon.analysis.treemap)

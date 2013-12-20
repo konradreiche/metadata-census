@@ -46,7 +46,7 @@ class MetricsController < ApplicationController
     partials = "metrics/partials"
     directory = "app/views/" + partials
 
-    ancestors = Metrics.from_sym(@metric).ancestors
+    ancestors = @metric.class.ancestors
     ancestors = ancestors.select { |cls| cls < Metrics::Metric }
  
     ancestors.map { |cls| cls.to_s.demodulize.underscore }.each do |candidate|

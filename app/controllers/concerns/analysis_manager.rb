@@ -12,7 +12,7 @@ module AnalysisManager
 
   private
   def analyze
-    metric = @metric.to_s.underscore
+    metric = @metric.id.underscore
     file = "#{ANALYZER_PATH}/#{metric}.rb"
 
     if File.exists?(file)
