@@ -1,12 +1,34 @@
 <div class="row button-row">
   <div class="col-md-12">
+
     <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-      <% @snapshot.best_records(@metric).each do |document| %>
-        <%= record_selector_entry(@documents[i], document) %>
+      <% (0..90).step(10).each do |range| %>
+        <%= content_tag(:li, content_tag(:a, "Score #{range} - #{range + 10}", role: 'menuitem', tabindex: '-1', href: "#search-by-score-#{i}", data: {toggle: 'modal', range: "#{range}-#{range + 10}" })) %> 
       <% end %>
     </ul>
+    <!-- Modal to select a record by a pre-selected score range --!>
+    <div class="modal fade" id="<%= "search-by-score-#{i}" %>" tabindex="-1" role="dialog" aria-labelledby="search-by-score-#i}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Record Selection</h3>
+            <h4>Select a metadata record to compare with</h4>
+          </div>
+          <div class="modal-body">
+            <div id="search-by-score-result">
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <a class="btn record-selector dropdown btn-default glyphicon glyphicon-search" href="<%= "#search-modal-#{i}" %>" data-toggle="modal"></a>
+    <!-- Modal to select a record by searching their content --!>
     <div class="modal fade" id="<%= "search-modal-#{i}" %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">

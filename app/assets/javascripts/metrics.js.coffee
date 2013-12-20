@@ -1,13 +1,51 @@
 root = exports ? this
 
+PATH = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/metrics/#{metricId}"
 
 if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metrics/:metric_id")
   query = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/metrics/#{metricId}/distribution"
   target = ".distribution-dashboard > .row > .col-md-12 > .spinner"
-  loadData query, target, (distribution) ->
+  loadData query, null, target, (distribution) ->
     new Histogram("#quality-distribution", distribution, [0, 100])
     
 $ ->
+
+  registerSelectionEntry = () ->
+    $("#search-by-score-0").on "show.bs.modal", (e) ->
+      range = $(e.relatedTarget).data("range").split("-")
+      url = PATH + "/metadata"
+      range = { from: range[0], to: range[1] }
+
+      loadData url, range, "#search-by-score-result > .spinner", (result) ->
+
+        table = """
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Score</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                """
+
+        for document in result
+          table += """
+                       <tr>
+                         <td>#{document.record.name}</td>
+                         <td>#{(document.score * 100).toFixed(2)}</td>
+                       </tr>
+                   """
+
+        table += """
+                   </tbody>
+                 </table>
+                 """
+
+        $("#search-by-score-result").append(table)
+        
+
+  registerSelectionEntry()
 
   recordSelectionLink = (current, next) ->
     documents = (root.id(document) for document in gon.documents)

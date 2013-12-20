@@ -26,6 +26,16 @@ class MetricsController < ApplicationController
     render json: distribution
   end
 
+  # Retrieve metadata records by score range.
+  def metadata
+    from, to = params[:from].to_f / 100, params[:to].to_f
+    from, to = from / 100, to / 100
+
+    analyzer = Analyzer::QualityDistribution
+    result = analyzer.records_by_score(@snapshot, @metric, from..to)
+    render json: result
+  end
+
   ##
   # Selects the partial for displaying the metric report.
   #

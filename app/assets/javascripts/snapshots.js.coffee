@@ -3,7 +3,7 @@ root = exports ? this
 if isPath("/repositories/:repository_id/snapshots/:snapshot_id")
   query = "/repositories/#{repositoryId}/snapshots/#{snapshotId}/distribution"
   target = ".distribution-dashboard > .row > .col-md-12 > .spinner"
-  loadData query, target, (distribution) ->
+  loadData query, null, target, (distribution) ->
     new Histogram("#quality-distribution", distribution, [0, 100])
 
 initWeightSlider = (sm) ->

@@ -22,6 +22,21 @@ module Analyzer
       end.group_by { |document| document[:score].to_i / 10 * 10 }[distribution]
     end
 
+    def self.records_by_score(snapshot, metric, range)
+      metadata = MetadataRecord.where(snapshot: snapshot)
+      score_field = "#{metric.id}.score"
+
+      metadata = metadata.between(score_field => range)
+      metadata = metadata.only('id', 'record.id', 'record.name', score_field)
+      metadata.limit(10).map do |document|
+        { 'id'     => document.id,
+          'score'  => document[score_field],
+          'record' => { 'id'   => document.record['id'],
+                        'name' => document.record['name'] }
+        }
+      end
+    end
+
   end
 
 end

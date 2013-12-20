@@ -119,17 +119,21 @@ class ScoreMeter
 root.ScoreMeter = ScoreMeter
 
 # Load data through AJAX request 
-root.loadData = (query, target, callback) ->
+root.loadData = (query, data, target, callback) ->
 
   spinner = null
 
-  $.getJSON query, (result) ->
+  $.getJSON query, data, (result) ->
     spinner.stop()
     $(target).remove()
     callback(result)
 
   $ ->
     spinner = new Nas(target)
+    $(target)
+      .css("margin-left", "auto")
+      .css("margin-right", "auto")
+      .css("width", 50)
     spinner.start()
 
 

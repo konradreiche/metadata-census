@@ -112,3 +112,19 @@
 .statistic-table {
   margin-top: 3em;
 }
+
+
+#search-by-score-result > table thead tr th:first-child,
+#search-by-score-result > table tbody tr td:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 25em;
+}
+
+#search-by-score-result > table thead tr th:nth-child(2),
+#search-by-score-result > table tbody tr td:nth-child(2) {
+  width: 8em;
+  text-align: center;
+}
+
