@@ -43,13 +43,13 @@ module Analyzer
     # than two additional keys, the first one is chosen.
     #
     def self.group_details(snapshot, metric)
-      metadata = snapshot.metadata_records.only(metric)
+      metadata = snapshot.metadata_records.only(metric.id)
       details = Hash.new(0)
 
       metadata.each do |document|
         # iterate the detail values of the metric analysis data
-        document.send(metric)[:analysis].to_a.each do |analysis|
-          score = analysis[:score].round
+        document.send(metric.id)['analysis'].to_a.each do |analysis|
+          score = analysis['score'].round
           details[score] += 1
         end
       end

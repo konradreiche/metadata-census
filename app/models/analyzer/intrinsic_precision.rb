@@ -13,10 +13,10 @@ module Analyzer
     end
 
     def self.misspellings(snapshot, metric)
-      metadata = snapshot.metadata_records.only(metric)
+      metadata = snapshot.metadata_records.only(metric.id)
       metadata.to_a.inject(Hash.new(0)) do |statistic, document|
 
-        document.send(metric)['analysis'].each do |analysis|
+        document.send(metric.id)['analysis'].each do |analysis|
           analysis['misspelled'].each { |word| statistic[word] += 1 }
         end
         statistic

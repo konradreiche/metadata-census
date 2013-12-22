@@ -1,4 +1,4 @@
-<div id="analysis" class="pill-pane active">
+@<div id="analysis" class="pill-pane active">
   <div class="row">
     <% 2.times do |i| %>
       <div class="dashboard-6 <%= i == 0 ? "dashboard-left" : "dashboard-right" %> col-md-6 without-heading">
@@ -70,7 +70,7 @@
           <div class="col-md-12">
             <table class="metric table table-bordered table-striped">
               <tbody>
-                <% analysis = @documents[i].send(@metric)['analysis'] %>
+                <% analysis = @documents[i].send(@metric.id)['analysis'] %>
                 <% analysis.each do |item| %>
                   <% item = item.with_indifferent_access %>
                   <tr>
