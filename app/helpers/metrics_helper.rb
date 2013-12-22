@@ -97,4 +97,24 @@ module MetricsHelper
     content_tag(:p, text.html_safe, class: 'description')
   end
 
+  def record_selection_entry(range, i)
+    anchor_data = { toggle: 'modal', range: "#{range}-#{range + 10}", document: i }
+    anchor_attributes = { role: 'menuitem', tabindex: '-1', href: "#search-by-score-#{i}", data: anchor_data }
+
+    entry_label = "Score %3.f - %3.f" % [range, range + 10]
+    entry_label = "Score %4.f - %3.f" % [range, range + 10] if range == 0
+    entry_label = entry_label.gsub!(' ', '&nbsp;').html_safe
+
+    content_tag(:li, content_tag(:a, entry_label, anchor_attributes))
+  end
+
+  def display_field(field_path)
+    if field_path.last.is_a?(Numeric)
+      number = field_path.last
+      field_path[0..-2].join('.') + " (#{number})"
+    else
+      field_path.join('.')
+    end
+  end
+
 end

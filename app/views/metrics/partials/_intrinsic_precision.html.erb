@@ -1,80 +1,25 @@
-@<div id="analysis" class="pill-pane active">
+<div id="analysis" class="pill-pane active">
   <div class="row">
     <% 2.times do |i| %>
       <div class="dashboard-6 <%= i == 0 ? "dashboard-left" : "dashboard-right" %> col-md-6 without-heading">
         <div class="row">
           <div class="col-md-12">
-            <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-              <% @repository.snapshots.last.best_records(@metric).each do |document| %>
-                <%= record_selector_entry(@documents[i], document) %>
-              <% end %>
-            </ul>
-            <a class="btn record-selector dropdown btn-default glyphicon glyphicon-search" href="<%= "#search-modal-#{i}" %>" data-toggle="modal"></a>
-            <div class="modal fade" id="<%= "search-modal-#{i}" %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Record Search</h4>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <input id="<%= "record-search-input-#{i}" %>" class="form-control" type="text" placeholder="Search..."></input>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div id="<%= "record-search-results-#{i}" %>" class="col-md-12" data-document="<%= @documents[i][:id] %>">
-                        <!-- The list class is used to make List.js working -->
-                        <table data-provides="rowlink" class="table metric record-results">
-                          <thead>
-                            <tr>
-                              <th class="name">Name</th>
-                              <th class="score">Score</th>
-                            </tr>
-                          </thead>
-                          <tbody class="list">
-                            <tr>
-                              <td class="name"></td>
-                              <td class="score"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
-                </div> <!-- /.modal-content -->
-              </div> <!-- /.modal-dialog -->
-            </div> <!-- /.modal -->
+            <h3>Record Selection</h3>
+            <h4>Select a metadata record to compare with</h4>
+            <%= render partial: 'shared/metadata_record_selector', locals: { i: i } %>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <table class="metric record-info table table-bordered">
-              <tr>
-                <th>ID</th>
-                <td><%= @documents[i].record['id'] %></td>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <td><%= @documents[i].record['name'] %></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="metric table table-bordered table-striped">
+            <h3>Analysis</h3>
+            <h4>Inspect the differences</h4>
+            <table class="analysis-table table table-bordered table-striped">
               <tbody>
                 <% analysis = @documents[i].send(@metric.id)['analysis'] %>
                 <% analysis.each do |item| %>
                   <% item = item.with_indifferent_access %>
                   <tr>
-                    <th><%= item['field'].to_s.gsub(/[:,\[\]]/,'').titlecase %></th>
+                    <th>Field: <%= display_field(item['field']) %></th>
                     <th>Misspellings: <%= item['misspelled'].length %></th>
                   </tr>
                   <tr>
@@ -91,19 +36,10 @@
 </div>
 <div id="statistics" class="pill-pane fade">
   <div class="row">
-    <div class="col-md-6 dashboard-6 dashboard-left">
-      <h3 class="statistic-heading">Score Distribution</h3>
-      <div id="pie-chart"></div>
-    </div>
-    <div class="col-md-6 dashboard-6 dashboard-right">
-      <h3 class="statistic-heading">Group Distribution</h3>
-      <div id="bar-chart"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 dashboard-6 dashbord-left">
-      <h3 class="statistic-heading">Misspellings</h3>
-      <table class="table">
+    <div class="col-md-12 dashboard">
+      <h3><span class="fa fa-ban"></span> Misspellings</h3>
+      <h4>The number of different misspellings</h4>
+      <table class="table statistic-table">
         <thead>
           <tr>
             <th>Word</th>

@@ -4,12 +4,7 @@
     <a class="btn record-selector dropdown btn-primary glyphicon glyphicon-chevron-down" href="#" data-toggle="dropdown"></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
       <% (0..90).step(10).each do |range| %>
-        <% anchor_data = { toggle: 'modal', range: "#{range}-#{range + 10}", document: i }  %>
-        <% anchor_attributes = { role: 'menuitem', tabindex: '-1', href: "#search-by-score-#{i}", data: anchor_data } %>
-        <% entry_label = "Score %3.f - %3.f" % [range, range + 10] %>
-        <% entry_label = "Score %4.f - %3.f" % [range, range + 10] if range == 0 %>
-        <% entry_label = entry_label.gsub!(' ', '&nbsp;').html_safe %>
-        <%= content_tag(:li, content_tag(:a, entry_label, anchor_attributes)) %> 
+        <%= record_selection_entry(range, i) %>
       <% end %>
     </ul>
     <!-- Modal to select a record by a pre-selected score range --!>
