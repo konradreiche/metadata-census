@@ -3,28 +3,39 @@
     <div class="col-md-12 dashboard">
       <h3><span class="fa fa-file-text-o"></span> MIME Type Accuracy</h3>
       <h4>The expected MIME type is the one in the record, the actual MIME type is the one returned by the server</h4>
-      <% @analysis.each_slice(10) do |analysis| %>
-        <table class="analysis-table accuracy-table table table-bordered">
-          <thead>
-            <th>ID</th>
-            <th>URL</th>
-            <th>Expected MIME</th>
-            <th>Actual MIME</th>
-          </thead>
-          <tbody>
-            <% analysis.each do |id, analysis| %>
-              <% analysis.each_with_index do |resource_analysis, i| %>
-                <tr>
-                  <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
-                  <td><%= content_tag(:a, resource_analysis['url'], href: resource_analysis['url']) %></td>
-                  <td><%= resource_analysis['expected_mime_type'] %></td>
-                  <%= actual_mime_type(resource_analysis) %>
-                </tr>
+      <% @analysis.each_slice(10).with_index do |analysis, i| %>
+        <div class="mime-accuracy" id="<%= "mime-accuracy-#{i + 1}" %>">
+          <table class="analysis-table accuracy-table table table-bordered">
+            <thead>
+              <th>ID</th>
+              <th>URL</th>
+              <th>Expected MIME</th>
+              <th>Actual MIME</th>
+            </thead>
+            <tbody>
+              <% analysis.each do |id, analysis_chunk| %>
+                <% analysis_chunk.each_with_index do |resource_analysis, i| %>
+                  <tr>
+                    <%= content_tag(:td, id, rowspan: analysis_chunk.length) if i == 0 %>
+                    <td><%= content_tag(:a, resource_analysis['url'], href: resource_analysis['url']) %></td>
+                    <td><%= resource_analysis['expected_mime_type'] %></td>
+                    <%= actual_mime_type(resource_analysis) %>
+                  </tr>
+                <% end %>
               <% end %>
-            <% end %>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       <% end %>
+      <div class="text-center">
+        <ul class="pagination">
+          <li class="disabled"><a href="#">&laquo;</a></li>
+          <% (@analysis.length / 10).times do |i| %>
+            <%= content_tag(:li, content_tag(:a, i + 1, data: {target: "mime-accuracy-#{i + 1}"}), class: i == 0 ? 'active': nil) %>
+          <% end %>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="row">
