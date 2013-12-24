@@ -1,27 +1,34 @@
 <div id="analysis" class="pill-pane active">
   <div class="row">
     <div class="col-md-12 dashboard">
-      <h3>Format MIME Type Accuracy</h3>
-      <table class="accuracy-table table table-bordered">
-        <thead>
-          <th>ID</th>
-          <th>URL</th>
-          <th>Expected MIME</th>
-          <th>Actual MIME</th>
-        </thead>
-        <tbody>
-          <% @analysis.each do |id, analysis| %>
-            <% analysis.each_with_index.each do |resource_analysis, i| %>
-              <tr>
-                <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
-                <td><%= content_tag(:a, resource_analysis['url'], href: resource_analysis['url']) %></td>
-                <td><%= resource_analysis['expected_mime_type'] %></td>
-                <%= actual_mime_type(resource_analysis) %>
-              </tr>
+      <h3><span class="fa fa-file-text-o"></span> MIME Type Accuracy</h3>
+      <h4>The expected MIME type is the one in the record, the actual MIME type is the one returned by the server</h4>
+      <% @analysis.each_slice(10) do |analysis| %>
+        <table class="analysis-table accuracy-table table table-bordered">
+          <thead>
+            <th>ID</th>
+            <th>URL</th>
+            <th>Expected MIME</th>
+            <th>Actual MIME</th>
+          </thead>
+          <tbody>
+            <% analysis.each do |id, analysis| %>
+              <% analysis.each_with_index do |resource_analysis, i| %>
+                <tr>
+                  <%= content_tag(:td, id, rowspan: analysis.length) if i == 0 %>
+                  <td><%= content_tag(:a, resource_analysis['url'], href: resource_analysis['url']) %></td>
+                  <td><%= resource_analysis['expected_mime_type'] %></td>
+                  <%= actual_mime_type(resource_analysis) %>
+                </tr>
+              <% end %>
             <% end %>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
     </div>
   </div>
   <div class="row">
@@ -29,8 +36,8 @@
       <h3>Size Accuracy</h3>
       <table class="accuracy-size-table table table-bordered">
         <thead>
-          <th>ID</th>
-          <th>URL</th>
+          <th>Record ID</th>
+          <th>Resource URL</th>
           <th>Expected Size</th>
           <th>Actual Size</th>
         </thead>

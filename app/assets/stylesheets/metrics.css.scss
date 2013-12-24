@@ -91,7 +91,7 @@
   vertical-align: middle;
 }
 
-.accuracy-table tbody tr td:nth-child(-n+2) {
+.accuracy-table tbody tr td:nth-child(n) {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
