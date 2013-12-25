@@ -28,7 +28,7 @@
         </div>
       <% end %>
       <div class="text-center">
-        <ul class="pagination">
+        <ul id="mime-accuracy-pagination" class="pagination">
           <li class="disabled"><a href="#">&laquo;</a></li>
           <% (@analysis.length / 10).times do |i| %>
             <%= content_tag(:li, content_tag(:a, i + 1, data: {target: "mime-accuracy-#{i + 1}"}), class: i == 0 ? 'active': nil) %>
