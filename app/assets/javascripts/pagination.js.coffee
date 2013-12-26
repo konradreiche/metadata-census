@@ -13,6 +13,22 @@ class Pagination
     @currentPageAnchor = @pageAnchors[0]
     @currentPage = $(@currentPageAnchor).data("target")
 
+  addElements: (selector, numPages) ->
+    html = """
+    <ul class="pagination">
+      <li class="disabled"><a href="#">&laquo;</a></li>
+      <li><a href="#">&raquo;</a></li>
+      <li class="active"><a href="#">1</a></li>
+    """
+
+    for i in [2..numPages]
+      html += """<li class="active"><a href="#">#{i}</a></li>"""
+
+    html += """
+    </ul>
+    """
+    pagination = $(selector).append(html)
+
   pageAnchorClick: (view, pageAnchor) ->
     (event) => @setPage(view, pageAnchor)
 
