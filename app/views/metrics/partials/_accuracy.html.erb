@@ -4,7 +4,7 @@
       <h3><span class="fa fa-file-text-o"></span> MIME Type Accuracy</h3>
       <h4>The expected MIME type is the one in the record, the actual MIME type is the one returned by the server</h4>
       <% @analysis.each_slice(10).with_index do |analysis, i| %>
-        <div class="mime-accuracy" id="<%= "mime-accuracy-#{i + 1}" %>">
+        <div class="mime-accuracy">
           <table class="analysis-table accuracy-table table table-bordered">
             <thead>
               <th>ID</th>
@@ -27,14 +27,7 @@
           </table>
         </div>
       <% end %>
-      <div class="text-center">
-        <ul id="mime-accuracy-pagination" class="pagination">
-          <li class="disabled"><a href="#">&laquo;</a></li>
-          <% (@analysis.length / 10).times do |i| %>
-            <%= content_tag(:li, content_tag(:a, i + 1, data: {target: "mime-accuracy-#{i + 1}"}), class: i == 0 ? 'active': nil) %>
-          <% end %>
-          <li><a href="#">&raquo;</a></li>
-        </ul>
+      <div id="mime-accuracy-pagination" class="text-center">
       </div>
     </div>
   </div>

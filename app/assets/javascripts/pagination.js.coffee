@@ -2,45 +2,54 @@ root = exports ? this
 
 class Pagination
 
-  constructor: (selector) ->
+  constructor: (target, views) ->
+    @views = $(views)
+    @target = $(target)
 
-    @pageAnchors = $("#{selector} > li > a[data-target]")
-    for pageAnchor in @pageAnchors[1..-1]
-      view = $(pageAnchor).data("target")
-      $("##{view}").css("display", "none")
-      $(pageAnchor).on "click", @pageAnchorClick(view, pageAnchor)
+    @numPages = @views.length
+    @page = 0
 
-    @currentPageAnchor = @pageAnchors[0]
-    @currentPage = $(@currentPageAnchor).data("target")
+    @initPaginationElements()
+    @initViewElements()
 
-  addElements: (selector, numPages) ->
+  initViewElements: ->
+    for view in @views[1..-1]
+      $(view).css("display", "none")
+
+  initPaginationElements: ->
     html = """
     <ul class="pagination">
       <li class="disabled"><a href="#">&laquo;</a></li>
-      <li><a href="#">&raquo;</a></li>
-      <li class="active"><a href="#">1</a></li>
+      <li class="active"><a href="#" data-target="1">1</a></li>
     """
 
-    for i in [2..numPages]
-      html += """<li class="active"><a href="#">#{i}</a></li>"""
+    for i in [2..@numPages]
+      html += """<li><a href="#" data-target="#{i}">#{i}</a></li>"""
 
     html += """
+      <li><a href="#">&raquo;</a></li>
     </ul>
     """
-    pagination = $(selector).append(html)
+    pagination = @target.append(html)
+    @anchors = @target.find("ul li a[data-target]")
+    @initClickEvents()
 
-  pageAnchorClick: (view, pageAnchor) ->
-    (event) => @setPage(view, pageAnchor)
+  initClickEvents: ->
+    for anchor, i in @anchors
+      $(anchor).on "click", @anchorClick(@views[i], anchor)
 
-  setPage: (view, pageAnchor) ->
-    $("##{view}").css("display", "block")
-    $("##{@currentPage}").css("display", "none")
+  anchorClick: (view, anchor) ->
+    (event) =>
+      @updatePage(view, anchor)
+      event.preventDefault()
 
-    @currentPage = view
-    $(@currentPageAnchor).parent().toggleClass("active")
+  updatePage: (view, anchor) ->
+    $(view).css("display", "block")
+    $(@views[@page]).css("display", "none")
 
-    @currentPageAnchor = pageAnchor
-    $(@currentPageAnchor).parent().toggleClass("active")
+    $(@anchors[@page]).parent().toggleClass("active")
+    @page = @views.index(view)
+    $(@anchors[@page]).parent().toggleClass("active")
 
   nextPage: ->
 
