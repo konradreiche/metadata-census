@@ -7,7 +7,7 @@ class Pagination
     @target = $(target)
 
     @numPages = @views.length
-    @page = 0
+    @currentPage = 0
 
     @initPaginationElements()
     @initViewElements()
@@ -19,7 +19,7 @@ class Pagination
   initPaginationElements: ->
     html = """
     <ul class="pagination">
-      <li class="disabled"><a href="#">&laquo;</a></li>
+      <li class="disabled"><a>&laquo;</a></li>
       <li class="active"><a href="#" data-target="1">1</a></li>
     """
 
@@ -31,28 +31,54 @@ class Pagination
     </ul>
     """
     pagination = @target.append(html)
-    @anchors = @target.find("ul li a[data-target]")
+
+    @pageAnchors = @target.find("ul li a[data-target]")
+    @allAnchors = @target.find("ul li a")
     @initClickEvents()
 
   initClickEvents: ->
-    for anchor, i in @anchors
-      $(anchor).on "click", @anchorClick(@views[i], anchor)
+    for anchor, i in @pageAnchors
+      $(anchor).on "click", @anchorClick(i)
 
-  anchorClick: (view, anchor) ->
+    lastPageAnchor = @allAnchors[@allAnchors.length - 1]
+    $(lastPageAnchor).on "click", @anchorClick(@numPages - 1)
+
+  anchorClick: (page) ->
     (event) =>
-      @updatePage(view, anchor)
+      @updatePage(page)
       event.preventDefault()
 
-  updatePage: (view, anchor) ->
-    $(view).css("display", "block")
-    $(@views[@page]).css("display", "none")
+  updatePage: (newPage) ->
+    $(@views[newPage]).css("display", "block")
+    $(@views[@currentPage]).css("display", "none")
 
-    $(@anchors[@page]).parent().toggleClass("active")
-    @page = @views.index(view)
-    $(@anchors[@page]).parent().toggleClass("active")
+    $(@pageAnchors[newPage]).parent().toggleClass("active")
+    $(@pageAnchors[@currentPage]).parent().toggleClass("active")
+    @currentPage = newPage
 
-  nextPage: ->
+    firstPageAnchor = @allAnchors[0]
+    lastPageAnchor = @allAnchors[@allAnchors.length - 1]
 
-  previousPage: ->
+    if @currentPage > 0
+      $(firstPageAnchor).parent().removeClass("disabled")
+      $(firstPageAnchor).off("click")
+      $(firstPageAnchor).on "click", @anchorClick(0)
+      $(firstPageAnchor).prop("href", "#")
+
+    if @currentPage < @numPages - 1
+      $(lastPageAnchor).parent().removeClass("disabled")
+      $(lastPageAnchor).off("click")
+      $(lastPageAnchor).on "click", @anchorClick(@numPages - 1)
+      $(lastPageAnchor).prop("href", "#")
+
+    if @currentPage == @numPages - 1
+      $(lastPageAnchor).parent().addClass("disabled")
+      $(lastPageAnchor).off("click")
+      $(lastPageAnchor).prop("href", null)
+
+    if @currentPage == 0
+      $(firstPageAnchor).parent().addClass("disabled")
+      $(firstPageAnchor).off("click")
+      $(firstPageAnchor).prop("href", null)
 
 root.Pagination = Pagination
