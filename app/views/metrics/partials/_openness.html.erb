@@ -1,16 +1,17 @@
 <div id="analysis" class="pill-pane active">
   <div class="dashboard row">
     <div class="col-md-12">
-
+      <h3><span class="fa fa-clipboard"></span> Licenses</h3>
+      <h4>Number of different licenses and open or not</h4>
       <table class="table">
         <thead>
           <tr>
-            <th>License</th>
+            <th>License ID</th>
             <th>Count</th>
           </tr>
         </thead>
         <tbody>
-        <% @snapshot.send(@metric)['analysis'].each do |license, count| %>
+          <% @snapshot.send(@metric.id)['analysis'].sort_by { |k, v| - v }.each do |license, count| %>
           <tr>
             <td class="<%= @analysis.include?(license) ? 'successful' : 'unsuccessful' %>"><%= license.gsub("\uff0e", '.') %></td>
             <td class="<%= @analysis.include?(license) ? 'successful' : 'unsuccessful' %>"><%= count %></td>
@@ -18,10 +19,12 @@
         <% end %>
         </tbody>
       </table>
-
     </div>
   </div>
 </div>
 <div id="statistics" class="pill-pane">
+  <div class="dashboard col-md-12 info alert-info error-page">
+    <h3><span class="glyphicon glyphicon-warning-sign"></span> No statistics for this metric</h3>
+  </div>
 </div>
 
