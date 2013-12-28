@@ -2,11 +2,14 @@ root = exports ? this
 
 class Pagination
 
-  constructor: (target, views) ->
+  constructor: (target, views, maxPages = 20) ->
     @views = $(views)
     @target = $(target)
 
+    @maxPages = maxPages
     @numPages = @views.length
+
+    @pageView = [0, maxPages - 1]
     @currentPage = 0
 
     @initPaginationElements()
@@ -34,6 +37,8 @@ class Pagination
 
     @pageAnchors = @target.find("ul li a[data-target]")
     @allAnchors = @target.find("ul li a")
+    @pageAnchors.slice(@maxPages).css("display", "none")
+
     @initClickEvents()
 
   initClickEvents: ->
@@ -54,10 +59,28 @@ class Pagination
 
     $(@pageAnchors[newPage]).parent().toggleClass("active")
     $(@pageAnchors[@currentPage]).parent().toggleClass("active")
-    @currentPage = newPage
 
     firstPageAnchor = @allAnchors[0]
     lastPageAnchor = @allAnchors[@allAnchors.length - 1]
+
+    if newPage <= @pageView[0] or newPage >= @pageView[1]
+      half = Math.floor(@maxPages / 2)
+      @pageView = [newPage - half, newPage + half]
+
+      if @pageView[0] < 0
+        @pageView[0] = 0
+
+      if @pageView[1] < @maxPages - 1
+        @pageView[1] = @maxPages - 1
+
+      from = @pageView[0]
+      to = @pageView[1]
+
+      $(@pageAnchors).slice(0, from).css("display", "none")
+      $(@pageAnchors).slice(from, to + 1).css("display", "block")
+      $(@pageAnchors).slice(to + 1).css("display", "none")
+    
+    @currentPage = newPage
 
     if @currentPage > 0
       $(firstPageAnchor).parent().removeClass("disabled")
