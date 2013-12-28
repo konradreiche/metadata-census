@@ -5,12 +5,10 @@ class Analyzer::Accuracy
     metadata = metadata.only("record.id", "#{metric.id}.analysis")
 
     metadata.each_with_object({}) do |document, analysis|
-      if document[metric.id].nil?
-        analysis[document.record['id']] = []
-      else
+      if not document[metric.id].nil?
         analysis[document.record['id']] = document[metric.id]['analysis']
       end
-    end
+    end.delete_if { |k, v| v.empty? }
   end
 
 end

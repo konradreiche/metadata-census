@@ -69,10 +69,11 @@
 <div id="statistics" class="pill-pane">
   <div class="row">
     <div class="col-md-12 dashboard">
-      <h3><span class="glyphicon glyphicon-stats"></span> Responses</h3>
+      <h3><span class="glyphicon glyphicon-stats"></span> Different MIME Types in Use</h3>
+      <h4>An overview of all the different MIME types retrieves and how often they occured</h4>
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <table class="table">
+        <div class="col-md-12">
+          <table class="analysis-table table">
             <thead>
               <tr>
                 <th>Format</th>
@@ -80,9 +81,9 @@
               </tr>
             </thead>
             <tbody>
-              <% @snapshot[@metric.id]['analysis'].to_a.each do |format, count| %>
+              <% @snapshot[@metric.id]['analysis'].sort_by { |_, v| -v }.each do |format, count| %>
                 <tr>
-                  <td><%= format %></td>
+                  <td><%= format.is_a?(Numeric) ? "HTTP #{format}" : format %></td>
                   <td><%= count %></td>
                 </tr>
               <% end %>
@@ -90,7 +91,6 @@
           </table>
         </div>
       </div>
-
     </div>
   </div>
 </div>
