@@ -28,7 +28,7 @@ module MetricsHelper::AccuracyHelper
       off = '%.2f%' % ((actual - expected).abs.fdiv(expected) * 100)
       display = "#{number_with_delimiter actual} (#{off})"
     end
-    content_tag(:td, display, class: td_class)
+    content_tag(:td, display, class: "#{td_class} percent-number")
   end
 
 end

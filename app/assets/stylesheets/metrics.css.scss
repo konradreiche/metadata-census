@@ -87,16 +87,6 @@
   background-color: #f2dede;
 }
 
-.accuracy-table tbody tr td:first-child {
-  vertical-align: middle;
-}
-
-.accuracy-table tbody tr td:nth-child(n) {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .successful {
   background-color: #dff0d8;
 }
@@ -133,5 +123,5 @@
 }
 
 .analysis-table {
-  margin-top: 2em;
+  margin-top: 1em;
 }

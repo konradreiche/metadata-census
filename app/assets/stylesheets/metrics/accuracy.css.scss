@@ -1,12 +1,37 @@
-.accuracy-size-table thead tr th:nth-child(3),
-.accuracy-size-table thead tr th:nth-child(4),
-.accuracy-size-table tbody tr td:nth-child(3),
-.accuracy-size-table tbody tr td:nth-child(4) {
+.percent-number {
   text-align: right;
   width: 9em;
+}
+
+.url-td {
+  width: 37em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.accuracy-size-table tbody tr td:first-child[rowspan] {
+  width: 18em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .accuracy-size-table tbody tr td {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.accuracy-table tbody tr td:first-child {
+  vertical-align: middle;
+}
+
+.accuracy-table tbody tr td:nth-child(n) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+

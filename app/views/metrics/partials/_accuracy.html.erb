@@ -1,9 +1,10 @@
 <div id="analysis" class="pill-pane active">
   <div class="row">
     <div class="col-md-12 dashboard">
-      <h3><span class="fa fa-file-text-o"></span> MIME Type Accuracy</h3>
-      <h4>The expected MIME type is the one in the record, the actual MIME type is the one returned by the server</h4>
-      <% @analysis.each_slice(10).with_index do |analysis, i| %>
+      <h3><span class="fa fa-file-text-o"></span> Resource MIME Type Accuracy</h3>
+      <h4>The expected resource MIME type is given through the record, the actual is retrieved from the host</h4>
+      <div id="mime-accuracy-pagination" class="text-center"></div>
+      <% @analysis.each_slice(10) do |analysis| %>
         <div class="mime-accuracy">
           <table class="analysis-table accuracy-table table table-bordered">
             <thead>
@@ -27,8 +28,6 @@
           </table>
         </div>
       <% end %>
-      <div id="mime-accuracy-pagination" class="text-center">
-      </div>
     </div>
   </div>
   <div class="row">
@@ -37,27 +36,33 @@
   </div>
   <div class="row">
     <div class="col-md-12 dashboard">
-      <h3>Size Accuracy</h3>
-      <table class="accuracy-size-table table table-bordered">
-        <thead>
-          <th>Record ID</th>
-          <th>Resource URL</th>
-          <th>Expected Size</th>
-          <th>Actual Size</th>
-        </thead>
-        <tbody>
-          <% filter_size_analysis(@analysis).each do |id, analysis| %>
-            <% analysis.each_with_index.each do |format_analysis, i| %>
-              <tr>
-                <td><%= id %></td>
-                <td><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
-                <td><%= number_with_delimiter(format_analysis['expected_size']) %></td>
-                <%= actual_resource_size(format_analysis)  %>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
+      <h3><span class="fa fa-bullseye"></span> Resource Size Accuracy</h3>
+      <h4>The expected resource size is given through the record, the actual is retrieved from the host</h4>
+      <div id="size-accuracy-pagination" class="text-center"></div>
+      <% filter_size_analysis(@analysis).each_slice(10) do |analysis| %>
+        <div class="size-accuracy">
+          <table class="accuracy-size-table analysis-table table table-bordered">
+            <thead>
+              <th class="record-id-td">Record ID</th>
+              <th class="url-td">Resource URL</th>
+              <th class="percent-number">Expected Size</th>
+              <th class="percent-number">Actual Size</th>
+            </thead>
+            <tbody>
+              <% analysis.each do |id, analysis_chunk| %>
+                <% analysis_chunk.each_with_index do |format_analysis, i|  %>
+                  <tr>
+                    <%= content_tag(:td, id, class: "record-id-td", rowspan: analysis_chunk.length) if i == 0 %>
+                    <td class="url-td"><%= content_tag(:a, format_analysis['url'], href: format_analysis['url']) %></td>
+                    <td class="percent-number"><%= number_with_delimiter(format_analysis['expected_size']) %></td>
+                    <%= actual_resource_size(format_analysis)  %>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
