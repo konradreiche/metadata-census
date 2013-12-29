@@ -1,11 +1,13 @@
 .link-checker-table thead tr th:first-child,
-.link-checker-table tbody tr td:first-child {
-  width: 10%
+.link-checker-table tbody tr td:first-child[rowspan] {
+  text-align: center;
+  vertical-align: middle;
+  width: 15em;
 }
 
 .link-checker-table thead tr th:nth-child(3),
 .link-checker-table tbody tr td:nth-child(3) {
-  width: 20%
+  width: 15em;
 }
 
 .link-checker-table tbody tr td {

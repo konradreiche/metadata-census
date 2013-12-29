@@ -1,33 +1,41 @@
 <div id="analysis" class="pill-pane active">
   <div class="row">
     <div class="col-md-12 dashboard">
-      <table class="link-checker-table table">
-        <thead>
-          <th>ID</th>
-          <th>URL</th>
-          <th>Response</th>
-        </thead>
-        <tbody>
-          <% @analysis.each do |id, responses| %>
-            <% responses.each_with_index do |(url, status), i| %>
-              <tr>
-                <%= content_tag(:td, id, rowspan: responses.length) if i == 0 %>
-                <td><%= content_tag(:a, url, href: url) rescue nil %></td>
-                <%= response_td(status) %>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
+      <h3><span class="fa fa-link"></span> Resource Availability</h3>
+      <h4>Whether the resource was availabile under the given URL</h4>
+      <div id="availability-pagination" class="text-center"></div>
+      <% @analysis.each_slice(10) do |responses| %>
+        <div class="responses">
+          <table class="link-checker-table analysis-table table table-bordered">
+            <thead>
+              <th>Record ID</th>
+              <th>URL</th>
+              <th>Response</th>
+            </thead>
+            <tbody>
+              <% responses.each do |id, responses_chunk| %>
+                <% responses_chunk.each_with_index do |(url, status), i| %>
+                  <tr>
+                    <%= content_tag(:td, id, rowspan: responses_chunk.length) if i == 0 %>
+                    <td><%= content_tag(:a, url, href: url) rescue nil %></td>
+                    <%= response_td(status) %>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
 <div id="statistics" class="pill-pane">
   <div class="row">
     <div class="col-md-12 dashboard">
-      <h3><span class="glyphicon glyphicon-stats"></span> Responses</h3>
+      <h3><span class="glyphicon glyphicon-stats"></span> Different HTTP Responses</h3>
+      <h4>An overview of the different HTTP responses while checking the URLs</h4>
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
           <table class="table">
             <thead>
               <tr>
@@ -36,7 +44,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @snapshot[@metric]['analysis'].to_a.each do |status, count| %>
+              <% @snapshot[@metric.id]['analysis'].sort_by { |k, v| - v }.each do |status, count| %>
                 <tr>
                   <td><%= status %></td>
                   <td><%= count %></td>
@@ -46,7 +54,6 @@
           </table>
         </div>
       </div>
-
     </div>
   </div>
 </div>
