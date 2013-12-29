@@ -3,7 +3,11 @@
     <% 2.times do |i| %>
       <% side = ["dashboard-left", "dashboard-right"][i] %>
       <%= content_tag(:div, class: "dashboard-6 #{side} col-md-6 without-heading") do %>
+        <h3>Record Selection</h3>
+        <h4>Select a metadata record to compare with</h4>
         <%= render partial: 'shared/metadata_record_selector', locals: { i: i } %>
+        <h3>Analysis</h3>
+        <h4>Inspect the differences</h4>
         <%= render partial: 'shared/metadata_record_content', locals: { i: i } %>
       <% end %>
     <% end %>
@@ -16,12 +20,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="dashboard-6 dashboard-left">
+    <div class="dashboard-6 col-md-6 dashboard-left">
+      <h3><span class="glyphicon glyphicon-stats"></span> Categorical Words</h3>
+      <h4>Categorical words and how often they occured</h4>
       <table class="table">
         <thead>
           <tr>
-            <th>Categorical Word</th>
-            <th>Number of Occurences</th>
+            <th>Word</th>
+            <th>Count</th>
           </tr>
         </thead>
         <tbody>
@@ -34,12 +40,14 @@
         </tbody>
       </table>
     </div>
-    <div class="dashboard-6 dashboard-right">
+    <div class="dashboard-6 col-md-6 dashboard-right">
+      <h3><span class="glyphicon glyphicon-stats"></span> Word from Continous Text</h3>
+      <h4>Words from continious text and the number of documents they occur in</h4>
       <table class="table">
         <thead>
           <tr>
-            <th>Word from Continous Text</th>
-            <th>Number of Documents</th>
+            <th>Word</th>
+            <th>Documents</th>
           </tr>
         </thead>
         <tbody>
@@ -51,11 +59,6 @@
           <% end %>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 dashboard">
-      <div id="bar-chart"></div>
     </div>
   </div>
 </div>

@@ -2,11 +2,11 @@
   <div class="col-md-12">
     <table class="metric table table-bordered table-striped">
       <tbody>
-        <% analysis = @documents[i].send(@metric)['analysis'] %>
+        <% analysis = @documents[i].send(@metric.id)['analysis'] %>
         <% analysis.each do |item| %>
           <tr>
             <th><%= item['field'].join(' ').titlecase %></th>
-            <th><%= item['score'] %></th>
+            <th><%= "Score: %.2f" % item['score'] %></th>
           </tr>
           <tr>
             <%= content_tag(:td, Metrics::Metric.value(@documents[i].record, item['field']), colspan: '2')%>

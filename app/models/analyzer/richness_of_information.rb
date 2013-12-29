@@ -6,12 +6,12 @@ class Analyzer::RichnessOfInformation < Analyzer::Generic
 
   def self.analyze(snapshot, metric)
     generic = __analyze__(snapshot, metric)
-    dn = snapshot[metric]['analysis']['document_numbers'].to_i
+    dn = snapshot[metric.id]['analysis']['document_numbers'].to_i
     
-    df = snapshot[metric]['analysis']['document_frequency']
+    df = snapshot[metric.id]['analysis']['document_frequency']
     df = df.sort_by { |word, count| count }.reverse.take(100)
 
-    cf = snapshot[metric]['analysis']['categorical_frequency']
+    cf = snapshot[metric.id]['analysis']['categorical_frequency']
     cf = cf.each_with_object({}) do |(field,counts),cfs|
       cfs[field] = counts.sort_by { |word, count| count }.reverse.take(100)
     end
