@@ -6,7 +6,7 @@ A platform for monitoring the quality of metadata.
 
 ## Getting Started
 
-Metadata Census requires a running ElasticSearch and Redis server. The web application is started via Rails:
+Metadata Census requires a running MongoDB and Redis server. The web application is started via Rails:
 
 ```
 $ bundle install
