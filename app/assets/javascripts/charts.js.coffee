@@ -56,6 +56,9 @@ class Histogram
       .attr("dy", ".71em")
 
     tip = @tooltip(domain[1], xTicks)
+    console.log tip
+    console.log domain[1]
+    console.log xTicks
     svg.call(tip)
 
     bar = svg.selectAll(".histogram-bar")

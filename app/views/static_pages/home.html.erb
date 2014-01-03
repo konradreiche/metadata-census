@@ -11,7 +11,7 @@
     <%= render 'layouts/header' %>
     <div class="container">
       <div class="row carousel-row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
           <div id="carousel-example-generic" class="carousel slide">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -25,33 +25,18 @@
             <div class="carousel-inner">
               <div class="item active">
                 <img src="/images/leaderboard.png">
-                <div class="carousel-caption">
-                  <h3>Leaderboard</h3>
-                </div>
               </div>
               <div class="item">
                 <img src="/images/map.png">
-                <div class="carousel-caption">
-                  <h3>Across the Globe</h3>
-                </div>
               </div>
               <div class="item">
                 <img src="/images/snapshot.png">
-                <div class="carousel-caption">
-                  <h3>Snapshots</h3>
-                </div>
               </div>
               <div class="item">
                 <img src="/images/scheduler.png">
-                <div class="carousel-caption">
-                  <h3>Scheduler</h3>
-                </div>
               </div>
               <div class="item">
                 <img src="/images/analysis.png">
-                <div class="carousel-caption">
-                  <h3>Analysis</h3>
-                </div>
               </div>
             </div>
 
@@ -66,16 +51,69 @@
         </div>
       </div>
       <h1>Metadata Census</h1>
-      <h2>Measuring the Efficiency of your Repository</h2>
-      <div class="row">
+      <h2>Measure the Efficiency of your Open Government Data Repository</h2>
+      <section id="features">
+        <hr>
         <div class="row">
-          <div class="col-md-12"><h3>Features</h3></div>
-          <div class="col-md-12">
-            <div class="col-md-6">Snapshots</div>
-            <div class="col-md-6">Dashboards</div>
+          <div class="dashboard col-md-10 col-md-offset-1">
+            <h3><span class="fa fa-magic"></span> Features</h3>
+            <h4>What is inside?</h4>
+            <div class="panel-group" id="feature-accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#feature-accordion" href="#collapseOne">
+                     Snapshots
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                   Metadata repositories are not analyzed once. Snapshots allow to capture the state of a repository in time. This snapshot is then analyzed by the platform. This way the results can be compared over time uncovering potential improvements.
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#feature-accordion" href="#collapseTwo">
+                      Scheduler
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    For the administration area a scheduler can be used to schedule metric computations on each of the availabile snapshots. This way metrics can be easily recalculated and only a portion of the snapshots are involved to adapt to the given hardware requirements.
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#feature-accordion" href="#collapseThree">
+                      Quality Metrics
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    A rich set of quality metrics cover a range of quality aspects. Metadata records are measured by their completeness, accuracy, readability and many more attributes. The metrics aim at different components of the metadata records. They help to quantify how useful they might be to the user.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+      <section id="how-works">
+        <hr>
+        <div class="row">
+          <div class="dashboard col-md-10 col-md-offset-1">
+            <h3><span class="fa fa-gears"></span> How does it work?</h3>
+            <h4>A closer look</h4>
+            <p>A harvester component, <a href="https://github.com/platzhirsch/metadata-harvester">Metadata Harvester</a>, is used to continiously create snapshots from different open government data portals. Each snapshot is a compressed file containing all the metadata records that where availabile at the time being. Metadata Census can import these snapshots. Already during the import a number of analyses are compiled to reveal statistics like average number of resources per dataset or use of language. The scheduler is used to execute the different quality metrics. For each quality metric there will be a score. All scores are aggregated to a total score making enabling the repositories to be compared with each other, for instance in the leaderboard.</p>
+          </div>
+        </div>
     </div>
     <%= render 'layouts/footer' %>
   </body>
