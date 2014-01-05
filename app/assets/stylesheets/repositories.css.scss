@@ -64,13 +64,19 @@
 
 .repositories.languages.table > thead tr th:first-child,
 .repositories.languages.table > tbody tr td:first-child {
-  width: 11em;
+  width: 15em;
 }
 
-.repositories.languages > thead tr th:nth-child(n+2),
-.repositories.languages > tbody tr td:nth-child(n+2) {
+.repositories.languages > thead tr th:not(:nth-last-child(-n+2)),
+.repositories.languages > tbody tr td:not(:nth-last-child(-n+2)) {
   text-align: right;
   width: 4em;
+}
+
+.repositories.languages > thead tr th:nth-last-child(-n+2),
+.repositories.languages > tbody tr td:nth-last-child(-n+2) {
+  text-align: right;
+  width: 6em;
 }
 
 .leaflet-control-score-interior {

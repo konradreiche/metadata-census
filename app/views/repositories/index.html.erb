@@ -83,10 +83,11 @@
       </div>
     </div>
     <div id="numbers" class="pill-pane">
-      <div class="dashboard row">
-        <div class="col-md-12 pill-content">
-          <h3><span class="glyphicon glyphicon-folder-open"></span> Number of Resources</h3>
-          <table class="table table-striped table-bordered">
+      <div class="row">
+        <div class="dashboard col-md-12 pill-content">
+          <h3><span class="glyphicon glyphicon-folder-open"></span> Resources</h3>
+          <h4>Number of resources associated per metadata record</h4>
+          <table class="analysis-table table table-striped table-bordered">
             <thead>
               <tr>
                 <th>Repository</th>
@@ -114,26 +115,31 @@
           </table>
         </div>
       </div>
-      <div class="dashboard row">
-        <div class="col-md-12">
+      <div class="row">
+        <div class="dashboard col-md-12">
           <h3><span class="glyphicon glyphicon-globe"></span> Languages</h3>
+          <h4>Distribution of language use in the metadata records</h4>
           <div id="language-table">
             <table class="repositories languages table table-striped table-bordered">
               <thead>
                 <tr>
                   <th>Repository</th>
-                  <% @languages.each do |language| %>
+                  <% (@languages - ['Unknown', 'Unreliable']).each do |language| %>
                     <th><%= iso639(language)  %></th>
                   <% end %>
+                  <th><%= iso639('Unknown')  %></th>
+                  <th><%= iso639('Unreliable')  %></th>
                 </tr>
               </thead>
               <tbody>
                 <% @repositories.each do |repository, meta| %>
                   <tr>
                     <td><%= repository.name %></td>
-                    <% @languages.each do |language| %>
+                    <% (@languages - ['Unknown', 'Unreliable']).each do |language| %>
                       <td><%= language_frequency(meta['statistics']['languages'][language]) %></td>
                     <% end %>
+                    <td><%= language_frequency(meta['statistics']['languages']['Unknown']) %></td>
+                    <td><%= language_frequency(meta['statistics']['languages']['Unreliable']) %></td>
                   </tr>
                 <% end %>
               </tbody>
