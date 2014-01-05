@@ -1,8 +1,9 @@
 module ApplicationHelper
 
-  def navbar_button(display, path)
+  def navbar_button(display, path, icon=nil)
     cls = current_page?(path) ? 'active' : nil
-    content_tag(:li, link_to(display, path), class: cls)
+    display = tag(:span, class: icon) + " " + display
+    content_tag(:li, link_to(display.html_safe, path), class: cls)
   end
 
   def score_presentation(snapshot, metric)
