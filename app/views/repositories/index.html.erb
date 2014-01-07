@@ -138,8 +138,8 @@
                     <% (@languages - ['Unknown', 'Unreliable']).each do |language| %>
                       <td><%= language_frequency(meta['statistics']['languages'][language]) %></td>
                     <% end %>
-                    <td><%= language_frequency(meta['statistics']['languages']['Unknown']) %></td>
-                    <td><%= language_frequency(meta['statistics']['languages']['Unreliable']) %></td>
+                    <td><%= language_frequency(meta['statistics'].maybe['languages'].maybe['Unknown']) %></td>
+                    <td><%= language_frequency(meta['statistics'].maybe['languages'].maybe['Unreliable']) %></td>
                   </tr>
                 <% end %>
               </tbody>
