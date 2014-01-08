@@ -12,7 +12,7 @@ class RichnessOfInformationMetricWorker < GenericMetricWorker
     logger.info 'Analyzing metadata'
 
     records = @metadata.map { |document| document.record }
-    @metric = Metrics::RichnessOfInformation.instance
+    @metric = Metrics::RichnessOfInformation.send(:new)
     @metric.configure(records, self)
     super
   end

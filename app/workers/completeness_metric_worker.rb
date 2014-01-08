@@ -4,7 +4,7 @@ class CompletenessMetricWorker < GenericMetricWorker
     @repository ||= Repository.find(repository)
 
     schema = JSON.parse(File.read('data/schema/ckan.json'))
-    @metric = Metrics::Completeness.instance
+    @metric = Metrics::Completeness.send(:new)
     @metric.configure(schema)
 
     super

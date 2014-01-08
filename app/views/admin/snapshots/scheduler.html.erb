@@ -26,19 +26,19 @@
       <tbody>
         <% Metrics::Metric.all.each do |metric| %>
           <tr class="status <%= metric %>">
-            <td rowspan="2"><%= link_to metric.to_s.titlecase, repository_snapshot_metric_path(repository_id: @repository, id: metric)  %></td>
-            <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :analyze) %></div></td>
+            <td rowspan="2"><%= link_to metric.to_s.titlecase, repository_snapshot_metric_path(repository_id: @repository, id: metric.id)  %></td>
+            <td><div class="admin repositories scheduler progress"><%= create_bar(metric.id, :analyze) %></div></td>
             <td class="admin control status" rowspan="2">
-              <%= content_tag(:span, 'Queued', class: "label label-warning", id: metric) %>
-              <%= content_tag(:span, 'Computing...', class: "label label-info", id: metric) %>
-              <%= content_tag(:span, 'Done', class: "label label-success", id: metric) %>
-              <%= content_tag(:span, 'Error', class: "label label-danger", id: metric) %>
+              <%= content_tag(:span, 'Queued', class: "label label-warning", id: metric.id) %>
+              <%= content_tag(:span, 'Computing...', class: "label label-info", id: metric.id) %>
+              <%= content_tag(:span, 'Done', class: "label label-success", id: metric.id) %>
+              <%= content_tag(:span, 'Error', class: "label label-danger", id: metric.id) %>
               <%= status(metric) %>
             </td>
-            <td class="scheduler eta <%= metric %>" rowspan="2"></td>
+            <td class="scheduler eta <%= metric.id %>" rowspan="2"></td>
             <td rowspan="2"><%= score_presentation(@snapshot, metric) %></td>
             <%= last_updated_date(metric) %>
-            <td rowspan="2"><%= schedule_job_button(metric) %></td>
+            <td rowspan="2"><%= schedule_job_button(metric.id) %></td>
           </tr>
           <tr>
             <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :compute) %></div></td>

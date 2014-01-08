@@ -16,7 +16,7 @@ module Metrics
     end
 
     def compute(record)
-      license = record['license_id'].maybe.to_s.gsub('.', "\uff0e")
+      license = record.maybe['license_id'].to_s.gsub('.', "\uff0e")
       @analysis[license] += 1
 
       return 1.0, license if license_open?(license)

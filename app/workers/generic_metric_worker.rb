@@ -6,6 +6,7 @@ class GenericMetricWorker < MetricWorker
 
     @metadata ||= MetadataRecord.where(snapshot: @snapshot)
     @metric ||= Metrics.from_sym(metric).instance
+    @metric.configure unless @metric.configured
     super
   end
 

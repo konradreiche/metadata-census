@@ -35,7 +35,7 @@ module AdminHelper::SnapshotsHelper::SchedulerHelper
     locals = { display: @snapshot.date, urls: {} }
 
     @repository.snapshots.each do |snapshot|
-      parameters = { snapshot_id: snapshot.date }
+      parameters = { snapshot_date: snapshot.date }
       url = admin_repository_snapshot_scheduler_path(parameters)
       locals[:urls][snapshot.date] = url
     end
@@ -47,12 +47,12 @@ module AdminHelper::SnapshotsHelper::SchedulerHelper
   def scheduler_repository_picker
     locals = { display: @repository.name, urls: {} }
 
-    @repositories.each do |repository|
+    @repositories.keys.each do |repository|
       next if repository.snapshots.empty?
       snapshot = repository.snapshots.where(date: @snapshot.date).first
       snapshot = repository.snapshots.first if snapshot.nil?
 
-      parameter = { repository_id: repository.id, snapshot_id: snapshot.date }
+      parameter = { repository_id: repository.id, snapshot_date: snapshot.date }
       url = admin_repository_snapshot_scheduler_path(parameter)
       locals[:urls][repository.name] = url
     end

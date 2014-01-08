@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def score_presentation(snapshot, metric)
-    score = snapshot.send(metric).maybe['average']
+    score = snapshot.send(metric.id).maybe['average']
     return '-' if score.nil?
 
     '%.2f' % score

@@ -5,7 +5,7 @@ class WeightedCompletenessMetricWorker < GenericMetricWorker
     schema = JSON.parse(File.read('data/schema/ckan.json'))
     weights = 'data/schema/ckan-weighted.yml'
 
-    @metric = Metrics::WeightedCompleteness.instance
+    @metric = Metrics::WeightedCompleteness.send(:new)
     @metric.configure(schema, weights)
     super
   end

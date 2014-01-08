@@ -3,10 +3,17 @@ module Metrics
     extend ActiveModel::Naming
     include Singleton
 
+    attr_reader :configured
+
     @stripper = Regexp.compile(/(\p{Letter}.*\p{Letter})/)
+
+    def initialize
+      @configured = false
+    end
 
     # @return [Metric] self for enabling method chaining
     def configure
+      @configured = true
       self
     end
 

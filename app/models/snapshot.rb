@@ -41,6 +41,8 @@ class Snapshot
   def score
     metrics = Metrics::Metric.all
     scores = metrics.map { |m| self.send(m.id).maybe['average'] }.compact
+
+    return nil if scores.empty?
     scores.sum.fdiv(scores.length)
   end
 

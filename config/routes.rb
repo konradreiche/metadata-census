@@ -58,7 +58,7 @@ MetadataCensus::Application.routes.draw do
 
       resources :repositories, only: [:create, :new, :index] do
 
-        resources :snapshots, only: [:new, :create] do
+        resources :snapshots, param: :date, only: [:new, :create] do
           get 'scheduler'
           get 'status'
 

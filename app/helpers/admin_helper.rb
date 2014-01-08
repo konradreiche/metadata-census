@@ -8,7 +8,7 @@ module AdminHelper
   def status(metric)
     snapshot = @repository.snapshots.last
 
-    if snapshot.nil? || snapshot.send(metric).nil?
+    if snapshot.nil? || snapshot.send(metric.id).nil?
       tag(:strong, class: 'icon-remove')
     else
       tag(:strong, class: 'icon-ok')
