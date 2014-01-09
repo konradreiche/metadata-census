@@ -63,6 +63,9 @@ module RepositoryManager
     end
   end
 
+  def snapshots
+  end
+
   private
   def jbuilder(entity)
     gon.jbuilder template: "app/views/jbuilder/#{entity}.json.jbuilder", controller: self

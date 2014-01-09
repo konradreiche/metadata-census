@@ -6,21 +6,32 @@
 <% end %>
 <div class="dashboard row">
   <div class="col-md-12">
-    <h3>Snapshots</h3>
-    <table class="table table-striped">
+    <h3><span class="fa fa-bar-chart-o"></span> Quality over Time</h3>
+    <h4>How has the quality changed over time?</h4>
+  </div>
+</div>
+<div class="dashboard row">
+  <div class="col-md-12">
+    <h3><span class="fa fa-archive"></span> Snapshots</h3>
+    <h4>List of all snapshots associated to this repository</h4>
+    <table class="repository snapshot-table table table-striped">
       <thead>
         <tr>
           <th>Date</th>
+          <th>Sparkline</th>
+          <th>Score</th>
           <th>Metadata Records</th>
         </tr>
+      </thead>
+      <tbody>
         <% @repository.snapshots.each do |snapshot| %>
           <tr>
             <td><%= link_to snapshot.date, repository_snapshot_path(@repository, snapshot.date) %></td>
+            <td><%= sparkline_span(snapshot) %></td>
+            <td><%= score_td(snapshot.score) %></td>
             <td><%= number_with_delimiter snapshot.metadata_records.count %></td>
           </tr>
         <% end %>
-      </thead>
-      <tbody>
       </tbody>
     </table>
   </div>

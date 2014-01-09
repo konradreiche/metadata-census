@@ -94,3 +94,10 @@ $ ->
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metric/:metric_id")
     new ScoreMeter(".metric.score-meter", gon.score)
+
+  if isPath("/repositories/:repository_id")
+    for span in $(".sparkline")
+      $(span).sparkline($(span).data("scores").split(","), {
+        type: "bar",
+        disableTooltips: true
+      })

@@ -41,7 +41,7 @@
             <td rowspan="2"><%= schedule_job_button(metric.id) %></td>
           </tr>
           <tr>
-            <td><div class="admin repositories scheduler progress"><%= create_bar(metric, :compute) %></div></td>
+            <td><div class="admin repositories scheduler progress"><%= create_bar(metric.id, :compute) %></div></td>
             <%= last_updated_time(metric)  %>
           </tr>
         <% end %>

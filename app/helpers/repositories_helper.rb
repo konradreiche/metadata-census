@@ -87,4 +87,19 @@ module RepositoriesHelper
     content_tag(:td, '%.2f' % score, class: cls)
   end
 
+  def score_td(score)
+    if score.nil?
+      '-'
+    else
+      "%.2f%" % (score * 100)
+    end
+  end
+
+  def sparkline_span(snapshot)
+    scores = @metrics.map do |metric|
+      (snapshot.send(metric.id).maybe['average'].to_f * 100).to_i
+    end.join(",")
+    tag(:span, class: "sparkline", data: { scores: scores })
+  end
+
 end
