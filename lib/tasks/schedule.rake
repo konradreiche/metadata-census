@@ -1,4 +1,4 @@
-task :schedule, [:repository, :snapshot_number, :metric_id] => :environment do |t, args|
+task :schedule, [:repository, :snapshot_date, :metric_id] => :environment do |t, args|
 
   repository_id = args[:repository]
   snapshot_date = args[:snapshot_date]
@@ -8,7 +8,7 @@ task :schedule, [:repository, :snapshot_number, :metric_id] => :environment do |
     Repository.all.each do |repository|
       repository.snapshots.each do |snapshot|
         Metrics::Metric.all.each do |metric|
-          Scheduler.schedule(repository, snapshot, metric)
+          Scheduler.schedule(repository, snapshot, metric.id)
         end
       end
     end
@@ -16,14 +16,14 @@ task :schedule, [:repository, :snapshot_number, :metric_id] => :environment do |
     repository = Repository.where(id: repository_id).first
     repository.snapshots.each do |snapshot|
       Metrics::Metric.all.each do |metric|
-        Scheduler.schedule(repository, snapshot, metric)
+        Scheduler.schedule(repository, snapshot, metric.id)
       end
     end
   elsif metric_id.nil?
     repository = Repository.where(id: repository_id).first
     snapshot = repository.snapshots.where(date: snapshot_date).first
     Metrics::Metric.all.each do |metric|
-      Scheduler.schedule(repository, snapshot, metric)
+      Scheduler.schedule(repository, snapshot, metric.id)
     end
   else
     repository = Repository.where(id: repository_id).first
