@@ -28,7 +28,7 @@ task :schedule, [:repository, :snapshot_date, :metric_id] => :environment do |t,
   else
     repository = Repository.where(id: repository_id).first
     snapshot = repository.snapshots.where(date: snapshot_date).first
-    Scheduler.schedule(repository, snapshot, metric)
+    Scheduler.schedule(repository, snapshot, metric_id)
   end
 end
 

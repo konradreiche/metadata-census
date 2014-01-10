@@ -123,3 +123,8 @@
 .leaderboard-timeline div input {
   width: 100%
 }
+
+.repository.snapshot-table thead tr th,
+.repository.snapshot-table tbody tr td {
+  text-align: center;
+}

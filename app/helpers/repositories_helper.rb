@@ -91,7 +91,7 @@ module RepositoriesHelper
     if score.nil?
       '-'
     else
-      "%.2f%" % (score * 100)
+      "%d%" % (score * 100)
     end
   end
 
