@@ -27,7 +27,7 @@ class SnapshotsController < ApplicationController
 
     @languages.delete('Unknown').delete('Unreliable')
   end
-  
+
   def score
     weighting = Hash.new
     @metrics.each do |metric|

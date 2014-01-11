@@ -19,6 +19,13 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  # Multiply UNIX timestamp by 1000 to convert time into date
+  def show
+    gon.graph_data = @repository.snapshots.map do |snapshot| 
+      [snapshot.date.to_time.to_i * 1000, snapshot.score]
+    end
+  end
+
   def score
     weighting = Hash.new
     @metrics.each do |metric|

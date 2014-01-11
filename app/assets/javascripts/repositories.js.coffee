@@ -2,6 +2,23 @@ root = exports ? this
 
 $ ->
 
+  initSparklines = () ->
+    for span in $(".sparkline")
+      $(span).sparkline($(span).data("scores").split(","), {
+        type: "bar",
+        disableTooltips: true
+      })
+
+  initQualityTimeGraph = (selector, data) ->
+    options =
+      lines: { show: true, steps: false},
+      points: { show: true },
+      xaxis: { mode: "time" },
+      yaxis: { min: 0.0, max: 1.0 },
+      grid: { backgroundColor: { colors: [ "#fff", "#eee" ] }}
+
+    plot = $.plot(selector, [{label: "Total Score", color: "#5997d0", data: data}], options)
+
   class RepositoryMap
 
     TILE_URL = "http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png"
@@ -96,8 +113,5 @@ $ ->
     new ScoreMeter(".metric.score-meter", gon.score)
 
   if isPath("/repositories/:repository_id")
-    for span in $(".sparkline")
-      $(span).sparkline($(span).data("scores").split(","), {
-        type: "bar",
-        disableTooltips: true
-      })
+    initSparklines()
+    initQualityTimeGraph("#quality-time-graph", gon.graph_data)
