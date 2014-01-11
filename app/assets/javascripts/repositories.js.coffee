@@ -19,6 +19,16 @@ $ ->
 
     plot = $.plot(selector, [{label: "Total Score", color: "#5997d0", data: data}], options)
 
+  initQualityTimeGraphAll = (selector, data) ->
+    options =
+      lines: { show: true, steps: false},
+      points: { show: true },
+      xaxis: { mode: "time" },
+      yaxis: { min: 0.0, max: 1.0 },
+      grid: { backgroundColor: { colors: [ "#fff", "#eee" ] }}
+
+    plot = $.plot(selector, data, options)
+
   class RepositoryMap
 
     TILE_URL = "http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png"
@@ -108,6 +118,9 @@ $ ->
 
   $("a[data-target='#map']").on 'shown.bs.tab', (e) ->
     new RepositoryMap("map-canvas")
+
+  if isPath("/repositories")
+    initQualityTimeGraphAll("#quality-time-graph-all", gon.scores)
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metric/:metric_id")
     new ScoreMeter(".metric.score-meter", gon.score)

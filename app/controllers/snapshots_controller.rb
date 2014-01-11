@@ -57,7 +57,7 @@ class SnapshotsController < ApplicationController
     value = snapshot.maybe(metric)
     unless value.nil?
       value = value['average']
-      '%.2f%' % (value  * 100)
+      '%.d%' % (value  * 100)
     else
       '-'
     end

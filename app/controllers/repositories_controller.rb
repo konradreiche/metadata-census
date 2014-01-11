@@ -6,8 +6,10 @@ class RepositoriesController < ApplicationController
   helper_method :metric_score
 
   def index
+    repositories = @repositories.keys
+
     @languages = Rails.cache.fetch('repository_languages') do
-      @repositories.keys.each_with_object(Set.new) do |repository, result|
+      repositories.each_with_object(Set.new) do |repository, result|
         statistics = @repositories[repository]['statistics'].to_h
         languages = statistics['languages'].to_h
 
@@ -17,6 +19,14 @@ class RepositoriesController < ApplicationController
         result.merge(languages.keys)
       end
     end
+
+    gon.scores = repositories.map do |repository|
+      next if repository.snapshots.count <= 1
+      data = repository.snapshots.map do |snapshot| 
+        [snapshot.date.to_time.to_i * 1000, snapshot.score] 
+      end
+      { 'label' => repository.id, 'data'  => data }
+    end.compact
   end
 
   # Multiply UNIX timestamp by 1000 to convert time into date
