@@ -18,8 +18,33 @@
       <%= navbar_button('Importer', new_admin_repository_path) %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <%= navbar_button('Settings', '', 'fa fa-gear') %>
+      <li><a data-target="#settings-modal" data-toggle="modal" href="#"><span class="fa fa-gear"></span> Settings</a></li>
       <%= navbar_button('Login', new_session_path, 'fa fa-sign-in') %>
     </ul>
   </div>
 </nav>
+<!-- Modal -->
+<div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="modal-settings-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="modal-settings-label"><span class="fa fa-gear"></span> Settings</h3>
+        <h4>Weight each quality metric individually. Setting it to zero will ignore the metric from calculations.</h4>
+      </div>
+      <div class="modal-body">
+        <% Metrics::Metric.all.each do |metric| %>
+          <div class="metric-weight row">
+            <div class="col-md-4"><%= metric.to_s.titlecase %></div>
+            <div class="col-md-6"><%= weighting_slider(metric) %></div>
+            <div class="col-md-2"><span class="weight"><%= weight(metric) %></span></div>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

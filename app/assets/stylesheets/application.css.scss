@@ -417,3 +417,15 @@ hr {
   margin-top: 5em;
   margin-bottom: 5em;
 }
+
+.row.metric-weight {
+  margin-bottom: 2em;
+}
+
+.row.metric-weight div:first-child {
+  text-align: right;
+}
+
+.row.metric-weight > div > input {
+  width: 100%;
+}
