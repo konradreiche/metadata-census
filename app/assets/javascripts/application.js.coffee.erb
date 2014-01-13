@@ -146,10 +146,35 @@ root.loadData = (query, data, target, callback) ->
 # Activate repository breadcrumb dropdown if available
 $('.dropdown-toggle').dropdown()
 
+initWeightSliders = () ->
+  $(".weight-slider-global > input").on "change", (event) ->
+    value = $(this).val()
+    $(this).parent().parent().find("span").text(value)
+    weightScores()
+
+weightScores = ->
+
+  weightings = {}
+  scores = []
+  weights = []
+
+  $(".weight-slider-global > input").each () ->
+    weight = parseInt $(this).val()
+    metric = $(this).data("metric")
+
+    weightings[metric] = weight
+
+  $.post "/repositories/weighting", { weightings: weightings }
+
+
 $ ->
 
   $(".nav-pills li a[data-target='#{window.location.hash}'").tab("show")
   $(".nav-pills li a").on "click", (event) ->
     window.location.hash = "#{$(this).attr("data-target")}".replace("#", "")
 
-  initWeightSlider()
+  initWeightSliders()
+
+  $("#settings-modal").on("hide.bs.modal", (event) =>
+    location.reload()
+  )
