@@ -13,13 +13,14 @@ module Analyzer
       metadata.map { |document| document[metric.id].maybe['score'].to_f * 100 }
     end
 
+    # TODO: Check if this one here is a caching candidate
     def records(snapshot, distribution)
       metadata = MetadataRecord.where(snapshot: snapshot)
       metadata = metadata.only('score', 'record.id', 'record.name')
-      metadata.map do |document| 
+      metadata = metadata.map do |document| 
         url = "#{snapshot.repository.url}/rest/dataset/#{document.record['name']}"
         { id: document.record['id'], score: document.score * 100, name: document.record['name'], url: url }
-      end.group_by { |document| document[:score].to_i / 10 * 10 }[distribution]
+      end.group_by { |document| document[:score].to_i / 5 * 5 }
     end
 
     def self.records_by_score(snapshot, metric, range)

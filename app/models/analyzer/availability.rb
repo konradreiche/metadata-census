@@ -7,9 +7,7 @@ class Analyzer::Availability
     metadata.each_with_object({}) do |document, analysis|
       analysis[document.record['id']] = document[metric.id].maybe['analysis']
       analysis[document.record['id']] = [] if analysis[document.record['id']].nil?
-      #analysis.values.flatten.each do |value|
-      #  value.encode!('UTF-8', :invalid => :replace) if value.is_a?(String)
-      #end
+      analysis.values.flatten.each { |value| value.scrub! if value.is_a?(String) }
     end
   end
 
