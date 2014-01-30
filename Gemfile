@@ -66,10 +66,11 @@ gem 'slim'
 
 # To use Jbuilder templates for JSON
 gem 'jbuilder'
+gem 'thin'
 
 # Use unicorn as the app server
 # gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-gem 'rack-mini-profiler'
+#gem 'rack-mini-profiler'

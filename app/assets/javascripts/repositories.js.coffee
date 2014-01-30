@@ -118,8 +118,7 @@ $ ->
 
   $("a[data-target='#map']").on 'shown.bs.tab', (e) ->
     new RepositoryMap("map-canvas")
-
-  if isPath("/repositories")
+  $("a[data-target='#timeline']").on 'shown.bs.tab', (e) ->
     initQualityTimeGraphAll("#quality-time-graph-all", gon.scores)
 
   if isPath("/repositories/:repository_id/snapshots/:snapshot_id/metric/:metric_id")
