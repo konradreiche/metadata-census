@@ -73,4 +73,7 @@ gem 'thin'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-#gem 'rack-mini-profiler'
+gem 'rack-mini-profiler'
+
+gem 'dalli'
+gem 'kgio'
