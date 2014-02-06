@@ -77,3 +77,4 @@ gem 'rack-mini-profiler'
 
 gem 'dalli'
 gem 'kgio'
+gem 'google-analytics-rails'
